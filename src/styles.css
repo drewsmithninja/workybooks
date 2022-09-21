@@ -1,0 +1,149 @@
+/** Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/** CSS Variables */
+:root {
+  --black-gradient: linear-gradient(144.39deg, #ffffff -278.56%, #6d6d6d -78.47%, #11101d 91.61%);
+  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+}
+
+/** CSS Resets */
+* {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/** Boilerplate Built-In Gradient Colors Start */
+
+.text-gradient {
+  background: radial-gradient(64.18% 64.18% at 71.16% 35.69%, #def9fa 0.89%, #bef3f5 17.23%, #9dedf0 42.04%, #7de7eb 55.12%, #5ce1e6 71.54%, #33bbcf 100%);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.bg-black-gradient {
+  background: linear-gradient(144.39deg, #ffffff -278.56%, #6d6d6d -78.47%, #11101d 91.61%);
+}
+.bg-gray-gradient {
+  background: linear-gradient(153.47deg, rgba(255, 255, 255, 0) -341.94%, #14101d 95.11%);
+}
+.bg-blue-gradient {
+  background: linear-gradient(157.81deg, #def9fa -43.27%, #bef3f5 -21.24%, #9dedf0 12.19%, #7de7eb 29.82%, #5ce1e6 51.94%, #33bbcf 90.29%);
+}
+.bg-discount-gradient {
+  background: linear-gradient(125.17deg, #272727 0%, #11101d 100%);
+}
+
+.white-gradient {
+  background: rgba(255, 255, 255, 0.6);
+  filter: blur(750px);
+}
+.blue-gradient {
+  background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #214d76 100%);
+  filter: blur(123px);
+}
+.pink-gradient {
+  background: linear-gradient(90deg, #f4c4f3 0%, #fc67fa 100%);
+  filter: blur(900px);
+}
+
+/** Boilerplate Built-In Gradient Colors End */
+
+/** Boilerplate Built-In Card Style Start */
+
+.box-shadow {
+  box-shadow: var(--card-shadow);
+}
+
+.feedback-card {
+  background: transparent;
+}
+
+.feature-card:hover {
+  background: var(--black-gradient);
+  box-shadow: var(--card-shadow);
+}
+
+.feedback-container .feedback-card:last-child {
+  margin-right: 0px;
+}
+
+/** Boilerplate Built-In Card Style End */
+
+/** And Design Customize Start */
+
+.ant-btn-primary {
+  @apply text-textColorWhite bg-primaryColor hover:bg-primaryColorHover border-primaryColor hover:border-primaryColorHover !important;
+}
+
+.ant-divider-horizontal.ant-divider-with-text-center::before,
+.ant-divider-horizontal.ant-divider-with-text-center::after {
+  border-top: 2px solid !important;
+  @apply border-primaryColor text-center !important;
+}
+
+.ant-message-custom-content {
+  @apply inline-flex items-center;
+}
+
+.ant-popover-title {
+  @apply bg-backgroundColorBlack;
+}
+
+/** And Design Customize End */
+
+/** Boilerplate Header Style Start */
+
+.header-logo {
+  @apply text-2xl text-textColorWhite font-bold uppercase transition-all duration-100 hover:text-textColorWhiteHover;
+}
+
+.navbar-menu-item {
+  @apply text-textColorWhite font-bold uppercase transition-all duration-100 hover:text-textColorWhiteHover;
+}
+
+.mobile-menu-item {
+  @apply text-textColorWhite uppercase hover:text-textColorWhiteHover;
+}
+
+/* hamburger button */
+.hamburger {
+  @apply cursor-pointer w-[24px] h-[24px] transition-all duration-100 relative;
+}
+
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+  @apply absolute top-0 left-0 w-[24px] h-[2px] bg-backgroundColorWhite rotate-0 transition-all duration-100;
+}
+
+.hamburger-middle {
+  transform: translateY(7px);
+}
+.hamburger-bottom {
+  transform: translateY(14px);
+}
+
+.open {
+  transform: rotate(90deg);
+  transform: translateY(0px);
+}
+
+.open .hamburger-top {
+  transform: rotate(45deg) translateY(6px) translate(6px);
+}
+.open .hamburger-middle {
+  display: none;
+}
+.open .hamburger-bottom {
+  transform: rotate(-45deg) translateY(6px) translate(-6px);
+}
+
+/** Boilerplate Header Style Start */
