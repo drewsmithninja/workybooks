@@ -1,5 +1,5 @@
 /** Tailwind CSS */
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
@@ -80,7 +80,8 @@ body {
 /** And Design Customize Start */
 
 .ant-btn-primary {
-  @apply text-textColorWhite bg-primaryColor hover:bg-primaryColorHover border-primaryColor hover:border-primaryColorHover !important;
+  min-width: 120px;
+  border-radius: 3px;
 }
 
 .ant-divider-horizontal.ant-divider-with-text-center::before,
@@ -106,7 +107,7 @@ body {
 }
 
 .navbar-menu-item {
-  @apply text-textColorWhite font-bold uppercase transition-all duration-100 hover:text-textColorWhiteHover;
+  @apply text-textColorBlack text-base transition-all duration-100 hover:text-textColorWhiteHover;
 }
 
 .mobile-menu-item {
@@ -147,3 +148,44 @@ body {
 }
 
 /** Boilerplate Header Style Start */
+
+.ant-layout-header 
+{
+  background-color: #fff;
+  width: 100%;
+  max-width: unset;
+}
+
+.ant-layout {
+  background-color: #f2f2f2;
+}
+
+.searchInput input {
+  border-radius: 8px;
+  height: 100%;
+}
+.searchInput .ant-input-group-addon {
+  background-color: transparent;
+}
+.searchInput button {
+  border-radius: 0px 8px 8px 0px !important;
+  height: 100%;
+}
+
+.searchInput .ant-input-group {
+  height: 100%;
+}
+.cardCheckbox {
+  transform: scale(1.3);
+  margin-left: 5px;
+}
+.cardCheckbox .ant-checkbox-input:after {
+  background-color: transparent;
+}
+
+.scrollVertical {
+  overflow-y: auto;
+}
+.scrollVertical::-webkit-scrollbar {
+  display: none;
+}

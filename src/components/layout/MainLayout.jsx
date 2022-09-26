@@ -1,16 +1,20 @@
 import { Layout } from 'antd';
 import React from 'react';
-import Footers from '../common/Footers';
+import { useSelector } from 'react-redux';
 import Headers from '../common/Headers';
+import SearchBar from '../common/SearchBar';
 
 const { Content } = Layout;
 
 function MainLayout({ children }) {
+  const {
+    user = {}
+  } = useSelector((state) => state);
   return (
     <Layout>
       <Headers />
-      <Content className='min-h-[75vh]'>{ children }</Content>
-      <Footers />
+      {user.loggedIn && <SearchBar />}
+      <Content className='min-h-[90vh]'>{ children }</Content>
     </Layout>
   );
 }
