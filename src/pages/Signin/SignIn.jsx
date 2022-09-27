@@ -9,9 +9,9 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import logo from '../assets/images/logo.png';
-import googleIcon from '../assets/images/google-icon.png';
-import cleverIcon from '../assets/images/clever-icon.png';
+import logo from '../../assets/images/logo.png';
+import googleIcon from '../../assets/images/google-icon.png';
+import cleverIcon from '../../assets/images/clever-icon.png';
 
 function SignIn() {
   window.document.title = 'Workybook - Sign In';

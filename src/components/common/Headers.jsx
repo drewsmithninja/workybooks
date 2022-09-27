@@ -104,7 +104,7 @@ function Headers() {
                 Sign In
               </Button>
             </Link>
-            <Link to='/auth/login'>
+            <Link to='/signup'>
               <Button className='font-bold' type='primary'>
                 Sign Up
               </Button>
