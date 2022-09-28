@@ -52,10 +52,10 @@ function ImportContent({
   }
   return (
     <>
-      <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
+      <Typography.Title level={1} className='!text-2xl md:!text-2xl mt-[30px] text-center'>
         Import Classroom
       </Typography.Title>
-      <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[35px] !text-[14px] text-center">
+      <Typography.Title level={5} className='!font-normal !mt-[16px] !mb-[35px] !text-[14px] text-center'>
         Please select the classrooms you wish
         <br />
         to import

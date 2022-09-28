@@ -8,7 +8,7 @@ import {
   Table,
   Typography
 } from 'antd';
-import { modalGlobalConfig } from 'antd/lib/modal/confirm';
+
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';

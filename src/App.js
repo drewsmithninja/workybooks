@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
 import SelectClassroom from './pages/Classroom/SelectClassroom';
 import Home from './pages/Home';
@@ -13,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/edit-profile' element={<UserProfile />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signup-google' element={<SignUpGoogle />} />
