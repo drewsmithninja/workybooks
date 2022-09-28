@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import UserProfile from './pages/UserProfile';
+import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
 import SelectClassroom from './pages/Classroom/SelectClassroom';
 import Home from './pages/Home';
