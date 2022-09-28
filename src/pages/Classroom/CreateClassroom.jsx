@@ -11,181 +11,10 @@ import {
 import { modalGlobalConfig } from 'antd/lib/modal/confirm';
 import React, { useState } from 'react';
 import LogoHeader from '../../components/common/LogoHeader';
-
-import googleIcon from '../../assets/images/google-icon.png';
-import cleverIcon from '../../assets/images/clever-icon.png';
-
-const mainContent = (setIsImport, setIsManual, setManualStep) => (
-  <>
-    <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
-      Create Classroom
-    </Typography.Title>
-    <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[76px] !text-[14px] text-center">
-      How would you like to create your
-      <br />
-      classroom
-    </Typography.Title>
-    <div className='flex flex-col gap-[14px] pb-[37px]'>
-      <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setIsImport(true)}>
-        <img src={googleIcon} width="24" alt="googleIcon" className='mr-[8px]' />
-        Import from Google Classroom
-      </Button>
-      <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setIsImport(true)}>
-        <img src={cleverIcon} width="24" alt="cleverIcon" className='mr-[8px]' />
-        Import from Clever
-      </Button>
-      <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setIsImport(true)}>
-        Import an excel file
-      </Button>
-      <Button
-        className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'
-        onClick={() => {
-          setManualStep(1);
-          setIsManual(true);
-        }}
-      >
-        Create Manually
-      </Button>
-    </div>
-  </>
-);
-
-const importContent = (rowSelection, isImport, setCreateClassPopup) => {
-  const scroll = {};
-  scroll.y = 200;
-  const tableProps = {
-    rowSelection,
-    scroll
-  };
-  const columns = [
-    {
-      title: 'Class',
-      width: 100,
-      dataIndex: 'class',
-      key: 'class',
-      fixed: 'left',
-      sorter: (a, b) => a.class - b.class
-    },
-    {
-      title: 'Grade',
-      width: 100,
-      dataIndex: 'grade',
-      key: 'grade',
-      fixed: 'left'
-    },
-    {
-      title: 'Students',
-      dataIndex: 'students',
-      key: 'students',
-      width: 150
-    }
-  ];
-  const data = [];
-  for (let i = 0; i < 100; i += 1) {
-    data.push({
-      key: i,
-      class: '3B',
-      grade: 3,
-      students: 50
-    });
-  }
-  return (
-    <>
-      <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
-        Import Classroom
-      </Typography.Title>
-      <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[35px] !text-[14px] text-center">
-        Please select the classrooms you wish
-        <br />
-        to import
-      </Typography.Title>
-      <Row gutter={[16, 16]}>
-        <Col span={24}>
-          <Table columns={columns} dataSource={data} scroll={{ y: 200 }} pagination={false} {...tableProps} />
-        </Col>
-        <Col span={24} className='text-center'>
-          <Button
-            type='primary'
-            className='mt-[63px] m-auto'
-            onClick={() => {
-              setCreateClassPopup(false);
-              popupModalComponent('error', (<Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">Classroom(s) created</Typography.Title>), <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[76px] !text-[14px] text-center">2 classrooms and 40 students have been imported to Workybooks</Typography.Title>);
-            }}
-          >
-            CONTINUE
-          </Button>
-        </Col>
-      </Row>
-    </>
-  );
-};
-
-const manualContent = (isManual, setManualStep) => (
-  <>
-    <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
-      Create Classroom
-    </Typography.Title>
-    <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[60px] !text-[14px] text-center">
-      Please provide the classroom details
-    </Typography.Title>
-    <Row gutter={[16, 16]}>
-      <Col span={24} className='text-center'>
-        <Form>
-          <Form.Item label={false}>
-            <Input placeholder='Class Name' className='w-[384px] h-[46px] rounded-[8px] mb-[55px]' />
-          </Form.Item>
-        </Form>
-      </Col>
-      <Col span={24} className='text-center'>
-        <p className='text-baseline'>Grade Level</p>
-        <div className='w-[80%] m-auto'>
-          <Row gutter={[16, 16]}>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                K
-              </Button>
-            </Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                PreK
-              </Button>
-            </Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                1
-              </Button>
-            </Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                2
-              </Button>
-            </Col>
-            <Col span={3}>&nbsp;</Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                3
-              </Button>
-            </Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                4
-              </Button>
-            </Col>
-            <Col span={6}>
-              <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>
-                5
-              </Button>
-            </Col>
-            <Col span={3}>&nbsp;</Col>
-          </Row>
-        </div>
-      </Col>
-      <Col span={24} className='text-center'>
-        <Button type='primary' className='mt-[63px] m-auto' onClick={() => setManualStep(2)}>CONTINUE</Button>
-      </Col>
-    </Row>
-  </>
-);
+import MainContent from '../../components/CreateClass/mainContent';
+import ImportContent from '../../components/CreateClass/importContent';
+import ManualContent from '../../components/CreateClass/manualContent';
+import AddStudentContent from '../../components/CreateClass/addStudentContent';
 
 const addStudentContent = (setCreateClassPopup) => (
   <>
@@ -224,35 +53,6 @@ const addStudentContent = (setCreateClassPopup) => (
     </Row>
   </>
 );
-
-const popupModalComponent = (type = 'info', title = '', content = '') => {
-  const config = {
-    title,
-    content,
-    icon: (<div />),
-    okText: 'Okay',
-    centered: true,
-    style: { textAlign: 'center' },
-    className: 'customModal'
-  };
-  switch (type) {
-    case 'info':
-      Modal.info(config);
-      break;
-    case 'warning':
-      Modal.warning(config);
-      break;
-    case 'success':
-      Modal.success(config);
-      break;
-    case 'error':
-      Modal.error(config);
-      break;
-    default:
-      Modal.info(config);
-      break;
-  }
-};
 
 function CreateClassroom() {
   const [createClassPopup, setCreateClassPopup] = useState(false);
@@ -343,11 +143,10 @@ function CreateClassroom() {
         width={489}
         bodyStyle={{ height: 600, borderRadius: 16 }}
       >
-        {!isManual && !isImport && mainContent(setIsImport, setIsManual, setManualStep)}
-        {isImport && importContent(rowSelection, isImport, setCreateClassPopup)}
-        {isManual && manualStep === 1 && manualContent(isManual, setManualStep)}
-        {isManual && manualStep === 2 && addStudentContent(setCreateClassPopup)}
-        {/* <Button onClick={() => popupModalComponent('error', (<Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">Classroom(s) created</Typography.Title>), <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[76px] !text-[14px] text-center">2 classrooms and 40 students have been imported to Workybooks</Typography.Title>)}>Test</Button> */}
+        {!isManual && !isImport && <MainContent setIsImport={setIsImport} setIsManual={setIsManual} setManualStep={setManualStep} />}
+        {isImport && <ImportContent rowSelection={rowSelection} setCreateClassPopup={setCreateClassPopup} />}
+        {isManual && manualStep === 1 && <ManualContent setManualStep={setManualStep} />}
+        {isManual && manualStep === 2 && <AddStudentContent setCreateClassPopup={setCreateClassPopup} />}
       </Modal>
     </>
   );
