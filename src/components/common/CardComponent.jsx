@@ -9,30 +9,30 @@ function CardComponent({
   isLiked = true,
   isChecked = false,
   extraDetails = ['3.W.3.1.B', '3.W.3.1.B', '3.W.3.1.B'],
-  cardWidth = 400,
-  cardHeight = 200
+  cardWidth = 215,
+  cardHeight = 274
 }) {
   return (
     <div className='cardComponent m-3 flex max-w-auto flex-col gap-[10px]'>
       {/* Card Image */}
       <div className='topImage bg-gray-300 rounded-2xl'>
-        <img src={cardImage} alt="cardImage" className='rounded-2xl' width={cardWidth} height={cardHeight} />
+        <img src={cardImage} alt='cardImage' className='rounded-2xl' width={cardWidth} height={cardHeight} />
       </div>
 
       {/* Card action buttons */}
       <div className='cardActionButtons flex items-center'>
-        <div className="flex flex-1 items-center">
-          <Checkbox className='w-[25px] scale-125 cardCheckbox' checked={isChecked} />
+        <div className='flex flex-1 items-center'>
+          <Checkbox className='w-[25px] scale-125 cardCheckbox' />
         </div>
-        <div className="flex flex-1 items-center justify-center">
+        <div className='flex flex-1 items-center justify-center'>
           {isLiked ? (
-            <HeartFilled className='text-[25px] text-blue-400 cursor-pointer' />
+            <HeartFilled className='text-[25px] text-red-500 cursor-pointer' />
           ) : (
             <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />
           )}
         </div>
-        <div className="flex flex-1 items-center justify-end">
-          <Button icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape="circle" className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
+        <div className='flex flex-1 items-center justify-end'>
+          <Button icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
         </div>
       </div>
 

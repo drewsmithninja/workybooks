@@ -85,8 +85,8 @@ function Headers() {
         {/* navbar menu */}
         {user.loggedIn && 
         <div className='hidden space-x-4 md:flex'>
-          <Link to='/'>
-            <span className='navbar-menu-item'>Explore</span>
+          <Link to='/' className='hover:text-[#243E8F]'>
+            <span className='navbar-menu-item text-[#243E8F]'>Explore</span>
           </Link>
           <Link to='/dashboard'>
             <span className='navbar-menu-item'>My Library </span>
