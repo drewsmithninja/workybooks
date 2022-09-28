@@ -189,3 +189,14 @@ body {
 .scrollVertical::-webkit-scrollbar {
   display: none;
 }
+
+.ant-modal-content {
+  border-radius: 20px;
+  /* background: red; */
+}
+
+.customModal .ant-modal-confirm-btns {
+  text-align: center !important;
+  margin-top: -30px !important;
+  margin-bottom: 30px;
+}

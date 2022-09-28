@@ -1,7 +1,7 @@
 import React from 'react';
 import MainLayout from '../components/layout/MainLayout';
 
-function EditProfile() {
+function UserProfile() {
   return (
     <MainLayout>
       <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
@@ -48,4 +48,4 @@ function EditProfile() {
   );
 }
 
-export default EditProfile;
+export default UserProfile;

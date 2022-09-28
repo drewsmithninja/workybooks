@@ -1,15 +1,25 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import EditProfile from './pages/EditProfile';
+import UserProfile from './pages/UserProfile';
+import CreateClassroom from './pages/Classroom/CreateClassroom';
+import SelectClassroom from './pages/Classroom/SelectClassroom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import SignIn from './pages/Signin/SignIn';
+import SignUp from './pages/Signup/Signup';
+import SignUpGoogle from './pages/Signup/SignupGoogle';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/edit-profile' element={<EditProfile />} />
+        <Route path='/edit-profile' element={<UserProfile />} />
+        <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/signup-google' element={<SignUpGoogle />} />
+        <Route path='/create-classroom' element={<CreateClassroom />} />
+        <Route path='/select-classroom' element={<SelectClassroom />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>

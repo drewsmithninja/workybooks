@@ -25,6 +25,9 @@
     "no-nested-ternary": "off",
     "no-param-reassign": "off",
     "no-undef": "off",
+    "no-unused-vars": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/prefer-default-export": "off",
     "no-use-before-define": [
       "error",
       {

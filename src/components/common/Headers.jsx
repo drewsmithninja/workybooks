@@ -99,12 +99,12 @@ function Headers() {
         {/* login/register button */}
         {!user.loggedIn ? (
           <Space>
-            <Button className='font-bold' type='primary' onClick={() => {
-              login();
-            }}>
-              Sign In
-            </Button>
-            <Link to='/auth/login'>
+            <Link to='/signin'>
+              <Button className='font-bold' type='primary'>
+                Sign In
+              </Button>
+            </Link>
+            <Link to='/signup'>
               <Button className='font-bold' type='primary'>
                 Sign Up
               </Button>
