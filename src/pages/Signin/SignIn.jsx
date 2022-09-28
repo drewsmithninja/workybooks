@@ -8,6 +8,8 @@ import {
 } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import setUserLoggedIn from '../../redux/actions/userAction';
 
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
@@ -17,6 +19,12 @@ function SignIn() {
   window.document.title = 'Workybook - Sign In';
   const { Header } = Layout;
   const { Paragraph } = Typography;
+  const dispatch = useDispatch();
+
+  const login = () => {
+    dispatch(setUserLoggedIn(true));
+  };
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -67,7 +75,9 @@ function SignIn() {
             </Form.Item>
             <Link to="/">Forgot your password?</Link>
           </div>
-          <Button type='primary' className='w-[85%] max-w-[358px] m-auto'>Sign In</Button>
+          <Link to='/select-classroom'>
+            <Button type='primary' className='w-[85%] max-w-[358px] m-auto' onClick={() => login()}>Sign In</Button>
+          </Link>
         </Form>
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] mb-[40px]'>

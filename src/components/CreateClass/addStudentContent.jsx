@@ -39,7 +39,7 @@ function AddStudentContent({
             className='mt-[63px] m-auto'
             onClick={() => {
               setCreateClassPopup(false);
-              popupModalComponent('error', 'Classroom(s) created', '2 classrooms and 40 students have been imported to Workybooks');
+              popupModalComponent('error', 'Classroom(s) created', '2 classrooms and 40 students have been imported to Workybooks', true);
             }}
           >
             ADD

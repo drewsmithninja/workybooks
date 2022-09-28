@@ -8,7 +8,9 @@ import {
   Typography
 } from 'antd';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import setUserLoggedIn from '../../redux/actions/userAction';
 
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
@@ -19,6 +21,11 @@ function SignUp() {
   const { Header } = Layout;
   const { Paragraph } = Typography;
   const [emailSignup, setEmailSignup] = useState(false);
+  const dispatch = useDispatch();
+
+  const login = () => {
+    dispatch(setUserLoggedIn(true));
+  };
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -118,7 +125,9 @@ function SignUp() {
               </Col>
             </Row>
             <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Button type='primary' className='w-full'>Sign Up</Button>
+              <Link to='/create-classroom' className='w-full'>
+                <Button type='primary' className='w-full' onClick={() => login()}>Sign Up</Button>
+              </Link>
               <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
                 By signing up I agree to Workybooks
                 <Link to="/" className='ml-[5px]'>Terms of Service</Link>

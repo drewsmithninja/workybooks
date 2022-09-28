@@ -8,13 +8,20 @@ import {
   Typography
 } from 'antd';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import setUserLoggedIn from '../../redux/actions/userAction';
 
 import logo from '../../assets/images/logo.png';
 
 function SignUpGoogle() {
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
+  const dispatch = useDispatch();
+
+  const login = () => {
+    dispatch(setUserLoggedIn(true));
+  };
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -84,7 +91,9 @@ function SignUpGoogle() {
             </Col>
           </Row>
           <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Button type='primary' className='w-full'>CONFIRM</Button>
+            <Link to='/create-classroom' className='w-full'>
+              <Button type='primary' className='w-full' onClick={() => login()}>CONFIRM</Button>
+            </Link>
           </Row>
         </Form>
       </div>
