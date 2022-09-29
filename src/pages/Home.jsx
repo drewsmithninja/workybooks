@@ -40,7 +40,7 @@ function Home() {
                 </Row>
               </Col>
               <Col span={0} />
-              <Col md={5} sm={24} xs={24} className='!p-0 text-center sm:text-left'>
+              <Col md={4} sm={24} xs={24} className='!p-0 text-center sm:text-left'>
                 <Typography.Text className='font-bold text-[11px] md:ml-[10px] w-full  mb-[20px] block'>Browse by Common core standards</Typography.Text>
                 <Row gutter={[16, 16]}>
                   {Array(2).fill(1).map(() => (
@@ -69,10 +69,10 @@ function Home() {
           </div>
 
           <Row gutter={[16, 16]} className='mt-[15px]'>
-            <Col span={16} className='max-h-[253px]'>
+            <Col span={16} className='max-h-[253px] pr-0'>
               <img src={dummyImage1} alt='test' width='100%' height='100%' />
             </Col>
-            <Col span={8} className='max-h-[253px]'>
+            <Col span={8} className='max-h-[253px] pl-0'>
               <img src={dummyImage1} alt='test' width='100%' height='100%' />
             </Col>
           </Row>
