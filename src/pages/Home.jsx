@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Col,
   Radio,
@@ -17,7 +17,18 @@ import dummyVector from '../assets/images/dummyVector.png';
 function Home() {
   window.document.title = 'React App — Home';
 
-  const cards = new Array(50).fill(1);
+  const cards = [];
+  Array(8).fill(1).map((item, index) => cards.push({
+    id: index + 1,
+    key: index + 1,
+    name: 'test_card'
+  }));
+  const cards1 = [];
+  Array(8).fill(1).map((item, index) => cards1.push({
+    id: `test_${index + 1}`,
+    key: `test_${index + 1}`,
+    name: 'test_card'
+  }));
   const {
     user = {}
   } = useSelector((state) => state);
@@ -79,12 +90,12 @@ function Home() {
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
           <div className='flex flex-row scrollVertical width-full'>
-            {cards.length > 0 && cards.map(() => <CardComponent key={Math.random()} cardImage={dummyImage} />)}
+            {cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}
           </div>
 
-          <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
+          <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
           <div className='flex flex-row scrollVertical width-full'>
-            {cards.length > 0 && cards.map(() => <CardComponent key={Math.random()} cardImage={dummyImage} />)}
+            {cards1.length > 0 && cards1.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}
           </div>
         </div>
       )}

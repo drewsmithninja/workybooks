@@ -204,3 +204,10 @@ body {
 .ant-radio-button-wrapper:not(:first-child):before {
   display: none;
 }
+
+.show-print-box {
+  bottom: 70px;
+}
+.hide-print-box {
+  bottom: -125px;
+}

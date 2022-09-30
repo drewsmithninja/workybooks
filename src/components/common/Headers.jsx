@@ -30,8 +30,6 @@ function Headers() {
     user = {}
   } = useSelector(state => state);
 
-  console.log('user', user);
-
   const handleToggleNavbar = () => {
     navbarRef.current.classList.toggle('flex');
     navbarRef.current.classList.toggle('hidden');
