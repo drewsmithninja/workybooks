@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/edit-profile' element={<UserProfile />} />
+        <Route path='/user-profile' element={<UserProfile />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signup-google' element={<SignUpGoogle />} />

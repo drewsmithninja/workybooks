@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Row, Space } from 'antd';
+import { Button, Col, Row } from 'antd';
 import MainLayout from '../../components/layout/MainLayout';
 import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
@@ -17,132 +17,149 @@ function UserProfile() {
             gutter={{
               xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
             }}
-            className='pb-10'
           >
-            <Col span={8}>
-              <div className='text-lg text-gray-500'>Profile Picture</div>
-            </Col>
-            <Col span={16}>
-              <div className='flex items-center'>
-                <span className='inline-block h-[115px] w-[115px] overflow-hidden rounded-full bg-gray-100'>
-                  <svg className='h-full w-full text-gray-300' fill='currentColor' viewBox='0 0 24 24'>
-                    <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
-                  </svg>
-                </span>
-                <ADButton className='ml-5' size='small'>Change</ADButton>
-              </div>
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col span={8}>
-              <div className='text-lg font-medium text-gray-500'>Contact Information</div>
-            </Col>
-            <Col span={5}>
-              <ADInput placeholder='Salutation' />
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col offset={8} span={10}>
+            <Col span={12}>
               <Row
                 gutter={{
                   xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
                 }}
+                className='pb-10'
               >
-                <Col span={12}>
-                  <ADInput placeholder='First Name' />
+                <Col span={8}>
+                  <div className='text-lg text-gray-500'>Profile Picture</div>
                 </Col>
-                <Col span={12}>
-                  <ADInput placeholder='Last Name' />
+                <Col span={16}>
+                  <div className='flex items-center'>
+                    <span className='inline-block h-[115px] w-[115px] overflow-hidden rounded-full bg-gray-100'>
+                      <svg className='h-full w-full text-gray-300' fill='currentColor' viewBox='0 0 24 24'>
+                        <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
+                      </svg>
+                    </span>
+                    <ADButton className='ml-5' size='small'>Change</ADButton>
+                  </div>
                 </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col offset={8} span={10}>
-              <ADInput placeholder='Email' />
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col span={8} className='text-lg font-medium text-gray-500'>
-              Password
-            </Col>
-            <Col span={10}>
               <Row
                 gutter={{
                   xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
                 }}
+                className='pb-8'
               >
-                <Col span={12}>
-                  <ADInput bordered={false} value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
+                <Col span={8}>
+                  <div className='text-lg font-medium text-gray-500'>Contact Information</div>
                 </Col>
-                <Col span={12}>
-                  <ADButton className='w-full'>CHANGE PASSWORD</ADButton>
+                <Col span={8}>
+                  <ADInput placeholder='Salutation' />
                 </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col span={8} className='text-lg font-medium text-gray-500'>
-              Your School
-            </Col>
-            <Col span={10}>
-              <ADInput placeholder='School Name' />
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-16'
-          >
-            <Col offset={8} span={10}>
               <Row
                 gutter={{
                   xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
                 }}
+                className='pb-8'
               >
-                <Col span={12}>
-                  <ADInput placeholder='State' />
-                </Col>
-                <Col span={12}>
-                  <ADInput placeholder='City' />
+                <Col offset={8} span={16}>
+                  <Row
+                    gutter={{
+                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                    }}
+                  >
+                    <Col span={12}>
+                      <ADInput placeholder='First Name' />
+                    </Col>
+                    <Col span={12}>
+                      <ADInput placeholder='Last Name' />
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row
-            gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
-            }}
-            className='pb-8'
-          >
-            <Col offset={8} span={5}>
-              <ADButton className='w-full' type='primary'>SAVE</ADButton>
+              <Row
+                gutter={{
+                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                }}
+                className='pb-8'
+              >
+                <Col offset={8} span={16}>
+                  <ADInput placeholder='Email' />
+                </Col>
+              </Row>
+              <Row
+                gutter={{
+                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                }}
+                className='pb-8'
+              >
+                <Col span={8} className='text-lg font-medium text-gray-500'>
+                  Password
+                </Col>
+                <Col span={16}>
+                  <Row
+                    gutter={{
+                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                    }}
+                  >
+                    <Col span={12}>
+                      <ADInput bordered={false} value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
+                    </Col>
+                    <Col span={12}>
+                      <ADButton className='w-full'>CHANGE PASSWORD</ADButton>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row
+                gutter={{
+                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                }}
+                className='pb-8'
+              >
+                <Col span={8} className='text-lg font-medium text-gray-500'>
+                  Your School
+                </Col>
+                <Col span={16}>
+                  <ADInput placeholder='School Name' />
+                </Col>
+              </Row>
+              <Row
+                gutter={{
+                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                }}
+                className='pb-16'
+              >
+                <Col offset={8} span={16}>
+                  <Row
+                    gutter={{
+                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                    }}
+                  >
+                    <Col span={12}>
+                      <ADInput placeholder='State' />
+                    </Col>
+                    <Col span={12}>
+                      <ADInput placeholder='City' />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row
+                gutter={{
+                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                }}
+                className='pb-8'
+              >
+                <Col offset={8} span={16}>
+                  <Row
+                    gutter={{
+                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                    }}
+                    className='pb-8'
+                  >
+                    <Col span={12}>
+                      <ADButton type='primary' className='w-full'>Custom</ADButton>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </Col>
           </Row>
         </div>

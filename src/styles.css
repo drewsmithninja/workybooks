@@ -1,5 +1,5 @@
 /** Tailwind CSS */
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -78,11 +78,6 @@ body {
 /** Boilerplate Built-In Card Style End */
 
 /** And Design Customize Start */
-
-.ant-btn-primary {
-  min-width: 120px;
-  border-radius: 3px;
-}
 
 .ant-divider-horizontal.ant-divider-with-text-center::before,
 .ant-divider-horizontal.ant-divider-with-text-center::after {
