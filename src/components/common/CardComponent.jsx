@@ -99,7 +99,7 @@ function CardComponent({
           )}
         </div>
         <div className='flex flex-1 items-center justify-end'>
-          <Dropdown overlay={menu} placement="topLeft" arrow>
+          <Dropdown overlay={menu} placement='topLeft' arrow>
             <Button icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
           </Dropdown>
         </div>

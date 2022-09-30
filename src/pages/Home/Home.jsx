@@ -6,13 +6,13 @@ import {
   Typography
 } from 'antd';
 import { useSelector } from 'react-redux';
-import CardComponent from '../components/common/CardComponent';
-import MainLayout from '../components/layout/MainLayout';
-import SubjectComponent from '../components/Home/subjectComponent';
+import CardComponent from '../../components/common/CardComponent';
+import MainLayout from '../../components/layout/MainLayout';
+import SubjectComponent from '../../components/Home/subjectComponent';
 
-import dummyImage from '../assets/images/dummyImage.png';
-import dummyImage1 from '../assets/images/dummyImage1.png';
-import dummyVector from '../assets/images/dummyVector.png';
+import dummyImage from '../../assets/images/dummyImage.png';
+import dummyImage1 from '../../assets/images/dummyImage1.png';
+import dummyVector from '../../assets/images/dummyVector.png';
 
 function Home() {
   window.document.title = 'React App — Home';

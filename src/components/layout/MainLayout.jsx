@@ -25,7 +25,7 @@ function MainLayout({ children }) {
     <Layout>
       <Headers />
       {user.loggedIn && <SearchBar />}
-      <Content className='min-h-[90vh]'>{ children }</Content>
+      <Content className='min-h-[90vh] bg-white'>{ children }</Content>
       {showPrint > 0 && <FileUtils show={showPrint > 0} />}
     </Layout>
   );

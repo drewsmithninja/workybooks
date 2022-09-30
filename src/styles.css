@@ -211,3 +211,20 @@ body {
 .hide-print-box {
   bottom: -125px;
 }
+.active-menu {
+  color: #243E8F;
+  font-weight: bold;
+}
+
+.my-library-page .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+  height: 8px !important;
+  background-color: #243E8F;
+}
+
+.my-library-page .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #243E8F;
+}
+
+.my-library-page .ant-tabs-top>.ant-tabs-nav:before {
+  border-bottom: 1px solid #000;
+}
