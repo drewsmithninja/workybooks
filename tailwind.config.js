@@ -4,13 +4,11 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        xs: '480px',
-        ss: '620px',
-        sm: '768px',
-        md: '1060px',
-        lg: '1200px',
-        xl: '1700px',
-        xxl: '1900px'
+        sm: '576px',
+        md: '768px',
+        lg: '992px',
+        xl: '1200px',
+        xxl: '1600px'
       },
       colors: {
         primaryColor: '#2563eb',
