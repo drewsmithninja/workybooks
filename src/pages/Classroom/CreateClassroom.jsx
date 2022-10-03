@@ -33,7 +33,7 @@ function CreateClassroom() {
   return (
     <>
       <LogoHeader />
-      <Typography.Title level={3} className="m-auto !mt-[50px] !mb-[35px] text-center">
+      <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
         Welcome Mrs. Bieries!
       </Typography.Title>
       <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
