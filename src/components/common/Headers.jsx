@@ -29,9 +29,6 @@ function Headers() {
   const {
     user = {}
   } = useSelector(state => state);
-
-  console.log('user', user);
-
   const handleToggleNavbar = () => {
     navbarRef.current.classList.toggle('flex');
     navbarRef.current.classList.toggle('hidden');
@@ -65,7 +62,6 @@ function Headers() {
   const logout = () => {
     dispatch(setUserLoggedIn(false));
   };
-
   return (
     <Header className='h-20 relative container mx-auto'>
       {/* flex container */}
@@ -85,11 +81,11 @@ function Headers() {
         {/* navbar menu */}
         {user.loggedIn && 
         <div className='hidden space-x-4 md:flex'>
-          <Link to='/'>
-            <span className='navbar-menu-item'>Explore</span>
+          <Link to='/' className='hover:text-[#243E8F]'>
+            {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
           </Link>
-          <Link to='/dashboard'>
-            <span className='navbar-menu-item'>My Library </span>
+          <Link to='/my-library'>
+            {window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}
           </Link>
           <Link to='/services'>
             <span className='navbar-menu-item'>My Classrooms</span>
