@@ -3,6 +3,7 @@ import { Button, Col, Row } from 'antd';
 import MainLayout from '../../components/layout/MainLayout';
 import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
+import ADTitle from '../../components/antd/ADTitle';
 
 function UserProfile() {
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
@@ -11,17 +12,28 @@ function UserProfile() {
       <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
         <div className='px-4 py-5 sm:px-6'>
           <h3 className='text-3xl font-bold leading-6'>Edit Profile</h3>
+          <ADTitle>Hello</ADTitle>
         </div>
         <div className='px-6'>
           <Row
             gutter={{
-              xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+              xs: 8,
+              sm: 16,
+              md: 24,
+              lg: 32,
+              xl: 40,
+              xxl: 48
             }}
           >
             <Col span={12}>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-10'
               >
@@ -35,13 +47,20 @@ function UserProfile() {
                         <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
                       </svg>
                     </span>
-                    <ADButton className='ml-5' size='small'>Change</ADButton>
+                    <ADButton className='ml-5' size='small'>
+                      Change
+                    </ADButton>
                   </div>
                 </Col>
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
@@ -54,14 +73,24 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
                 <Col offset={8} span={16}>
                   <Row
                     gutter={{
-                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                      xs: 8,
+                      sm: 16,
+                      md: 24,
+                      lg: 32,
+                      xl: 40,
+                      xxl: 48
                     }}
                   >
                     <Col span={12}>
@@ -75,7 +104,12 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
@@ -85,7 +119,12 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
@@ -95,7 +134,12 @@ function UserProfile() {
                 <Col span={16}>
                   <Row
                     gutter={{
-                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                      xs: 8,
+                      sm: 16,
+                      md: 24,
+                      lg: 32,
+                      xl: 40,
+                      xxl: 48
                     }}
                   >
                     <Col span={12}>
@@ -109,7 +153,12 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
@@ -122,14 +171,24 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-16'
               >
                 <Col offset={8} span={16}>
                   <Row
                     gutter={{
-                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                      xs: 8,
+                      sm: 16,
+                      md: 24,
+                      lg: 32,
+                      xl: 40,
+                      xxl: 48
                     }}
                   >
                     <Col span={12}>
@@ -143,19 +202,31 @@ function UserProfile() {
               </Row>
               <Row
                 gutter={{
-                  xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                  xs: 8,
+                  sm: 16,
+                  md: 24,
+                  lg: 32,
+                  xl: 40,
+                  xxl: 48
                 }}
                 className='pb-8'
               >
                 <Col offset={8} span={16}>
                   <Row
                     gutter={{
-                      xs: 8, sm: 16, md: 24, lg: 32, xl: 40, xxl: 48
+                      xs: 8,
+                      sm: 16,
+                      md: 24,
+                      lg: 32,
+                      xl: 40,
+                      xxl: 48
                     }}
                     className='pb-8'
                   >
                     <Col span={12}>
-                      <ADButton type='primary' className='w-full'>Custom</ADButton>
+                      <ADButton type='primary' className='w-full'>
+                        Custom
+                      </ADButton>
                     </Col>
                   </Row>
                 </Col>

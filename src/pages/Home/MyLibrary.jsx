@@ -29,7 +29,7 @@ function MyLibrary() {
   }));
   return (
     <MainLayout>
-      <Row gutter={[16, 16]} className='p-[30px] my-library-page'>
+      <Row gutter={[16, 16]} className='p-[30px] ant-custom-tabs'>
         <Col md={12} xs={24} sm={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
             My Library -&nbsp;

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
 import SelectClassroom from './pages/Classroom/SelectClassroom';
+import MyClassrooms from './pages/Classroom/MyClassRooms';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import SignIn from './pages/Signin/SignIn';
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/user-profile' element={<UserProfile />} />
+        <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/signin' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/signup-google' element={<SignUpGoogle />} />

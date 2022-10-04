@@ -13,7 +13,8 @@
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "es5",
+  "workbench.iconTheme": "vscode-icons",
+  "trailingComma": "none",
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
   "tailwindConfig": "./tailwind.config.js"

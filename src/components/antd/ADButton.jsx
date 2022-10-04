@@ -1,12 +1,10 @@
 import { Button } from 'antd';
 
-function ADButton({
-  children, className, type, size, ...props
-}) {
+function ADButton({ children, className, type, size, ...props }) {
   return (
     <Button
       className={`${className ?? ''}${' '}
-      rounded-md font-medium
+      rounded-lg font-medium
       ${size === 'medium' ? 'py-3 px-4 h-auto' : ''}
       ${size === 'small' ? 'py-1 px-3 h-auto' : ''}
       ${type === 'default' ? 'border-2' : ''}

@@ -89,6 +89,11 @@ body {
   @apply inline-flex items-center;
 }
 
+h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.ant-typography, h6.ant-typography {
+  margin: 0;
+}
+
+
 .ant-popover-title {
   @apply bg-backgroundColorBlack;
 }
@@ -211,15 +216,46 @@ body {
   font-weight: bold;
 }
 
-.my-library-page .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+.ant-custom-tabs .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
   height: 8px !important;
   background-color: #243E8F;
 }
 
-.my-library-page .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #243E8F;
+.ant-custom-tabs.ant-tabs {
+  width: 100%;
 }
 
-.my-library-page .ant-tabs-top>.ant-tabs-nav:before {
+.ant-custom-tabs.ant-tabs .ant-tabs-nav {
   border-bottom: 1px solid #000;
+}
+
+.ant-custom-tabs.ant-tabs .ant-tabs-nav .ant-tabs-nav-list {
+  font-weight: bold;
+}
+
+.ant-custom-tabs.ant-tabs .ant-tabs-nav .ant-tabs-nav-list .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #5470FF;
+}
+
+.ant-custom-tabs.ant-tabs .ant-tabs-nav .ant-tabs-nav-list .ant-tabs-tab {
+  min-width: 135px;
+}
+
+/* ant-select */
+.ant-select .ant-select-selector {
+  border-radius: 0.375rem !important;
+}
+
+.custom-select.ant-select .ant-select-selector {
+  min-width: 10rem;
+}
+
+/* ant-list */
+.ant-list.with-header .ant-list-header{
+  background: #F9FAFB;
+  border-radius: 8px;
+}
+
+.inter-font {
+  font-family: 'Inter', sans-serif;
 }
