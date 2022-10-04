@@ -228,3 +228,11 @@ body {
 .my-library-page .ant-tabs-top>.ant-tabs-nav:before {
   border-bottom: 1px solid #000;
 }
+
+.activeSubject {
+  border-bottom: 8px solid #243E8F;
+}
+
+.activeSubject img {
+  border: 3px solid #243E8F 
+}
