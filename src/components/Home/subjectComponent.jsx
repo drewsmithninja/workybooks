@@ -1,15 +1,20 @@
 import { Typography } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 function SubjectComponent({
   subjectImage,
-  subjectName
+  subjectName,
+  subjectId
 }) {
+  const { id } = useParams();
   return (
-    <Typography.Text className='flex flex-col items-center justify-items-center gap-[10px]'>
-      <img src={subjectImage} alt='subjectImage' width='75px' height='75px' className='rounded-full' />
-      <p className='text-medium text-[16px]'>{subjectName}</p>
-    </Typography.Text>
+    <Link to={subjectId ? `/subject/${subjectId}` : ''}>
+      <Typography.Text className={`flex flex-col items-center justify-items-center gap-[10px] ${parseInt(id, 10) === parseInt(subjectId, 10) ? 'activeSubject' : ''}`}>
+        <img src={subjectImage} alt='subjectImage' width='75px' height='75px' className='rounded-full' />
+        <p className='text-medium text-[14px]'>{subjectName}</p>
+      </Typography.Text>
+    </Link>
   );
 }
 
