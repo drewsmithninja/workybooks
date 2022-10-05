@@ -4,9 +4,10 @@ import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
 import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
 import Students from '../../components/myClassRooms/students/Students';
+import Assignment from '../../components/myClassRooms/assignment/Assignment';
 
 function MyClassrooms() {
-  const [currentTab, setCurrentTab] = React.useState('students');
+  const [currentTab, setCurrentTab] = React.useState('assignment');
   const { Option } = Select;
   const handleChange = (value) => {
     // eslint-disable-next-line no-console
@@ -36,7 +37,7 @@ function MyClassrooms() {
               <Students />
             </Tabs.TabPane>
             <Tabs.TabPane tab='ASSIGNMENT' key='assignment'>
-              Content of Tab Assignment
+              <Assignment />
             </Tabs.TabPane>
             <Tabs.TabPane tab='REPORTS' key='reports'>
               Content of Tab Reports

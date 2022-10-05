@@ -1,33 +1,69 @@
 import React from 'react';
-import { Avatar, Col, List, Row, Space } from 'antd';
+import { Avatar, Col, List, Radio, Row, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 import ADButton from '../../antd/ADButton';
 
-const data = [
+const options = [
   {
-    title: 'Ant Design Title 1'
+    label: 'All Assignment',
+    value: 'all-assignment'
   },
   {
-    title: 'Ant Design Title 2'
+    label: 'Unassigned',
+    value: 'unassigned'
   },
   {
-    title: 'Ant Design Title 3'
+    label: 'Active',
+    value: 'active'
   },
   {
-    title: 'Ant Design Title 4'
+    label: 'Archived',
+    value: 'archived'
   }
 ];
 
-function Students() {
+function Assignment() {
+  const [currentValue, setCurrentValue] = React.useState('large');
+  const [data, setData] = useState([]);
+
+  React.useEffect(() => {
+    appendData();
+  }, []);
+
+  const onChange = ({ target: { value } }) => {
+    // eslint-disable-next-line no-console
+    console.log('checked', value);
+    setCurrentValue(value);
+  };
+
+  const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
+  const ContainerHeight = 400;
+
+  const appendData = () => {
+    fetch(fakeDataUrl)
+      .then((res) => res.json())
+      .then((body) => {
+        setData(data.concat(body.results));
+        message.success(`${body.results.length} more items loaded!`);
+      });
+  };
+
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
       <Space direction='vertical' size='large' className='flex'>
-        <div className='flex ant-row-end'>
-          <ADButton type='primary'>ADD STUDENTS</ADButton>
+        <div className='flex justify-center'>
+          <Radio.Group options={options} value={currentValue} onChange={onChange} optionType='button' />
         </div>
         <List
           className='rounded-t-lg with-header'
+          pagination={{
+            onChange: (page) => {
+              // eslint-disable-next-line no-console
+              console.log(page);
+            },
+            pageSize: 6
+          }}
           header={(
             <Row>
               <Col xl={6} md={6} sm={8} xs={10}>
@@ -90,4 +126,4 @@ function Students() {
   );
 }
 
-export default Students;
+export default Assignment;
