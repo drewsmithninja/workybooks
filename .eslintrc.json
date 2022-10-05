@@ -25,7 +25,7 @@
     "react/prop-types": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "operator-linebreak": ["error", "after"],
-    "max-len": ["error", { "code": 400 }],
+    "max-len": ["error", { "code": 600 }],
     "comma-dangle": ["error", "never"],
     "no-prototype-builtins": "off",
     "no-nested-ternary": "off",
@@ -35,6 +35,8 @@
     "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
     "react/jsx-boolean-value": "off",
+    "no-var": "off",
+    "react/no-array-index-key": "off",
     "no-use-before-define": [
       "error",
       {

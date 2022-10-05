@@ -259,3 +259,14 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
 .inter-font {
   font-family: 'Inter', sans-serif;
 }
+.activeSubject {
+  border-bottom: 8px solid #243E8F;
+}
+
+.activeSubject img {
+  border: 3px solid #243E8F 
+}
+
+.mobileFilterModal .ant-modal-content {
+  border-radius: 0px !important;
+}

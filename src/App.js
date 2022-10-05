@@ -10,6 +10,8 @@ import SignIn from './pages/Signin/SignIn';
 import SignUp from './pages/Signup/Signup';
 import SignUpGoogle from './pages/Signup/SignupGoogle';
 import MyLibrary from './pages/Home/MyLibrary';
+import DetailPage from './pages/Subjects/DetailPage';
+import SearchSubject from './pages/Subjects/SearchPage';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path='/create-classroom' element={<CreateClassroom />} />
         <Route path='/select-classroom' element={<SelectClassroom />} />
         <Route path='/my-library' element={<MyLibrary />} />
+        <Route path='/subject/:id' element={<DetailPage />} />
+        <Route path='/search-subject' element={<SearchSubject />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
