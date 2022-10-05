@@ -236,3 +236,7 @@ body {
 .activeSubject img {
   border: 3px solid #243E8F 
 }
+
+.mobileFilterModal .ant-modal-content {
+  border-radius: 0px !important;
+}
