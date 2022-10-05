@@ -10,7 +10,8 @@ const { Content } = Layout;
 
 function MainLayout({ children }) {
   const {
-    user = {}
+    user = {
+    }
   } = useSelector((state) => state);
   const { collections } = useSelector((state) => state);
   const [showPrint, setShowPrint] = useState(0);
@@ -25,7 +26,7 @@ function MainLayout({ children }) {
     <Layout>
       <Headers />
       {user.loggedIn && <SearchBar />}
-      <Content className='bg-white'>{ children }</Content>
+      <Content className='bg-white'>{children}</Content>
       {showPrint > 0 && <FileUtils show={showPrint > 0} />}
     </Layout>
   );

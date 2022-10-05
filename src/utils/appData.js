@@ -159,25 +159,53 @@ export const subjectCommonData = [{
     title: 'Key Ideas and Details',
     subTopics: [{
       title: 'CCSS.ELA-LITERACY.RL.3.1',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text,
+      referring explicitly to the text as the basis for the answers.Recount stories,
+      including fables, folktales, and myths from diverse cultures; determine the central message,
+      lesson, or moral and explain how it is conveyed through key details in the text.
+      Describe characters in a story (e.g., their traits, motivations, or feelings) and
+      explain how their actions contribute to the sequence of events`
     }, {
       title: 'CCSS.ELA-LITERACY.RL.3.2',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text,
+      referring explicitly to the text as the basis for the answers.Recount stories,
+      including fables, folktales, and myths from diverse cultures; determine the central message,
+      lesson, or moral and explain how it is conveyed through key details in the text.
+      Describe characters in a story (e.g., their traits, motivations, or feelings) and
+      explain how their actions contribute to the sequence of events`
     }, {
       title: 'CCSS.ELA-LITERACY.RL.3.3',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text,
+      referring explicitly to the text as the basis for the answers.Recount stories,
+      including fables, folktales, and myths from diverse cultures; determine the central message,
+      lesson, or moral and explain how it is conveyed through key details in the text.
+      Describe characters in a story (e.g., their traits, motivations, or feelings) and
+      explain how their actions contribute to the sequence of events`
     }]
   }, {
     title: 'Craft and Structure',
     subTopics: [{
       title: 'CCSS.ELA-LITERACY.RL.3.1',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text,
+      referring explicitly to the text as the basis for the answers.Recount stories,
+      including fables, folktales, and myths from diverse cultures; determine the central message,
+      lesson, or moral and explain how it is conveyed through key details in the text.
+      Describe characters in a story (e.g., their traits, motivations, or feelings) and
+      explain how their actions contribute to the sequence of events`
     }, {
       title: 'CCSS.ELA-LITERACY.RL.3.2',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text,
+      referring explicitly to the text as the basis for the answers.Recount stories,
+      including fables, folktales, and myths from diverse cultures; determine the central message,
+      lesson, or moral and explain how it is conveyed through key details in the text.
+      Describe characters in a story (e.g., their traits, motivations, or feelings) and
+      explain how their actions contribute to the sequence of events`
     }, {
       title: 'CCSS.ELA-LITERACY.RL.3.3',
-      description: 'Ask and answer questions to demonstrate understanding of a text, referring explicitly to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events'
+      description: `Ask and answer questions to demonstrate understanding of a text, referring explicitly
+      to the text as the basis for the answers.Recount stories, including fables, folktales, and myths from diverse cultures; 
+      determine the central message, lesson, or moral and explain how it is conveyed through key details in the text. Describe characters in a story 
+      (e.g., their traits, motivations, or feelings) and explain how their actions contribute to the sequence of events`
     }]
   }]
 }];

@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Col,
-  Row
-} from 'antd';
+import { Col, Row } from 'antd';
 import { useSelector } from 'react-redux';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
@@ -15,19 +12,24 @@ import GradeComponent from '../../components/common/GradeComponent';
 function Home() {
   window.document.title = 'React App — Home';
   const cards = [];
-  Array(8).fill(1).map((item, index) => cards.push({
-    id: index + 1,
-    key: index + 1,
-    name: 'test_card'
-  }));
+  Array(8)
+    .fill(1)
+    .map((item, index) => cards.push({
+      id: index + 1,
+      key: index + 1,
+      name: 'test_card'
+    }));
   const cards1 = [];
-  Array(8).fill(1).map((item, index) => cards1.push({
-    id: `test_${index + 1}`,
-    key: `test_${index + 1}`,
-    name: 'test_card'
-  }));
+  Array(8)
+    .fill(1)
+    .map((item, index) => cards1.push({
+      id: `test_${index + 1}`,
+      key: `test_${index + 1}`,
+      name: 'test_card'
+    }));
   const {
-    user = {}
+    user = {
+    }
   } = useSelector((state) => state);
   return (
     <MainLayout>
@@ -46,14 +48,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>
-            {cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}
-          </div>
+          <div className='flex flex-row scrollVertical width-full'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>
-            {cards1.length > 0 && cards1.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}
-          </div>
+          <div className='flex flex-row scrollVertical width-full'>{cards1.length > 0 && cards1.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
         </div>
       )}
     </MainLayout>
