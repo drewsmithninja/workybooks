@@ -1,22 +1,14 @@
-import {
-  Button,
-  Col,
-  Input,
-  Row,
-  Typography
-} from 'antd';
+import { Button, Col, Input, Row, Typography } from 'antd';
 import React from 'react';
 import { popupModalComponent } from '../../lib/utils';
 
-function AddStudentContent({
-  setCreateClassPopup
-}) {
+function AddStudentContent({ setCreateClassPopup }) {
   return (
     <>
-      <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
+      <Typography.Title level={1} className='!text-2xl md:!text-2xl mt-[30px] text-center'>
         Add Students
       </Typography.Title>
-      <Typography.Title level={5} className="!font-normal !mt-[16px] !mb-[30px] !text-[14px] text-center">
+      <Typography.Title level={5} className='!font-normal !mt-[16px] !mb-[30px] !text-[14px] text-center'>
         Please provide the classroom details
       </Typography.Title>
       <Row gutter={[16, 16]}>
@@ -27,7 +19,7 @@ function AddStudentContent({
           <p className='text-[13px]'>
             Or, enter student names manually.
             <br />
-            Please enter student names as Frist name Last Name  - one per line.
+            Please enter student names as Frist name Last Name - one per line.
           </p>
         </Col>
         <Col span={24} className='text-center'>

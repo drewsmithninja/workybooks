@@ -1,11 +1,4 @@
-import {
-  Col,
-  Row,
-  Select,
-  Space,
-  Tabs,
-  Typography
-} from 'antd';
+import { Col, Row, Select, Space, Tabs, Typography } from 'antd';
 import React, { useState } from 'react';
 import MainLayout from '../../components/layout/MainLayout';
 
@@ -16,17 +9,21 @@ import dummyImage from '../../assets/images/dummyImage.png';
 function MyLibrary() {
   const [currentTab, setCurrentTab] = useState('Collections');
   const cards = [];
-  Array(8).fill(1).map((item, index) => cards.push({
-    id: index + 1,
-    key: index + 1,
-    name: 'test_card'
-  }));
+  Array(8)
+    .fill(1)
+    .map((item, index) => cards.push({
+      id: index + 1,
+      key: index + 1,
+      name: 'test_card'
+    }));
   const worksheets = [];
-  Array(3).fill(1).map((item, index) => worksheets.push({
-    id: index + 1,
-    key: index + 1,
-    name: 'test_card'
-  }));
+  Array(3)
+    .fill(1)
+    .map((item, index) => worksheets.push({
+      id: index + 1,
+      key: index + 1,
+      name: 'test_card'
+    }));
   return (
     <MainLayout>
       <Row gutter={[16, 16]} className='p-[30px] ant-custom-tabs'>
@@ -39,32 +36,36 @@ function MyLibrary() {
         <Col md={12} xs={24} sm={24} className='md:text-right text-center'>
           <Space>
             <img src={sortIcon} alt='sort' />
-            <Select placeholder='Sort By' className='w-[150px] text-left' style={{ borderRadius: 8 }}>
+            <Select
+              placeholder='Sort By'
+              className='w-[150px] text-left'
+              style={{
+                borderRadius: 8
+              }}
+            >
               <Select.Option value='Date Updated'>Date Updated</Select.Option>
             </Select>
           </Space>
         </Col>
         <Col span={24}>
-          <Tabs defaultActiveKey={currentTab} tabBarStyle={{ fontWeight: 'bold' }} onChange={(e) => setCurrentTab(e)}>
-            <Tabs.TabPane tab="MY COLLECTIONS" key="Collections">
-              <div className='flex flex-row flex-wrap'>
-                {cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}
-              </div>
+          <Tabs
+            defaultActiveKey={currentTab}
+            tabBarStyle={{
+              fontWeight: 'bold'
+            }}
+            onChange={(e) => setCurrentTab(e)}
+          >
+            <Tabs.TabPane tab='MY COLLECTIONS' key='Collections'>
+              <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="FAVORITES" key="Favorites">
+            <Tabs.TabPane tab='FAVORITES' key='Favorites'>
               <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-              <div className='flex flex-row flex-wrap'>
-                {worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}
-              </div>
+              <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
               <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-              <div className='flex flex-row flex-wrap'>
-                {cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}
-              </div>
+              <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}</div>
             </Tabs.TabPane>
-            <Tabs.TabPane tab="RECENTS" key="Recents">
-              <div className='flex flex-row flex-wrap'>
-                {cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}
-              </div>
+            <Tabs.TabPane tab='RECENTS' key='Recents'>
+              <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}</div>
             </Tabs.TabPane>
           </Tabs>
         </Col>

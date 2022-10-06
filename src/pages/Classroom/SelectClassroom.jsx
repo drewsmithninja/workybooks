@@ -1,9 +1,4 @@
-import {
-  Button,
-  Col,
-  Row,
-  Typography
-} from 'antd';
+import { Button, Col, Row, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoHeader from '../../components/common/LogoHeader';
@@ -12,7 +7,7 @@ function SelectClassroom() {
   return (
     <>
       <LogoHeader />
-      <Typography.Title level={3} className="m-auto !mt-[50px] !mb-[35px] text-center">
+      <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
         Welcome Mrs. Bieries!
       </Typography.Title>
       <div className='w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>

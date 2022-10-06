@@ -1,8 +1,6 @@
 import { Input } from 'antd';
 
-function ADInput({
-  children, className, size, ...props
-}) {
+function ADInput({ children, className, size, ...props }) {
   return (
     <Input
       className={`${className ?? ''}${' '}

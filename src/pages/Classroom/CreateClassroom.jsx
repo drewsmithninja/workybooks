@@ -1,13 +1,4 @@
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Modal,
-  Row,
-  Table,
-  Typography
-} from 'antd';
+import { Button, Col, Form, Input, Modal, Row, Table, Typography } from 'antd';
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -21,7 +12,7 @@ import AddStudentContent from '../../components/CreateClass/addStudentContent';
 
 function CreateClassroom() {
   const [createClassPopup, setCreateClassPopup] = useState(false);
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState(null);
   const [isImport, setIsImport] = useState(false);
   const [isManual, setIsManual] = useState(false);
   const [manualStep, setManualStep] = useState(1);
@@ -87,7 +78,9 @@ function CreateClassroom() {
               </Button>
             </Link>
           </Col>
-          <Col lg={3} xs={0}>&nbsp;</Col>
+          <Col lg={3} xs={0}>
+            &nbsp;
+          </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
               <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
@@ -112,7 +105,9 @@ function CreateClassroom() {
               </Button>
             </Link>
           </Col>
-          <Col lg={3} xs={0}>&nbsp;</Col>
+          <Col lg={3} xs={0}>
+            &nbsp;
+          </Col>
         </Row>
       </div>
 
@@ -125,7 +120,10 @@ function CreateClassroom() {
         footer={false}
         centered
         width={489}
-        bodyStyle={{ height: 600, borderRadius: 16 }}
+        bodyStyle={{
+          height: 600,
+          borderRadius: 16
+        }}
       >
         {!isManual && !isImport && <MainContent setIsImport={setIsImport} setIsManual={setIsManual} setManualStep={setManualStep} />}
         {isImport && <ImportContent rowSelection={rowSelection} setCreateClassPopup={setCreateClassPopup} />}

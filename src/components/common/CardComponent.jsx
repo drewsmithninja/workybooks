@@ -1,15 +1,5 @@
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  HeartFilled,
-  HeartOutlined
-} from '@ant-design/icons';
-import {
-  Button,
-  Checkbox,
-  Dropdown,
-  Menu
-} from 'antd';
+import { EditOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Dropdown, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
@@ -20,14 +10,9 @@ import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 
 function CardComponent({
-  cardImage = 'https://via.placeholder.com/400x200',
-  cardTitle = 'Short passage - find the meaning of the word - Ruth Bader',
-  cardAuthor = 'By Workybooks',
-  isLiked = true,
-  isChecked = false,
-  extraDetails = ['3.W.3.1.B', '3.W.3.1.B', '3.W.3.1.B'],
-  cardWidth = 215,
-  cardData = {}
+  cardImage = 'https://via.placeholder.com/400x200', cardTitle = 'Short passage - find the meaning of the word - Ruth Bader', cardAuthor = 'By Workybooks', isLiked = true, isChecked = false, extraDetails = ['3.W.3.1.B', '3.W.3.1.B', '3.W.3.1.B'], cardWidth = 215, cardData = {
+
+  }
 }) {
   const dispatch = useDispatch();
   const { collections } = useSelector((state) => state);
@@ -36,9 +21,7 @@ function CardComponent({
     <Menu
       items={[
         {
-          label: 'PRINT',
-          key: '1',
-          icon: <img src={printIcon} alt='print' />
+          label: 'PRINT', key: '1', icon: <img src={printIcon} alt='print' />
         },
         {
           label: 'ASSIGN',
@@ -68,7 +51,12 @@ function CardComponent({
     }
   }, [collections]);
   return (
-    <div className='cardComponent m-3 flex max-w-auto flex-col gap-[10px]' style={{ width: cardWidth }}>
+    <div
+      className='cardComponent m-3 flex max-w-auto flex-col gap-[10px]'
+      style={{
+        width: cardWidth
+      }}
+    >
       {/* Card Image */}
       <div className='topImage bg-gray-300 rounded-2xl'>
         <img src={cardImage} alt='cardImage' className='rounded-2xl w-full' />
@@ -91,13 +79,7 @@ function CardComponent({
             checked={c}
           />
         </div>
-        <div className='flex flex-1 items-center justify-center'>
-          {isLiked ? (
-            <HeartFilled className='text-[25px] text-red-500 cursor-pointer' />
-          ) : (
-            <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />
-          )}
-        </div>
+        <div className='flex flex-1 items-center justify-center'>{isLiked ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <Button icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
@@ -113,7 +95,12 @@ function CardComponent({
 
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
-        {extraDetails.length > 0 && extraDetails.map((item, index) => <p key={`extraDetails-${index + 1}`} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>{item}</p>)}
+        {extraDetails.length > 0 &&
+          extraDetails.map((item, index) => (
+            <p key={`extraDetails-${index + 1}`} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
+              {item}
+            </p>
+          ))}
       </div>
     </div>
   );

@@ -1,16 +1,16 @@
-import {
-  DELETE_TOKEN_CREATE_NETWORK, DELETE_TOKEN_DEPLOY_DATA, DELETE_TOKEN_FROM_DATA, SET_TOKEN_CREATE_NETWORK, SET_TOKEN_DEPLOY_DATA, SET_TOKEN_FORM_DATA
-} from '../constants/tokenConstant';
+import { DELETE_TOKEN_CREATE_NETWORK, DELETE_TOKEN_DEPLOY_DATA, DELETE_TOKEN_FROM_DATA, SET_TOKEN_CREATE_NETWORK, SET_TOKEN_DEPLOY_DATA, SET_TOKEN_FORM_DATA } from '../constants/tokenConstant';
 
 const initialState = {
   // token create network
   tokenCreateNetwork: 'mainnet',
 
   // token create from data
-  tokenFromData: {},
+  tokenFromData: {
+  },
 
   // token deploy data
-  tokenDeployData: {}
+  tokenDeployData: {
+  }
 };
 
 // eslint-disable-next-line default-param-last
@@ -37,7 +37,8 @@ const tokenReducer = (state = initialState, action) => {
     case DELETE_TOKEN_FROM_DATA:
       return {
         ...state,
-        tokenFromData: {}
+        tokenFromData: {
+        }
       };
 
     // token deploy data
@@ -49,7 +50,8 @@ const tokenReducer = (state = initialState, action) => {
     case DELETE_TOKEN_DEPLOY_DATA:
       return {
         ...state,
-        tokenDeployData: {}
+        tokenDeployData: {
+        }
       };
 
     default:

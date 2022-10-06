@@ -7,7 +7,9 @@ export const popupModalComponent = (type = 'info', title = '', content = '', red
     icon: (<div />),
     okText: 'Okay',
     centered: true,
-    style: { textAlign: 'center' },
+    style: {
+      textAlign: 'center'
+    },
     className: 'customModal',
     onOk: () => {
       const nextURL = '/';
