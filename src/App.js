@@ -22,9 +22,7 @@ function App() {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         {/* Protected Routes */}
-        {/* <Route element={<RequireAuth />}> */}
         <Route path='/' element={<Home />} />
-        {/* </Route> */}
         {/* non-fixed Routes */}
         <Route path='/user-profile' element={<UserProfile />} />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
