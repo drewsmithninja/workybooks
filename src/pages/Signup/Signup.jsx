@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
-
-import setUserLoggedIn from '../../redux/actions/userAction';
+import Spinner from '../../components/spinner/Spinner';
+import { register, reset } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -12,12 +12,39 @@ function SignUp() {
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const { Paragraph } = Typography;
-  const [emailSignUp, setEmailSignUp] = useState(false);
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const login = () => {
-    dispatch(setUserLoggedIn(true));
+  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isError) {
+      // eslint-disable-next-line no-console
+      console.error(message);
+    }
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  if (isLoading) {
+    <Spinner />;
+  }
+
+  const onFinish = (values) => {
+    // eslint-disable-next-line no-console
+    console.log('Received values of form: ', values);
+    dispatch(register(values));
   };
+
+  const onFinishFailed = () => {
+    // eslint-disable-next-line no-console
+    console.log('fail! signing up');
+  };
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -54,83 +81,180 @@ function SignUp() {
             <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign up with Clever
           </Button>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setEmailSignUp(true)}>
+          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
             Sign up with Email
           </Button>
         </div>
 
-        {emailSignUp && (
-          <Form>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Col span={12} className='!pl-[0px]'>
-                <Form.Item label={false}>
-                  <Input placeholder='First Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-              <Col span={12} className='!pr-0'>
-                <Form.Item label={false}>
-                  <Input placeholder='Last Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Col span={24} className='!pr-0 !pl-0'>
-                <Form.Item label={false}>
-                  <Input placeholder='Email' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Col span={12} className='!pl-[0px]'>
-                <Form.Item label={false}>
-                  <Input.Password placeholder='Password' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-              <Col span={12} className='!pr-0'>
-                <Form.Item label={false}>
-                  <Input.Password placeholder='Confirm' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Typography.Title level={5} className='!font-medium'>
-                Your School
-              </Typography.Title>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Col span={24} className='!pr-0 !pl-0'>
-                <Form.Item label={false}>
-                  <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Col span={12} className='!pl-[0px]'>
-                <Form.Item label={false}>
-                  <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-              <Col span={12} className='!pr-0'>
-                <Form.Item label={false}>
-                  <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-              <Link to='/create-classroom' className='w-full'>
-                <Button type='primary' className='w-full' onClick={() => login()}>
-                  Sign Up
-                </Button>
+        <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Col span={12} className='!pl-[0px]'>
+              <Form.Item
+                label={false}
+                name='firstName'
+                rules={[
+                  {
+                    type: 'text'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your first name!'
+                  }
+                ]}
+              >
+                <Input placeholder='First Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+            <Col span={12} className='!pr-0'>
+              <Form.Item
+                label={false}
+                name='lastName'
+                rules={[
+                  {
+                    type: 'text'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your last name!'
+                  }
+                ]}
+              >
+                <Input placeholder='Last Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Col span={24} className='!pr-0 !pl-0'>
+              <Form.Item
+                label={false}
+                name='email'
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your E-mail!'
+                  }
+                ]}
+              >
+                <Input placeholder='Email' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Col span={12} className='!pl-[0px]'>
+              <Form.Item
+                label={false}
+                name='password'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your password!'
+                  }
+                ]}
+                hasFeedback
+              >
+                <Input.Password placeholder='Password' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+            <Col span={12} className='!pr-0'>
+              <Form.Item
+                label={false}
+                name='confirmPassword'
+                dependencies={['password']}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please confirm your password!'
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+
+                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                    }
+                  })
+                ]}
+              >
+                <Input.Password placeholder='Confirm' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Typography.Title level={5} className='!font-medium'>
+              Your School
+            </Typography.Title>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Col span={24} className='!pr-0 !pl-0'>
+              <Form.Item
+                name='schoolName'
+                label={false}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your school name!',
+                    whitespace: true
+                  }
+                ]}
+              >
+                <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            <Col span={12} className='!pl-[0px]'>
+              <Form.Item
+                label={false}
+                name='state'
+                rules={[
+                  {
+                    type: 'text'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your state!'
+                  }
+                ]}
+              >
+                <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+            <Col span={12} className='!pr-0'>
+              <Form.Item
+                label={false}
+                name='city'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your city!',
+                    whitespace: true
+                  }
+                ]}
+              >
+                <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+            {/* <Link to='/create-classroom' className='w-full'> */}
+            <Button type='primary' htmlType='submit' className='w-full'>
+              Sign Up
+            </Button>
+            {/* </Link> */}
+            <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
+              By signing up I agree to Workybooks
+              <Link to='/' className='ml-[5px]'>
+                Terms of Service
               </Link>
-              <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
-                By signing up I agree to Workybooks
-                <Link to='/' className='ml-[5px]'>
-                  Terms of Service
-                </Link>
-              </Paragraph>
-            </Row>
-          </Form>
-        )}
+            </Paragraph>
+          </Row>
+        </Form>
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] !pb-[40px]'>
         Already have an account?

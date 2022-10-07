@@ -3,8 +3,8 @@ import { Button, Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import setUserLoggedIn from '../../redux/actions/userAction';
-import { setCredentials } from '../../redux/auth/authSlice';
-import { useLoginMutation } from '../../redux/auth/authApiSlice';
+// import { setCredentials } from '../../features/auth/authSlice';
+// import { useLoginMutation } from '../../features/auth/authApiSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -22,7 +22,7 @@ function SignIn() {
   const errorRef = useRef();
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation;
+  // const [login, { isLoading }] = useLoginMutation;
 
   const dispatch = useDispatch();
 
@@ -71,25 +71,25 @@ function SignIn() {
   const handleUserInput = (e) => setUser(e.target.value);
   const handlePwdInput = (e) => setPwd(e.target.value);
 
-  const content = isLoading ? (
-    <h1>Loading</h1>
-  ) : (
-    <section>
-      <p ref={errorRef}>Hello World</p>
-      <h1>Employee Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='username'>
-          UserName:
-          <input type='text' id='username' ref={userRef} value={user} onChange={handleUserInput} autoComplete='off' required />
-        </label>
-        <label htmlFor='password'>
-          Password:
-          <input type='text' id='password' ref={userRef} value={user} onChange={handleUserInput} autoComplete='off' required />
-        </label>
-        <button type='button'>Sign In</button>
-      </form>
-    </section>
-  );
+  // const content = isLoading ? (
+  //   <h1>Loading</h1>
+  // ) : (
+  //   <section>
+  //     <p ref={errorRef}>Hello World</p>
+  //     <h1>Employee Login</h1>
+  //     <form onSubmit={handleSubmit}>
+  //       <label htmlFor='username'>
+  //         UserName:
+  //         <input type='text' id='username' ref={userRef} value={user} onChange={handleUserInput} autoComplete='off' required />
+  //       </label>
+  //       <label htmlFor='password'>
+  //         Password:
+  //         <input type='text' id='password' ref={userRef} value={user} onChange={handleUserInput} autoComplete='off' required />
+  //       </label>
+  //       <button type='button'>Sign In</button>
+  //     </form>
+  //   </section>
+  // );
 
   return content;
   // <>

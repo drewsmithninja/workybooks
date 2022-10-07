@@ -6,13 +6,13 @@ import SelectClassroom from './pages/Classroom/SelectClassroom';
 import MyClassrooms from './pages/Classroom/MyClassRooms';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
-import SignIn from './pages/SignIn/SignIn';
-import SignUp from './pages/SignUp/SignUp';
-import SignUpGoogle from './pages/SignUp/SignupGoogle';
+import SignIn from './pages/signIn/SignIn';
+import SignUp from './pages/signUp/SignUp';
+import SignUpGoogle from './pages/signUp/SignUpGoogle';
 import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
 import SearchSubject from './pages/Subjects/SearchPage';
-import RequireAuth from './components/RequireAuth';
+// import RequireAuth from './components/RequireAuth';
 
 function App() {
   return (
@@ -22,9 +22,9 @@ function App() {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         {/* Protected Routes */}
-        <Route element={<RequireAuth />}>
-          <Route path='/' element={<Home />} />
-        </Route>
+        {/* <Route element={<RequireAuth />}> */}
+        <Route path='/' element={<Home />} />
+        {/* </Route> */}
         {/* non-fixed Routes */}
         <Route path='/user-profile' element={<UserProfile />} />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
