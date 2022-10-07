@@ -1,11 +1,11 @@
-import 'antd/dist/antd.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
-import { persistor, store } from './redux/store';
 import reportWebVitals from './reportWebVitals';
+import { store } from './redux/store';
+import 'antd/dist/antd.min.css';
 import './styles.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,9 +1,9 @@
-import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import setUserLoggedIn from '../../redux/actions/userAction';
+import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
 
+import setUserLoggedIn from '../../redux/actions/userAction';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -12,7 +12,7 @@ function SignUp() {
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const { Paragraph } = Typography;
-  const [emailSignup, setEmailSignup] = useState(false);
+  const [emailSignUp, setEmailSignUp] = useState(false);
   const dispatch = useDispatch();
 
   const login = () => {
@@ -40,11 +40,11 @@ function SignUp() {
           Create your teacher account
         </Typography.Title>
         <Typography.Title level={5} className='!font-normal !mt-[0px] !mb-[65px] !text-[14px]'>
-          Signup for Workybooks
+          Sign-up for Workybooks
         </Typography.Title>
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <Link to='/signup-google'>
+          <Link to='/sign-up-google'>
             <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
               <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
               Sign up with Google Classroom
@@ -54,12 +54,12 @@ function SignUp() {
             <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign up with Clever
           </Button>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setEmailSignup(true)}>
+          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setEmailSignUp(true)}>
             Sign up with Email
           </Button>
         </div>
 
-        {emailSignup && (
+        {emailSignUp && (
           <Form>
             <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
               <Col span={12} className='!pl-[0px]'>
@@ -134,7 +134,7 @@ function SignUp() {
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] !pb-[40px]'>
         Already have an account?
-        <Link to='/signin' className='ml-[5px]'>
+        <Link to='/sign-in' className='ml-[5px]'>
           Sign In
         </Link>
       </Paragraph>

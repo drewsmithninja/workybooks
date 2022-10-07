@@ -81,12 +81,12 @@ function Headers() {
         {/* login/register button */}
         {!user.loggedIn ? (
           <Space>
-            <Link to='/signin'>
+            <Link to='/sign-in'>
               <Button className='font-bold' type='primary'>
                 Sign In
               </Button>
             </Link>
-            <Link to='/signup'>
+            <Link to='/sign-up'>
               <Button className='font-bold' type='primary'>
                 Sign Up
               </Button>

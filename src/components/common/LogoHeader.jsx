@@ -13,7 +13,7 @@ function LogoHeader() {
           <Link to='/'>
             <img
               src={logo}
-              alt="logo"
+              alt='logo'
               style={{
                 width: 100
               }}

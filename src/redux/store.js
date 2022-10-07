@@ -1,18 +1,31 @@
-import { composeWithDevTools } from '@redux-devtools/extension';
-import { persistReducer, persistStore } from 'redux-persist';
-import { applyMiddleware, createStore } from 'redux';
-import storage from 'redux-persist/lib/storage';
-import rootReducer from './reducers/rootReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from './api/apiSlice';
+import authReducer from './auth/authSlice';
 
-const persistConfig = {
-  key: 'root',
-  storage
-};
+export const store = configureStore({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authReducer
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true
+});
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// import { composeWithDevTools } from '@redux-devtools/extension';
+// import { persistReducer, persistStore } from 'redux-persist';
+// import { applyMiddleware, createStore } from 'redux';
+// import storage from 'redux-persist/lib/storage';
+// import rootReducer from './reducers/rootReducer';
 
-const thunk = require('redux-thunk').default;
+// const persistConfig = {
+//   key: 'root',
+//   storage
+// };
 
-export const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const persistor = persistStore(store);
+// const thunk = require('redux-thunk').default;
+
+// export const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+// export const persistor = persistStore(store);
