@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
+import { toast } from 'react-toastify';
 import Spinner from '../../components/spinner/Spinner';
 import { register, reset } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
@@ -20,8 +21,7 @@ function SignUp() {
 
   useEffect(() => {
     if (isError) {
-      // eslint-disable-next-line no-console
-      console.error(message);
+      toast.error(message);
     }
     if (isSuccess || user) {
       navigate('/');
@@ -35,14 +35,15 @@ function SignUp() {
   }
 
   const onFinish = (values) => {
-    // eslint-disable-next-line no-console
-    console.log('Received values of form: ', values);
+    if (values.password !== values.confirmPassword) {
+      toast.error("Password doesn't match");
+    }
     dispatch(register(values));
+    toast.success('Successfully signed up.');
   };
 
   const onFinishFailed = () => {
-    // eslint-disable-next-line no-console
-    console.log('fail! signing up');
+    toast.error('Something Wrong!, Not able to Register your account!');
   };
 
   return (
@@ -242,11 +243,9 @@ function SignUp() {
             </Col>
           </Row>
           <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            {/* <Link to='/create-classroom' className='w-full'> */}
             <Button type='primary' htmlType='submit' className='w-full'>
               Sign Up
             </Button>
-            {/* </Link> */}
             <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
               By signing up I agree to Workybooks
               <Link to='/' className='ml-[5px]'>

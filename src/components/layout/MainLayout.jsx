@@ -20,7 +20,7 @@ function MainLayout({ children }) {
     dispatch(emptyCollection());
   }, []);
   useEffect(() => {
-    setShowPrint(collections.selectedCollections.length);
+    setShowPrint(collections?.selectedCollections.length);
   }, [collections]);
   return (
     <Layout>

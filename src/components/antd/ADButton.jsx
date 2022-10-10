@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 
-function ADButton({ children, className, type, size, ...props }) {
+function ADButton({ children, className, type, htmlType, size, ...props }) {
   return (
     <Button
       className={`${className ?? ''}${' '}
@@ -9,8 +9,9 @@ function ADButton({ children, className, type, size, ...props }) {
       ${size === 'small' ? 'py-1 px-3 h-auto' : ''}
       ${type === 'default' ? 'border-2' : ''}
       `}
-      type={type}
-      size={size}
+      type
+      size
+      htmlType
       {...props}
     >
       {children}
@@ -19,7 +20,8 @@ function ADButton({ children, className, type, size, ...props }) {
 }
 ADButton.defaultProps = {
   size: 'medium',
-  type: 'default'
+  type: 'default',
+  htmlType: 'button'
 };
 
 export default ADButton;

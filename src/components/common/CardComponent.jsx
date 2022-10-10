@@ -2,6 +2,7 @@ import { EditOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant
 import { Button, Checkbox, Dropdown, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ADButton from '../antd/ADButton';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
 
 import printIcon from '../../assets/images/icons/print_gray.png';
@@ -11,7 +12,6 @@ import shareIcon from '../../assets/images/icons/share_gray.png';
 
 function CardComponent({
   cardImage = 'https://via.placeholder.com/400x200', cardTitle = 'Short passage - find the meaning of the word - Ruth Bader', cardAuthor = 'By Workybooks', isLiked = true, isChecked = false, extraDetails = ['3.W.3.1.B', '3.W.3.1.B', '3.W.3.1.B'], cardWidth = 215, cardData = {
-
   }
 }) {
   const dispatch = useDispatch();
@@ -21,7 +21,9 @@ function CardComponent({
     <Menu
       items={[
         {
-          label: 'PRINT', key: '1', icon: <img src={printIcon} alt='print' />
+          label: 'PRINT',
+          key: '1',
+          icon: <img src={printIcon} alt='print' />
         },
         {
           label: 'ASSIGN',
@@ -42,8 +44,8 @@ function CardComponent({
     />
   );
   useEffect(() => {
-    if (collections.selectedCollections.length > 0) {
-      if (collections.selectedCollections.findIndex((x) => x.id === cardData.id) > -1) {
+    if (collections?.selectedCollections?.length > 0) {
+      if (collections?.selectedCollections?.findIndex((x) => x.id === cardData.id) > -1) {
         setc(true);
       } else {
         setc(false);
@@ -82,7 +84,7 @@ function CardComponent({
         <div className='flex flex-1 items-center justify-center'>{isLiked ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
-            <Button icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
+            <ADButton icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
           </Dropdown>
         </div>
       </div>

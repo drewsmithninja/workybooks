@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
@@ -13,6 +14,8 @@ import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
 import SearchSubject from './pages/Subjects/SearchPage';
 // import RequireAuth from './components/RequireAuth';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -34,6 +37,7 @@ function App() {
         <Route path='/search-subject' element={<SearchSubject />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }
