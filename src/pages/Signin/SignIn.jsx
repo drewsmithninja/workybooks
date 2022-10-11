@@ -24,7 +24,9 @@ function SignIn() {
       toast.error(message);
     }
     if (isSuccess || user) {
-      navigate('/');
+      navigate('/', {
+        replace: true
+      });
     }
 
     dispatch(reset());

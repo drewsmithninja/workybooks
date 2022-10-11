@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Row } from 'antd';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import dummyImage from '../../assets/images/dummyImage.png';
@@ -8,6 +10,8 @@ import TopSubjectComponent from '../../components/common/SubjectComponent';
 import GradeComponent from '../../components/common/GradeComponent';
 
 function Home() {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   window.document.title = 'React App — Home';
   const cards = [];
   Array(8)
@@ -25,6 +29,12 @@ function Home() {
       key: `test_${index + 1}`,
       name: 'test_card'
     }));
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/sign-in');
+    }
+  }, [user]);
 
   return (
     <MainLayout>

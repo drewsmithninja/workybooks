@@ -25,8 +25,6 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
 // login user
 // eslint-disable-next-line no-shadow
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-  // eslint-disable-next-line no-debugger
-  debugger;
   try {
     return await authService.login(user);
   } catch (error) {

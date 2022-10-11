@@ -5,9 +5,9 @@ function ADButton({ children, className, type, htmlType, size, ...props }) {
     <Button
       className={`${className ?? ''}${' '}
       rounded-lg font-medium
+      ${type === 'default' ? 'border-2' : ''}
       ${size === 'medium' ? 'py-3 px-4 h-auto' : ''}
       ${size === 'small' ? 'py-1 px-3 h-auto' : ''}
-      ${type === 'default' ? 'border-2' : ''}
       `}
       type
       size
@@ -19,8 +19,8 @@ function ADButton({ children, className, type, htmlType, size, ...props }) {
   );
 }
 ADButton.defaultProps = {
-  size: 'medium',
   type: 'default',
+  size: 'medium',
   htmlType: 'button'
 };
 

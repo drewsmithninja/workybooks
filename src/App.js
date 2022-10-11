@@ -1,6 +1,7 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
 import SelectClassroom from './pages/Classroom/SelectClassroom';
@@ -16,6 +17,7 @@ import SearchSubject from './pages/Subjects/SearchPage';
 // import RequireAuth from './components/RequireAuth';
 
 import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
 
 function App() {
   return (
@@ -24,10 +26,11 @@ function App() {
         {/* Public Routes */}
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
-        {/* Protected Routes */}
-        <Route path='/' element={<Home />} />
-        {/* non-fixed Routes */}
         <Route path='/user-profile' element={<UserProfile />} />
+        {/* Protected Routes */}
+        <Route element={<PrivateRoutes />} />
+        {/* non-fixed Routes */}
+        <Route path='/' element={<Home />} exact />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/sign-up-google' element={<SignUpGoogle />} />
         <Route path='/create-classroom' element={<CreateClassroom />} />
