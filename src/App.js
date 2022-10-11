@@ -1,7 +1,6 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import UserProfile from './pages/UserProfile/UserProfile';
 import CreateClassroom from './pages/Classroom/CreateClassroom';
 import SelectClassroom from './pages/Classroom/SelectClassroom';

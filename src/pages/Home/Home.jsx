@@ -10,7 +10,6 @@ import TopSubjectComponent from '../../components/common/SubjectComponent';
 import GradeComponent from '../../components/common/GradeComponent';
 
 function Home() {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   window.document.title = 'React App — Home';
   const cards = [];
@@ -30,33 +29,29 @@ function Home() {
       name: 'test_card'
     }));
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/sign-in');
-    }
-  }, [user]);
-
   return (
     <MainLayout>
-      <div className='w-full max-w-[95%] m-auto'>
-        <TopSubjectComponent />
-        <GradeComponent activeGrade='1' />
+      {user && (
+        <div className='w-full max-w-[95%] m-auto'>
+          <TopSubjectComponent />
+          <GradeComponent activeGrade='1' />
 
-        <Row gutter={[16, 16]} className='mt-[15px]'>
-          <Col span={16} className='max-h-[253px] pr-0'>
-            <img src={dummyImage1} alt='test' width='100%' height='100%' />
-          </Col>
-          <Col span={8} className='max-h-[253px] pl-0'>
-            <img src={dummyImage1} alt='test' width='100%' height='100%' />
-          </Col>
-        </Row>
+          <Row gutter={[16, 16]} className='mt-[15px]'>
+            <Col span={16} className='max-h-[253px] pr-0'>
+              <img src={dummyImage1} alt='test' width='100%' height='100%' />
+            </Col>
+            <Col span={8} className='max-h-[253px] pl-0'>
+              <img src={dummyImage1} alt='test' width='100%' height='100%' />
+            </Col>
+          </Row>
 
-        <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-        <div className='flex flex-row scrollVertical width-full'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
+          <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
+          <div className='flex flex-row scrollVertical width-full'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
 
-        <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-        <div className='flex flex-row scrollVertical width-full'>{cards1.length > 0 && cards1.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
-      </div>
+          <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
+          <div className='flex flex-row scrollVertical width-full'>{cards1.length > 0 && cards1.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} />)}</div>
+        </div>
+      )}
     </MainLayout>
   );
 }

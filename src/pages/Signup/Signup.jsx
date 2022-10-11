@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
+import { Col, Form, Input, Layout, Row, Typography } from 'antd';
 import { toast } from 'react-toastify';
 import Spinner from '../../components/spinner/Spinner';
 import { register, reset } from '../../features/auth/authSlice';
@@ -23,8 +23,7 @@ function SignUp() {
   useEffect(() => {
     if (isError) {
       toast.error(message);
-    }
-    if (isSuccess || user) {
+    } else if (isSuccess || user) {
       navigate('/');
     }
 
@@ -40,7 +39,6 @@ function SignUp() {
       toast.error("Password doesn't match");
     }
     dispatch(register(values));
-    toast.success('Successfully signed up.');
   };
 
   const onFinishFailed = () => {
@@ -177,7 +175,6 @@ function SignUp() {
                       if (!value || getFieldValue('password') === value) {
                         return Promise.resolve();
                       }
-
                       return Promise.reject(new Error('The two passwords that you entered do not match!'));
                     }
                   })

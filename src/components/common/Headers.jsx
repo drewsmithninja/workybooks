@@ -43,9 +43,6 @@ function Headers() {
     />
   );
 
-  const onSignUp = () => {};
-  const onSignIn = () => {};
-
   return (
     <Header className='h-20 relative container mx-auto'>
       <div className='flex items-center justify-between pt-2'>
@@ -76,11 +73,11 @@ function Headers() {
 
         {/* login/register button */}
         {!user ? (
-          <Space>
-            <ADButton onClick={onSignIn} type='primary'>
+          <Space size='large'>
+            <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[137px] h-[46px]'>
               Sign In
             </ADButton>
-            <ADButton onClick={onSignUp} type='primary'>
+            <ADButton onClick={() => navigate('/sign-up')} type='primary' className='w-[137px] h-[46px]'>
               Sign Up
             </ADButton>
           </Space>

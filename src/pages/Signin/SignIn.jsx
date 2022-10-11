@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Checkbox, Form, Input, Layout, Typography } from 'antd';
+import { Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,8 +23,7 @@ function SignIn() {
   useEffect(() => {
     if (isError) {
       toast.error(message);
-    }
-    if (isSuccess || user) {
+    } else if (isSuccess || user) {
       navigate('/', {
         replace: true
       });
@@ -39,7 +38,6 @@ function SignIn() {
 
   const onFinish = (values) => {
     dispatch(login(values));
-    toast.success('Successfully logged in.');
   };
 
   const onFinishFailed = () => {
