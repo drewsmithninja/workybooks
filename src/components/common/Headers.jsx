@@ -15,11 +15,14 @@ import {
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import setUserLoggedIn from '../../redux/actions/userAction';
+import { useGoogleLogout } from 'react-google-login';
+import { setUserLoggedIn, setUserLoggedOut } from '../../redux/actions/userAction';
+import { removeSessionUserAndToken } from '../../utils/helperAuthentication';
 
 import logo from '../../assets/images/logo.png';
 
 const { Header } = Layout;
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 /* eslint-disable */
 
 function Headers() {
@@ -34,6 +37,7 @@ function Headers() {
     navbarRef.current.classList.toggle('hidden');
     hamburgerRef.current.classList.toggle('open');
   };
+  console.log('ustatus',user);
 
   const menu = (
     <Menu
@@ -59,9 +63,34 @@ function Headers() {
     dispatch(setUserLoggedIn(true));
   };
 
-  const logout = () => {
+  const onLogoutSuccess = (res) => {
+    console.log('Logged out Success');
+    alert('Logged out Successfully ✌');
     dispatch(setUserLoggedIn(false));
+    dispatch(setUserLoggedOut({}));
   };
+
+  const onFailure = () => {
+    console.log('Handle failure cases');
+  };
+
+  const { signOut } = useGoogleLogout({
+    clientId: googleClientId,
+    onLogoutSuccess,
+    onFailure,
+  });
+
+  const logout = () => {
+    //dispatch(setUserLoggedIn(false));
+    
+    
+    signOut();
+     removeSessionUserAndToken();
+  
+   // dispatch(setUserLoggedIn(false));
+  };
+
+
   return (
     <Header className='h-20 relative container mx-auto'>
       {/* flex container */}

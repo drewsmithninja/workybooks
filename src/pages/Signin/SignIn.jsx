@@ -6,24 +6,82 @@ import {
   Layout,
   Typography
 } from 'antd';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import setUserLoggedIn from '../../redux/actions/userAction';
-
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGoogleLogin } from 'react-google-login';
+import { ToastContainer, toast } from 'react-toastify';
+import { setUserLoggedIn, googleSignup, normalSignin } from '../../redux/actions/userAction';
+import { setSessionUserAndToken } from '../../utils/helperAuthentication';
+import { refreshTokenSetup } from '../../utils/refreshToken';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignIn() {
   window.document.title = 'Workybook - Sign In';
   const { Header } = Layout;
   const { Paragraph } = Typography;
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const {
+    user = {}
+  } = useSelector((state) => state);
   const login = () => {
     dispatch(setUserLoggedIn(true));
   };
+  console.log(user);
+  useEffect(() => {
+    if (user.userData.data !== undefined) {
+      toast(user.userData.message);
+      dispatch(setUserLoggedIn(true));
+      // setSessionUserAndToken(res.profileObj, res.tokenId);
+      setTimeout(navigate('/'), 5000);
+    } else {
+      toast(user.userData.message);
+    }
+  }, [user.userData.data]);
+
+  const onSuccess = (res) => {
+    console.log('Login Success: currentUser:', JSON.stringify(res));
+    if (res) {
+      setSessionUserAndToken(res.profileObj, res.tokenId);
+      dispatch(googleSignup(res.tokenId));
+      // dispatch(setUserLoggedIn(true));
+      // navigate('/signup-google');
+    }
+    refreshTokenSetup(res);
+  };
+
+  const onFinish = (values) => {
+    console.log(values);
+    dispatch(normalSignin(values));
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  const onFailure = (res) => {
+    console.log('Login failed: res:', res);
+    toast('Failed to login. 😢');
+    // alert(
+    //   'Failed to login. 😢 Please ping this to repo'
+    // );
+  };
+
+  const { signIn } = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId: googleClientId,
+    isSignedIn: true,
+    accessType: 'offline',
+    scope: 'https://www.googleapis.com/auth/classroom.courses.readonly'
+    // responseType: 'code',
+    // prompt: 'consent',
+  });
 
   return (
     <>
@@ -33,7 +91,7 @@ function SignIn() {
             <Link to='/'>
               <img
                 src={logo}
-                alt="logo"
+                alt='logo'
                 style={{
                   width: 100
                 }}
@@ -43,17 +101,21 @@ function SignIn() {
         </div>
       </Header>
       <div className='w-[85%] max-w-[554px] h-[688px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
-        <Typography.Title level={2} className="mt-[56px] !mb-[65px]">
+        <Typography.Title level={2} className='mt-[56px] !mb-[65px]'>
           Sign in
         </Typography.Title>
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-            <img src={googleIcon} width="24" alt="googleIcon" className='mr-[8px]' />
+          {/* <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+            <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
+            Sign in with Google Classroom
+          </Button> */}
+          <Button onClick={signIn} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+            <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
             Sign in with Google Classroom
           </Button>
           <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-            <img src={cleverIcon} width="24" alt="cleverIcon" className='mr-[8px]' />
+            <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign in with Clever
           </Button>
           <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
@@ -61,11 +123,19 @@ function SignIn() {
           </Button>
         </div>
 
-        <Form>
-          <Form.Item label={false}>
+        <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+          <Form.Item
+            label={false}
+            name='email'
+            rules={[{ required: true, message: 'Please input your Email' }]}
+          >
             <Input placeholder='Email' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
           </Form.Item>
-          <Form.Item label={false}>
+          <Form.Item
+            label={false}
+            name='password'
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
             <Input.Password placeholder='Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
           </Form.Item>
           <div className='w-[85%] max-w-[358px] m-auto flex items-baseline justify-between'>
@@ -73,21 +143,35 @@ function SignIn() {
               <Checkbox className='mr-[10px]' />
               Remember me
             </Form.Item>
-            <Link to="/">Forgot your password?</Link>
+            <Link to='/'>Forgot your password?</Link>
           </div>
-          <Link to='/select-classroom'>
-            <Button type='primary' className='w-[85%] max-w-[358px] m-auto' onClick={() => login()}>Sign In</Button>
-          </Link>
+
+          <Button type='primary' className='w-[85%] max-w-[358px] m-auto' htmlType='submit'>Sign In</Button>
+
         </Form>
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] mb-[40px]'>
         Don’t have an account?
-        <Link to="/signup" className='ml-[5px]'>Sign up</Link>
+        <Link to='/signup' className='ml-[5px]'>Sign up</Link>
       </Paragraph>
-      <Typography.Title level={5} className="m-auto block w-[85%] max-w-[554px] !pb-[107px] text-center font-medium">
-        <span className="font-medium">Student?&nbsp;</span>
-        <Link to="/" className='ml-[5px]'>Go here</Link>
+      <Typography.Title level={5} className='m-auto block w-[85%] max-w-[554px] !pb-[107px] text-center font-medium'>
+        <span className='font-medium'>Student?&nbsp;</span>
+        <Link to='/' className='ml-[5px]'>Go here</Link>
       </Typography.Title>
+      <div>
+        <ToastContainer
+          position='top-right'
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme='colored'
+        />
+      </div>
     </>
   );
 }
