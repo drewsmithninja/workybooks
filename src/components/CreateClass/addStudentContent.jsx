@@ -1,6 +1,7 @@
 import { Button, Col, Input, Row, Typography } from 'antd';
 import React from 'react';
 import { popupModalComponent } from '../../lib/utils';
+import ADButton from '../antd/ADButton';
 
 function AddStudentContent({ setCreateClassPopup }) {
   return (
@@ -13,7 +14,7 @@ function AddStudentContent({ setCreateClassPopup }) {
       </Typography.Title>
       <Row gutter={[16, 16]}>
         <Col span={24} className='text-center'>
-          <Button className='w-[168px] h-[60px] rounded-[8px] m-auto !mb-[30px]'>Import</Button>
+          <ADButton className='w-[168px] h-[60px] m-auto !mb-[30px]'>Import</ADButton>
         </Col>
         <Col span={24} className='text-center'>
           <p className='text-[13px]'>
@@ -26,7 +27,7 @@ function AddStudentContent({ setCreateClassPopup }) {
           <Input.TextArea className='!h-[150px] rounded-[8px] m-auto' />
         </Col>
         <Col span={24} className='text-center'>
-          <Button
+          <ADButton
             type='primary'
             className='mt-[63px] m-auto'
             onClick={() => {
@@ -35,7 +36,7 @@ function AddStudentContent({ setCreateClassPopup }) {
             }}
           >
             ADD
-          </Button>
+          </ADButton>
         </Col>
       </Row>
     </>

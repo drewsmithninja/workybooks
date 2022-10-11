@@ -1,5 +1,6 @@
-import { Col, Form, Row, Typography, Input, Button } from 'antd';
 import React from 'react';
+import { Col, Form, Row, Typography, Input } from 'antd';
+import ADButton from '../antd/ADButton';
 
 function ManualContent({ setManualStep }) {
   return (
@@ -23,35 +24,35 @@ function ManualContent({ setManualStep }) {
           <div className='w-[80%] m-auto'>
             <Row gutter={[16, 16]}>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>K</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>K</ADButton>
               </Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>PreK</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>PreK</ADButton>
               </Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>1</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>1</ADButton>
               </Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>2</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>2</ADButton>
               </Col>
               <Col span={3}>&nbsp;</Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>3</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>3</ADButton>
               </Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>4</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>4</ADButton>
               </Col>
               <Col span={6}>
-                <Button className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>5</Button>
+                <ADButton className='bg-gray-300 w-[58px] h-[25px] rounded-[60px] text-[12px]'>5</ADButton>
               </Col>
               <Col span={3}>&nbsp;</Col>
             </Row>
           </div>
         </Col>
         <Col span={24} className='text-center'>
-          <Button type='primary' className='mt-[63px] m-auto' onClick={() => setManualStep(2)}>
+          <ADButton type='primary' className='mt-[63px] m-auto' onClick={() => setManualStep(2)}>
             CONTINUE
-          </Button>
+          </ADButton>
         </Col>
       </Row>
     </>

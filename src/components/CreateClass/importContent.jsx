@@ -1,6 +1,7 @@
 import { Button, Col, Row, Table, Typography } from 'antd';
 import React from 'react';
 import { popupModalComponent } from '../../lib/utils';
+import ADButton from '../antd/ADButton';
 
 function ImportContent({ rowSelection, setCreateClassPopup }) {
   const scroll = {
@@ -65,7 +66,7 @@ function ImportContent({ rowSelection, setCreateClassPopup }) {
           />
         </Col>
         <Col span={24} className='text-center'>
-          <Button
+          <ADButton
             type='primary'
             className='mt-[63px] m-auto'
             onClick={() => {
@@ -74,7 +75,7 @@ function ImportContent({ rowSelection, setCreateClassPopup }) {
             }}
           >
             CONTINUE
-          </Button>
+          </ADButton>
         </Col>
       </Row>
     </>

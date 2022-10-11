@@ -1,6 +1,7 @@
 import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
 import React, { useState } from 'react';
+import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { grades } from '../../utils/appData';
@@ -69,9 +70,9 @@ function SearchSubject() {
         <div className='flex flex-1 pt-[15px]'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0'>
             <Col span={24} className='flex gap-[10px] md:hidden pb-[20px] items-center justify-center'>
-              <Button type='primary' className='!rounded-[60px] w-full !text-center !mx-auto bg-[#243E8F]' onClick={() => setShowMobileFilter(true)}>
+              <ADButton type='primary' className='!rounded-[60px] w-full !text-center !mx-auto' onClick={() => setShowMobileFilter(true)}>
                 <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
-              </Button>
+              </ADButton>
             </Col>
             <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
               <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>

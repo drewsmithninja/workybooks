@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Modal, Row, Table, Typography } from 'antd';
+import { Col, Form, Input, Modal, Row, Table, Typography } from 'antd';
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ import MainContent from '../../components/CreateClass/mainContent';
 import ImportContent from '../../components/CreateClass/importContent';
 import ManualContent from '../../components/CreateClass/manualContent';
 import AddStudentContent from '../../components/CreateClass/addStudentContent';
+import ADButton from '../../components/antd/ADButton';
 
 function CreateClassroom() {
   const [createClassPopup, setCreateClassPopup] = useState(false);
@@ -30,9 +31,9 @@ function CreateClassroom() {
       <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
         <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
         <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
-        <Button
+        <ADButton
           type='primary'
-          className='w-[226px] h-[44px] m-auto mb-[17px]'
+          className='m-auto mb-[17px]'
           onClick={() => {
             setCreateClassPopup(true);
             setIsImport(false);
@@ -40,7 +41,7 @@ function CreateClassroom() {
           }}
         >
           CREATE MY FIRST CLASSROOM
-        </Button>
+        </ADButton>
       </div>
       <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
 
@@ -48,34 +49,34 @@ function CreateClassroom() {
         <Row gutter={[16, 16]} className='text-center !m-[0px]'>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>PreK</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>K</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>1</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>2</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={3} xs={0}>
@@ -83,26 +84,26 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>3</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>4</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={6} xs={24}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[125px] h-[90px] rounded-[8px]'>
+              <ADButton type='secondary' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>5</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col lg={3} xs={0}>

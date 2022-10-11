@@ -11,6 +11,7 @@ module.exports = {
         xxl: '1600px'
       },
       colors: {
+        secondary: '#D9D9D9',
         primaryColor: '#2563eb',
         primaryColorHover: '#1d4ed8',
         accentColor: '#e11d48',

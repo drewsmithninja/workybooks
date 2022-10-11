@@ -1,6 +1,7 @@
 import { Button, Col, Row, Typography } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ADButton from '../../components/antd/ADButton';
 import LogoHeader from '../../components/common/LogoHeader';
 
 function SelectClassroom() {
@@ -17,18 +18,18 @@ function SelectClassroom() {
         <Row gutter={[16, 16]} className='text-center !m-[0px]'>
           <Col span={24}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[223px] h-[90px] rounded-[8px]'>
+              <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
                 <p className='text-[10px]'>GRADE 3</p>
                 <Typography.Title level={4}>Class 3A</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
           <Col span={24}>
             <Link to='/'>
-              <Button className='bg-gray-300 w-[223px] h-[90px] rounded-[8px]'>
+              <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
                 <p className='text-[10px]'>GRADE 4</p>
                 <Typography.Title level={4}>Class 4 Science</Typography.Title>
-              </Button>
+              </ADButton>
             </Link>
           </Col>
         </Row>

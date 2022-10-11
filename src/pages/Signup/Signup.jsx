@@ -8,6 +8,7 @@ import { register, reset } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
+import ADButton from '../../components/antd/ADButton';
 
 function SignUp() {
   window.document.title = 'Workybook - Sign Up';
@@ -73,18 +74,18 @@ function SignUp() {
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
           <Link to='/sign-up-google'>
-            <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+            <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
               <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
               Sign up with Google Classroom
-            </Button>
+            </ADButton>
           </Link>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
             <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign up with Clever
-          </Button>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
+          </ADButton>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
             Sign up with Email
-          </Button>
+          </ADButton>
         </div>
 
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
@@ -243,9 +244,9 @@ function SignUp() {
             </Col>
           </Row>
           <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Button type='primary' htmlType='submit' className='w-full'>
+            <ADButton type='primary' htmlType='submit' className='w-full'>
               Sign Up
-            </Button>
+            </ADButton>
             <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
               By signing up I agree to Workybooks
               <Link to='/' className='ml-[5px]'>

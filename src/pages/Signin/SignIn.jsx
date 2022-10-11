@@ -8,6 +8,7 @@ import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
 import Spinner from '../../components/spinner/Spinner';
+import ADButton from '../../components/antd/ADButton';
 
 function SignIn() {
   window.document.title = 'Workybook - Sign In';
@@ -68,15 +69,15 @@ function SignIn() {
         </Typography.Title>
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
             <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
             Sign in with Google Classroom
-          </Button>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+          </ADButton>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
             <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign in with Clever
-          </Button>
-          <Button className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>Sign in with Email</Button>
+          </ADButton>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>Sign in with Email</ADButton>
         </div>
 
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
@@ -115,9 +116,9 @@ function SignIn() {
             <Link to='/'>Forgot your password?</Link>
           </div>
           <Form.Item>
-            <Button type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
+            <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
               Sign In
-            </Button>
+            </ADButton>
           </Form.Item>
         </Form>
       </div>

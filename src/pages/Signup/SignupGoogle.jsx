@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import setUserLoggedIn from '../../redux/actions/userAction';
 
 import logo from '../../assets/images/logo.png';
+import ADButton from '../../components/antd/ADButton';
 
 function SignUpGoogle() {
   window.document.title = 'Workybook - Sign Up';
@@ -84,9 +85,9 @@ function SignUpGoogle() {
           </Row>
           <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
             <Link to='/create-classroom' className='w-full'>
-              <Button type='primary' className='w-full' onClick={() => login()}>
+              <ADButton type='primary' className='w-full' onClick={() => login()}>
                 CONFIRM
-              </Button>
+              </ADButton>
             </Link>
           </Row>
         </Form>
