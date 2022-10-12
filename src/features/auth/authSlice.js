@@ -34,6 +34,23 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 });
 
+// eslint-disable-next-line no-shadow
+export const googleSignIn = createAsyncThunk('auth/googleLogin', async (data, thunkAPI) => {
+  const { email, name } = data.result;
+  const { userId } = data;
+  const { result, token } = data;
+  try {
+    await authService.googleSignIn(email, name, userId);
+    return {
+      result,
+      token
+    };
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authService.logout();
 });
@@ -76,6 +93,23 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      // google login cases
+      .addCase(googleSignIn.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(googleSignIn.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        // toast.success('GOogle');
+      })
+      .addCase(googleSignIn.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -22,6 +22,16 @@ const login = async (userData) => {
   return response.data;
 };
 
+// login user as Google
+const googleSignIn = async (userData) => {
+  const response = await axios.post(`${API_URL}/googleLogin`, userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+
+  return response.data;
+};
+
 // logout user
 const logout = () => {
   localStorage.removeItem('user');
@@ -30,6 +40,7 @@ const logout = () => {
 const authService = {
   register,
   login,
+  googleSignIn,
   logout
 };
 

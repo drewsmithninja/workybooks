@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Col, Form, Input, Layout, Row, Typography } from 'antd';
 import { toast } from 'react-toastify';
+import { GoogleLogin, useGoogleLogin } from 'react-google-login';
 import Spinner from '../../components/spinner/Spinner';
-import { register, reset } from '../../features/auth/authSlice';
+import { register, reset, googleSignIn } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -45,6 +46,25 @@ function SignUp() {
     toast.error('Something Wrong!, Not able to Register your account!');
   };
 
+  const googleSuccess = (res) => {
+    const { profileObj, tokenId } = res;
+    const decodedToken = decode(tokenId);
+    dispatch(
+      googleSignIn({
+        result: profileObj,
+        token: tokenId,
+        userId: decodedToken.sub
+      })
+    );
+    navigate('/', {
+      replace: true
+    });
+  };
+
+  const googleFailure = (error) => {
+    console.log(error);
+  };
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -71,12 +91,19 @@ function SignUp() {
         </Typography.Title>
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <Link to='/sign-up-google'>
-            <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-              <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
-              Sign up with Google Classroom
-            </ADButton>
-          </Link>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText='Sign up with Google'
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            cookiePolicy='single_host_origin'
+            render={(renderProps) => (
+              <ADButton onClick={renderProps.onClick} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+                <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
+                Sign up with Google Classroom
+              </ADButton>
+            )}
+          />
           <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
             <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
             Sign up with Clever
