@@ -1,5 +1,5 @@
-import { EditOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Dropdown, Menu } from 'antd';
+import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { Checkbox, Dropdown, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ADButton from '../antd/ADButton';
@@ -84,7 +84,9 @@ function CardComponent({
         <div className='flex flex-1 items-center justify-center'>{isLiked ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
-            <ADButton icon={<EllipsisOutlined className='text-[18px] text-gray-400' />} shape='circle' className='bg-transparent min-w-[25px] w-[25px] h-[25px] border-[2px]' />
+            <div className='rounded-full border-solid border-2 border-slate-300 flex'>
+              <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
+            </div>
           </Dropdown>
         </div>
       </div>

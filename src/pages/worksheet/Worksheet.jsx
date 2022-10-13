@@ -1,4 +1,4 @@
-import { FaPrint, FaFolderPlus, FaRegImages, FaPinterest, FaFacebook, FaInstagram, FaLink } from 'react-icons/fa';
+import { FaPrint, FaFolderPlus, FaRegImages, FaPinterest, FaInstagram, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { Col, Image, Row, Space, Tag } from 'antd';
 import React from 'react';
