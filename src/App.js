@@ -8,7 +8,7 @@ import MyClassrooms from './pages/Classroom/MyClassRooms';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import SignIn from './pages/signIn/SignIn';
-import SignUp from './pages/signUp/Signup';
+import SignUp from './pages/signUp/SignUp';
 import SignUpGoogle from './pages/signUp/SignUpGoogle';
 import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
