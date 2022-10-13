@@ -2,7 +2,8 @@ import { SET_LOGGED_IN } from '../constants/tokenConstant';
 
 const initialState = {
   loggedIn: false,
-  userData: {}
+  userData: {
+  }
 };
 
 // eslint-disable-next-line default-param-last

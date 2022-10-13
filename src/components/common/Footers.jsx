@@ -1,8 +1,7 @@
-import {
-  FacebookOutlined, InstagramOutlined, TwitterOutlined, YoutubeOutlined
-} from '@ant-design/icons';
-import { Button, Layout, Typography } from 'antd';
 import React from 'react';
+import { FacebookOutlined, InstagramOutlined, TwitterOutlined, YoutubeOutlined } from '@ant-design/icons';
+import { Button, Layout, Typography } from 'antd';
+import ADButton from '../antd/ADButton';
 
 const { Footer } = Layout;
 const { Text } = Typography;
@@ -14,17 +13,17 @@ function Footers() {
         <Text>{`©️ ${new Date().getFullYear()} ERC-20 Token. All rights reserved.`}</Text>
 
         <div>
-          <Button type='link'>How to buy?</Button>
-          <Button type='link'>Privacy and Policy</Button>
-          <Button type='link'>Terms and Condition</Button>
+          <ADButton type='link'>How to buy?</ADButton>
+          <ADButton type='link'>Privacy and Policy</ADButton>
+          <ADButton type='link'>Terms and Condition</ADButton>
         </div>
       </div>
 
       <div className='space-x-4 md:space-x-2'>
-        <Button type='dashed' shape='circle' icon={<FacebookOutlined />} size='middle' />
-        <Button type='dashed' shape='circle' icon={<InstagramOutlined />} size='middle' />
-        <Button type='dashed' shape='circle' icon={<TwitterOutlined />} size='middle' />
-        <Button type='dashed' shape='circle' icon={<YoutubeOutlined />} size='middle' />
+        <ADButton type='dashed' shape='circle' icon={<FacebookOutlined />} size='middle' />
+        <ADButton type='dashed' shape='circle' icon={<InstagramOutlined />} size='middle' />
+        <ADButton type='dashed' shape='circle' icon={<TwitterOutlined />} size='middle' />
+        <ADButton type='dashed' shape='circle' icon={<YoutubeOutlined />} size='middle' />
       </div>
     </Footer>
   );

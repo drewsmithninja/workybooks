@@ -1,18 +1,11 @@
-import {
-  Button,
-  Col,
-  Row,
-  Table,
-  Typography
-} from 'antd';
+import { Button, Col, Row, Table, Typography } from 'antd';
 import React from 'react';
 import { popupModalComponent } from '../../lib/utils';
+import ADButton from '../antd/ADButton';
 
-function ImportContent({
-  rowSelection,
-  setCreateClassPopup
-}) {
-  const scroll = {};
+function ImportContent({ rowSelection, setCreateClassPopup }) {
+  const scroll = {
+  };
   scroll.y = 200;
   const tableProps = {
     rowSelection,
@@ -62,10 +55,18 @@ function ImportContent({
       </Typography.Title>
       <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Table columns={columns} dataSource={data} scroll={{ y: 200 }} pagination={false} {...tableProps} />
+          <Table
+            columns={columns}
+            dataSource={data}
+            scroll={{
+              y: 200
+            }}
+            pagination={false}
+            {...tableProps}
+          />
         </Col>
         <Col span={24} className='text-center'>
-          <Button
+          <ADButton
             type='primary'
             className='mt-[63px] m-auto'
             onClick={() => {
@@ -74,7 +75,7 @@ function ImportContent({
             }}
           >
             CONTINUE
-          </Button>
+          </ADButton>
         </Col>
       </Row>
     </>

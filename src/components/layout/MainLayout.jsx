@@ -9,9 +9,7 @@ import SearchBar from '../common/SearchBar';
 const { Content } = Layout;
 
 function MainLayout({ children }) {
-  const {
-    user = {}
-  } = useSelector((state) => state);
+  const { user } = useSelector((state) => state.auth);
   const { collections } = useSelector((state) => state);
   const [showPrint, setShowPrint] = useState(0);
   const dispatch = useDispatch();
@@ -19,13 +17,13 @@ function MainLayout({ children }) {
     dispatch(emptyCollection());
   }, []);
   useEffect(() => {
-    setShowPrint(collections.selectedCollections.length);
+    setShowPrint(collections?.selectedCollections.length);
   }, [collections]);
   return (
     <Layout>
       <Headers />
-      {user.loggedIn && <SearchBar />}
-      <Content className='bg-white'>{ children }</Content>
+      {user && <SearchBar />}
+      <Content className='bg-white'>{children}</Content>
       {showPrint > 0 && <FileUtils show={showPrint > 0} />}
     </Layout>
   );
