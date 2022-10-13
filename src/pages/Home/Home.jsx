@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Col, Row } from 'antd';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import dummyImage from '../../assets/images/dummyImage.png';
