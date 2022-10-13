@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import authService from './authApiSlice';
+import authAPI from '../../app/api/authApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -16,7 +16,7 @@ const initialState = {
 // eslint-disable-next-line no-shadow
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
   try {
-    return await authService.register(user);
+    return await authAPI.register(user);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -27,7 +27,7 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
 // eslint-disable-next-line no-shadow
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   try {
-    return await authService.login(user);
+    return await authAPI.login(user);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -35,7 +35,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
 });
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-  await authService.logout();
+  await authAPI.logout();
 });
 
 export const authSlice = createSlice({
