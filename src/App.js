@@ -8,15 +8,15 @@ import MyClassrooms from './pages/Classroom/MyClassRooms';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import SignIn from './pages/signIn/SignIn';
-import SignUp from './pages/signUp/SignUp';
+import SignUp from './pages/signUp/Signup';
 import SignUpGoogle from './pages/signUp/SignUpGoogle';
 import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
 import SearchSubject from './pages/Subjects/SearchPage';
-// import RequireAuth from './components/RequireAuth';
 
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
+import Worksheet from './pages/worksheet/Worksheet';
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
         <Route path='/my-library' element={<MyLibrary />} />
         <Route path='/subject/:id' element={<DetailPage />} />
         <Route path='/search-subject' element={<SearchSubject />} />
+        <Route path='/worksheet/:userId' element={<Worksheet />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <ToastContainer />

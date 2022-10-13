@@ -126,12 +126,13 @@ function SignIn() {
           Sign up
         </Link>
       </Paragraph>
-      <Typography.Title level={5} className='m-auto block w-[85%] max-w-[554px] !pb-[107px] text-center font-medium'>
+      <Typography.Title level={5} className='mx-auto my-[20px] text-center font-medium'>
         <span className='font-medium'>Student?&nbsp;</span>
         <Link to='/' className='ml-[5px]'>
           Go here
         </Link>
       </Typography.Title>
+      <br />
     </>
   );
 }

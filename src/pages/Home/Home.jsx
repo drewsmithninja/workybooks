@@ -36,7 +36,7 @@ function Home() {
           <TopSubjectComponent />
           <GradeComponent activeGrade='1' />
 
-          <Row gutter={[16, 16]} className='mt-[15px]'>
+          <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>
             <Col span={16} className='max-h-[253px] pr-0'>
               <img src={dummyImage1} alt='test' width='100%' height='100%' />
             </Col>
