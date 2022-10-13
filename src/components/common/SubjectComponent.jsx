@@ -7,12 +7,11 @@ import dummyVector from '../../assets/images/dummyVector.png';
 
 function TopSubjectComponent() {
   return (
-    <div className='text-center sm:text-left !mt-[20px] sm:border-1 sm:border-solid border-x-0 border-t-0'>
+    <div className='text-center md:text-left !mt-[20px] md:mx-16 mx-2'>
       <Row gutter={[16, 16]}>
-        <Col md={1} sm={0} />
-        <Col md={11} sm={24} className='sm:border-1 sm:border-solid border-l-0 border-y-0'>
-          <Typography.Text className='font-bold text-[11px] sm:ml-[40px] sm:mb-0 !mb-[20px] block'>Browse by Subject</Typography.Text>
-          <Row gutter={[16, 16]}>
+        <Col md={16} sm={24} xs={24} className='border-b md:border-solid border-x-0 border-t-0 pb-3'>
+          <Typography.Text className='font-bold text-[11px] sm:mb-0 !mb-[20px] block'>Browse by Subject</Typography.Text>
+          <Row gutter={[16, 16]} className='border-r border-y-0 border-l-0 md:border-solid'>
             {browseBySubject.map((item) => (
               <Col md={4} xs={8} key={`subject_${Math.random()}`}>
                 <SubjectComponent subjectImage={dummyVector} subjectName={item.subjectName} subjectId={item.subjectId} />
@@ -20,8 +19,7 @@ function TopSubjectComponent() {
             ))}
           </Row>
         </Col>
-        <Col span={0} />
-        <Col md={4} sm={24} xs={24} className='!p-0 text-center sm:text-left'>
+        <Col md={8} sm={12} xs={24} className='text-center md:text-left !p-0 border-b md:border-solid border-x-0 border-t-0 pb-3'>
           <Typography.Text className='font-bold text-[11px] md:ml-[10px] w-full  mb-[20px] block'>Browse by Common core standards</Typography.Text>
           <Row gutter={[16, 16]}>
             {browseByCommonCoreSubject.map((item) => (
@@ -31,7 +29,6 @@ function TopSubjectComponent() {
             ))}
           </Row>
         </Col>
-        <Col md={2} sm={0} />
       </Row>
     </div>
   );

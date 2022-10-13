@@ -3,6 +3,7 @@ import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, QuestionCircleF
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaUserCircle } from 'react-icons/fa';
 import { logout, reset } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../antd/ADButton';
@@ -44,64 +45,63 @@ function Headers() {
   );
 
   return (
-    <Header className='h-20 relative container mx-auto'>
-      <div className='flex items-center justify-between pt-2'>
-        <div>
-          <Link to='/'>
-            <img
-              src={logo}
-              alt='logo'
-              style={{
-                width: 100
-              }}
-            />
+    <Header className='h-20 container flex justify-between items-center'>
+      <Link to='/'>
+        <img
+          src={logo}
+          alt='logo'
+          style={{
+            width: 100
+          }}
+        />
+      </Link>
+
+      {/* navbar menu */}
+      {user && (
+        <div className='hidden space-x-4 md:flex'>
+          <Link to='/' className='hover:text-[#243E8F]'>
+            {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
+          </Link>
+          <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
+          <Link to='/services'>
+            <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
+      )}
 
-        {/* navbar menu */}
-        {user && (
-          <div className='hidden space-x-4 md:flex'>
-            <Link to='/' className='hover:text-[#243E8F]'>
-              {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
-            </Link>
-            <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
-            <Link to='/services'>
-              <span className='navbar-menu-item'>My Classrooms</span>
-            </Link>
-          </div>
-        )}
-
-        {/* login/register button */}
-        {!user ? (
-          <Space size='large'>
-            <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[137px] h-[46px]'>
-              Sign In
-            </ADButton>
-            <ADButton onClick={() => navigate('/sign-up')} type='primary' className='w-[137px] h-[46px]'>
-              Sign Up
-            </ADButton>
-          </Space>
-        ) : (
-          <Space>
-            <BellFilled className='text-2xl text-gray-400 mr-5 mt-6' />
-            <Dropdown overlay={menu}>
-              <Space>
-                <DownOutlined className='mr-5' />
-              </Space>
-            </Dropdown>
-            <QuestionCircleFilled className='text-2xl text-gray-400 mt-6' />
-          </Space>
-        )}
-
-        {/* hamburger icon */}
-        {user && (
-          <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} ref={hamburgerRef} id='menu-btn'>
-            <span className='hamburger-top' />
-            <span className='hamburger-middle' />
-            <span className='hamburger-bottom' />
+      {/* login/register button */}
+      {!user ? (
+        <Space size='large'>
+          <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[100px]'>
+            Sign In
           </ADButton>
-        )}
-      </div>
+          <ADButton onClick={() => navigate('/sign-up')} type='primary' className='w-[100px]'>
+            Sign Up
+          </ADButton>
+        </Space>
+      ) : (
+        <Space>
+          <BellFilled className='text-2xl text-gray-400 mr-5 mt-6' />
+          <div className='flex'>
+            <FaUserCircle className='text-4xl text-secondary' />
+          </div>
+          <Dropdown overlay={menu}>
+            <Space>
+              <DownOutlined className='mr-5' />
+            </Space>
+          </Dropdown>
+          <QuestionCircleFilled className='text-2xl text-gray-400 mt-6' />
+        </Space>
+      )}
+
+      {/* hamburger icon */}
+      {user && (
+        <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} ref={hamburgerRef} id='menu-btn'>
+          <span className='hamburger-top' />
+          <span className='hamburger-middle' />
+          <span className='hamburger-bottom' />
+        </ADButton>
+      )}
 
       {/* mobile menu */}
       <div className='md:hidden'>
