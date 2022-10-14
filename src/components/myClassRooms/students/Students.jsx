@@ -5,7 +5,7 @@ import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 import data from '../../../data.json';
 import ADButton from '../../antd/ADButton';
 
-function Students() {
+function StudentsPage() {
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
       <Space direction='vertical' size='large' className='flex'>
@@ -76,4 +76,4 @@ function Students() {
   );
 }
 
-export default Students;
+export default StudentsPage;

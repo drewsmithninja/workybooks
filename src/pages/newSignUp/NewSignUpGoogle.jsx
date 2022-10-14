@@ -7,7 +7,7 @@ import setUserLoggedIn from '../../redux/actions/userAction';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../../components/antd/ADButton';
 
-function SignUpGoogle() {
+function NewSignUpGoogle() {
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const dispatch = useDispatch();
@@ -95,4 +95,4 @@ function SignUpGoogle() {
     </>
   );
 }
-export default SignUpGoogle;
+export default NewSignUpGoogle;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Col, List, Radio, Row, Space } from 'antd';
+import { Avatar, Col, List, Radio, Row, Segmented, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 
@@ -22,22 +22,14 @@ const options = [
   }
 ];
 
-function Assignment() {
-  const [currentValue, setCurrentValue] = React.useState('large');
+function AssignmentPage() {
   const [data, setData] = useState([]);
 
   React.useEffect(() => {
     appendData();
   }, []);
 
-  const onChange = ({ target: { value } }) => {
-    // eslint-disable-next-line no-console
-    console.log('checked', value);
-    setCurrentValue(value);
-  };
-
   const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-  const ContainerHeight = 400;
 
   const appendData = () => {
     fetch(fakeDataUrl)
@@ -52,7 +44,7 @@ function Assignment() {
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
       <Space direction='vertical' size='large' className='flex'>
         <div className='flex justify-center'>
-          <Radio.Group options={options} value={currentValue} onChange={onChange} optionType='button' />
+          <Segmented options={options} />
         </div>
         <List
           className='rounded-t-lg with-header'
@@ -125,4 +117,4 @@ function Assignment() {
   );
 }
 
-export default Assignment;
+export default AssignmentPage;

@@ -10,7 +10,7 @@ import dummyImage from '../../assets/images/dummyImage.png';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 
-export function StudentDetailPage() {
+function StudentDetailPage() {
   const { Option } = Select;
   const { id } = useParams();
   return (
@@ -202,3 +202,5 @@ export function StudentDetailPage() {
     </MainLayout>
   );
 }
+
+export default StudentDetailPage;
