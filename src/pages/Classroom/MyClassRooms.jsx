@@ -7,7 +7,7 @@ import Students from '../../components/myClassRooms/students/Students';
 import Assignment from '../../components/myClassRooms/assignment/Assignment';
 
 function MyClassrooms() {
-  const [currentTab, setCurrentTab] = React.useState('assignment');
+  const [currentTab, setCurrentTab] = React.useState('students');
   const { Option } = Select;
   const handleChange = (value) => {
     // eslint-disable-next-line no-console
