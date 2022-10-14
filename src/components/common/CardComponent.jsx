@@ -2,6 +2,7 @@ import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { Checkbox, Dropdown, Menu } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import ADButton from '../antd/ADButton';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
 
@@ -61,7 +62,9 @@ function CardComponent({
     >
       {/* Card Image */}
       <div className='topImage bg-gray-300 rounded-2xl'>
-        <img src={cardImage} alt='cardImage' className='rounded-2xl w-full' />
+        <Link to={cardData.id ? `/collection/${cardData.id}` : ''}>
+          <img src={cardImage} alt='cardImage' className='rounded-2xl w-full' />
+        </Link>
       </div>
 
       {/* Card action buttons */}
