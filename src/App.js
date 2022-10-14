@@ -7,13 +7,14 @@ import SelectClassroom from './pages/Classroom/SelectClassroom';
 import MyClassrooms from './pages/Classroom/MyClassRooms';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
-import SignIn from './pages/SignIn/SignIn';
-import SignUp from './pages/signUp/Signup';
-import SignUpGoogle from './pages/signUp/SignupGoogle';
+import SignIn from './pages/Signin/SignIn';
+import SignUp from './pages/Signup/Signup';
+import SignUpGoogle from './pages/Signup/SignupGoogle';
 import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
 import { StudentDetailPage } from './pages/Student/StudentDetailPage';
 import SearchSubject from './pages/Subjects/SearchPage';
+import MyCollection from './pages/Collection/MyCollection';
 
 import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
@@ -42,6 +43,7 @@ function App() {
         </Route>
         <Route path='/search-subject' element={<SearchSubject />} />
         <Route path='/worksheet/:userId' element={<Worksheet />} />
+        <Route path='/collection/:id' element={<MyCollection />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
       <ToastContainer />

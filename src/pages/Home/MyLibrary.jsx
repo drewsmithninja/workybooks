@@ -56,7 +56,7 @@ function MyLibrary() {
             onChange={(e) => setCurrentTab(e)}
           >
             <Tabs.TabPane tab='MY COLLECTIONS' key='Collections'>
-              <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
+              <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
             </Tabs.TabPane>
             <Tabs.TabPane tab='FAVORITES' key='Favorites'>
               <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
