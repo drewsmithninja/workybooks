@@ -4,11 +4,9 @@ import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
 import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
 import StudentsPage from '../../components/myClassRooms/students/Students';
-import ADTabs from '../../components/antd/ADTabs';
 import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
 
 function MyClassrooms() {
-  // const [currentTab, setCurrentTab] = React.useState('students');
   const { Option } = Select;
   const handleChange = (value) => {
     // eslint-disable-next-line no-console
@@ -32,27 +30,17 @@ function MyClassrooms() {
             </div>
           </Space>
         </div>
-        <Row gutter={[0, 16]}>
-          <ADTabs
-            elements={[
-              {
-                tabTitle: 'Students',
-                tabBody: <StudentsPage />,
-                path: 'students'
-              },
-              {
-                tabTitle: 'Assignment',
-                tabBody: <AssignmentPage />,
-                path: 'assignment'
-              },
-              {
-                tabTitle: 'Report',
-                tabBody: <h3>Report Content...</h3>,
-                path: 'report'
-              }
-            ]}
-          />
-        </Row>
+        <Tabs className='ad-tabs' defaultActiveKey='2'>
+          <Tabs.TabPane tab='Students' key='1'>
+            <StudentsPage />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab='Assignment' key='2'>
+            <AssignmentPage />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab='Reports' key='3'>
+            <ADTitle level={4}>Report content will go here...</ADTitle>
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     </MainLayout>
   );
