@@ -3,11 +3,12 @@ import { Row, Select, Space, Tabs } from 'antd';
 import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
 import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
-import Students from '../../components/myClassRooms/students/Students';
-import Assignment from '../../components/myClassRooms/assignment/Assignment';
+import StudentsPage from '../../components/myClassRooms/students/Students';
+import ADTabs from '../../components/antd/ADTabs';
+import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
 
 function MyClassrooms() {
-  const [currentTab, setCurrentTab] = React.useState('students');
+  // const [currentTab, setCurrentTab] = React.useState('students');
   const { Option } = Select;
   const handleChange = (value) => {
     // eslint-disable-next-line no-console
@@ -32,17 +33,25 @@ function MyClassrooms() {
           </Space>
         </div>
         <Row gutter={[0, 16]}>
-          <Tabs className='ant-custom-tabs' defaultActiveKey={currentTab} onChange={(e) => setCurrentTab(e)}>
-            <Tabs.TabPane tab='STUDENTS' key='students'>
-              <Students />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='ASSIGNMENT' key='assignment'>
-              <Assignment />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='REPORTS' key='reports'>
-              Content of Tab Reports
-            </Tabs.TabPane>
-          </Tabs>
+          <ADTabs
+            elements={[
+              {
+                tabTitle: 'Students',
+                tabBody: <StudentsPage />,
+                path: 'students'
+              },
+              {
+                tabTitle: 'Assignment',
+                tabBody: <AssignmentPage />,
+                path: 'assignment'
+              },
+              {
+                tabTitle: 'Report',
+                tabBody: <h3>Report Content...</h3>,
+                path: 'report'
+              }
+            ]}
+          />
         </Row>
       </div>
     </MainLayout>

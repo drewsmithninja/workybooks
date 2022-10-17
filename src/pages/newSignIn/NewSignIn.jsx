@@ -10,7 +10,7 @@ import cleverIcon from '../../assets/images/clever-icon.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 
-function SignIn() {
+function NewSignIn() {
   window.document.title = 'Workybook - Sign In';
   const { Header } = Layout;
   const [form] = Form.useForm();
@@ -136,4 +136,4 @@ function SignIn() {
     </>
   );
 }
-export default SignIn;
+export default NewSignIn;
