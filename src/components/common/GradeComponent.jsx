@@ -2,10 +2,7 @@ import { Radio } from 'antd';
 import React from 'react';
 import { grades } from '../../utils/appData';
 
-function GradeComponent({
-  activeGrade = '3', gradeList = {
-  }
-}) {
+function GradeComponent({ activeGrade = '3', gradeList = [] }) {
   return (
     <div className='flex items-center justify-center pt-[20px]'>
       <span className='font-normal text-sm sm:pr-[20px]'>Grade</span>

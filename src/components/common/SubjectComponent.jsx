@@ -2,12 +2,7 @@ import { Col, Row, Typography } from 'antd';
 import React from 'react';
 import SubjectComponent from '../Home/subjectComponent';
 
-function TopSubjectComponent({
-  subjectList = {
-  },
-  cclList = {
-  }
-}) {
+function TopSubjectComponent({ subjectList = [], cclList = [] }) {
   return (
     <div className='text-center md:text-left !mt-[20px] md:mx-16 mx-2'>
       <Row gutter={[16, 16]}>

@@ -42,10 +42,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards.length > 0 && cards.map((item) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.map((item) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards.length > 0 && cards.map((item) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.map((item) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}</div>
         </div>
       )}
     </MainLayout>
