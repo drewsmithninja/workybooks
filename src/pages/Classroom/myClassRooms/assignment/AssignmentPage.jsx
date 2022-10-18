@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Avatar, Col, List, Radio, Row, Space } from 'antd';
+import { Avatar, Badge, Col, Image, List, Progress, Radio, Row, Segmented, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
+import { BsArrowRightCircle } from 'react-icons/bs';
+import dummyImage from '../../../../assets/images/dummyImage.png';
 
 const options = [
   {
@@ -22,22 +24,14 @@ const options = [
   }
 ];
 
-function Assignment() {
-  const [currentValue, setCurrentValue] = React.useState('large');
+function AssignmentPage() {
   const [data, setData] = useState([]);
 
   React.useEffect(() => {
     appendData();
   }, []);
 
-  const onChange = ({ target: { value } }) => {
-    // eslint-disable-next-line no-console
-    console.log('checked', value);
-    setCurrentValue(value);
-  };
-
   const fakeDataUrl = 'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-  const ContainerHeight = 400;
 
   const appendData = () => {
     fetch(fakeDataUrl)
@@ -51,8 +45,8 @@ function Assignment() {
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
       <Space direction='vertical' size='large' className='flex'>
-        <div className='flex justify-center'>
-          <Radio.Group options={options} value={currentValue} onChange={onChange} optionType='button' />
+        <div className='flex justify-center pt-2'>
+          <Segmented options={options} />
         </div>
         <List
           className='rounded-t-lg with-header'
@@ -66,16 +60,22 @@ function Assignment() {
           header={(
             <Row>
               <Col xl={6} md={6} sm={8} xs={10}>
-                <div className='inter-font font-medium text-xs'>NAME</div>
+                <div className='text-center inter-font font-medium text-xs'>ASSIGNMENT TITLE</div>
               </Col>
-              <Col xl={12} md={10} sm={10} xs={8}>
-                <div className='text-center inter-font font-medium text-xs'>ACTIVITY</div>
-              </Col>
-              <Col xl={3} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
+              <Col xl={2} md={10} sm={10} xs={8}>
+                <div className='text-center inter-font font-medium text-xs'>STATUS</div>
               </Col>
               <Col xl={3} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>EDIT</div>
+                <div className='text-center inter-font font-medium text-xs'>ASSIGNED TO</div>
+              </Col>
+              <Col xl={3} md={4} sm={3} xs={3}>
+                <div className='text-center inter-font font-medium text-xs'>DUE DATE</div>
+              </Col>
+              <Col xl={2} md={4} sm={3} xs={3}>
+                <div className='text-center inter-font font-medium text-xs'>TURNOUT</div>
+              </Col>
+              <Col xl={3} md={4} sm={3} xs={3}>
+                <div className='text-center inter-font font-medium text-xs'>AVG. SCORE</div>
               </Col>
             </Row>
           )}
@@ -87,34 +87,45 @@ function Assignment() {
               <Row gutter={[0, 16]} className='w-full'>
                 <Col xl={6} md={6} sm={8} xs={10} className='flex items-center'>
                   <Space>
-                    <Avatar icon={<UserOutlined />} />
+                    <Image src={dummyImage} className='w-full aspect-[3/4] max-w-[100px]' />
                     <div className='inter-font text-sm ml-5'>
                       <div className='font-medium'>{item.title}</div>
                       <div className='font-normal text-gray-400'>Description</div>
                     </div>
                   </Space>
                 </Col>
-                <Col xl={12} md={10} sm={10} xs={8} className='flex justify-center'>
-                  <Row className='rounded-2xl md:px-4 px-2 py-2 border border-solid border-slate-300'>
-                    <Col sm={12} xs={24}>
-                      <div className='flex items-center flex-col mx-2 lg:mx-4'>
-                        <div>ACTIVITIES</div>
-                        <div className='font-bold'>32</div>
-                      </div>
-                    </Col>
-                    <Col sm={12} xs={24}>
-                      <div className='flex items-center flex-col mx-2 lg:mx-4'>
-                        <div className='whitespace-nowrap'>TIME PLAYED</div>
-                        <div className='font-bold'>03:01</div>
-                      </div>
-                    </Col>
-                  </Row>
+                <Col xl={2} md={10} sm={10} xs={8} className='flex justify-center items-center'>
+                  <Badge
+                    count='Working'
+                    style={{
+                      backgroundColor: '#52c41a',
+                      padding: '0 10px'
+                    }}
+                  />
                 </Col>
                 <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <FaChartLine className='text-gray-400 text-lg' />
+                  Josh Doe
                 </Col>
                 <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <FaPencilAlt className='text-gray-400 text-lg' />
+                  08/30/2022
+                  <br />
+                  06:00 pm
+                </Col>
+                <Col xl={2} md={4} sm={3} xs={3} className='flex justify-center items-center'>
+                  <Progress percent={30} showInfo={false} />
+                </Col>
+                <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
+                  No Data
+                </Col>
+                <Col xl={2} md={4} sm={3} xs={3} className='flex justify-center items-center'>
+                  <div className='flex text-xl text-slate-400'>
+                    <FaPencilAlt />
+                  </div>
+                </Col>
+                <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
+                  <div className='flex text-4xl text-slate-400'>
+                    <BsArrowRightCircle />
+                  </div>
                 </Col>
               </Row>
             </List.Item>
@@ -125,4 +136,4 @@ function Assignment() {
   );
 }
 
-export default Assignment;
+export default AssignmentPage;

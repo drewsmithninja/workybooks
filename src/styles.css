@@ -274,3 +274,36 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
 .container {
   margin: 0 auto;
 }
+
+.ad-tabs {
+  width: 100%;
+  transition: .3s;
+}
+
+.ad-tabs .ant-tabs-nav {
+  border-color: black;
+  transition: .3s;
+}
+.ad-tabs .ant-tabs-nav-wrap {
+  /* margin: 0 -1rem 0; */
+  transition: .3s;
+}
+
+.ad-tabs .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-btn {
+  padding: 0 1rem;
+  min-width: 120px;
+  transition: .3s;
+}
+
+.ad-tabs .ant-tabs-nav .ant-tabs-tab-active {
+  border-bottom: 4px solid #243E8F;
+  transition: .3s;
+  /* position: relative; */
+  /* right: 1rem; */
+}
+
+
+.ad-tabs .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #5470FF;
+  font-weight: bold;
+}

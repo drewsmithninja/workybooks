@@ -63,7 +63,7 @@ function Headers() {
             {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
           </Link>
           <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
-          <Link to='/my-classrooms'>
+          <Link to='/my-classrooms/students'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>

@@ -3,11 +3,10 @@ import { Row, Select, Space, Tabs } from 'antd';
 import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
 import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
-import Students from '../../components/myClassRooms/students/Students';
-import Assignment from '../../components/myClassRooms/assignment/Assignment';
+import StudentsPage from '../../components/myClassRooms/students/Students';
+import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
 
 function MyClassrooms() {
-  const [currentTab, setCurrentTab] = React.useState('students');
   const { Option } = Select;
   const handleChange = (value) => {
     // eslint-disable-next-line no-console
@@ -31,19 +30,17 @@ function MyClassrooms() {
             </div>
           </Space>
         </div>
-        <Row gutter={[0, 16]}>
-          <Tabs className='ant-custom-tabs' defaultActiveKey={currentTab} onChange={(e) => setCurrentTab(e)}>
-            <Tabs.TabPane tab='STUDENTS' key='students'>
-              <Students />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='ASSIGNMENT' key='assignment'>
-              <Assignment />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab='REPORTS' key='reports'>
-              Content of Tab Reports
-            </Tabs.TabPane>
-          </Tabs>
-        </Row>
+        <Tabs className='ad-tabs' defaultActiveKey='2'>
+          <Tabs.TabPane tab='Students' key='1'>
+            <StudentsPage />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab='Assignment' key='2'>
+            <AssignmentPage />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab='Reports' key='3'>
+            <ADTitle level={4}>Report content will go here...</ADTitle>
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     </MainLayout>
   );

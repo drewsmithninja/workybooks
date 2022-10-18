@@ -10,7 +10,7 @@ import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
 import ADButton from '../../components/antd/ADButton';
 
-function SignUp() {
+function NewSignUp() {
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const { Paragraph } = Typography;
@@ -262,4 +262,4 @@ function SignUp() {
     </>
   );
 }
-export default SignUp;
+export default NewSignUp;

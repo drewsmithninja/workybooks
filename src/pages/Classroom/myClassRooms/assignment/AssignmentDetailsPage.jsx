@@ -1,22 +1,23 @@
 import React from 'react';
-import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
+import { Avatar, Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-import data from '../../data.json';
-import ADButton from '../../components/antd/ADButton';
-import dummyImage from '../../assets/images/dummyImage.png';
-import ADTitle from '../../components/antd/ADTitle';
-import MainLayout from '../../components/layout/MainLayout';
+import { AntDesignOutlined } from '@ant-design/icons';
+import data from '../../../../data.json';
+import ADButton from '../../../../components/antd/ADButton';
+import dummyImage from '../../../../assets/images/dummyImage.png';
+import ADTitle from '../../../../components/antd/ADTitle';
+import MainLayout from '../../../../components/layout/MainLayout';
 
-function StudentDetailPage() {
+function AssignmentDetailsPage() {
   const { Option } = Select;
   const { id } = useParams();
   return (
     <MainLayout>
       <div className='px-4 py-5 w-full flex justify-between'>
         <Space size='large'>
-          <ADTitle level={3}>Class</ADTitle>
+          <ADTitle level={3}>Assignment</ADTitle>
           <Select defaultValue='lucy' className='custom-select'>
             <Option value={id}>{id}</Option>
           </Select>
@@ -24,7 +25,90 @@ function StudentDetailPage() {
             <FaPencilAlt className='text-gray-400 text-lg' />
           </div>
         </Space>
-        <ADButton type='primary'>Student Reports</ADButton>
+      </div>
+      <div className='px-6'>
+        <Row gutter={[16, 16]} className='border border-x-0 border-t-0 border-solid'>
+          <Col xl={10}>
+            <div>
+              <div className='font-bold text-xs'>ASSIGNMENT ITEMS (4 WORKSHEETS)</div>
+            </div>
+            <Space>
+              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+
+              <div className='font-bold text-xs px-4 pt-3 items-center'>+2 MORE</div>
+            </Space>
+          </Col>
+          <Col xl={7} className='border border-solid border-y-0 border-r-0'>
+            <div>
+              <div className='font-bold text-xs'>ASSIGNED TO</div>
+            </div>
+            <Space>
+              <Avatar.Group
+                maxCount={2}
+                maxPopoverTrigger='click'
+                size='large'
+                className='mt-5'
+                maxStyle={{
+                  color: '#f56a00',
+                  backgroundColor: '#fde3cf',
+                  cursor: 'pointer'
+                }}
+              >
+                <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
+                <Avatar
+                  style={{
+                    backgroundColor: '#f56a00'
+                  }}
+                >
+                  K
+                </Avatar>
+                <Avatar
+                  style={{
+                    backgroundColor: '#1890ff'
+                  }}
+                  icon={<AntDesignOutlined />}
+                />
+              </Avatar.Group>
+
+              <div>
+                <div className='font-bold text-xs'>+2 MORE</div>
+              </div>
+            </Space>
+          </Col>
+          <Col xl={7} className='border border-solid border-y-0 border-r-0'>
+            <Row gutter={16}>
+              <Col xl={8}>
+                <div className='font-bold text-xs'>DUE DATE</div>
+                <div className='text-slate-400 pt-3'>
+                  08/25/2022
+                  <br />
+                  06:00 pm
+                </div>
+              </Col>
+              <Col xl={8}>
+                <div className='font-bold text-xs'>TYPE</div>
+                <div className='text-slate-400 pt-3'>Graded</div>
+              </Col>
+              <Col xl={8}>
+                <div className='font-bold text-xs'>POINTS</div>
+                <div className='text-slate-400 pt-3'>4</div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+      <div className='flex py-4 justify-between px-4 items-center'>
+        <div>
+          <ADTitle level={4}>Assignment Progress</ADTitle>
+        </div>
+        <Space size='large'>
+          <ADButton type='primary'>Student Reports</ADButton>
+          <ADButton type='primary'>Student Reports</ADButton>
+          <ADButton type='primary'>Student Reports</ADButton>
+        </Space>
       </div>
       <div className='mx-4 border border-solid border-t-0' />
       <div className='xl:px-20 lg:px-16 md:px-10 px-0 py-6'>
@@ -202,4 +286,4 @@ function StudentDetailPage() {
   );
 }
 
-export default StudentDetailPage;
+export default AssignmentDetailsPage;
