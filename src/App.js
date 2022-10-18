@@ -14,12 +14,12 @@ import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
 import SearchSubject from './pages/Subjects/SearchPage';
 import MyCollection from './pages/Collection/MyCollection';
-
-import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
 import Worksheet from './pages/worksheet/Worksheet';
 import StudentDetailPage from './pages/Student/StudentDetailPage';
 import AssignmentDetailsPage from './pages/Classroom/myClassRooms/assignment/AssignmentDetailsPage';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

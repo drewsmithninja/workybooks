@@ -1,3 +1,4 @@
+@import '../node_modules/antd/dist/antd.less';
 /** Tailwind CSS */
 @tailwind base;
 @tailwind components;
@@ -82,11 +83,11 @@ body {
 .ant-divider-horizontal.ant-divider-with-text-center::before,
 .ant-divider-horizontal.ant-divider-with-text-center::after {
   border-top: 2px solid !important;
-  @apply border-primaryColor text-center !important;
+  // @apply border-primary text-center !important;
 }
 
 .ant-message-custom-content {
-  @apply inline-flex items-center;
+  // @apply inline-flex items-center;
 }
 
 h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.ant-typography, h6.ant-typography {
@@ -95,7 +96,7 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
 
 
 .ant-popover-title {
-  @apply bg-backgroundColorBlack;
+  // @apply bg-black;
 }
 
 /** And Design Customize End */
@@ -103,26 +104,26 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
 /** Boilerplate Header Style Start */
 
 .header-logo {
-  @apply text-2xl text-textColorWhite font-bold uppercase transition-all duration-100 hover:text-textColorWhiteHover;
+  // @apply text-2xl text-white font-bold uppercase transition-all duration-100 hover:text-secondary;
 }
 
 .navbar-menu-item {
-  @apply text-textColorBlack text-base transition-all duration-100 hover:text-textColorWhiteHover;
+  // @apply text-black text-base transition-all duration-100 hover:text-secondary;
 }
 
 .mobile-menu-item {
-  @apply text-textColorWhite uppercase hover:text-textColorWhiteHover;
+  // @apply text-white uppercase hover:text-secondary;
 }
 
 /* hamburger button */
 .hamburger {
-  @apply cursor-pointer w-[24px] h-[24px] transition-all duration-100 relative;
+  // @apply cursor-pointer w-[24px] h-[24px] transition-all duration-100 relative;
 }
 
 .hamburger-top,
 .hamburger-middle,
 .hamburger-bottom {
-  @apply absolute top-0 left-0 w-[24px] h-[2px] bg-backgroundColorWhite rotate-0 transition-all duration-100;
+  // @apply absolute top-0 left-0 w-[24px] h-[2px] bg-white rotate-0 transition-all duration-100;
 }
 
 .hamburger-middle {
@@ -190,9 +191,9 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
   display: none;
 }
 
+/* ant-modal */
 .ant-modal-content {
-  border-radius: 20px;
-  /* background: red; */
+  border-radius: 24px;
 }
 
 .customModal .ant-modal-confirm-btns {

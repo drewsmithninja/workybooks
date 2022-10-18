@@ -7,8 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store';
 // styles
-import 'antd/dist/antd.min.css';
-import './styles.css';
+import './styles.less';
 
 const persistor = persistStore(store);
 

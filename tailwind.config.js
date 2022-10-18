@@ -1,6 +1,33 @@
+const postCssImport = require('postcss-import');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  rules: [
+    {
+      test: /\.less$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            ident: 'postcss',
+            syntax: 'postcss-less',
+            plugins: () => [postCssImport, tailwindcss('./tailwind.config.js'), autoprefixer]
+          }
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
+      ]
+    }
+  ],
   theme: {
     extend: {
       screens: {
@@ -11,23 +38,11 @@ module.exports = {
         xxl: '1600px'
       },
       colors: {
+        primary: '#5470FF',
         secondary: '#D9D9D9',
-        primaryColor: '#2563eb',
-        primaryColorHover: '#1d4ed8',
-        accentColor: '#e11d48',
-        accentColorHover: '#be123c',
-        successColor: '#16a34a',
-        successColorHover: '#15803d',
-        warningColor: '#d97706',
-        warningColorHover: '#b45309',
-        errorColor: '#dc2626',
-        errorColorHover: '#b91c1c',
-        textColorBlack: '#000000',
-        textColorWhite: '#ffffff',
-        textColorWhiteHover: '#d1d5db',
-        backgroundColorWhite: '#ffffff',
-        backgroundColorGray: '#f5f5f5',
-        backgroundColorBlack: '#0f172a'
+        info: '#67BCFA',
+        black: '#000000',
+        white: '#ffffff'
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif']

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Modal, Row } from 'antd';
 import { useSelector } from 'react-redux';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
@@ -34,7 +34,6 @@ function Home() {
         <div className='w-full max-w-[95%] m-auto'>
           <TopSubjectComponent />
           <GradeComponent activeGrade='1' />
-
           <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>
             <Col span={16} className='max-h-[253px] pr-0'>
               <img src={dummyImage1} alt='test' width='100%' height='100%' />
