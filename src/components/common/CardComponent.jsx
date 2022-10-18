@@ -62,7 +62,7 @@ function CardComponent({
     >
       {/* Card Image */}
       <div className='topImage bg-gray-300 rounded-2xl'>
-        <Link to={cardData.id ? `/collection/${cardData.id}` : ''}>
+        <Link to={cardData.workyId ? `/worksheet/${cardData.workyId}` : ''}>
           <img src={cardImage} alt='cardImage' className='rounded-2xl w-full' />
         </Link>
       </div>
@@ -79,8 +79,8 @@ function CardComponent({
                 dispatch(unselectCollection(cardData));
               }
             }}
-            id={`collection_id_${cardData.id}`}
-            name={`collection_id_${cardData.id}`}
+            id={`collection_id_${cardData.workyId}`}
+            name={`collection_id_${cardData.workyId}`}
             checked={c}
           />
         </div>
@@ -95,10 +95,14 @@ function CardComponent({
       </div>
 
       {/* Card Title */}
-      <p className='leading-4 text-[12px] mb-0'>{cardTitle}</p>
+      <p className='leading-4 text-[12px] mb-0'>
+        {cardData.name}
+        -
+        {cardData.description}
+      </p>
 
       {/* Card author */}
-      <p className='leading-4 text-[10px] text-gray-400'>{cardAuthor}</p>
+      <p className='leading-4 text-[10px] text-gray-400'>{cardData.writtenBy}</p>
 
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
