@@ -7,7 +7,6 @@ import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/SubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import Spinner from '../../components/spinner/Spinner';
-import { browseByCommonCoreSubject, browseBySubject, subjectCommonData } from '../../utils/appData';
 
 let subjectDetail;
 function DetailPage() {
@@ -37,8 +36,6 @@ function DetailPage() {
       }
     }
   }, [id]);
-
-  // console.log('qwq', subjectRec);
 
   return (
     <MainLayout>
@@ -85,13 +82,14 @@ function DetailPage() {
                             <Row gutter={[16, 16]}>
                               <Col xs={24} md={12} lg={8} key={Math.random()}>
                                 {item1.title}
+                                test
                               </Col>
                             </Row>
                           </Card>
                         )}
                       </div>
                     ))}
-            <Divider />
+            <div className='w-full p-0.5 bg-gray-600' />
           </Col>
         ))}
         { currectTopics === 'CCL' &&
