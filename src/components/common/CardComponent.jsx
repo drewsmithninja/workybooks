@@ -103,7 +103,7 @@ function CardComponent({
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>
           </Dropdown>
-          <Modal className='rounded-xl' centered width={670} footer={false} closable={false} visible={isAssignModalOpen}>
+          <Modal className='rounded-xl' centered width={670} footer={false} closable={false} open={isAssignModalOpen}>
             <ADTitle level={3} className='text-center pb-8'>
               Assign
             </ADTitle>
@@ -159,7 +159,7 @@ function CardComponent({
             centered
             width={670}
             footer={false}
-            visible={isStepModalOpen}
+            open={isStepModalOpen}
           >
             <ADTitle level={3} className='text-center text-danger pb-8'>
               Create New Assign Activities

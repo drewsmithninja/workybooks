@@ -14,9 +14,9 @@ const listSubject = async (subjectData) => {
   return response.data;
 };
 
-// CCL list
-const listCCL = async (cclData) => {
-  const response = await axios.get(`${API_URL}/commonCoreStandard`, cclData);
+// CCS list
+const listCCL = async (ccsData) => {
+  const response = await axios.get(`${API_URL}/commonCoreStandard`, ccsData);
   return response.data;
 };
 

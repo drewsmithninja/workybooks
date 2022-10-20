@@ -1,24 +1,22 @@
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Card, Col, Input, Row, Typography, Divider } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import GradeComponent from '../../components/common/GradeComponent';
-import TopSubjectComponent from '../../components/common/SubjectComponent';
+import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import Spinner from '../../components/spinner/Spinner';
-import { browseByCommonCoreSubject, browseBySubject, subjectCommonData } from '../../utils/appData';
 
 let subjectDetail;
 function DetailPage() {
   const [subjectRec, setSubjectRec] = useState();
-  const [subjectTopic, setSubjectTopic] = useState([]);
   const [ccsRec, setCcsRec] = useState();
+  const [subjectTopic, setSubjectTopic] = useState([]);
   const [ccsTopic, setCcsTopic] = useState([]);
   const [currectTopics, setCurrentTopics] = useState('');
   const { id } = useParams();
-  const { subjectData, cclData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
-  // console.log(subjectData?.data?.list, cclData?.data?.list);
+  const { subjectData, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
+  // console.log(subjectData?.data?.list, ccsData?.data?.list);
 
   useEffect(() => {
     if (id) {
@@ -28,7 +26,7 @@ function DetailPage() {
         setSubjectTopic(subjectDetail?.topics);
         setCurrentTopics('Subject');
       } else {
-        subjectDetail = cclData?.data?.list.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
+        subjectDetail = ccsData?.data?.list.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
         if (subjectDetail) {
           setCcsRec(subjectDetail);
           setCcsTopic(subjectDetail?.tree);
@@ -42,15 +40,13 @@ function DetailPage() {
 
   return (
     <MainLayout>
-      <TopSubjectComponent subjectList={subjectData?.data?.list} cclList={cclData?.data?.list} />
+      <TopSubjectComponent subjectList={subjectData?.data?.list} cclList={ccsData?.data?.list} />
       <GradeComponent activeGrade='3' gradeList={gradeData?.data} />
       <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
-            {subjectRec && (currectTopics === 'Subject') &&
-             subjectRec.title}
-            {ccsRec && (currectTopics === 'CCL') &&
-             ccsRec.title}
+            {subjectRec && currectTopics === 'Subject' && subjectRec.title}
+            {ccsRec && currectTopics === 'CCL' && ccsRec.title}
           </Typography.Title>
         </Col>
         <Col lg={12} xs={24} className='text-center md:text-right'>
@@ -59,48 +55,48 @@ function DetailPage() {
       </Row>
 
       <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
-        { currectTopics === 'Subject' &&
-        subjectTopic?.map((item, index) => (
-          <Col span={24} key={Math.random()}>
-            <Typography.Text className='font-bold text-2xl'>{item.title}</Typography.Text>
-            {item?.topics?.length > 0 &&
-                    item?.topics.map((item1, index1) => (
-                      <div key={Math.random()}>
-                        {(item1?.topics.length > 0) ? (
-                          <>
-                            <Typography.Text className='font-bold text-xl'>{item1.title}</Typography.Text>
-                            <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
-                              <Row gutter={[16, 16]}>
-                                {item1?.topics.length > 0 &&
-                                 item1?.topics.map((item2, index2) => (
-                                   <Col xs={24} md={12} lg={8} key={Math.random()}>
-                                     {item2.title}
-                                   </Col>
-                                 ))}
-                              </Row>
-                            </Card>
-                          </>
-                        ) : (
-                          <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
-                            <Row gutter={[16, 16]}>
-                              <Col xs={24} md={12} lg={8} key={Math.random()}>
-                                {item1.title}
-                              </Col>
-                            </Row>
-                          </Card>
-                        )}
-                      </div>
-                    ))}
-            <Divider />
-          </Col>
-        ))}
-        { currectTopics === 'CCL' &&
-        ccsTopic?.map((item, index) => (
-          <Col span={24} key={Math.random()}>
-            <Typography.Text className='font-bold'>{item.title}</Typography.Text>
-            <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
-              <Row gutter={[16, 16]}>
-                {item?.topics.length > 0 &&
+        {currectTopics === 'Subject' &&
+          subjectTopic?.map((item, index) => (
+            <Col span={24} key={Math.random()}>
+              <Typography.Text className='font-bold text-2xl'>{item.title}</Typography.Text>
+              {item?.topics?.length > 0 &&
+                item?.topics.map((item1, index1) => (
+                  <div key={Math.random()}>
+                    {item1?.topics.length > 0 ? (
+                      <>
+                        <Typography.Text className='font-bold text-xl'>{item1.title}</Typography.Text>
+                        <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
+                          <Row gutter={[16, 16]}>
+                            {item1?.topics.length > 0 &&
+                              item1?.topics.map((item2, index2) => (
+                                <Col xs={24} md={12} lg={8} key={Math.random()}>
+                                  {item2.title}
+                                </Col>
+                              ))}
+                          </Row>
+                        </Card>
+                      </>
+                    ) : (
+                      <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
+                        <Row gutter={[16, 16]}>
+                          <Col xs={24} md={12} lg={8} key={Math.random()}>
+                            {item1.title}
+                          </Col>
+                        </Row>
+                      </Card>
+                    )}
+                  </div>
+                ))}
+              <Divider />
+            </Col>
+          ))}
+        {currectTopics === 'CCL' &&
+          ccsTopic?.map((item, index) => (
+            <Col span={24} key={Math.random()}>
+              <Typography.Text className='font-bold'>{item.title}</Typography.Text>
+              <Card title={false} className='mt-[10px] bg-gray-100 mb-[65px]'>
+                <Row gutter={[16, 16]}>
+                  {item?.topics.length > 0 &&
                     item?.topics.map((item1, index1) => (
                       <Col span={24} key={Math.random()}>
                         <div className='flex-row items-center justify-between border-b-1 border-solid border-x-0 border-t-0 pb-[10px] hidden md:flex'>
@@ -119,10 +115,10 @@ function DetailPage() {
                         </div>
                       </Col>
                     ))}
-              </Row>
-            </Card>
-          </Col>
-        ))}
+                </Row>
+              </Card>
+            </Col>
+          ))}
       </Row>
     </MainLayout>
   );

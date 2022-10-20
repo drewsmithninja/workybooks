@@ -114,7 +114,7 @@ function CreateClassroom() {
 
       <Modal
         closeIcon={<div />}
-        visible={createClassPopup}
+        open={createClassPopup}
         onCancel={() => {
           setCreateClassPopup(false);
         }}

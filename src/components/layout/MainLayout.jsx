@@ -8,7 +8,7 @@ import SearchBar from '../common/SearchBar';
 
 const { Content } = Layout;
 
-function MainLayout({ children }) {
+function MainLayout({ children, className }) {
   const { user } = useSelector((state) => state.auth);
   const { collections } = useSelector((state) => state);
   const [showPrint, setShowPrint] = useState(0);
@@ -20,7 +20,7 @@ function MainLayout({ children }) {
     setShowPrint(collections?.selectedCollections.length);
   }, [collections]);
   return (
-    <Layout>
+    <Layout className={`${className ?? ''}`}>
       <Headers />
       {user && <SearchBar />}
       <Content className='bg-white'>{children}</Content>

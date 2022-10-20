@@ -5,7 +5,7 @@ import homeAPI from '../../app/api/homeApi';
 const initialState = {
   worksheetData: null,
   subjectData: null,
-  cclData: null,
+  ccsData: null,
   gradeData: null,
   isError: false,
   isSuccess: false,
@@ -37,9 +37,9 @@ export const listSubject = createAsyncThunk('home/subject', async (subjectData, 
 });
 
 // List Subject
-export const listCCL = createAsyncThunk('home/commonCoreStandard', async (cclData, thunkAPI) => {
+export const listCCL = createAsyncThunk('home/commonCoreStandard', async (ccsData, thunkAPI) => {
   try {
-    const response = await homeAPI.listCCL(cclData);
+    const response = await homeAPI.listCCL(ccsData);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -108,15 +108,15 @@ export const homeSlice = createSlice({
       .addCase(listCCL.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.cclData = action.payload;
+        state.ccsData = action.payload;
       })
       .addCase(listCCL.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.cclData = null;
+        state.ccsData = null;
       })
-    // Grade List Cases
+      // Grade List Cases
       .addCase(listGrade.pending, (state, action) => {
         state.isLoading = true;
       })

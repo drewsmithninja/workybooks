@@ -12,6 +12,8 @@ import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import MyLibrary from './pages/Home/MyLibrary';
 import DetailPage from './pages/Subjects/DetailPage';
+import SubjectDetailsPage from './pages/Subjects/SubjectDetailsPage';
+import CCSDetailsPage from './pages/CCS/CCSDetailsPage';
 import SearchSubject from './pages/Subjects/SearchPage';
 import MyCollection from './pages/Collection/MyCollection';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
@@ -37,7 +39,8 @@ function App() {
         <Route path='/create-classroom' element={<CreateClassroom />} />
         <Route path='/select-classroom' element={<SelectClassroom />} />
         <Route path='/my-library' element={<MyLibrary />} />
-        <Route path='/subject/:id' element={<DetailPage />} />
+        <Route path='/subject/:id' element={<SubjectDetailsPage />} />
+        <Route path='/ccs/:id' element={<CCSDetailsPage />} />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/my-classrooms/students/:id' element={<StudentDetailPage />} />
         <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />
