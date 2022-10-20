@@ -1,14 +1,22 @@
 import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import { grades } from '../../utils/appData';
+// import { grades } from '../../utils/appData';
 
-function SearchSubject() {
+function SearchResult() {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
+  const { subjectData, cclData, gradeData } = useSelector((state) => state.home);
+
   const cards = [];
+  const grades = gradeData?.data;
+  const subjects = subjectData?.data?.list;
+  const ccl = cclData?.data?.list;
+
   Array(2)
     .fill(1)
     .map((item, index) => cards.push({
@@ -16,14 +24,14 @@ function SearchSubject() {
       key: index + 1,
       name: 'test_card'
     }));
-  const worksheets = [];
-  Array(20)
-    .fill(1)
-    .map((item, index) => worksheets.push({
-      id: index + 1,
-      key: index + 1,
-      name: 'test_card'
-    }));
+  const worksheets = searchData?.data ? searchData?.data : [];
+  // Array(20)
+  //   .fill(1)
+  //   .map((item, index) => worksheets.push({
+  //     id: index + 1,
+  //     key: index + 1,
+  //     name: 'test_card'
+  //   }));
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -32,26 +40,23 @@ function SearchSubject() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>GRADES</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                {grades.length > 0 &&
+                {grades?.length > 0 &&
                   grades.map((item) => (
-                    <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
+                    <Checkbox key={`grade_${item?._id}`} className='!ml-0'>
                       Grade
-                      {' '}
-                      <span className='capitalize'>{item}</span>
+                      <span className='capitalize'>{item?.name}</span>
                     </Checkbox>
                   ))}
               </div>
               <Divider className='my-0' />
             </Col>
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
-              <Typography.Text className='font-bold'>GRADES</Typography.Text>
+              <Typography.Text className='font-bold'>SUBJECTS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                {grades.length > 0 &&
-                  grades.map((item) => (
-                    <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
-                      Grade
-                      {' '}
-                      <span className='capitalize'>{item}</span>
+                {subjects?.length > 0 &&
+                  subjects.map((item) => (
+                    <Checkbox key={`grade_${item?._id}`} className='!ml-0'>
+                      <span className='capitalize'>{item?.title}</span>
                     </Checkbox>
                   ))}
               </div>
@@ -61,7 +66,10 @@ function SearchSubject() {
               <Typography.Text className='font-bold'>CCS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Select className='max-w-[220px] !rounded-[8px]'>
-                  <Select.Option value='test'>Test</Select.Option>
+                  {ccl?.length > 0 &&
+                    ccl.map((item) => (
+                      <Select.Option value={item?.title}>{item?.title}</Select.Option>
+                    ))}
                 </Select>
               </div>
             </Col>
@@ -76,13 +84,13 @@ function SearchSubject() {
             </Col>
             <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
               <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline'>Prek</Typography.Text>
+                <Typography.Text className='text-baseline' />
               </Tag>
               <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                 <Typography.Text className='text-baseline'>Grade K</Typography.Text>
               </Tag>
             </Col>
-            <Col span={24} className='!pl-[20px]'>
+            {/* <Col span={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
                 COLLECTIONS
                 {' '}
@@ -96,21 +104,21 @@ function SearchSubject() {
             </Col>
             <Col span={24} className='flex flex-wrap'>
               {cards.length > 0 && cards.map((item, index) => <CardComponent cardWidth={350} />)}
-            </Col>
+            </Col> */}
             <Col xs={12} md={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
                 WORKSHEETS
                 {' '}
                 <span className='font-normal'>
                   (
-                  {worksheets.length}
+                  {worksheets?.length}
                   {' '}
                   results)
                 </span>
               </Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets.length > 0 && worksheets.map((item, index) => <CardComponent />)}
+              {worksheets?.length > 0 && worksheets.map((item, index) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}
             </Col>
           </Row>
         </div>
@@ -144,7 +152,7 @@ function SearchSubject() {
           <Col span={24} className='!pl-[10px] flex flex-col gap-[10px]'>
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
-              {grades.length > 0 &&
+              {grades?.length > 0 &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
                     Grade
@@ -158,7 +166,7 @@ function SearchSubject() {
           <Col span={24} className='!pl-[10px] flex flex-col gap-[10px]'>
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
-              {grades.length > 0 &&
+              {grades?.length > 0 &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
                     Grade
@@ -183,4 +191,4 @@ function SearchSubject() {
   );
 }
 
-export default SearchSubject;
+export default SearchResult;

@@ -20,7 +20,7 @@ function TopSubjectComponent({ subjectList = [], ccsList = [] }) {
         <Col md={8} sm={12} xs={24} className='text-center md:text-left !p-0 border-b md:border-solid border-x-0 border-t-0 pb-3'>
           <Typography.Text className='font-bold text-[11px] md:ml-[10px] w-full  mb-[20px] block'>Browse by Common core standards</Typography.Text>
           <Row gutter={[16, 16]}>
-            {ccsList.map((item) => (
+            {ccsList?.map((item) => (
               <Col md={12} sm={12} xs={12} key={`subject_${Math.random()}`}>
                 <CcsComponent ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
               </Col>

@@ -11,10 +11,9 @@ import NewSignUpGoogle from './pages/newSignUp/NewSignUpGoogle';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import MyLibrary from './pages/Home/MyLibrary';
-import DetailPage from './pages/Subjects/DetailPage';
 import SubjectDetailsPage from './pages/Subjects/SubjectDetailsPage';
 import CCSDetailsPage from './pages/CCS/CCSDetailsPage';
-import SearchSubject from './pages/Subjects/SearchPage';
+import SearchResult from './pages/Search/SearchPage';
 import MyCollection from './pages/Collection/MyCollection';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
 import Worksheet from './pages/worksheet/Worksheet';
@@ -44,7 +43,7 @@ function App() {
         <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/my-classrooms/students/:id' element={<StudentDetailPage />} />
         <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />
-        <Route path='/search-subject' element={<SearchSubject />} />
+        <Route path='/search-result' element={<SearchResult />} />
         <Route path='/worksheet/:userId' element={<Worksheet />} />
         <Route path='/collection/:id' element={<MyCollection />} />
         <Route path='*' element={<NotFound />} />
