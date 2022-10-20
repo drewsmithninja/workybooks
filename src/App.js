@@ -11,15 +11,16 @@ import NewSignUpGoogle from './pages/newSignUp/NewSignUpGoogle';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
 import MyLibrary from './pages/Home/MyLibrary';
-import DetailPage from './pages/Subjects/DetailPage';
+import SubjectDetailsPage from './pages/Subjects/SubjectDetailsPage';
+import CCSDetailsPage from './pages/CCS/CCSDetailsPage';
 import SearchResult from './pages/Search/SearchPage';
 import MyCollection from './pages/Collection/MyCollection';
-
-import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
 import Worksheet from './pages/worksheet/Worksheet';
 import StudentDetailPage from './pages/Student/StudentDetailPage';
 import AssignmentDetailsPage from './pages/Classroom/myClassRooms/assignment/AssignmentDetailsPage';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -37,7 +38,8 @@ function App() {
         <Route path='/create-classroom' element={<CreateClassroom />} />
         <Route path='/select-classroom' element={<SelectClassroom />} />
         <Route path='/my-library' element={<MyLibrary />} />
-        <Route path='/subject/:id' element={<DetailPage />} />
+        <Route path='/subject/:id' element={<SubjectDetailsPage />} />
+        <Route path='/ccs/:id' element={<CCSDetailsPage />} />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/my-classrooms/students/:id' element={<StudentDetailPage />} />
         <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import { FaPrint, FaFolderPlus, FaRegImages, FaPinterest, FaInstagram, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { Col, Image, Row, Space, Tag } from 'antd';
@@ -12,7 +13,7 @@ let wDetail;
 function Worksheet() {
   const { userId } = useParams();
   const [worksheetDetail, setWorksheetDetails] = useState();
-  const { worksheetData, subjectData, cclData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
+  const { worksheetData, subjectData, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
   // console.log('wdata', worksheetData?.data, userId);
 
   useEffect(() => {
@@ -77,9 +78,7 @@ function Worksheet() {
           </Col>
           <Col xs={24} md={12} lg={16} xl={18}>
             <ADTitle level={2}>
-              {worksheetDetail?.name}
-              -
-              {worksheetDetail?.description}
+              {worksheetDetail?.name}-{worksheetDetail?.description}
             </ADTitle>
             <div className='grid grid-cols-2 py-4 w-fit mb-4'>
               <div>Publisher:</div>
@@ -92,13 +91,17 @@ function Worksheet() {
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Grades</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.grades?.map((item, index) => <div className='w-[80px] text-center bg-gray-200'>{item?.name}</div>)}
+                {worksheetDetail?.grades?.map((item, index) => (
+                  <div className='w-[80px] text-center bg-gray-200'>{item?.name}</div>
+                ))}
               </Space>
             </div>
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Standards</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.standards?.map((item, index) => <div className='w-[80px] text-center bg-gray-200'>{item}</div>)}
+                {worksheetDetail?.standards?.map((item, index) => (
+                  <div className='w-[80px] text-center bg-gray-200'>{item}</div>
+                ))}
               </Space>
             </div>
             <ADTitle level={4}>About this Activities</ADTitle>
@@ -114,7 +117,9 @@ function Worksheet() {
                 Tags
               </ADTitle>
               <Space>
-                {worksheetDetail?.tags?.map((item, index) => <Tag className='rounded-full'>{item.name}</Tag>)}
+                {worksheetDetail?.tags?.map((item, index) => (
+                  <Tag className='rounded-full'>{item.name}</Tag>
+                ))}
               </Space>
             </div>
           </Col>

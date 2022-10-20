@@ -96,7 +96,7 @@ function Headers() {
 
       {/* hamburger icon */}
       {user && (
-        <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} ref={hamburgerRef} id='menu-btn'>
+        <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
           <span className='hamburger-top' />
           <span className='hamburger-middle' />
           <span className='hamburger-bottom' />

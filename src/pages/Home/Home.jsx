@@ -4,17 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newWorksheet, listSubject, listCCL, listGrade } from '../../features/home/homepageSlice';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import dummyImage from '../../assets/images/dummyImage.png';
 import dummyImage1 from '../../assets/images/dummyImage1.png';
-import TopSubjectComponent from '../../components/common/SubjectComponent';
 import GradeComponent from '../../components/common/GradeComponent';
+import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 
 function Home() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { worksheetData, subjectData, cclData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
-
-  // console.log(worksheetData.data, subjectData.data, cclData.data, gradeData?.data);
+  const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
+  // console.log('data', subjectData?.data?.list);
+  console.log('hom', ccsData?.data?.list);
   window.document.title = 'Workybooks App — Home';
   const cards = worksheetData?.data?.list;
 
@@ -30,7 +29,7 @@ function Home() {
     <MainLayout>
       {user && (
         <div className='w-full max-w-[95%] m-auto'>
-          <TopSubjectComponent subjectList={subjectData?.data?.list} cclList={cclData?.data?.list} />
+          <TopSubjectComponent subjectList={subjectData?.data?.list} ccsList={ccsData?.data?.list} />
           <GradeComponent activeGrade='3' gradeList={gradeData?.data} />
 
           <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>

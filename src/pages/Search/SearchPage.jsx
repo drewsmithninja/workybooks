@@ -125,7 +125,7 @@ function SearchResult() {
       </div>
       <Modal
         title='Filter'
-        visible={showMobileFilter}
+        open={showMobileFilter}
         onCancel={() => setShowMobileFilter(false)}
         mask={false}
         className='mobileFilterModal'
