@@ -1,15 +1,19 @@
 import { SearchOutlined } from '@ant-design/icons';
 import { Col, Input, Row, Typography } from 'antd';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import ADButton from '../../components/antd/ADButton';
 import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
+import { subjectTopic } from '../../features/search/searchpageSlice';
 
 let subjectDetail;
 export default function SubjectDetailsPage() {
-  const { id } = useParams();
+  const { sid } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { ccsData: ccsData1, subjectData, gradeData } = useSelector((state) => state.home);
   // eslint-disable-next-line react/jsx-no-useless-fragment
   const [ccsItems, setCCSItems] = useState(null);
@@ -20,11 +24,22 @@ export default function SubjectDetailsPage() {
   useEffect(() => {
     const ccsItemsAr = [];
     const subjTree = subjectData?.data?.list;
-    subjectDetail = subjTree.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
+    subjectDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
+    // console.log(subjectDetail);
     // eslint-disable-next-line no-use-before-define
     renderCCSItem(ccsItemsAr, subjectDetail, 0);
     setCCSItems(ccsItemsAr);
-  }, [id]);
+  }, [sid]);
+
+  const topicSelectHandler = (topicName) => {
+    if (topicName) {
+      dispatch(subjectTopic({
+        id: sid,
+        topic: topicName
+      }));
+      navigate('/search-result');
+    }
+  };
 
   function renderCCSItem(items, ccsData, level) {
     let item = '<></>';
@@ -63,10 +78,7 @@ export default function SubjectDetailsPage() {
         if (level === 2) {
           items.push(
             <div className='bg-white'>
-              <div className='flex justify-between items-center'>
-                <div>{parentItem}</div>
-                <Input placeholder={`Search ${subjectData.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' suffix={<SearchOutlined className='text-[#A5A5A5]' />} />
-              </div>
+              <div>{parentItem}</div>
               {/* <div className='w-full p-0.5 bg-gray-600' /> */}
               <div className='bg-gray-100 my-4 w-full'>{subItems}</div>
             </div>
@@ -84,15 +96,16 @@ export default function SubjectDetailsPage() {
     } else {
       if (level === 2) {
         item = (
-          <div className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
+          <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
             <span>{ccsData?.title}</span>
-          </div>
+          </ADButton>
         );
       } else {
         item = (
-          <div className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
+          <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
             <span>{ccsData?.title}</span>
-          </div>
+          </ADButton>
+
         );
       }
 
@@ -102,7 +115,22 @@ export default function SubjectDetailsPage() {
   return (
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.data?.list} ccsList={ccsData1?.data?.list} />
-      <GradeComponent activeGrade='3' gradeList={gradeData?.data} />
+      <GradeComponent activeGrade='3' gradeList={gradeData?.data?.list} />
+      <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
+        <Col lg={12} xs={24}>
+          <Typography.Title level={3} className='md:text-left text-center'>
+            {subjectDetail?.title}
+            - Grade 3
+          </Typography.Title>
+        </Col>
+        <Col lg={12} xs={24} className='text-center md:text-right'>
+          <Input
+            placeholder={`Search ${subjectDetail?.title} Topics`}
+            className='w-full max-w-[487px] h-[40px] rounded-[60px]'
+            suffix={<SearchOutlined className='text-[#A5A5A5]' />}
+          />
+        </Col>
+      </Row>
       <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems}</div>
     </MainLayout>
   );

@@ -12,8 +12,7 @@ function Home() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
-  // console.log('data', subjectData?.data?.list);
-  console.log('hom', ccsData?.data?.list);
+  // console.log('hom', worksheetData, subjectData, ccsData, gradeData);
   window.document.title = 'Workybooks App — Home';
   const cards = worksheetData?.data?.list;
 
@@ -30,7 +29,7 @@ function Home() {
       {user && (
         <div className='w-full max-w-[95%] m-auto'>
           <TopSubjectComponent subjectList={subjectData?.data?.list} ccsList={ccsData?.data?.list} />
-          <GradeComponent activeGrade='3' gradeList={gradeData?.data} />
+          <GradeComponent activeGrade='3' gradeList={gradeData?.data?.list} />
 
           <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>
             <Col span={16} className='max-h-[253px] pr-0'>
