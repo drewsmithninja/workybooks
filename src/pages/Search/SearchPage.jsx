@@ -1,19 +1,22 @@
 import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
+import { search } from '../../features/search/searchpageSlice';
 // import { grades } from '../../utils/appData';
 
 function SearchResult() {
+  const dispatch = useDispatch();
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
   const { subjectData, cclData, gradeData } = useSelector((state) => state.home);
-
+  const [gradeArr, setgradeArr] = useState([]);
+  const [subjectArr, setsubjectArr] = useState([]);
   const cards = [];
-  const grades = gradeData?.data;
+  const grades = gradeData?.data?.list;
   const subjects = subjectData?.data?.list;
   const ccl = cclData?.data?.list;
 
@@ -24,14 +27,28 @@ function SearchResult() {
       key: index + 1,
       name: 'test_card'
     }));
-  const worksheets = searchData?.data ? searchData?.data : [];
-  // Array(20)
-  //   .fill(1)
-  //   .map((item, index) => worksheets.push({
-  //     id: index + 1,
-  //     key: index + 1,
-  //     name: 'test_card'
-  //   }));
+  const worksheets = searchData?.data?.worksheet ? searchData?.data?.worksheet : [];
+
+  const onChange = (checkedValues) => {
+    setgradeArr(checkedValues);
+    dispatch(search({
+      search: '',
+      subject: subjectArr,
+      grade: gradeArr,
+      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
+    }));
+  };
+
+  const onChangeSubject = (checkedValues) => {
+    setsubjectArr(checkedValues);
+    dispatch(search({
+      search: '',
+      subject: subjectArr,
+      grade: gradeArr,
+      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
+    }));
+  };
+  // console.log('Array', gradeArr, subjectArr);
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -40,25 +57,42 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>GRADES</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                {grades?.length > 0 &&
+                <Checkbox.Group
+                  onChange={onChange}
+                >
+                  {grades?.length > 0 &&
                   grades.map((item) => (
-                    <Checkbox key={`grade_${item?._id}`} className='!ml-0'>
-                      Grade
-                      <span className='capitalize'>{item?.name}</span>
-                    </Checkbox>
+                    <Row className='pb-1.5'>
+                      <Checkbox
+                        key={`grade_${item?._id}`}
+                        value={item?._id}
+                        className='!ml-0'
+                      >
+                        Grade
+                        <span className='capitalize'>{item?.name}</span>
+                      </Checkbox>
+                    </Row>
                   ))}
+
+                </Checkbox.Group>
               </div>
               <Divider className='my-0' />
             </Col>
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>SUBJECTS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                {subjects?.length > 0 &&
+                <Checkbox.Group
+                  onChange={onChangeSubject}
+                >
+                  {subjects?.length > 0 &&
                   subjects.map((item) => (
-                    <Checkbox key={`grade_${item?._id}`} className='!ml-0'>
-                      <span className='capitalize'>{item?.title}</span>
-                    </Checkbox>
+                    <Row className='pb-1.5'>
+                      <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
+                        <span className='capitalize'>{item?.title}</span>
+                      </Checkbox>
+                    </Row>
                   ))}
+                </Checkbox.Group>
               </div>
               <Divider className='my-0' />
             </Col>
@@ -77,7 +111,7 @@ function SearchResult() {
         </div>
         <div className='flex flex-1 pt-[15px]'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0'>
-            <Col span={24} className='flex gap-[10px] md:hidden pb-[20px] items-center justify-center'>
+            {/* <Col span={24} className='flex gap-[10px] md:hidden pb-[20px] items-center justify-center'>
               <ADButton type='primary' className='!rounded-[60px] w-full !text-center !mx-auto' onClick={() => setShowMobileFilter(true)}>
                 <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
               </ADButton>
@@ -89,7 +123,7 @@ function SearchResult() {
               <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                 <Typography.Text className='text-baseline'>Grade K</Typography.Text>
               </Tag>
-            </Col>
+            </Col> */}
             {/* <Col span={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
                 COLLECTIONS
@@ -159,6 +193,7 @@ function SearchResult() {
                     {' '}
                     <span className='capitalize'>{item}</span>
                   </Checkbox>
+
                 ))}
             </div>
             <Divider className='my-0' />

@@ -22,6 +22,26 @@ export const search = createAsyncThunk('search/search', async (searchData, thunk
   }
 });
 
+export const subjectTopic = createAsyncThunk('search/subjectTopic', async (searchTopic, thunkAPI) => {
+  try {
+    const response = await searchAPI.subjectTopic(searchTopic);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const ccsTopic = createAsyncThunk('search/ccsTopic', async (searchTopic, thunkAPI) => {
+  try {
+    const response = await searchAPI.ccsTopic(searchTopic);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const searchSlice = createSlice({
   name: 'search',
   initialState,
@@ -45,6 +65,34 @@ export const searchSlice = createSlice({
         state.searchData = action.payload;
       })
       .addCase(search.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.searchData = null;
+      })
+      .addCase(subjectTopic.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(subjectTopic.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.searchData = action.payload;
+      })
+      .addCase(subjectTopic.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.searchData = null;
+      })
+      .addCase(ccsTopic.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(ccsTopic.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.searchData = action.payload;
+      })
+      .addCase(ccsTopic.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

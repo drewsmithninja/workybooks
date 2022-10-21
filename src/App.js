@@ -38,7 +38,7 @@ function App() {
         <Route path='/create-classroom' element={<CreateClassroom />} />
         <Route path='/select-classroom' element={<SelectClassroom />} />
         <Route path='/my-library' element={<MyLibrary />} />
-        <Route path='/subject/:id' element={<SubjectDetailsPage />} />
+        <Route path='/subject/:sid' element={<SubjectDetailsPage />} />
         <Route path='/ccs/:id' element={<CCSDetailsPage />} />
         <Route path='/my-classrooms' element={<MyClassrooms />} />
         <Route path='/my-classrooms/students/:id' element={<StudentDetailPage />} />

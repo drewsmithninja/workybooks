@@ -17,7 +17,10 @@ function SearchBar() {
   useEffect(() => {
     if (searchText !== undefined) {
       dispatch(search({
-        search: searchText
+        search: searchText,
+        subject: [],
+        grade: [],
+        commonCoreStandards: []
       }));
       navigate('/search-result');
     }
