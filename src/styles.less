@@ -1,14 +1,21 @@
+/** CSS Variables */
+:root {
+  --black-gradient: linear-gradient(144.39deg, #ffffff -278.56%, #6d6d6d -78.47%, #11101d 91.61%);
+  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+  --primary: '#5470FF';
+  --secondary: '#D9D9D9';
+  --info: '#67BCFA';
+  --danger: '#FF2500';
+  --black: '#000000';
+  --white: '#ffffff';
+}
+
 @import '../node_modules/antd/dist/antd.less';
 /** Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/** CSS Variables */
-:root {
-  --black-gradient: linear-gradient(144.39deg, #ffffff -278.56%, #6d6d6d -78.47%, #11101d 91.61%);
-  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
-}
 
 /** CSS Resets */
 * {
@@ -311,4 +318,35 @@ h1.ant-typography, h2.ant-typography, h3.ant-typography, h4.ant-typography, h5.a
 
 .j-border {
   border: 1px solid blue;
+}
+
+// steps components
+.ant-steps {
+  background-color: #D8EEFF;
+  padding: .5rem 1rem;
+  .ant-steps-item {
+    .ant-steps-icon {
+      font-weight: 600;
+      color: black;
+      font-size: larger;
+    }
+    &.ant-steps-item-process {
+      .ant-steps-item-icon {
+        background: #6EBEFA;
+        border: 1px solid #6EBEFA;
+        .ant-steps-icon {
+          color: black;
+        }
+      }
+    }
+  }
+  .ant-steps-item-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+.steps-content {
+  min-height: 300px;
+  background-color: var(--secondary);
+  margin: 1rem 0;
 }
