@@ -1,54 +1,83 @@
-import { CloseCircleFilled } from '@ant-design/icons';
-import { Button, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Col, Divider, Dropdown, Modal, Row, Select, Space, Typography } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../features/search/searchpageSlice';
-// import { grades } from '../../utils/appData';
 
 function SearchResult() {
   const dispatch = useDispatch();
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
-  const { subjectData, cclData, gradeData } = useSelector((state) => state.home);
+  const { subjectData, ccsData, gradeData } = useSelector((state) => state.home);
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
   const cards = [];
   const grades = gradeData?.data?.list;
   const subjects = subjectData?.data?.list;
-  const ccl = cclData?.data?.list;
+  const ccs = ccsData?.data?.list;
+
+  const items =
+    ccs?.length &&
+    ccs.map((item) => ({
+      label: item.title,
+      key: item.id,
+      children:
+        item?.tree?.length &&
+        item?.tree.map((secondItem) => ({
+          label: secondItem.id,
+          key: secondItem.id,
+          children:
+            secondItem?.topics?.length &&
+            secondItem?.topics.map((thirdItem) => ({
+              label: thirdItem.id,
+              key: thirdItem.id
+            }))
+        }))
+    }));
+
+  const onClick = ({ key }) => {
+    message.info(`Click on item ${key}`);
+  };
 
   Array(2)
     .fill(1)
-    .map((item, index) => cards.push({
-      id: index + 1,
-      key: index + 1,
-      name: 'test_card'
-    }));
+    // eslint-disable-next-line array-callback-return
+    .map((item, index) => {
+      cards.push({
+        id: index + 1,
+        key: index + 1,
+        name: 'test_card'
+      });
+    });
   const worksheets = searchData?.data?.worksheet ? searchData?.data?.worksheet : [];
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
-    dispatch(search({
-      search: '',
-      subject: subjectArr,
-      grade: gradeArr,
-      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
-    }));
+    dispatch(
+      search({
+        search: '',
+        subject: subjectArr,
+        grade: gradeArr,
+        commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
+      })
+    );
   };
 
   const onChangeSubject = (checkedValues) => {
     setsubjectArr(checkedValues);
-    dispatch(search({
-      search: '',
-      subject: subjectArr,
-      grade: gradeArr,
-      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
-    }));
+    dispatch(
+      search({
+        search: '',
+        subject: subjectArr,
+        grade: gradeArr,
+        commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
+      })
+    );
   };
-  // console.log('Array', gradeArr, subjectArr);
+  useEffect(() => {}, []);
+
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -57,23 +86,16 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>GRADES</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                <Checkbox.Group
-                  onChange={onChange}
-                >
+                <Checkbox.Group onChange={onChange}>
                   {grades?.length > 0 &&
-                  grades.map((item) => (
-                    <Row className='pb-1.5'>
-                      <Checkbox
-                        key={`grade_${item?._id}`}
-                        value={item?._id}
-                        className='!ml-0'
-                      >
-                        Grade
-                        <span className='capitalize'>{item?.name}</span>
-                      </Checkbox>
-                    </Row>
-                  ))}
-
+                    grades.map((item) => (
+                      <Row className='pb-1.5'>
+                        <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
+                          Grade
+                          <span className='capitalize'>{item?.name}</span>
+                        </Checkbox>
+                      </Row>
+                    ))}
                 </Checkbox.Group>
               </div>
               <Divider className='my-0' />
@@ -81,31 +103,34 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>SUBJECTS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                <Checkbox.Group
-                  onChange={onChangeSubject}
-                >
+                <Checkbox.Group onChange={onChangeSubject}>
                   {subjects?.length > 0 &&
-                  subjects.map((item) => (
-                    <Row className='pb-1.5'>
-                      <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
-                        <span className='capitalize'>{item?.title}</span>
-                      </Checkbox>
-                    </Row>
-                  ))}
+                    subjects.map((item) => (
+                      <Row className='pb-1.5'>
+                        <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
+                          <span className='capitalize'>{item?.title}</span>
+                        </Checkbox>
+                      </Row>
+                    ))}
                 </Checkbox.Group>
               </div>
               <Divider className='my-0' />
             </Col>
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>CCS</Typography.Text>
-              <div className='flex flex-col gap-[10px]'>
-                <Select className='max-w-[220px] !rounded-[8px]'>
-                  {ccl?.length > 0 &&
-                    ccl.map((item) => (
-                      <Select.Option value={item?.title}>{item?.title}</Select.Option>
-                    ))}
-                </Select>
-              </div>
+              <Dropdown
+                menu={{
+                  items,
+                  onClick
+                }}
+              >
+                <Button className='max-w-[220px] w-full text-left'>
+                  <Space>
+                    Select
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
             </Col>
           </Row>
         </div>
@@ -141,13 +166,10 @@ function SearchResult() {
             </Col> */}
             <Col xs={12} md={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
-                WORKSHEETS
-                {' '}
+                {'WORKSHEETS '}
                 <span className='font-normal'>
-                  (
                   {worksheets?.length}
-                  {' '}
-                  results)
+                  {' results'}
                 </span>
               </Typography.Text>
             </Col>
@@ -189,11 +211,9 @@ function SearchResult() {
               {grades?.length > 0 &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
-                    Grade
-                    {' '}
+                    {'Grade '}
                     <span className='capitalize'>{item}</span>
                   </Checkbox>
-
                 ))}
             </div>
             <Divider className='my-0' />
@@ -204,8 +224,7 @@ function SearchResult() {
               {grades?.length > 0 &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
-                    Grade
-                    {' '}
+                    {'Grade '}
                     <span className='capitalize'>{item}</span>
                   </Checkbox>
                 ))}
