@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, QuestionCircleFilled } from '@ant-design/icons';
+import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, MenuOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -45,7 +45,7 @@ function Headers() {
   );
 
   return (
-    <Header className='h-20 container flex justify-between items-center'>
+    <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
       <Link to='/'>
         <img
           src={logo}
@@ -96,23 +96,21 @@ function Headers() {
 
       {/* hamburger icon */}
       {user && (
-        <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
-          <span className='hamburger-top' />
-          <span className='hamburger-middle' />
-          <span className='hamburger-bottom' />
+        <ADButton className='hamburger md:hidden focus:outline-none bg-white' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
+          <MenuOutlined />
         </ADButton>
       )}
 
       {/* mobile menu */}
-      <div className='md:hidden'>
-        <div id='menu' ref={navbarRef} className='bg-backgroundColorBlack absolute flex-col items-center hidden self-end font-bold mt-6 left-6 right-6 sm:w-auto sm:self-center'>
-          <Link to='/'>
+      <div className='md:hidden z-10'>
+        <div id='menu' ref={navbarRef} className='bg-white border border-solid border-primary absolute flex-col items-center hidden self-end font-bold mt-6 left-0 rounded-md border-t-0 right-0 sm:w-auto sm:self-center'>
+          <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>Explore</span>
           </Link>
-          <Link to='/dashboard'>
+          <Link to='/dashboard' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>My Library </span>
           </Link>
-          <Link to='/services'>
+          <Link to='/services' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
