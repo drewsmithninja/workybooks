@@ -4,6 +4,7 @@ import searchAPI from '../../app/api/searchApi';
 
 const initialState = {
   searchData: null,
+  suggestKeyword: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -15,6 +16,16 @@ const initialState = {
 export const search = createAsyncThunk('search/search', async (searchData, thunkAPI) => {
   try {
     const response = await searchAPI.search(searchData);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const searchSuggest = createAsyncThunk('search/suggestKeyword', async (searchQuery, thunkAPI) => {
+  try {
+    const response = await searchAPI.searchSuggest(searchQuery);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -47,6 +58,7 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     reset: (state, action) => {
+      state.suggestKeyword = null;
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -69,6 +81,20 @@ export const searchSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.searchData = null;
+      })
+      .addCase(searchSuggest.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(searchSuggest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.suggestKeyword = action.payload;
+      })
+      .addCase(searchSuggest.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.suggestKeyword = null;
       })
       .addCase(subjectTopic.pending, (state, action) => {
         state.isLoading = true;

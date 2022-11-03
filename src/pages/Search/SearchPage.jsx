@@ -1,6 +1,6 @@
 import { CloseCircleFilled } from '@ant-design/icons';
-import { Button, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
-import React, { useState } from 'react';
+import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
@@ -12,13 +12,14 @@ function SearchResult() {
   const dispatch = useDispatch();
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
-  const { subjectData, cclData, gradeData } = useSelector((state) => state.home);
+  const { subjectData, ccsData, gradeData } = useSelector((state) => state.home);
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
+  const [ccsArr, setccsArr] = useState([]);
   const cards = [];
   const grades = gradeData?.data?.list;
   const subjects = subjectData?.data?.list;
-  const ccl = cclData?.data?.list;
+  const ccl = ccsData?.data?.list;
 
   Array(2)
     .fill(1)
@@ -27,28 +28,41 @@ function SearchResult() {
       key: index + 1,
       name: 'test_card'
     }));
-  const worksheets = searchData?.data?.worksheet ? searchData?.data?.worksheet : [];
+  const worksheets = searchData?.data?.content ? searchData?.data?.content : [];
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
-    dispatch(search({
-      search: '',
-      subject: subjectArr,
-      grade: gradeArr,
-      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
-    }));
   };
 
   const onChangeSubject = (checkedValues) => {
     setsubjectArr(checkedValues);
+  };
+
+  function closeTag() {
     dispatch(search({
       search: '',
       subject: subjectArr,
       grade: gradeArr,
-      commonCoreStandards: ['634cfa3431ea9e6fb4ca2fe3']
+      commonCoreStandards: ccsArr,
+      stds_topic: []
     }));
+  }
+
+  const handleCcs = (value) => {
+    setccsArr([value]);
   };
-  // console.log('Array', gradeArr, subjectArr);
+  useEffect(() => {
+    if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
+      dispatch(search({
+        search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
+        subject: subjectArr,
+        grade: gradeArr,
+        commonCoreStandards: ccsArr,
+        stds_topic: []
+      }));
+    }
+  }, [subjectArr, gradeArr, ccsArr]);
+
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -69,7 +83,7 @@ function SearchResult() {
                         className='!ml-0'
                       >
                         Grade
-                        <span className='capitalize'>{item?.name}</span>
+                        <span className='capitalize'>{item?.title}</span>
                       </Checkbox>
                     </Row>
                   ))}
@@ -99,10 +113,10 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>CCS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                <Select className='max-w-[220px] !rounded-[8px]'>
+                <Select className='max-w-[220px] !rounded-[8px]' onChange={handleCcs}>
                   {ccl?.length > 0 &&
-                    ccl.map((item) => (
-                      <Select.Option value={item?.title}>{item?.title}</Select.Option>
+                    ccl?.map((item) => (
+                      <Select.Option value={item?._id}>{item?.title}</Select.Option>
                     ))}
                 </Select>
               </div>
@@ -115,15 +129,18 @@ function SearchResult() {
               <ADButton type='primary' className='!rounded-[60px] w-full !text-center !mx-auto' onClick={() => setShowMobileFilter(true)}>
                 <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
               </ADButton>
-            </Col>
-            <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
-              <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline' />
-              </Tag>
-              <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline'>Grade K</Typography.Text>
-              </Tag>
             </Col> */}
+            { (searchData?.data?.searchText) && (
+            <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
+              {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
+                <Typography.Text className='text-baseline' />
+              </Tag> */}
+
+              <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
+                <Typography.Text className='text-baseline'>{searchData?.data?.searchText}</Typography.Text>
+              </Tag>
+            </Col>
+            )}
             {/* <Col span={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
                 COLLECTIONS
@@ -152,7 +169,7 @@ function SearchResult() {
               </Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets?.length > 0 && worksheets.map((item, index) => <CardComponent key={item.workyId} cardData={item} cardImage={item.image} />)}
+              {worksheets?.length > 0 ? worksheets.map((item, index) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
           </Row>
         </div>
@@ -191,7 +208,7 @@ function SearchResult() {
                   <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
                     Grade
                     {' '}
-                    <span className='capitalize'>{item}</span>
+                    <span className='capitalize'>{item.title}</span>
                   </Checkbox>
 
                 ))}

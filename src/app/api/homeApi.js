@@ -4,7 +4,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
-  const response = await axios.post(`${API_URL}/worksheet/list`, worksheetData);
+  const response = await axios.post(`${API_URL}/content/list`, worksheetData);
   return response.data;
 };
 

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, QuestionCircleFilled } from '@ant-design/icons';
+import { BellFilled, DownOutlined, MenuOutlined, EditOutlined, LogoutOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,7 +63,7 @@ function Headers() {
             {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
           </Link>
           <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
-          <Link to='/my-classrooms/students'>
+          <Link to='/my-classrooms'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
@@ -97,9 +97,7 @@ function Headers() {
       {/* hamburger icon */}
       {user && (
         <ADButton className='block hamburger md:hidden focus:outline-none' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
-          <span className='hamburger-top' />
-          <span className='hamburger-middle' />
-          <span className='hamburger-bottom' />
+          <MenuOutlined />
         </ADButton>
       )}
 
@@ -109,10 +107,10 @@ function Headers() {
           <Link to='/'>
             <span className='navbar-menu-item'>Explore</span>
           </Link>
-          <Link to='/dashboard'>
+          <Link to='/my-library'>
             <span className='navbar-menu-item'>My Library </span>
           </Link>
-          <Link to='/services'>
+          <Link to='/my-classrooms'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
