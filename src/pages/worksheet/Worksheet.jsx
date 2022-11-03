@@ -29,7 +29,7 @@ function Worksheet() {
 
   return (
     <MainLayout>
-      <div className='container pt-16 md:px-0 px-4'>
+      <div className='container pt-16 my-0 mx-auto ml- md:px-4'>
         <Row gutter={[16, 16]} className='pb-8'>
           <Col xs={24} md={12} lg={8} xl={6}>
             <div className='xl:pr-10 lg:pr-6 md:pr-4 pr-0'>
@@ -126,7 +126,7 @@ function Worksheet() {
               <ADTitle level={4} className='py-4'>
                 Tags
               </ADTitle>
-              <Space>
+              <Space className='flex-wrap'>
                 {worksheetDetail?.keyw?.map((item, index) => (
                   <Tag className='rounded-full'>{item}</Tag>
                 ))}

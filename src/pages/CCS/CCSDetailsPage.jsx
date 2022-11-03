@@ -103,7 +103,7 @@ export default function CCSDetailsPage() {
             <div key={ccsItem.title} onClick={() => topicSelectHandler(ccsItem.id)} className='px-2 pt-4 pb-2 flex w-full justify-between  text-left text-sm font-bold text-gray-900 '>
               <span className='cursor-pointer hover:text-blue-500'>{ccsItem.title}</span>
             </div>
-            <div className='px-2 py-1 text-sm text-gray-500  bg-gray-100'>{subItems}</div>
+            <div className='px-2 py-1 text-sm text-gray-500  w-full bg-gray-100'>{subItems}</div>
           </>
         );
 

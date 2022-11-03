@@ -14,11 +14,6 @@ function TopSubjectComponent({ subjectList = [], ccsList = [] }) {
               <>
                 {/* temp repeated for demo purpose */}
                 <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
               </>
             ))}
           </div>
@@ -29,8 +24,6 @@ function TopSubjectComponent({ subjectList = [], ccsList = [] }) {
             {ccsList?.map((item) => (
               <>
                 {/* temp repeated for demo purpose */}
-                <CcsComponent ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
-                <CcsComponent ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
                 <CcsComponent ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
               </>
             ))}
