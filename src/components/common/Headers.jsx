@@ -63,7 +63,7 @@ function Headers() {
             {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
           </Link>
           <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
-          <Link to='/my-classrooms/students'>
+          <Link to='/my-classrooms'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
@@ -107,10 +107,10 @@ function Headers() {
           <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>Explore</span>
           </Link>
-          <Link to='/dashboard' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+          <Link to='/my-library' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>My Library </span>
           </Link>
-          <Link to='/services' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+          <Link to='/my-classrooms' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
