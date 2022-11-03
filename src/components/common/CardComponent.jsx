@@ -119,9 +119,22 @@ function CardComponent({
       }}
     >
       {/* Card Image */}
-      <div className='topImage bg-gray-300 rounded-2xl'>
-        <Link to={cardData.workyId ? `/worksheet/${cardData.workyId}` : ''}>
-          <img src={cardImage} alt='cardImage' className='rounded-2xl w-full' />
+      <div
+        className='topImage bg-gray-300 rounded-2xl'
+        style={{
+          width: cardWidth
+        }}
+      >
+        <Link to={cardData.worky_id ? `/worksheet/${cardData.worky_id}` : ''}>
+          <img
+            src={cardImage}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = 'https://via.placeholder.com/215x278';
+            }}
+            alt='cardImage'
+            className='rounded-2xl w-full'
+          />
         </Link>
       </div>
 
@@ -137,8 +150,8 @@ function CardComponent({
                 dispatch(unselectCollection(cardData));
               }
             }}
-            id={`collection_id_${cardData.workyId}`}
-            name={`collection_id_${cardData.workyId}`}
+            id={`collection_id_${cardData.worky_id}`}
+            name={`collection_id_${cardData.worky_id}`}
             checked={c}
           />
         </div>
@@ -259,21 +272,21 @@ function CardComponent({
 
       {/* Card Title */}
       <p className='leading-4 text-[12px] mb-0'>
-        {cardData.name}
+        {cardData.title}
         -
-        {cardData.description}
+        {cardData?.descrpt?.substring(0, 50)}
       </p>
 
       {/* Card author */}
-      <p className='leading-4 text-[10px] text-gray-400'>{cardData.writtenBy}</p>
+      <p className='leading-4 text-[10px] text-gray-400'>{cardData.author}</p>
 
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
-        {extraDetails.length > 0 &&
-          extraDetails.map((item) => (
-            <p key={`extraDetails-${item.key + 1}`} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
-              {item.detail}
-            </p>
+        {cardData?.stds_topic?.length > 0 &&
+          cardData?.stds_topic?.slice(0, 3).map((item, index) => (
+            <span className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
+              {item}
+            </span>
           ))}
       </div>
     </div>

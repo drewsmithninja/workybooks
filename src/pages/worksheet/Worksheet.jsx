@@ -18,7 +18,9 @@ function Worksheet() {
 
   useEffect(() => {
     if (userId) {
-      wDetail = worksheetData?.data?.list.find((item) => parseInt(item.workyId, 30) === parseInt(userId, 30));
+      // console.log(userId);
+      wDetail = worksheetData?.data?.list.find((item) => item.worky_id === userId);
+      // console.log(wDetail);
       if (wDetail) {
         setWorksheetDetails(wDetail);
       }
@@ -32,8 +34,16 @@ function Worksheet() {
           <Col xs={24} md={12} lg={8} xl={6}>
             <div className='xl:pr-10 lg:pr-6 md:pr-4 pr-0'>
               <Space direction='vertical' className='w-full'>
-                {worksheetDetail?.image ? <Image src={worksheetDetail?.image} /> : <div className='bg-gray-300 aspect-[2.5/3] w-full rounded w-full' />}
-                <ADButton type='primary' className='w-full' onClick={() => window.open(`https://${worksheetDetail?.externalUrl}`)}>
+                {worksheetDetail?.thumbnail ? (
+                  <Image
+                    src={worksheetDetail?.thumbnail}
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = 'https://via.placeholder.com/215x278';
+                    }}
+                  />
+                ) : <div className='bg-gray-300 aspect-[2.5/3] w-full rounded w-full' />}
+                <ADButton type='primary' className='w-9/12 justify-center' onClick={() => window.open('https://www.google.com')}>
                   PLAY WORKSHEET
                 </ADButton>
               </Space>
@@ -78,34 +88,34 @@ function Worksheet() {
           </Col>
           <Col xs={24} md={12} lg={16} xl={18}>
             <ADTitle level={2}>
-              {worksheetDetail?.name}-{worksheetDetail?.description}
+              {worksheetDetail?.title}
             </ADTitle>
             <div className='grid grid-cols-2 py-4 w-fit mb-4'>
               <div>Publisher:</div>
               <div>{worksheetDetail?.publisher}</div>
               <div>Written by:</div>
-              <div>{worksheetDetail?.writtenBy}</div>
+              <div>{worksheetDetail?.author}</div>
               <div>Illustrated by:</div>
               <div>{worksheetDetail?.illust}</div>
             </div>
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Grades</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.grades?.map((item, index) => (
-                  <div className='w-[80px] text-center bg-gray-200'>{item?.name}</div>
+                {worksheetDetail?.grades?.map((item) => (
+                  <div className='w-[80px] text-center bg-gray-200'>{item.title}</div>
                 ))}
               </Space>
             </div>
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Standards</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.standards?.map((item, index) => (
-                  <div className='w-[80px] text-center bg-gray-200'>{item}</div>
+                {worksheetDetail?.stds?.map((item, index) => (
+                  <div className='w-[80px] text-center bg-gray-200'>{item.title}</div>
                 ))}
               </Space>
             </div>
             <ADTitle level={4}>About this Activities</ADTitle>
-            <p>{worksheetDetail?.activity}</p>
+            <p>{worksheetDetail?.descrpt}</p>
             <Space direction='vertical' size='small'>
               <div>orientation (setting, characters, and mood)</div>
               <div>complication</div>
@@ -117,8 +127,8 @@ function Worksheet() {
                 Tags
               </ADTitle>
               <Space>
-                {worksheetDetail?.tags?.map((item, index) => (
-                  <Tag className='rounded-full'>{item.name}</Tag>
+                {worksheetDetail?.keyw?.map((item, index) => (
+                  <Tag className='rounded-full'>{item}</Tag>
                 ))}
               </Space>
             </div>
@@ -126,9 +136,19 @@ function Worksheet() {
         </Row>
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
-          {worksheetData?.data?.list.map((i) => (
-            <Link to={i.workyId ? `/worksheet/${i.workyId}` : ''}>
-              <Image width={200} key={i} src={i.image} preview={false} className='rounded-2xl w-full' />
+          {worksheetData?.data?.list?.slice(0, 15).map((i) => (
+            <Link to={i.worky_id ? `/worksheet/${i.worky_id}` : ''}>
+              <Image
+                width={200}
+                key={i}
+                src={i.thumbnail}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = 'https://via.placeholder.com/215x278';
+                }}
+                preview={false}
+                className='rounded-2xl w-full'
+              />
             </Link>
           ))}
         </Space>
