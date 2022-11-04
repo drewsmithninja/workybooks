@@ -7,6 +7,7 @@ import ADTitle from '../antd/ADTitle';
 import ADButton from '../antd/ADButton';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
+import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
 
 import printIcon from '../../assets/images/icons/print_gray.png';
@@ -15,45 +16,42 @@ import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import AssignStep3 from '../assignSteps/AssignStep3';
 
-function CardComponent({
-  cardImage = 'https://via.placeholder.com/400x200',
-  cardTitle = 'Short passage - find the meaning of the word - Ruth Bader',
-  cardAuthor = 'By Workybooks',
-  isLiked = true,
-  isChecked = false,
-  extraDetails = [
-    {
-      key: 1,
-      detail: '3.W.3.1.B'
-    },
-    {
-      key: 2,
-      detail: '3.W.3.1.B'
-    },
-    {
-      key: 3,
-      detail: '3.W.3.1.B'
-    }
-  ],
-  cardWidth = 215,
-  cardData = {
-  }
-}) {
+function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLiked = true, cardWidth = 215, cardData = null }) {
   const dispatch = useDispatch();
   const { Step } = Steps;
   const { collections } = useSelector((state) => state);
   const [c, setc] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
-  const showModal = () => {
+
+  const showAssignModal = () => {
     setIsAssignModalOpen(true);
   };
-  const onCreateClick = () => {
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+  const onAssignCreateClick = () => {
+    setCurrentStep(0);
     setIsAssignModalOpen(false);
     setIsStepModalOpen(true);
   };
-
+  const showCollectionModal = () => {
+    setIsCollectionModalOpen(true);
+  };
+  const handleCollectionModalOk = () => {
+    setIsCollectionModalOpen(false);
+  };
+  const handleCollectionModalCancel = () => {
+    setIsCollectionModalOpen(false);
+  };
+  const onCollectionCreateClick = () => {
+    setIsCollectionModalOpen(false);
+  };
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -68,7 +66,7 @@ function CardComponent({
     },
     {
       title: 'Select Students',
-      content: <AssignStep2 onAssignClass={() => nextStep()} onAssignSelected={() => nextStep()} />
+      content: <AssignStep2 onAssignClass={nextStep} onAssignSelected={nextStep} />
     },
     {
       title: 'Select Assignment Details',
@@ -86,13 +84,14 @@ function CardComponent({
         {
           label: 'ASSIGN',
           key: '2',
-          icon: <img src={assignIcon} alt='assign' />
+          icon: <img src={assignIcon} alt='assign' />,
+          onClick: showAssignModal
         },
         {
           label: 'ADD TO COLLECTION',
           key: '3',
           icon: <img src={folderIcon} alt='add to collection' />,
-          onClick: showModal
+          onClick: showCollectionModal
         },
         {
           label: 'SHARE',
@@ -162,46 +161,11 @@ function CardComponent({
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>
           </Dropdown>
-          <Modal className='rounded-xl' centered width={670} footer={false} closable={false} open={isAssignModalOpen}>
-            <ADTitle level={3} className='text-center pb-8'>
-              Assign
-            </ADTitle>
-            <Row className='pb-8'>
-              <Col xs={24} sm={8}>
-                <div className='bg-slate-300 h-auto w-[200px] aspect-[3/4]' />
-              </Col>
-              <Col xs={24} sm={16}>
-                <div className='sm:pl-4'>
-                  <ADTitle level={5}>Create new Assignment</ADTitle>
-                  <Row gutter={16} className='py-4' wrap={false}>
-                    <Col xs={24} flex='auto'>
-                      <Input className='w-full flex min-w-full' />
-                    </Col>
-                    <Col xs={24} flex='none'>
-                      <ADButton type='primary' size='small' className='!rounded-full' onClick={onCreateClick}>
-                        Create
-                      </ADButton>
-                    </Col>
-                  </Row>
-                  <div className='border border-solid border-black border-x-0 border-t-0' />
-                  <ADTitle level={5} className='py-4'>
-                    Add to existing Assignment
-                  </ADTitle>
-                  {Array(3)
-                    .fill('Fractions')
-                    .map((item, index) => (
-                      <Row gutter={16} key={index} className='mt-4'>
-                        <Col flex='none'>
-                          <div className='bg-slate-300 h-auto w-[75px] aspect-[4/3]' />
-                        </Col>
-                        <Col xs={24} flex='auto' className='flex items-center'>
-                          {item}
-                        </Col>
-                      </Row>
-                    ))}
-                </div>
-              </Col>
-            </Row>
+          <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
+            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+          </Modal>
+          <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
+            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
           </Modal>
           <Modal
             className='rounded-xl'
@@ -231,39 +195,39 @@ function CardComponent({
             <div className='steps-action'>
               {currentStep === 0 && (
                 <div className='flex justify-between'>
-                  <Button size='large' type='danger' onClick={() => nextStep()}>
+                  <Button size='large' type='danger' onClick={nextStep}>
                     CANCEL
                   </Button>
-                  <Button size='large' type='primary' onClick={() => nextStep()}>
+                  <Button size='large' type='primary' onClick={nextStep}>
                     ADD MORE ITEMS
                   </Button>
-                  <Button size='large' type='primary' onClick={() => nextStep()}>
+                  <Button size='large' type='primary' onClick={nextStep}>
                     ASSIGN
                   </Button>
                 </div>
               )}
               {currentStep === 1 && (
                 <div className='flex justify-between'>
-                  <Button size='large' type='danger' onClick={() => nextStep()}>
+                  <Button size='large' type='danger' onClick={nextStep}>
                     CANCEL
                   </Button>
-                  <Button size='large' type='primary' onClick={() => prevStep()}>
+                  <Button size='large' type='primary' onClick={prevStep}>
                     BACK
                   </Button>
                 </div>
               )}
               {currentStep === 2 && (
-              <div className='flex justify-between'>
-                <Button size='large' type='danger' onClick={() => nextStep()}>
-                  CANCEL
-                </Button>
-                <Button size='large' type='primary' onClick={() => prevStep()}>
-                  BACK
-                </Button>
-                <Button size='large' type='primary' onClick={() => nextStep()}>
-                  ASSIGN
-                </Button>
-              </div>
+                <div className='flex justify-between'>
+                  <Button size='large' type='danger' onClick={nextStep}>
+                    CANCEL
+                  </Button>
+                  <Button size='large' type='primary' onClick={prevStep}>
+                    BACK
+                  </Button>
+                  <Button size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
+                    ASSIGN
+                  </Button>
+                </div>
               )}
             </div>
           </Modal>
@@ -274,7 +238,7 @@ function CardComponent({
       <p className='leading-4 text-[12px] mb-0'>
         {cardData.title}
         -
-        {cardData?.descrpt?.substring(0, 50)}
+        {`${cardData?.descrpt?.substring(0, 50)}`}
       </p>
 
       {/* Card author */}
@@ -283,8 +247,8 @@ function CardComponent({
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
         {cardData?.stds_topic?.length > 0 &&
-          cardData?.stds_topic?.slice(0, 3).map((item, index) => (
-            <span className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
+          cardData?.stds_topic?.slice(0, 3).map((item) => (
+            <span key={item} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
               {item}
             </span>
           ))}
