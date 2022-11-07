@@ -11,10 +11,7 @@ function TopSubjectComponent({ subjectList = [], ccsList = [] }) {
           <Typography.Text className='font-bold text-[11px] sm:mb-0 !mb-[20px] block'>Browse by Subject</Typography.Text>
           <div className='border-r border-y-0 border-l-0 md:border-solid flex overflow-x-auto'>
             {subjectList?.map((item) => (
-              <>
-                {/* temp repeated for demo purpose */}
-                <SubjectComponent subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
-              </>
+              <SubjectComponent key={item._id} subjectImage={item.image} subjectName={item.title} subjectId={item._id} />
             ))}
           </div>
         </Col>
@@ -22,10 +19,7 @@ function TopSubjectComponent({ subjectList = [], ccsList = [] }) {
           <Typography.Text className='font-bold text-[11px] md:ml-[10px] w-full  mb-[20px] block'>Browse by Common core standards</Typography.Text>
           <div className='flex overflow-x-auto ml-4'>
             {ccsList?.map((item) => (
-              <>
-                {/* temp repeated for demo purpose */}
-                <CcsComponent ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
-              </>
+              <CcsComponent key={item._id} ccsImage={item.image} ccsName={item.title} ccsId={item._id} />
             ))}
           </div>
         </Col>
