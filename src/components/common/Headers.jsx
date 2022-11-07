@@ -28,7 +28,10 @@ function Headers() {
         {
           label: 'Edit Profile',
           key: '1',
-          icon: <EditOutlined className='text-base text-gray-400' />
+          icon: <EditOutlined className='text-base text-gray-400' />,
+          onClick: () => {
+            navigate('/user-profile');
+          }
         },
         {
           label: 'Logout',
