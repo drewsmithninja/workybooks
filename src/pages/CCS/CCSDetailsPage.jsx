@@ -57,19 +57,27 @@ export default function CCSDetailsPage() {
     }
   };
 
-  const searchData = (dataArray, searchTerm) => dataArray?.flatMap((obj) => {
-    const objHasSearchTerm = Object.entries(obj)
-      .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
-    if (objHasSearchTerm && !obj) return [obj];
-    const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
-    const searchedData = objHasSearchTerm || matchedTopics.length > 0 ?
-      [{
-        ...obj,
-        topics: matchedTopics
-      }] :
-      [];
-    return searchedData;
-  });
+  // const searchData = (dataArray, searchTerm) => dataArray?.flatMap((obj) => {
+  //   const objHasSearchTerm = Object.entries(obj)
+  //     .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
+  //   if (objHasSearchTerm && !obj) return [obj];
+  //   const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
+  //   const searchedData = objHasSearchTerm || matchedTopics.length > 0 ?
+  //     [{
+  //       ...obj,
+  //       topics: matchedTopics
+  //     }] :
+  //     [];
+  //   return searchedData;
+  // });
+
+  const searchData = (array, searchTerm) => array.reduce((prev, curr) => {
+    const children = curr.topics ? searchData(curr.topics, searchTerm) : undefined;
+    return curr.id === searchTerm || children?.length > 0 ? [...prev, {
+      ...curr, topics: children
+    }] : prev;
+    // return curr.title === searchTerm || children?.length > 0 ? [...prev, { ...curr, topics: children }] : prev;
+  }, []);
 
   function renderCCSItem(items, ccsItem, level) {
     let item = '<></>;';
@@ -137,7 +145,9 @@ export default function CCSDetailsPage() {
     const ccsTree = ccsData?.data?.list;
     ccsNewDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
     ab.push(ccsNewDetail?.tree);
-    const newData = searchData(ab, value);
+    console.log(ab, value);
+    const newData = searchData(ccsNewDetail?.tree, '3.RL.3.2');
+    console.log(newData);
     for (let i = 0; i < newData?.data?.list?.length; i += 1) {
       if (newData?.data?.list[i]._id === id) {
         for (let j = 0; j < newData?.data?.list[i].tree.length; j += 1) {

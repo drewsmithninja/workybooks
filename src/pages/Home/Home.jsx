@@ -28,9 +28,10 @@ function Home() {
   }, ['']);
 
   const handleGrade = (gselect) => {
-    // console.log(cards);
+    console.log('test', gselect);
+    console.log(cards);
     const result = cards?.map((item) => item?.grades.filter((i) => i.title === gselect));
-    // console.log(result);
+    console.log(result.length);
   };
 
   return (
