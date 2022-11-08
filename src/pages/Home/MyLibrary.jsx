@@ -224,7 +224,7 @@ function MyLibrary() {
             <Space size='large'>
               {worksheets.length &&
                 worksheets.map((item) => (
-                  <ADCard className='w-[400px]' key={item} cover={<Image preview={false} onClick={() => navigate(`/worksheet/${item.id}`)} className='object-cover w-full aspect-[16/9] cursor-pointer' alt='card-image' src={dummyImage} />}>
+                  <ADCard className='w-[400px]' key={item} cover={<Image preview={false} onClick={() => navigate(`/collection/${item.id}`)} className='object-cover w-full aspect-[16/9] cursor-pointer' alt='card-image' src={dummyImage} />}>
                     <div className='flex justify-between items-center py-2'>
                       <Checkbox
                         className='w-[25px] scale-125 cardCheckbox'
