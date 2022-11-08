@@ -20,7 +20,7 @@ function Home() {
   // Call API for Fetch home page data
   useEffect(() => {
     dispatch(newWorksheet({
-      limit: 270, skip: 0
+      limit: 30, skip: 0
     }));
     dispatch(listSubject());
     dispatch(listCCL());
