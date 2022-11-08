@@ -9,8 +9,9 @@ const getProfile = async (userId) => {
 };
 
 // login user
-const updateProfile = async (userData) => {
-  const response = await axios.post(`${API_URL}/user/id`, userData);
+const updateProfile = async (userInfo) => {
+  console.log('udata', userInfo);
+  const response = await axios.put(`${API_URL}/user/${userInfo?.id}`, userInfo?.userDetail);
   return response.data;
 };
 

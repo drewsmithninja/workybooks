@@ -2,9 +2,16 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const user = JSON.parse(localStorage.getItem('user'));
+const authToken = user?.data?.token?.accessToken;
+
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
-  const response = await axios.post(`${API_URL}/content/list`, worksheetData);
+  const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
+    headers: {
+      Authorization: authToken
+    }
+  });
   return response.data;
 };
 
