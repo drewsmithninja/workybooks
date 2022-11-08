@@ -9,7 +9,17 @@ const authToken = user?.data?.token?.accessToken;
 const newWorksheet = async (worksheetData) => {
   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
     headers: {
-      Authorization: authToken
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+// worksheet details
+const worksheetDetails = async (worksheetId) => {
+  const response = await axios.post(`${API_URL}/content/getBy/id`, worksheetId, {
+    headers: {
+      authorization: authToken
     }
   });
   return response.data;
@@ -37,7 +47,8 @@ const homeAPI = {
   newWorksheet,
   listSubject,
   listCCL,
-  listGrade
+  listGrade,
+  worksheetDetails
 };
 
 export default homeAPI;

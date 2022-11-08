@@ -9,7 +9,7 @@ const authToken = user?.data?.token?.accessToken;
 const search = async (searchText) => {
   const response = await axios.post(`${API_URL}/content/getBy/subGradeCcsTopic/search `, searchText, {
     headers: {
-      Authorization: authToken
+      authorization: authToken
     }
   });
   return response.data;
@@ -18,7 +18,7 @@ const search = async (searchText) => {
 const searchSuggest = async (searchText) => {
   const response = await axios.post(`${API_URL}/content/getBy/keyw/ccs/sub/search `, searchText, {
     headers: {
-      Authorization: authToken
+      authorization: authToken
     }
   });
   return response.data;

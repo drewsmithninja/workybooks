@@ -3,8 +3,9 @@ import { FaPrint, FaFolderPlus, FaRegImages, FaPinterest, FaInstagram, FaLink } 
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { Col, Image, Row, Space, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { worksheetDetails } from '../../features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
@@ -12,20 +13,30 @@ import MainLayout from '../../components/layout/MainLayout';
 let wDetail;
 function Worksheet() {
   const { userId } = useParams();
+  const dispatch = useDispatch();
   const [worksheetDetail, setWorksheetDetails] = useState();
-  const { worksheetData, subjectData, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
-  // console.log('wdata', worksheetData?.data, userId);
+  const { worksheetData, worksheetDetailsInfo, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
+  console.log('wdata', worksheetDetailsInfo?.data, userId);
 
   useEffect(() => {
     if (userId) {
       // console.log(userId);
-      wDetail = worksheetData?.data?.list.find((item) => item.worky_id === userId);
-      // console.log(wDetail);
-      if (wDetail) {
-        setWorksheetDetails(wDetail);
-      }
+      // wDetail = worksheetData?.data?.list.find((item) => item._id === userId);
+      dispatch(worksheetDetails({
+        id: userId
+      }));
+      // // console.log(wDetail);
+      // if (wDetail) {
+      //   setWorksheetDetails(wDetail);
+      // }
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (worksheetDetailsInfo?.data !== undefined) {
+      setWorksheetDetails(worksheetDetailsInfo?.data);
+    }
+  }, [worksheetDetailsInfo?.data]);
 
   return (
     <MainLayout>
@@ -137,7 +148,7 @@ function Worksheet() {
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
           {worksheetData?.data?.list?.slice(0, 15).map((i) => (
-            <Link to={i.worky_id ? `/worksheet/${i.worky_id}` : ''}>
+            <Link to={i._id ? `/worksheet/${i._id}` : ''}>
               <Image
                 width={200}
                 key={i}

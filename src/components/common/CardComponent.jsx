@@ -124,7 +124,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
           width: cardWidth
         }}
       >
-        <Link to={cardData.worky_id ? `/worksheet/${cardData.worky_id}` : ''}>
+        <Link to={cardData._id ? `/worksheet/${cardData._id}` : ''}>
           <img
             src={cardImage}
             onError={({ currentTarget }) => {

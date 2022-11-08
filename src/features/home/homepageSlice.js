@@ -4,6 +4,7 @@ import homeAPI from '../../app/api/homeApi';
 
 const initialState = {
   worksheetData: null,
+  worksheetDetailsInfo: null,
   subjectData: null,
   ccsData: null,
   gradeData: null,
@@ -18,6 +19,16 @@ const initialState = {
 export const newWorksheet = createAsyncThunk('home/newWorksheet', async (worksheetData, thunkAPI) => {
   try {
     const response = await homeAPI.newWorksheet(worksheetData);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
+  try {
+    const response = await homeAPI.worksheetDetails(worksheetId);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -85,6 +96,21 @@ export const homeSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.worksheetData = null;
+      })
+      // Workysheet Details cases
+      .addCase(worksheetDetails.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(worksheetDetails.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.worksheetDetailsInfo = action.payload;
+      })
+      .addCase(worksheetDetails.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.worksheetDetailsInfo = null;
       })
       // Subject List cases
       .addCase(listSubject.pending, (state, action) => {
