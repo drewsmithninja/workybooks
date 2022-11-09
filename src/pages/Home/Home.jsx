@@ -8,20 +8,22 @@ import dummyImage1 from '../../assets/images/dummyImage1.png';
 import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 
-let cards;
 function Home() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
-  // console.log('hom', worksheetData, subjectData, ccsData, gradeData);
+  console.log('wcData', worksheetData);
   window.document.title = 'Workybooks App — Home';
-  cards = worksheetData?.data?.list;
+  const cards = worksheetData?.data?.list;
 
   // Call API for Fetch home page data
   useEffect(() => {
-    dispatch(newWorksheet({
-      limit: 30, skip: 0
-    }));
+    dispatch(
+      newWorksheet({
+        limit: 30,
+        skip: 0
+      })
+    );
     dispatch(listSubject());
     dispatch(listCCL());
     dispatch(listGrade());
@@ -51,10 +53,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
         </div>
       )}
     </MainLayout>

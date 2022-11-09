@@ -16,7 +16,7 @@ import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import AssignStep3 from '../assignSteps/AssignStep3';
 
-function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLiked = true, cardWidth = 215, cardData = null }) {
+function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLiked = false, cardWidth = 215, cardData = null }) {
   const dispatch = useDispatch();
   const { Step } = Steps;
   const { collections } = useSelector((state) => state);
@@ -167,22 +167,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
             <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
           </Modal>
-          <Modal
-            className='rounded-xl'
-            closeIcon={(
-              <CloseOutlined
-                style={{
-                  color: '#EC1E24'
-                }}
-                className='!text-danger font-bold'
-                onClick={() => setIsStepModalOpen(false)}
-              />
-            )}
-            centered
-            width={670}
-            footer={false}
-            open={isStepModalOpen}
-          >
+          <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
             <ADTitle level={3} className='text-center text-danger pb-8'>
               Create New Assign Activities
             </ADTitle>
@@ -235,14 +220,10 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
       </div>
 
       {/* Card Title */}
-      <p className='leading-4 text-[12px] mb-0'>
-        {cardData.title}
-        -
-        {`${cardData?.descrpt?.substring(0, 50)}`}
-      </p>
+      <p className='leading-4 text-[12px] mb-0'>{`${cardData?.title} ${cardData?.descrpt?.substring(0, 50)}`}</p>
 
       {/* Card author */}
-      <p className='leading-4 text-[10px] text-gray-400'>{cardData.author}</p>
+      <p className='leading-4 text-[10px] text-gray-400'>{cardData?.author}</p>
 
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
