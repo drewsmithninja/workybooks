@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Input, Row } from 'antd';
 import ADButton from '../antd/ADButton';
 import ADTitle from '../antd/ADTitle';
 
-function NewAssignmentOrCollection({ assign, onCreateClick }) {
+function NewAssignmentOrCollection({ assign, onCreateClick, itemData }) {
+  // const inputRef = useRef(null);
+  const [inputVal, setInputval] = useState();
+
+  const handlechange = (e) => {
+    // console.log(e.target.value);
+    setInputval(e.target.value);
+  };
+
+  const onCreateCollection = (e) => {
+    //   console.log(inputVal);
+    onCreateClick(inputVal);
+  };
+
   return (
     <>
       <ADTitle level={3} className='text-center pb-8'>
@@ -18,10 +31,10 @@ function NewAssignmentOrCollection({ assign, onCreateClick }) {
             <ADTitle level={5}>{assign ? 'Create new Assignment' : 'Add to Collection'}</ADTitle>
             <Row gutter={16} className='py-4' wrap={false}>
               <Col xs={24} flex='auto'>
-                <Input className='w-full flex min-w-full' />
+                <Input type='text' className='w-full flex min-w-full' onChange={handlechange} name='collectionName' />
               </Col>
               <Col xs={24} flex='none'>
-                <ADButton type='primary' size='small' className='!rounded-full' onClick={onCreateClick}>
+                <ADButton type='primary' size='small' className='!rounded-full' onClick={onCreateCollection}>
                   Create
                 </ADButton>
               </Col>

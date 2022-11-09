@@ -43,12 +43,23 @@ const listGrade = async (gradeData) => {
   return response.data;
 };
 
+// Like Worsheet
+const likeWorksheet = async (worksheet) => {
+  const response = await axios.put(`${API_URL}/content/like/${worksheet?.id}`, worksheet?.status, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
 const homeAPI = {
   newWorksheet,
   listSubject,
   listCCL,
   listGrade,
-  worksheetDetails
+  worksheetDetails,
+  likeWorksheet
 };
 
 export default homeAPI;

@@ -10,8 +10,8 @@ import cleverIcon from '../../assets/images/clever-icon.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 
-function NewSignIn() {
-  window.document.title = 'Workybook - Sign In';
+function ForgotPassword() {
+  window.document.title = 'Workybook - Forgot Password';
   const { Header } = Layout;
   const [form] = Form.useForm();
   const { Paragraph } = Typography;
@@ -63,22 +63,8 @@ function NewSignIn() {
       </Header>
       <div className='w-[85%] max-w-[554px] h-[688px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
         <Typography.Title level={2} className='mt-[56px] !mb-[65px]'>
-          Sign in
+          Forgot Password
         </Typography.Title>
-
-        <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-            <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
-            Sign in with Google Classroom
-          </ADButton>
-          <a href='https://clever.com/oauth/authorize?response_type=code&redirect_uri=http://localhost/3000&client_id=480d04a0aef0fd0fe7b6'>
-            <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-              <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
-              Sign in with Clever
-            </ADButton>
-          </a>
-          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>Sign in with Email</ADButton>
-        </div>
 
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
           <Form.Item
@@ -97,27 +83,9 @@ function NewSignIn() {
           >
             <Input placeholder='Email' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
           </Form.Item>
-          <Form.Item
-            label={false}
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!'
-              }
-            ]}
-          >
-            <Input.Password placeholder='Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
-          </Form.Item>
-          <div className='w-[85%] max-w-[358px] m-auto flex items-baseline justify-between'>
-            <Form.Item label={false}>
-              <Checkbox className='mr-[10px]'>Remember me</Checkbox>
-            </Form.Item>
-            <Link to='/forgot-password'>Forgot your password?</Link>
-          </div>
           <Form.Item>
             <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
-              Sign In
+              Submit
             </ADButton>
           </Form.Item>
         </Form>
@@ -138,4 +106,4 @@ function NewSignIn() {
     </>
   );
 }
-export default NewSignIn;
+export default ForgotPassword;

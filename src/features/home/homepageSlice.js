@@ -8,6 +8,7 @@ const initialState = {
   subjectData: null,
   ccsData: null,
   gradeData: null,
+  likeResponse: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -62,6 +63,17 @@ export const listCCL = createAsyncThunk('home/commonCoreStandard', async (ccsDat
 export const listGrade = createAsyncThunk('home/grade/list', async (gradeData, thunkAPI) => {
   try {
     const response = await homeAPI.listGrade(gradeData);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+// Like Worksheet
+export const likeWorksheet = createAsyncThunk('home/likeWorksheet', async (worksheetData, thunkAPI) => {
+  try {
+    const response = await homeAPI.likeWorksheet(worksheetData);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -156,6 +168,21 @@ export const homeSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.gradeData = null;
+      })
+      // Like worksheet Cases
+      .addCase(likeWorksheet.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(likeWorksheet.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.likeResponse = action.payload;
+      })
+      .addCase(likeWorksheet.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.likeResponse = null;
       });
   }
 });

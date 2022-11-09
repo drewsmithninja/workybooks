@@ -7,6 +7,7 @@ import SelectClassroom from './pages/Classroom/SelectClassroom';
 import MyClassrooms from './pages/Classroom/MyClassRooms';
 import NewSignIn from './pages/newSignIn/NewSignIn';
 import NewSignUp from './pages/newSignUp/NewSignUp';
+import ForgotPassword from './pages/newSignIn/ForgotPassword';
 import NewSignUpGoogle from './pages/newSignUp/NewSignUpGoogle';
 import Home from './pages/Home/Home';
 import NotFound from './pages/NotFound';
@@ -29,6 +30,7 @@ function App() {
         {/* Public Routes */}
         <Route path='/sign-in' element={<NewSignIn />} />
         <Route path='/sign-up' element={<NewSignUp />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/user-profile' element={<UserProfile />} />
         {/* Protected Routes */}
         <Route element={<PrivateRoutes />} />

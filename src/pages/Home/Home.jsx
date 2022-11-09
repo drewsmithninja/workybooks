@@ -28,10 +28,13 @@ function Home() {
   }, ['']);
 
   const handleGrade = (gselect) => {
-    console.log('test', gselect);
-    console.log(cards);
+    // console.log('test', gselect);
+    // console.log(cards);
     const result = cards?.map((item) => item?.grades.filter((i) => i.title === gselect));
-    console.log(result.length);
+    //  console.log(result.length);
+  };
+  const handleStatus = (status) => {
+    // console.log('stat', status);
   };
 
   return (
@@ -51,10 +54,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={handleStatus} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{cards?.length > 0 && cards.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={handleStatus} />)}</div>
         </div>
       )}
     </MainLayout>

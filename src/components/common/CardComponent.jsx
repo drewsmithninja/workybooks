@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { CloseOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Dropdown, Input, Menu, message, Modal, Row, Space, Steps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -9,14 +11,15 @@ import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
-
+import { createCollection } from '../../features/collection/collectionSlice';
+import { likeWorksheet } from '../../features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import AssignStep3 from '../assignSteps/AssignStep3';
 
-function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLiked = true, cardWidth = 215, cardData = null }) {
+function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', likeStatus, cardWidth = 215, cardData = null }) {
   const dispatch = useDispatch();
   const { Step } = Steps;
   const { collections } = useSelector((state) => state);
@@ -25,6 +28,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
@@ -49,14 +53,36 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
   const handleCollectionModalCancel = () => {
     setIsCollectionModalOpen(false);
   };
-  const onCollectionCreateClick = () => {
-    setIsCollectionModalOpen(false);
+  const onCollectionCreateClick = (val) => {
+    // console.log('iv', val);
+    if (val) {
+      const data = {
+        title: val,
+        favorite: false,
+        content: [cardData?._id],
+        added_by: user?.data?.user?._id
+      };
+      dispatch(createCollection(data));
+      setIsCollectionModalOpen(false);
+    }
   };
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
+  };
+
+  const setLike = (e) => {
+    const data = {
+      id: cardData._id,
+      status: {
+        like: !cardData?.likes?.isLike
+      }
+    };
+    dispatch(likeWorksheet(data));
+    likeStatus(true);
+  // e.preventdefault();
   };
 
   const steps = [
@@ -110,6 +136,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
       }
     }
   }, [collections]);
+
   return (
     <div
       className='cardComponent m-3 flex max-w-auto flex-col gap-[10px]'
@@ -154,7 +181,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
             checked={c}
           />
         </div>
-        <div className='flex flex-1 items-center justify-center'>{isLiked ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
+        <div className='flex flex-1 items-center justify-center' onClick={setLike}>{cardData?.likes?.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
@@ -165,7 +192,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', isLi
             <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
           </Modal>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
+            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} itemData={cardData} />
           </Modal>
           <Modal
             className='rounded-xl'
