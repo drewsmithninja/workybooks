@@ -1,46 +1,192 @@
 import React, { useState } from 'react';
-import { Checkbox, Col, Dropdown, Image, Row } from 'antd';
+import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Steps } from 'antd';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import sampleImage from '../../assets/images/no-image.jpg';
+import printIcon from '../../assets/images/icons/print_gray.png';
+import assignIcon from '../../assets/images/icons/assign_gray.png';
+import folderIcon from '../../assets/images/icons/folder_gray.png';
+import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADCard from '../antd/ADCard';
 import ADButton from '../antd/ADButton';
+import AssignStep1 from '../assignSteps/AssignStep1';
+import AssignStep2 from '../assignSteps/AssignStep2';
+import AssignStep3 from '../assignSteps/AssignStep3';
+import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
+import ADTitle from '../antd/ADTitle';
 
-function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbnails = [], favorite, onFavChange, likes, dropDownMenu, ...props }) {
+function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+  const [isStepModalOpen, setIsStepModalOpen] = useState(false);
+  const { Step } = Steps;
+  const showAssignModal = () => {
+    setIsAssignModalOpen(true);
+  };
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+  const onAssignCreateClick = () => {
+    setCurrentStep(0);
+    setIsAssignModalOpen(false);
+    setIsStepModalOpen(true);
+  };
+  const showCollectionModal = () => {
+    setIsCollectionModalOpen(true);
+  };
+  const handleCollectionModalOk = () => {
+    setIsCollectionModalOpen(false);
+  };
+  const handleCollectionModalCancel = () => {
+    setIsCollectionModalOpen(false);
+  };
+  const onCollectionCreateClick = () => {
+    setIsCollectionModalOpen(false);
+  };
+  const nextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+  const prevStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: 'PRINT',
+          key: '1',
+          icon: <img src={printIcon} alt='print' />
+        },
+        {
+          label: 'ASSIGN',
+          key: '2',
+          icon: <img src={assignIcon} alt='assign' />,
+          onClick: showAssignModal
+        },
+        {
+          label: 'ADD TO COLLECTION',
+          key: '3',
+          icon: <img src={folderIcon} alt='add to collection' />,
+          onClick: showCollectionModal
+        },
+        {
+          label: 'SHARE',
+          key: '4',
+          icon: <img src={shareIcon} alt='share' />
+        }
+      ]}
+    />
+  );
+
+  const steps = [
+    {
+      title: 'Select Items',
+      content: <AssignStep1 />
+    },
+    {
+      title: 'Select Students',
+      content: <AssignStep2 onAssignClass={nextStep} onAssignSelected={nextStep} />
+    },
+    {
+      title: 'Select Assignment Details',
+      content: <AssignStep3 />
+    }
+  ];
   return (
-    <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
-      <div className='w-full h-full aspect-[16/9]'>
-        <Row gutter={[8, 8]}>
-          {thumbnails && thumbnails.length ? (
-            thumbnails.slice(0, 4).map((item) => (
-              <Col xs={thumbnails.length === 1 ? 24 : 12}>
-                <Image preview={false} src={item} className='rounded-md' />
-              </Col>
-            ))
-          ) : (
-            <Image preview={false} src={sampleImage} alt='thumbnail-default-image' />
+    <>
+      <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
+        <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+      </Modal>
+      <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
+        <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
+      </Modal>
+      <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
+        <ADTitle level={3} className='text-center text-danger pb-8'>
+          Create New Assign Activities
+        </ADTitle>
+        <Steps current={currentStep}>
+          {steps.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className='steps-content'>{steps[currentStep].content}</div>
+        <div className='steps-action'>
+          {currentStep === 0 && (
+            <div className='flex justify-between'>
+              <ADButton size='large' type='danger' onClick={nextStep}>
+                CANCEL
+              </ADButton>
+              <ADButton size='large' type='primary' onClick={nextStep}>
+                ADD MORE ITEMS
+              </ADButton>
+              <ADButton size='large' type='primary' onClick={nextStep}>
+                ASSIGN
+              </ADButton>
+            </div>
           )}
-        </Row>
-      </div>
-      <div className='flex justify-between items-center py-2'>
-        <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
-        <div className='flex items-center'>
-          <ADButton className='!p-1 text-xl' type='text' onClick={onFavChange}>
-            {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
-          </ADButton>
-          <span className='text-sm'>{` ${likes}`}</span>
+          {currentStep === 1 && (
+            <div className='flex justify-between'>
+              <ADButton size='large' type='danger' onClick={nextStep}>
+                CANCEL
+              </ADButton>
+              <ADButton size='large' type='primary' onClick={prevStep}>
+                BACK
+              </ADButton>
+            </div>
+          )}
+          {currentStep === 2 && (
+            <div className='flex justify-between'>
+              <ADButton size='large' type='danger' onClick={nextStep}>
+                CANCEL
+              </ADButton>
+              <ADButton size='large' type='primary' onClick={prevStep}>
+                BACK
+              </ADButton>
+              <ADButton size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
+                ASSIGN
+              </ADButton>
+            </div>
+          )}
         </div>
-        <Dropdown overlay={dropDownMenu} placement='topLeft' arrow>
-          <div className='rounded-full border-solid border-2 border-slate-300 flex'>
-            <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
+      </Modal>
+      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
+        <div className='w-full h-full aspect-[16/9]'>
+          <Row gutter={[8, 8]}>
+            {thumbnails && thumbnails.length ? (
+              thumbnails.slice(0, 4).map((item, index) => (
+                <Col key={index} xs={thumbnails.length === 1 ? 24 : 12}>
+                  <Image preview={false} src={item} className='rounded-md' />
+                </Col>
+              ))
+            ) : (
+              <Image preview={false} src={sampleImage} alt='thumbnail-default-image' />
+            )}
+          </Row>
+        </div>
+        <div className='flex justify-between items-center py-2'>
+          <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
+          <div className='flex items-center'>
+            <ADButton className='!p-1 text-xl' type='text' onClick={onFavChange}>
+              {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
+            </ADButton>
+            <span className='text-sm'>{` ${likes}`}</span>
           </div>
-        </Dropdown>
-      </div>
-      <div>Make Interfaces</div>
-      <div className='flex justify-between'>
-        <div className='text-xs text-secondary'>By Workybooks</div>
-        <div className='text-xs text-secondary'>12 Worksheets</div>
-      </div>
-    </ADCard>
+          <Dropdown overlay={menu} placement='topLeft' arrow>
+            <div className='rounded-full border-solid border-2 border-slate-300 flex'>
+              <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
+            </div>
+          </Dropdown>
+        </div>
+        <div>Make Interfaces</div>
+        <div className='flex justify-between'>
+          <div className='text-xs text-secondary'>By Workybooks</div>
+          <div className='text-xs text-secondary'>12 Worksheets</div>
+        </div>
+      </ADCard>
+    </>
   );
 }
 
