@@ -1,11 +1,13 @@
 import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Select, Space, Steps, Tabs, Typography } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CloseOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { favoriteData, collectionList, recentList } from '../../features/library/librarypageSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import sortIcon from '../../assets/images/icons/sort.png';
 import CardComponent from '../../components/common/CardComponent';
+import ThumbnailCard from '../../components/thumbnailCard/ThumbnailCard';
 import dummyImage from '../../assets/images/dummyImage.png';
 import ADTitle from '../../components/antd/ADTitle';
 import ADCard from '../../components/antd/ADCard';
@@ -29,8 +31,19 @@ function MyLibrary() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [c, setc] = useState(false);
+  const { favoriteList, myCollectionData, recentData } = useSelector((state) => state.library);
+  // console.log('fav', favoriteList, myCollectionData, recentData);
+
   const cards = [];
   const { Step } = Steps;
+
+  // Call API for Fetch Library data
+  useEffect(() => {
+    // console.log('Hello');
+    dispatch(favoriteData());
+    dispatch(collectionList());
+    dispatch(recentList());
+  }, ['']);
 
   Array(8)
     .fill(1)
@@ -221,54 +234,65 @@ function MyLibrary() {
           onChange={(e) => setCurrentTab(e)}
         >
           <Tabs.TabPane tab='MY COLLECTIONS' key='Collections' className='py-4'>
-            <Space size='large'>
-              {worksheets.length &&
-                worksheets.map((item) => (
-                  <ADCard className='w-[400px]' key={item} cover={<Image preview={false} onClick={() => navigate(`/collection/${item.id}`)} className='object-cover w-full aspect-[16/9] cursor-pointer' alt='card-image' src={dummyImage} />}>
-                    <div className='flex justify-between items-center py-2'>
-                      <Checkbox
-                        className='w-[25px] scale-125 cardCheckbox'
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            dispatch(selectCollection(item));
-                          } else {
-                            dispatch(unselectCollection(item));
-                          }
-                        }}
-                        id={`collection_id_${item.id}`}
-                        name={`collection_id_${item.id}`}
-                        checked={c}
-                      />
-                      <div className='flex items-center'>
-                        <ADButton className='!p-1 text-xl' type='text'>
-                          {item.isLiked ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
-                        </ADButton>
-                        <span className='text-sm'>{` ${item.likes}`}</span>
-                      </div>
-                      <Dropdown overlay={menu} placement='topLeft' arrow>
-                        <div className='rounded-full border-solid border-2 border-slate-300 flex'>
-                          <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
-                        </div>
-                      </Dropdown>
-                    </div>
-                    <div>Make Interfaces</div>
-                    <div className='flex justify-between'>
-                      <div className='text-xs text-secondary'>By Workybooks</div>
-                      <div className='text-xs text-secondary'>12 Worksheets</div>
-                    </div>
-                  </ADCard>
+            {/* <div className='flex flex-row flex-wrap'>
+              <Space size='large'> */}
+            <Row gutter={[8, 8]}>
+              {myCollectionData?.data?.list.length &&
+                myCollectionData?.data?.list.map((item) => (
+                  // <ADCard className='w-[400px]' key={item._id} cover={<Image preview={false} onClick={() => navigate(`/collection/${item._id}`)} className='object-cover w-full aspect-[16/9] cursor-pointer' alt='card-image' src={dummyImage} />}>
+                  //   <div className='flex justify-between items-center py-2'>
+                  //     <Checkbox
+                  //       className='w-[25px] scale-125 cardCheckbox'
+                  //       onChange={(e) => {
+                  //         if (e.target.checked) {
+                  //           dispatch(selectCollection(item));
+                  //         } else {
+                  //           dispatch(unselectCollection(item));
+                  //         }
+                  //       }}
+                  //       id={`collection_id_${item._id}`}
+                  //       name={`collection_id_${item.title}`}
+                  //       checked={c}
+                  //     />
+                  //     <div className='flex items-center'>
+                  //       <ADButton className='!p-1 text-xl' type='text'>
+                  //         {item.favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
+                  //       </ADButton>
+                  //       {/* <span className='text-sm'>{` ${item.likes}`}</span> */}
+                  //     </div>
+                  //     <Dropdown overlay={menu} placement='topLeft' arrow>
+                  //       <div className='rounded-full border-solid border-2 border-slate-300 flex'>
+                  //         <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
+                  //       </div>
+                  //     </Dropdown>
+                  //   </div>
+                  //   <div>{item?.title}</div>
+                  //   <div className='flex justify-between'>
+                  //     <div className='text-xs text-secondary'>By Workybooks</div>
+                  //     <div className='text-xs text-secondary'>
+                  //       {item?.content.length}
+                  //       Worksheets
+                  //     </div>
+                  //   </div>
+                  // </ADCard>
+
+                  <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+                    <ThumbnailCard favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                  </Col>
                 ))}
-            </Space>
-            <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
+            </Row>
+            {/* </Space>
+            </div> */}
+            {/* <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div> */}
           </Tabs.TabPane>
           <Tabs.TabPane tab='FAVORITES' key='Favorites'>
             <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
             <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div>
             <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-            <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}</div>
+            <div className='flex flex-row flex-wrap'>{favoriteList?.data?.list?.length > 0 && favoriteList?.data?.list.map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
           </Tabs.TabPane>
           <Tabs.TabPane tab='RECENTS' key='Recents'>
-            <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}</div>
+            <div className='flex flex-row flex-wrap'>{recentData?.data?.list?.length > 0 && recentData?.data?.list?.map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
           </Tabs.TabPane>
         </Tabs>
       </div>

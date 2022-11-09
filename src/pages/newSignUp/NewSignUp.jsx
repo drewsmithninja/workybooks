@@ -77,10 +77,12 @@ function NewSignUp() {
               Sign up with Google Classroom
             </ADButton>
           </Link>
-          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-            <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
-            Sign up with Clever
-          </ADButton>
+          <a href='https://clever.com/oauth/authorize?response_type=code&redirect_uri=http://localhost/3000&client_id=480d04a0aef0fd0fe7b6'>
+            <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+              <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
+              Sign in with Clever
+            </ADButton>
+          </a>
           <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
             Sign up with Email
           </ADButton>

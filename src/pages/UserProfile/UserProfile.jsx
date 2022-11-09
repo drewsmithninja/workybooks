@@ -15,7 +15,7 @@ function UserProfile() {
   const { userData } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  console.log(userData);
+  // console.log(userData);
   useEffect(() => {
     dispatch(getProfile({
       id: user?.data?.user?._id
@@ -36,7 +36,7 @@ function UserProfile() {
   }, [userData?.data]);
 
   const onFinish = (values) => {
-    console.log('val', values);
+    // console.log('val', values);
     const userInfo = {
       id: user?.data?.user?._id,
       userDetail: {

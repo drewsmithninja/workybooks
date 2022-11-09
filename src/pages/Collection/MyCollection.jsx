@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Row, Space } from 'antd';
 import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { collectionDetail } from '../../features/library/librarypageSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
 import dummyImage from '../../assets/images/dummyImage.png';
@@ -12,10 +13,22 @@ import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
 
 function MyCollection() {
+  const { id } = useParams();
   const { worksheetData } = useSelector((state) => state.home);
-  console.log(worksheetData.data, 'worksheetData');
+  const { collectionDetailsList } = useSelector((state) => state.library);
+  // console.log(worksheetData.data, 'worksheetData', collectionDetailsList);
   const cards = [];
+  const collectionInfo = collectionDetailsList?.data;
+  const worksheetList = collectionDetailsList?.data?.content || [];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(collectionDetail({
+      id
+    }));
+  }, [id]);
+
   Array(8)
     .fill(1)
     .map((item) => {
@@ -34,10 +47,13 @@ function MyCollection() {
             <ADButton onClick={() => navigate(-1)} type='link' className='!p-0'>
               <div>{'< MY COLLECTIONS'}</div>
             </ADButton>
-            <ADTitle level={3}>Making inferences</ADTitle>
+            <ADTitle level={3}>{collectionInfo?.title}</ADTitle>
             <div className='py-3 flex text-xs'>
               <div className='pr-16'>By Mrs. Biries</div>
-              <div>4 Worksheets</div>
+              <div>
+                {worksheetList?.length}
+                Worksheets
+              </div>
             </div>
             <Space size='large' className='pt-1'>
               <ADTitle level={5}>Standards</ADTitle>
@@ -73,7 +89,7 @@ function MyCollection() {
         </Row>
       </div>
       <div className='px-8'>
-        <div className='flex flex-row flex-wrap'>{cards.length > 0 && cards.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={215} />)}</div>
+        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
       </div>
     </MainLayout>
   );

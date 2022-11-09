@@ -5,6 +5,8 @@ import authReducer from '../features/auth/authSlice';
 import homeReducer from '../features/home/homepageSlice';
 import searchReducer from '../features/search/searchpageSlice';
 import userReducer from '../features/user/userSlice';
+import libraryReducer from '../features/library/librarypageSlice';
+import collectionReducer from '../features/collection/collectionSlice';
 
 const persistConfig = {
   key: 'root',
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
   home: homeReducer,
   search: searchReducer,
-  user: userReducer
+  user: userReducer,
+  library: libraryReducer,
+  collection: collectionReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
