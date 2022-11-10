@@ -13,8 +13,8 @@ import ThumbnailCard from '../../components/thumbnailCard/ThumbnailCard';
 
 function MyLibrary() {
   const [currentTab, setCurrentTab] = useState('Collections');
-  // const { worksheetData } = useSelector((state) => state.home);
-
+  const { worksheetDetails } = useSelector((state) => state.home);
+  console.log(worksheetDetails);
   const cards = [];
   Array(8)
     .fill(1)

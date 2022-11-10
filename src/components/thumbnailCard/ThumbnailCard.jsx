@@ -158,11 +158,11 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
             {thumbnails && thumbnails.length ? (
               thumbnails.slice(0, 4).map((item, index) => (
                 <Col key={index} xs={thumbnails.length === 1 ? 24 : 12}>
-                  <Image preview={false} src={item} className='rounded-md' />
+                  <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
                 </Col>
               ))
             ) : (
-              <Image preview={false} src={sampleImage} alt='thumbnail-default-image' />
+              <Image preview={false} src={sampleImage} className='rounded-md aspect-[16/9] object-cover' alt='thumbnail-default-image' />
             )}
           </Row>
         </div>
