@@ -22,6 +22,18 @@ const login = async (userData) => {
   return response.data;
 };
 
+// forgot password
+const forgotPassword = async (emailId) => {
+  const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
+  return response.data;
+};
+
+// reset password
+const resetPassword = async (userPass) => {
+  const response = await axios.post(`${API_URL}/auth/reset-password`, userPass);
+  return response.data;
+};
+
 // logout user
 const logout = () => {
   localStorage.removeItem('user');
@@ -30,6 +42,8 @@ const logout = () => {
 const authAPI = {
   register,
   login,
+  forgotPassword,
+  resetPassword,
   logout
 };
 

@@ -34,6 +34,24 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
   }
 });
 
+export const forgotPassword = createAsyncThunk('auth/forgotPassword', async (emailId, thunkAPI) => {
+  try {
+    return await authAPI.forgotPassword(emailId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (userpass, thunkAPI) => {
+  try {
+    return await authAPI.resetPassword(userpass);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authAPI.logout();
 });
@@ -80,6 +98,36 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+      })
+      // forgot password cases
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(forgotPassword.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      // reset password cases
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      .addCase(resetPassword.pending, (state, action) => {
+        state.isLoading = true;
       })
       // logout cases
       .addCase(logout.fulfilled, (state) => {
