@@ -16,7 +16,6 @@ function MyCollection() {
   const { id } = useParams();
   const { worksheetData } = useSelector((state) => state.home);
   const { collectionDetailsList } = useSelector((state) => state.library);
-  // console.log(worksheetData.data, 'worksheetData', collectionDetailsList);
   const cards = [];
   const collectionInfo = collectionDetailsList?.data;
   const worksheetList = collectionDetailsList?.data?.content || [];

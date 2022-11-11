@@ -51,10 +51,7 @@ function AssignmentPage() {
         <List
           className='rounded-t-lg with-header'
           pagination={{
-            onChange: (page) => {
-              // eslint-disable-next-line no-console
-              console.log(page);
-            },
+            onChange: (page) => {},
             pageSize: 6
           }}
           header={(

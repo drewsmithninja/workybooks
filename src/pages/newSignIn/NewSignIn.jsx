@@ -18,19 +18,18 @@ function NewSignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
-
+  const { user, isLoading, isError, message } = useSelector((state) => state.auth);
   useEffect(() => {
     if (isError) {
       toast.error(message);
-    } else if (isSuccess || user) {
+    } else if (user) {
       navigate('/', {
         replace: true
       });
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, isError]);
 
   if (isLoading) {
     <Spinner />;

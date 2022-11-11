@@ -8,12 +8,10 @@ function NewAssignmentOrCollection({ assign, onCreateClick, itemData }) {
   const [inputVal, setInputval] = useState();
 
   const handlechange = (e) => {
-    // console.log(e.target.value);
     setInputval(e.target.value);
   };
 
   const onCreateCollection = (e) => {
-    //   console.log(inputVal);
     onCreateClick(inputVal);
   };
 

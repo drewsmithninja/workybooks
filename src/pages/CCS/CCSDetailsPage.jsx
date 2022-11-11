@@ -18,7 +18,6 @@ export default function CCSDetailsPage() {
   const navigate = useNavigate();
   const { subjectData, ccsData, gradeData } = useSelector((state) => state.home);
   // eslint-disable-next-line no-console
-  // console.log('ccsData', ccsData?.data?.list);
   // eslint-disable-next-line react/jsx-no-useless-fragment
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
@@ -42,12 +41,9 @@ export default function CCSDetailsPage() {
     }
   }, [id]);
 
-  const handleGrade = (gselect) => {
-    // console.log(gselect);
-  };
+  const handleGrade = (gselect) => {};
 
   const topicSelectHandler = (topicName) => {
-    // console.log(topicName);
     if (topicName) {
       dispatch(ccsTopic({
         id,
@@ -145,9 +141,7 @@ export default function CCSDetailsPage() {
     const ccsTree = ccsData?.data?.list;
     ccsNewDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
     ab.push(ccsNewDetail?.tree);
-    console.log(ab, value);
     const newData = searchData(ccsNewDetail?.tree, '3.RL.3.2');
-    console.log(newData);
     for (let i = 0; i < newData?.data?.list?.length; i += 1) {
       if (newData?.data?.list[i]._id === id) {
         for (let j = 0; j < newData?.data?.list[i].tree.length; j += 1) {

@@ -1,43 +1,49 @@
 import React, { useEffect } from 'react';
 import { Checkbox, Form, Input, Layout, Typography } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetPassword, reset } from '../../features/auth/authSlice';
+import { logout, reset, resetPassword } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
-import googleIcon from '../../assets/images/google-icon.png';
-import cleverIcon from '../../assets/images/clever-icon.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 
 function ResetPassword() {
   window.document.title = 'Workybook - Reset Password';
   const { Header } = Layout;
+  const { id } = useParams();
   const [form] = Form.useForm();
   const { Paragraph } = Typography;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+  const { user, isLoading, isError, message } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
-    } else if (isSuccess || user) {
-      navigate('/', {
+    } else if (user) {
+      navigate('/sign-in', {
         replace: true
       });
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, isError, message, navigate, dispatch]);
 
   if (isLoading) {
     <Spinner />;
   }
 
   const onFinish = (values) => {
-    // dispatch(resetPassword(values));
+    const data = {
+      id,
+      pass: values
+    };
+    dispatch(resetPassword(data));
+    dispatch(logout())
+      .unwrap()
+      .then(() => navigate('/sign-in'));
   };
 
   const onFinishFailed = () => {

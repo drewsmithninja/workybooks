@@ -16,19 +16,14 @@ function Worksheet() {
   const dispatch = useDispatch();
   const [worksheetDetail, setWorksheetDetails] = useState();
   const { worksheetData, worksheetDetailsInfo, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
-  console.log('wdata', worksheetDetailsInfo?.data, userId);
 
   useEffect(() => {
     if (userId) {
-      // console.log(userId);
-      // wDetail = worksheetData?.data?.list.find((item) => item._id === userId);
-      dispatch(worksheetDetails({
-        id: userId
-      }));
-      // // console.log(wDetail);
-      // if (wDetail) {
-      //   setWorksheetDetails(wDetail);
-      // }
+      dispatch(
+        worksheetDetails({
+          id: userId
+        })
+      );
     }
   }, [userId]);
 
@@ -53,7 +48,9 @@ function Worksheet() {
                       currentTarget.src = 'https://via.placeholder.com/215x278';
                     }}
                   />
-                ) : <div className='bg-gray-300 aspect-[2.5/3] w-full rounded w-full' />}
+                ) : (
+                  <div className='bg-gray-300 aspect-[2.5/3] w-full rounded w-full' />
+                )}
                 <ADButton type='primary' className='w-9/12 justify-center' onClick={() => window.open('https://www.google.com')}>
                   PLAY WORKSHEET
                 </ADButton>
@@ -98,9 +95,7 @@ function Worksheet() {
             </div>
           </Col>
           <Col xs={24} md={12} lg={16} xl={18}>
-            <ADTitle level={2}>
-              {worksheetDetail?.title}
-            </ADTitle>
+            <ADTitle level={2}>{worksheetDetail?.title}</ADTitle>
             <div className='grid grid-cols-2 py-4 w-fit mb-4'>
               <div>Publisher:</div>
               <div>{worksheetDetail?.publisher}</div>

@@ -19,7 +19,6 @@ export default function SubjectDetailsPage() {
   const navigate = useNavigate();
   const { ccsData: ccsData1, subjectData, gradeData } = useSelector((state) => state.home);
   mappedSubjectsData.push(subjectData.data.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
-  // console.log('APIData', APIData);
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
 
@@ -30,15 +29,12 @@ export default function SubjectDetailsPage() {
     const ccsItemsAr = [];
     const subjTree = subjectData?.data?.list;
     subjectDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
-    // console.log(subjectDetail);
     // eslint-disable-next-line no-use-before-define
     renderCCSItem(ccsItemsAr, subjectDetail, 0);
     setCCSItems(ccsItemsAr);
   }, [sid]);
 
-  const handleGrade = (gselect) => {
-    // console.log(gselect);
-  };
+  const handleGrade = (gselect) => {};
   const topicSelectHandler = (topicName) => {
     if (topicName) {
       dispatch(

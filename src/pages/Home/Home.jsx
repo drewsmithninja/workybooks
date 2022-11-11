@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { newWorksheet, listSubject, listCCL, listGrade } from '../../features/home/homepageSlice';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
@@ -11,31 +12,34 @@ import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 let cards;
 function Home() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
-  // console.log('hom', worksheetData, subjectData, ccsData, gradeData);
   window.document.title = 'Workybooks App — Home';
   cards = worksheetData?.data?.list;
 
   // Call API for Fetch home page data
   useEffect(() => {
-    dispatch(newWorksheet({
-      limit: 30, skip: 0
-    }));
-    dispatch(listSubject());
-    dispatch(listCCL());
-    dispatch(listGrade());
+    if (!user) {
+      navigate('/sign-in');
+    }
+    if (user) {
+      dispatch(
+        newWorksheet({
+          limit: 30,
+          skip: 0
+        })
+      );
+      dispatch(listSubject());
+      dispatch(listCCL());
+      dispatch(listGrade());
+    }
   }, ['']);
 
   const handleGrade = (gselect) => {
-    // console.log('test', gselect);
-    // console.log(cards);
     const result = cards?.map((item) => item?.grades.filter((i) => i.title === gselect));
-    //  console.log(result.length);
   };
-  const handleStatus = (status) => {
-    // console.log('stat', status);
-  };
+  const handleStatus = (status) => {};
 
   return (
     <MainLayout>

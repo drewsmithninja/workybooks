@@ -8,10 +8,7 @@ import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
 
 function MyClassrooms() {
   const { Option } = Select;
-  const handleChange = (value) => {
-    // eslint-disable-next-line no-console
-    console.log(`selected ${value}`);
-  };
+  const handleChange = (value) => {};
 
   return (
     <MainLayout>
