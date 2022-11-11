@@ -10,7 +10,6 @@ const getProfile = async (userId) => {
 
 // login user
 const updateProfile = async (userInfo) => {
-  // console.log('udata', userInfo);
   const response = await axios.put(`${API_URL}/user/${userInfo?.id}`, userInfo?.userDetail);
   return response.data;
 };

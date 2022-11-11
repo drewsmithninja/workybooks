@@ -32,14 +32,12 @@ function MyLibrary() {
   const navigate = useNavigate();
   const [c, setc] = useState(false);
   const { favoriteList, myCollectionData, recentData } = useSelector((state) => state.library);
-  // console.log('fav', favoriteList, myCollectionData, recentData);
 
   const cards = [];
   const { Step } = Steps;
 
   // Call API for Fetch Library data
   useEffect(() => {
-    // console.log('Hello');
     dispatch(favoriteData());
     dispatch(collectionList());
     dispatch(recentList());

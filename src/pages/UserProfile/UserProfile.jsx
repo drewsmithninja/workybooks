@@ -17,9 +17,11 @@ function UserProfile() {
   const dispatch = useDispatch();
   // console.log(userData);
   useEffect(() => {
-    dispatch(getProfile({
-      id: user?.data?.user?._id
-    }));
+    dispatch(
+      getProfile({
+        id: user?.data?.user?._id
+      })
+    );
   }, [user?.data?.user]);
 
   useEffect(() => {
@@ -36,7 +38,6 @@ function UserProfile() {
   }, [userData?.data]);
 
   const onFinish = (values) => {
-    // console.log('val', values);
     const userInfo = {
       id: user?.data?.user?._id,
       userDetail: {
@@ -129,10 +130,7 @@ function UserProfile() {
                     <div className='text-lg font-medium text-gray-500'>Contact Information</div>
                   </Col>
                   <Col span={8}>
-                    <Form.Item
-                      label={false}
-                      name='salutation'
-                    >
+                    <Form.Item label={false} name='salutation'>
                       <ADInput placeholder='Salutation' value={userData?.data?.salutation} />
                     </Form.Item>
                   </Col>
@@ -160,18 +158,12 @@ function UserProfile() {
                       }}
                     >
                       <Col span={12}>
-                        <Form.Item
-                          label={false}
-                          name='firstname'
-                        >
+                        <Form.Item label={false} name='firstname'>
                           <ADInput placeholder='First Name' />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item
-                          label={false}
-                          name='lastname'
-                        >
+                        <Form.Item label={false} name='lastname'>
                           <ADInput placeholder='Last Name' />
                         </Form.Item>
                       </Col>
@@ -190,10 +182,7 @@ function UserProfile() {
                   className='pb-8'
                 >
                   <Col offset={8} span={16}>
-                    <Form.Item
-                      label={false}
-                      name='email'
-                    >
+                    <Form.Item label={false} name='email'>
                       <ADInput placeholder='Email' value={userData?.data?.email} />
                     </Form.Item>
                   </Col>
@@ -224,10 +213,7 @@ function UserProfile() {
                       }}
                     >
                       <Col span={12}>
-                        <Form.Item
-                          label={false}
-                          name='password'
-                        >
+                        <Form.Item label={false} name='password'>
                           <ADInput bordered={false} value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
                         </Form.Item>
                       </Col>
@@ -252,10 +238,7 @@ function UserProfile() {
                     Your School
                   </Col>
                   <Col span={16}>
-                    <Form.Item
-                      label={false}
-                      name='schoolname'
-                    >
+                    <Form.Item label={false} name='schoolname'>
                       <ADInput placeholder='School Name' value={userData?.data?.schoolName} />
                     </Form.Item>
                   </Col>
@@ -283,18 +266,12 @@ function UserProfile() {
                       }}
                     >
                       <Col span={12}>
-                        <Form.Item
-                          label={false}
-                          name='state'
-                        >
+                        <Form.Item label={false} name='state'>
                           <ADInput placeholder='State' value={userData?.data?.state} />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item
-                          label={false}
-                          name='city'
-                        >
+                        <Form.Item label={false} name='city'>
                           <ADInput placeholder='City' value={userData?.data?.city} />
                         </Form.Item>
                       </Col>

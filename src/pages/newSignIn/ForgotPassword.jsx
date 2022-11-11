@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import { Checkbox, Form, Input, Layout, Typography } from 'antd';
+import { Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { forgotPassword, reset } from '../../features/auth/authSlice';
+import { forgotPassword, logout, reset } from '../../features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
-import googleIcon from '../../assets/images/google-icon.png';
-import cleverIcon from '../../assets/images/clever-icon.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 
@@ -18,27 +16,26 @@ function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector((state) => state.auth);
+  const { user, isSuccess, isLoading, isError, message } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
-    } else if (isSuccess || user) {
-      navigate('/', {
+    } else if (isSuccess) {
+      navigate('/sign-in', {
         replace: true
       });
     }
-
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [user, isError, message, isSuccess]);
 
   if (isLoading) {
     <Spinner />;
   }
 
   const onFinish = (values) => {
-    console.log('email', values);
-    // dispatch(forgotPassword(values));
+    dispatch(logout());
+    dispatch(forgotPassword(values));
   };
 
   const onFinishFailed = () => {

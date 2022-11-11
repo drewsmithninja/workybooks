@@ -4,10 +4,9 @@ import { grades } from '../../utils/appData';
 
 function GradeComponent({ activeGrade = '3', gradeList = [], getGrade }) {
   const onChange = (e) => {
-    console.log('radio checked', e.target.value);
     getGrade(e.target.value);
     e.preventDefault();
-  //  setValue(e.target.value);
+    //  setValue(e.target.value);
   };
   return (
     <div className='flex items-center justify-center pt-[20px]'>

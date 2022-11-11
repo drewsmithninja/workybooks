@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -25,12 +26,21 @@ const login = async (userData) => {
 // forgot password
 const forgotPassword = async (emailId) => {
   const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
+  toast.success('A password reset link was sent. Click the link in the email to create a new password.');
   return response.data;
 };
 
 // reset password
-const resetPassword = async (userPass) => {
-  const response = await axios.post(`${API_URL}/auth/reset-password`, userPass);
+const resetPassword = async (data) => {
+  const { id, pass } = data;
+  const response = await axios.post(`${API_URL}/auth/reset-password`, pass, {
+    headers: {
+      authorization: id
+    }
+  });
+  if (id && pass) {
+    toast.success('Password has been Reset!');
+  }
   return response.data;
 };
 

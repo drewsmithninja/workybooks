@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
 import authAPI from '../../app/api/authApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -103,7 +102,6 @@ export const authSlice = createSlice({
       .addCase(forgotPassword.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.isLoading = false;
@@ -118,7 +116,6 @@ export const authSlice = createSlice({
       .addCase(resetPassword.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.user = action.payload;
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.isLoading = false;

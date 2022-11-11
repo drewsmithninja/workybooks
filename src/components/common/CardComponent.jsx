@@ -54,7 +54,6 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
     setIsCollectionModalOpen(false);
   };
   const onCollectionCreateClick = (val) => {
-    // console.log('iv', val);
     if (val) {
       const data = {
         title: val,
@@ -82,7 +81,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
     };
     dispatch(likeWorksheet(data));
     likeStatus(true);
-  // e.preventdefault();
+    // e.preventdefault();
   };
 
   const steps = [
@@ -181,7 +180,9 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             checked={c}
           />
         </div>
-        <div className='flex flex-1 items-center justify-center' onClick={setLike}>{cardData?.likes?.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}</div>
+        <div className='flex flex-1 items-center justify-center' onClick={setLike}>
+          {cardData?.likes?.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
+        </div>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
