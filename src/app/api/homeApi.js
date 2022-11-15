@@ -3,8 +3,8 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const user = JSON.parse(localStorage.getItem('user'));
-const authToken = user?.data?.token?.accessToken;
-
+const authToken = user?.data?.token?.accessToken || user?.data?.verification?.token;
+// const authToken = user?.data?.token?.accessToken;
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
@@ -27,19 +27,31 @@ const worksheetDetails = async (worksheetId) => {
 
 // Subject list
 const listSubject = async (subjectData) => {
-  const response = await axios.post(`${API_URL}/subject/list`, subjectData);
+  const response = await axios.post(`${API_URL}/subject/list`, subjectData, {
+    headers: {
+      authorization: authToken
+    }
+  });
   return response.data;
 };
 
 // CCS list
 const listCCL = async (ccsData) => {
-  const response = await axios.post(`${API_URL}/commonCoreStandard/list`, ccsData);
+  const response = await axios.post(`${API_URL}/commonCoreStandard/list`, ccsData, {
+    headers: {
+      authorization: authToken
+    }
+  });
   return response.data;
 };
 
 // Grade list
 const listGrade = async (gradeData) => {
-  const response = await axios.post(`${API_URL}/grade/list`, gradeData);
+  const response = await axios.post(`${API_URL}/grade/list`, gradeData, {
+    headers: {
+      authorization: authToken
+    }
+  });
   return response.data;
 };
 

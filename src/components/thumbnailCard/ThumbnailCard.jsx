@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Steps } from 'antd';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';

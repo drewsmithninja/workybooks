@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ADTitle from '../antd/ADTitle';
-import ADButton from '../antd/ADButton';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
@@ -81,7 +80,6 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
     };
     dispatch(likeWorksheet(data));
     likeStatus(true);
-    // e.preventdefault();
   };
 
   const steps = [
@@ -190,10 +188,10 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             </div>
           </Dropdown>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} selectedWorksheet={cardData} />
           </Modal>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} itemData={cardData} />
+            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} selectedWorksheet={cardData} />
           </Modal>
           <Modal
             className='rounded-xl'

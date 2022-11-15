@@ -51,6 +51,15 @@ export const resetPassword = createAsyncThunk('auth/resetPassword', async (userp
   }
 });
 
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
+  try {
+    return await authAPI.verifyEmail(emailVerificationId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authAPI.logout();
 });
@@ -59,7 +68,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state, action) => {
+    reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -78,6 +87,21 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      // verify email cases
+      .addCase(verifyEmail.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

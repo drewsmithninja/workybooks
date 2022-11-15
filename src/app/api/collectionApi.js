@@ -15,8 +15,32 @@ const createCollection = async (collectionData) => {
   return response.data;
 };
 
+const updateCollection = async (data) => {
+  const body = {
+    favorite: false,
+    content: [data.worksheetId]
+  };
+  const response = await axios.put(`${API_URL}/collection/${data.collectionId}`, body, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+const updateCollectionLike = async (data) => {
+  const response = await axios.put(`${API_URL}/collection/${data.collectionId}`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
 const collectionAPI = {
-  createCollection
+  createCollection,
+  updateCollection,
+  updateCollectionLike
 };
 
 export default collectionAPI;

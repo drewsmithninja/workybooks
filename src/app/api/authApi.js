@@ -7,9 +7,28 @@ const API_URL = process.env.REACT_APP_API_URL;
 const register = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/register`, userData);
   if (response.data) {
-    localStorage.setItem('user', JSON.stringify(response.data));
+    toast.success(response.data.data.message);
   }
 
+  return response.data;
+};
+
+const verifyEmail = async (id) => {
+  const notify = (x) => {
+    toast.success(x, {
+      toastId: id
+    });
+  };
+  const response = await axios.post(`${API_URL}/auth/verify-email`, id, {
+    headers: {
+      authorization: id
+    }
+  });
+  if (response.data) {
+    notify(response?.data?.message);
+    localStorage.setItem('user', JSON.stringify(response.data));
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
   return response.data;
 };
 
@@ -54,7 +73,8 @@ const authAPI = {
   login,
   forgotPassword,
   resetPassword,
-  logout
+  logout,
+  verifyEmail
 };
 
 export default authAPI;
