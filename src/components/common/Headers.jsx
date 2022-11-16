@@ -4,7 +4,7 @@ import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
-import { logout, reset } from '../../features/auth/authSlice';
+import { logout, reset } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../antd/ADButton';
 
@@ -15,7 +15,8 @@ function Headers() {
   const dispatch = useDispatch();
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
+  const user = localStorage.getItem('user');
   const handleToggleNavbar = () => {
     navbarRef.current.classList.toggle('flex');
     navbarRef.current.classList.toggle('hidden');

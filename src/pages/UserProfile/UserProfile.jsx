@@ -7,7 +7,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
 import ADTitle from '../../components/antd/ADTitle';
-import { getProfile, updateProfile } from '../../features/user/userSlice';
+import { getProfile, updateProfile } from '../../app/features/user/userSlice';
 
 function UserProfile() {
   const [userPassword, setUserPassword] = useState('abcdefghijkl');

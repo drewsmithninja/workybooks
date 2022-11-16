@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { newWorksheet, listSubject, listCCL, listGrade } from '../../features/home/homepageSlice';
+import { newWorksheet, listSubject, listCCL, listGrade } from '../../app/features/home/homepageSlice';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import dummyImage1 from '../../assets/images/dummyImage1.png';
@@ -10,8 +10,10 @@ import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 
 function Home() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  // const { user } = useSelector((state) => state.auth);
+  const user = localStorage.getItem('user');
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
+  const { isSuccess } = useSelector((state) => state.auth);
   window.document.title = 'Workybooks App — Home';
   const worksheets = worksheetData?.data?.list;
 
@@ -23,11 +25,15 @@ function Home() {
           skip: 0
         })
       );
-      dispatch(listSubject());
-      dispatch(listCCL());
-      dispatch(listGrade());
+      console.log(user?.data?.verification?.isVerified, 'user1');
+      if (user?.data?.verification?.isVerified) {
+        console.log(user?.data?.verification?.isVerified, 'user2');
+        dispatch(listSubject());
+        dispatch(listCCL());
+        dispatch(listGrade());
+      }
     }
-  }, ['']);
+  }, [user]);
 
   const handleGrade = () => {};
   const handleStatus = () => {};

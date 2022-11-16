@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Layout, Typography } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import logo from '../../assets/images/logo.png';
-import { reset, verifyEmail } from '../../features/auth/authSlice';
+import { verifyEmail } from '../../app/features/auth/authSlice';
 import Spinner from '../../components/spinner/Spinner';
 import ADTitle from '../../components/antd/ADTitle';
 
@@ -13,16 +12,14 @@ export default function VerifyEmail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isLoading, isError, message } = useSelector((state) => state.auth);
+  const { isLoading, isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
+    console.log(id);
     dispatch(verifyEmail(id))
       .unwrap()
       .then(() => navigate('/'));
-  }, [id, user]);
+  }, []);
 
   return (
     <div>
@@ -49,7 +46,7 @@ export default function VerifyEmail() {
             <Typography.Title level={2} className='mt-[56px] !mb-[65px]'>
               Verify Email
             </Typography.Title>
-            {!isError && (
+            {isError && (
               <ADTitle level={4}>
                 Your email is verified. Please visit Dashboard
                 <Link to='/'>{' here'}</Link>

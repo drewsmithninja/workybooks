@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import collectionAPI from '../../app/api/collectionApi';
+import collectionAPI from '../../api/collectionApi';
 
 const initialState = {
   collectionInfo: null,

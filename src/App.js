@@ -35,8 +35,8 @@ function App() {
         <Route path='/reset-password/:id' element={<ResetPassword />} />
         <Route path='/verify-email/:id' element={<VerifyEmail />} />
         <Route path='/sign-up-google' element={<NewSignUpGoogle />} />
+        <Route path='/' element={<Home />} />
         <Route element={<PrivateRoutes />}>
-          <Route path='/' element={<Home />} />
           <Route path='/user-profile' element={<UserProfile />} />
           <Route path='/create-classroom' element={<CreateClassroom />} />
           <Route path='/select-classroom' element={<SelectClassroom />} />

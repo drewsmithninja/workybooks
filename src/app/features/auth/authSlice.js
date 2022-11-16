@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import authAPI from '../../app/api/authApi';
+import authAPI from '../../api/authApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -11,22 +11,27 @@ const initialState = {
   message: ''
 };
 
-// register user
-// eslint-disable-next-line no-shadow
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+export const register = createAsyncThunk('auth/register', async (userRegister, thunkAPI) => {
   try {
-    return await authAPI.register(user);
+    return await authAPI.register(userRegister);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-// login user
-// eslint-disable-next-line no-shadow
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
   try {
-    return await authAPI.login(user);
+    return await authAPI.verifyEmail(emailVerificationId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const login = createAsyncThunk('auth/login', async (userLogin, thunkAPI) => {
+  try {
+    return await authAPI.login(userLogin);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -42,18 +47,9 @@ export const forgotPassword = createAsyncThunk('auth/forgotPassword', async (ema
   }
 });
 
-export const resetPassword = createAsyncThunk('auth/resetPassword', async (userpass, thunkAPI) => {
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (password, thunkAPI) => {
   try {
-    return await authAPI.resetPassword(userpass);
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
-export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
-  try {
-    return await authAPI.verifyEmail(emailVerificationId);
+    return await authAPI.resetPassword(password);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -85,6 +81,7 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.message = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;

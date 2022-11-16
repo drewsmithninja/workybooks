@@ -3,7 +3,7 @@ import { Col, Input, Row } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import ADButton from '../antd/ADButton';
 import ADTitle from '../antd/ADTitle';
-import { updateCollection } from '../../features/collection/collectionSlice';
+import { updateCollection } from '../../app/features/collection/collectionSlice';
 
 function NewAssignmentOrCollection({ assign, onCreateClick, selectedWorksheet }) {
   // const inputRef = useRef(null);

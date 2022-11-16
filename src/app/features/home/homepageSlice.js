@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import homeAPI from '../../app/api/homeApi';
+import homeAPI from '../../api/homeApi';
 
 const initialState = {
   worksheetData: null,

@@ -3,7 +3,7 @@ import { Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { forgotPassword, logout, reset } from '../../features/auth/authSlice';
+import { forgotPassword, logout, reset } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { CloseOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Dropdown, Input, Menu, message, Modal, Row, Space, Steps } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -10,8 +8,8 @@ import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
-import { createCollection } from '../../features/collection/collectionSlice';
-import { likeWorksheet } from '../../features/home/homepageSlice';
+import { createCollection } from '../../app/features/collection/collectionSlice';
+import { likeWorksheet } from '../../app/features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
@@ -178,9 +176,9 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             checked={c}
           />
         </div>
-        <div className='flex flex-1 items-center justify-center' onClick={setLike}>
+        <Button className='flex flex-1 items-center justify-center' onClick={setLike} type='text'>
           {cardData?.likes?.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
-        </div>
+        </Button>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>

@@ -5,7 +5,7 @@ import { Col, Image, Row, Space, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { worksheetDetails } from '../../features/home/homepageSlice';
+import { worksheetDetails } from '../../app/features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';

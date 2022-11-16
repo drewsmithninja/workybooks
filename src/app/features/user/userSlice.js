@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import userAPI from '../../app/api/userApi';
+import userAPI from '../../api/userApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
 

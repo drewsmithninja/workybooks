@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import libraryAPI from '../../app/api/libraryApi';
+import libraryAPI from '../../api/libraryApi';
 
 const initialState = {
   favoriteList: null,

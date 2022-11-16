@@ -4,7 +4,7 @@ import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { collectionDetail } from '../../features/library/librarypageSlice';
+import { collectionDetail } from '../../app/features/library/librarypageSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
 import shareIcon from '../../assets/images/icons/share_gray.png';

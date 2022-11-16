@@ -9,7 +9,7 @@ import SearchBar from '../common/SearchBar';
 const { Content } = Layout;
 
 function MainLayout({ children, className }) {
-  const { user } = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem('user'));
   const { collections } = useSelector((state) => state);
   const [showPrint, setShowPrint] = useState(0);
   const dispatch = useDispatch();

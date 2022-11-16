@@ -1,7 +1,7 @@
 import { Col, Menu, Modal, Row, Select, Space, Steps, Tabs, Typography } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { favoriteData, collectionList, recentList } from '../../features/library/librarypageSlice';
+import { favoriteData, collectionList, recentList } from '../../app/features/library/librarypageSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import sortIcon from '../../assets/images/icons/sort.png';
 import CardComponent from '../../components/common/CardComponent';
@@ -16,7 +16,7 @@ import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
-import { updateCollectionLike } from '../../features/collection/collectionSlice';
+import { updateCollectionLike } from '../../app/features/collection/collectionSlice';
 
 function MyLibrary() {
   const [myCollection, setMyCollection] = useState([]);
