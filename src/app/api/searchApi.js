@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const user = JSON.parse(localStorage.getItem('user'));
-const authToken = user?.data?.token?.accessToken;
+const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
 
 // register user
 const search = async (searchText) => {

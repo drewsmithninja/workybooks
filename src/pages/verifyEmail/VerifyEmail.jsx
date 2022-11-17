@@ -15,10 +15,7 @@ export default function VerifyEmail() {
   const { isLoading, isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log(id);
-    dispatch(verifyEmail(id))
-      .unwrap()
-      .then(() => navigate('/'));
+    dispatch(verifyEmail(id)).then(() => navigate('/'));
   }, []);
 
   return (

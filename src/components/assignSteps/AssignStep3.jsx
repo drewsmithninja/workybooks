@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
 
 export default function AssignStep3() {
-  const onOk = (value) => {
-    console.log('onOk: ', value);
-  };
+  const onOk = (value) => {};
   const options = [
     {
       label: (
@@ -37,13 +35,9 @@ export default function AssignStep3() {
   const [value, setValue] = useState(options.value);
   const [form] = Form.useForm();
   const onChange = ({ target: { updatedValue } }) => {
-    console.log('radio checked', updatedValue);
     setValue(updatedValue);
   };
-  const onDateChange = (e, dateString) => {
-    console.log('Selected Time: ', e);
-    console.log('Formatted Selected Time: ', dateString);
-  };
+  const onDateChange = (e, dateString) => {};
   return (
     <div>
       <Form form={form} layout='vertical'>
@@ -107,7 +101,7 @@ export default function AssignStep3() {
           </Col>
         </Row>
         <Form.Item label='Points'>
-          <InputNumber min={1} max={10} defaultValue={10} onChange={(e) => console.log(e.target.value)} />
+          <InputNumber min={1} max={10} defaultValue={10} onChange={() => {}} />
         </Form.Item>
       </Form>
     </div>

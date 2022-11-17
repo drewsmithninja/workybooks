@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const user = JSON.parse(localStorage.getItem('user'));
-const authToken = user?.data?.token?.accessToken;
+const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
 
 // worksheet details
 const createCollection = async (collectionData) => {
@@ -12,6 +13,7 @@ const createCollection = async (collectionData) => {
       authorization: authToken
     }
   });
+  toast.success(response.data.message);
   return response.data;
 };
 
@@ -25,6 +27,7 @@ const updateCollection = async (data) => {
       authorization: authToken
     }
   });
+  toast.success(response.data.message);
   return response.data;
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { newWorksheet, listSubject, listCCL, listGrade } from '../../app/features/home/homepageSlice';
@@ -9,11 +9,10 @@ import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 
 function Home() {
-  const dispatch = useDispatch();
-  // const { user } = useSelector((state) => state.auth);
   const user = localStorage.getItem('user');
+  const dispatch = useDispatch();
+  const [rerender, setRerender] = useState(0);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
-  const { isSuccess } = useSelector((state) => state.auth);
   window.document.title = 'Workybooks App — Home';
   const worksheets = worksheetData?.data?.list;
 
@@ -25,18 +24,13 @@ function Home() {
           skip: 0
         })
       );
-      console.log(user?.data?.verification?.isVerified, 'user1');
-      if (user?.data?.verification?.isVerified) {
-        console.log(user?.data?.verification?.isVerified, 'user2');
-        dispatch(listSubject());
-        dispatch(listCCL());
-        dispatch(listGrade());
-      }
+      dispatch(listSubject());
+      dispatch(listCCL());
+      dispatch(listGrade());
     }
-  }, [user]);
+  }, [user, rerender]);
 
   const handleGrade = () => {};
-  const handleStatus = () => {};
 
   return (
     <MainLayout>
@@ -55,10 +49,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={handleStatus} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={handleStatus} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
         </div>
       )}
     </MainLayout>

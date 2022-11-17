@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Col, Form, Input, Layout, Row, Typography } from 'antd';
 import { toast } from 'react-toastify';
 import Spinner from '../../components/spinner/Spinner';
@@ -21,7 +21,6 @@ function NewSignUp() {
   const { Paragraph } = Typography;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = localStorage.getItem('user');
 
   useEffect(() => {
@@ -32,7 +31,7 @@ function NewSignUp() {
     }
     if (isSuccess) {
       setIsVerified(true);
-      setSuccessMessage(message.data.message);
+      setSuccessMessage(message?.data?.message);
     }
 
     dispatch(reset());
@@ -252,8 +251,8 @@ function NewSignUp() {
                 </Col>
               </Row>
               <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <ADButton type='primary' htmlType='submit' className='w-full'>
-                  Sign Up
+                <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={isLoading}>
+                  {isLoading ? <Spinner /> : 'Sign Up'}
                 </ADButton>
                 <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
                   By signing up I agree to Workybooks

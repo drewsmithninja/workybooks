@@ -5,15 +5,9 @@ import ADTitle from '../antd/ADTitle';
 
 export default function AssignStep2({ onAssignSelected, onAssignClass }) {
   const { Option } = Select;
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
+  const onFinish = (values) => {};
+  const onFinishFailed = (errorInfo) => {};
+  const handleChange = (value) => {};
   const data = [
     {
       checked: false,
@@ -79,12 +73,7 @@ export default function AssignStep2({ onAssignSelected, onAssignClass }) {
             <div className='font-bold pt-2'>Select Students</div>
           </Col>
           <Col xs={24} sm={10}>
-            <Checkbox.Group
-              className='w-full'
-              onChange={() => {
-                console.log('checkboxHandler');
-              }}
-            >
+            <Checkbox.Group className='w-full' onChange={() => {}}>
               <List
                 style={{
                   background: '#F6F9FC'

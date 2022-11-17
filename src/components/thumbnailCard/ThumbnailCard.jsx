@@ -14,7 +14,7 @@ import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
 
-function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -68,10 +68,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
           onClick: showAssignModal
         },
         {
-          label: 'ADD TO COLLECTION',
+          label: 'COPY TO MY COLLECTION',
           key: '3',
-          icon: <img src={folderIcon} alt='add to collection' />,
-          onClick: showCollectionModal
+          icon: <img src={folderIcon} alt='copy to my collection' />
+          // onClick: showCollectionModal
         },
         {
           label: 'SHARE',
@@ -170,10 +170,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
         <div className='flex justify-between items-center py-2'>
           <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
           <div className='flex items-center'>
-            <ADButton className='!p-1 text-xl' type='text' onClick={onFavChange}>
+            <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
               {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
             </ADButton>
-            <span className='text-sm'>{` ${likes}`}</span>
+            <span className='text-sm pl-2'>{likes}</span>
           </div>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>

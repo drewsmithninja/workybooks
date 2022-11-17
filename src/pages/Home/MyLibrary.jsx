@@ -19,14 +19,17 @@ import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignment
 import { updateCollectionLike } from '../../app/features/collection/collectionSlice';
 
 function MyLibrary() {
-  const [myCollection, setMyCollection] = useState([]);
-  const [currentTab, setCurrentTab] = useState('Collections');
+  const [rerender, setRerender] = useState(0);
+  const [currentTab, setCurrentTab] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const { favoriteList, myCollectionData, recentData } = useSelector((state) => state.library);
+  const { favoriteList, recentData } = useSelector((state) => state.library);
+  const myCollectionData = useSelector((state) => state.library.myCollectionData);
+  const myCollection = myCollectionData?.data?.list;
+
   const { Step } = Steps;
 
   const collectionFavHandler = (e) => {
@@ -34,15 +37,12 @@ function MyLibrary() {
       collectionId: e._id,
       favorite: !e.favorite
     };
-    dispatch(updateCollectionLike(data));
+    dispatch(updateCollectionLike(data)).then(setRerender(Math.random()));
   };
 
   useEffect(() => {
-    dispatch(favoriteData());
     dispatch(collectionList());
-    dispatch(recentList());
-    setMyCollection(myCollectionData?.data?.list);
-  }, [myCollection]);
+  }, [rerender]);
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
@@ -91,6 +91,55 @@ function MyLibrary() {
       content: <AssignStep3 />
     }
   ];
+
+  const collectionTab = (
+    <Row gutter={[16, 16]}>
+      {myCollection?.length &&
+        myCollection?.map((item) => (
+          <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+            <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+          </Col>
+        ))}
+    </Row>
+  );
+
+  const favCollectionTab = (
+    <>
+      <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
+      <Row gutter={[16, 16]} className='py-4'>
+        {myCollection?.length &&
+          myCollection
+            ?.filter((item) => item.favorite)
+            ?.map((item) => (
+              <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+                <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+              </Col>
+            ))}
+      </Row>
+      <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
+      <div className='flex flex-row flex-wrap'>{favoriteList?.data?.list?.length > 0 && favoriteList?.data?.list.map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
+    </>
+  );
+
+  const recentTab = <div className='flex flex-row flex-wrap'>{recentData?.data?.list?.length > 0 && recentData?.data?.list?.map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>;
+
+  const tabItems = [
+    {
+      label: 'my collection',
+      key: 1,
+      children: collectionTab
+    },
+    {
+      label: 'favorites',
+      key: 2,
+      children: favCollectionTab
+    },
+    {
+      label: 'recent',
+      key: 3,
+      children: recentTab
+    }
+  ];
   const menu = (
     <Menu
       items={[
@@ -119,29 +168,18 @@ function MyLibrary() {
       ]}
     />
   );
-  const worksheets = [
-    {
-      id: 1,
-      key: 1,
-      name: 'test_card_1',
-      likes: '7k',
-      isLiked: false
-    },
-    {
-      id: 2,
-      key: 2,
-      name: 'test_card_2',
-      likes: '1.5k',
-      isLiked: true
-    },
-    {
-      id: 3,
-      key: 3,
-      name: 'test_card_3',
-      likes: '6k',
-      isLiked: false
+  const tabChangeHandler = (e) => {
+    if (e === 1) {
+      setCurrentTab(e);
+      dispatch(collectionList());
+    } else if (e === 2) {
+      setCurrentTab(e);
+      dispatch(favoriteData());
+    } else if (e === 3) {
+      setCurrentTab(e);
+      dispatch(recentList());
     }
-  ];
+  };
   return (
     <MainLayout>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
@@ -215,7 +253,8 @@ function MyLibrary() {
         </Space>
       </div>
       <div className='px-8'>
-        <Tabs
+        <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
+        {/* <Tabs
           defaultActiveKey={currentTab}
           tabBarStyle={{
             fontWeight: 'bold'
@@ -234,7 +273,6 @@ function MyLibrary() {
           </Tabs.TabPane>
           <Tabs.TabPane tab='FAVORITES' key='Favorites'>
             <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-            {/* <div className='flex flex-row flex-wrap'>{worksheets.length > 0 && worksheets.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={dummyImage} cardWidth={335} />)}</div> */}
             <Row gutter={[8, 8]} className='py-4'>
               {myCollection?.length &&
                 myCollection
@@ -251,7 +289,7 @@ function MyLibrary() {
           <Tabs.TabPane tab='RECENTS' key='Recents'>
             <div className='flex flex-row flex-wrap'>{recentData?.data?.list?.length > 0 && recentData?.data?.list?.map((item) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
           </Tabs.TabPane>
-        </Tabs>
+        </Tabs> */}
       </div>
     </MainLayout>
   );
