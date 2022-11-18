@@ -27,7 +27,7 @@ function MyClassrooms() {
             </div>
           </Space>
         </div>
-        <Tabs className='ad-tabs' defaultActiveKey='2'>
+        <Tabs defaultActiveKey='2'>
           <Tabs.TabPane tab='Students' key='1'>
             <StudentsPage />
           </Tabs.TabPane>

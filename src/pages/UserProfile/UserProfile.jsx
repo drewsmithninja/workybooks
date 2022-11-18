@@ -67,7 +67,6 @@ function UserProfile() {
       <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
         <div className='px-4 py-5 sm:px-6'>
           <h3 className='text-3xl font-bold leading-6'>Edit Profile</h3>
-          <ADTitle>Hello</ADTitle>
         </div>
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
           <div className='px-6'>

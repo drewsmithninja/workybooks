@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Space } from 'antd';
 import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
@@ -13,6 +13,7 @@ import ADButton from '../../components/antd/ADButton';
 
 function MyCollection() {
   const { id } = useParams();
+  const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);
   const collectionInfo = collectionDetailsList?.data;
   const worksheetList = collectionDetailsList?.data?.content || [];
@@ -25,7 +26,7 @@ function MyCollection() {
         id
       })
     );
-  }, [id]);
+  }, [id, rerender]);
 
   return (
     <MainLayout>
@@ -74,7 +75,7 @@ function MyCollection() {
         </Row>
       </div>
       <div className='px-8'>
-        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
+        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent setRerender={setRerender} likeStatus={item.likes.isLike} key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
       </div>
     </MainLayout>
   );

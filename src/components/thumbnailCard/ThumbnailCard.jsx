@@ -8,6 +8,7 @@ import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADCard from '../antd/ADCard';
 import ADButton from '../antd/ADButton';
+import sampleImage from '../../assets/images/dummyImage.png';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
@@ -181,12 +182,12 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             </div>
           </Dropdown>
         </div>
-        <div>{props.collection?.title}</div>
+        <div>{collection?.title}</div>
         <div className='flex justify-between'>
           <div className='text-xs text-secondary'>
             By
-            {props.collection?.added_by?.firstName}
-            {props.collection?.added_by?.lastName}
+            {collection?.added_by?.firstName}
+            {collection?.added_by?.lastName}
           </div>
           <div className='text-xs text-secondary'>12 Worksheets</div>
         </div>

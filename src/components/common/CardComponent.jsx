@@ -77,7 +77,6 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
         like: cardData?.likes?.isLike !== undefined ? !cardData?.likes?.isLike : true
       }
     };
-    // dispatch(likeWorksheet(data)).unwrap().then(setRerender(Math.random()));
     dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
   };
 

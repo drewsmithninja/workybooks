@@ -1,14 +1,6 @@
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 
 const API_URL = process.env.REACT_APP_API_URL;
-
-function getToken(token) {
-  const user = JSON.parse(localStorage.getItem('user'));
-  token = user?.data?.verification?.isVerified ? user.data.verification.token : null;
-  console.log(token, 'token');
-  return token;
-}
 
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
@@ -16,15 +8,16 @@ const newWorksheet = async (worksheetData) => {
   const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
     headers: {
-      authorization: getToken()
+      authorization: authToken
     }
   });
-  console.log(authToken);
   return response.data;
 };
 
 // worksheet details
 const worksheetDetails = async (worksheetId) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const response = await axios.post(`${API_URL}/content/getBy/id`, worksheetId, {
     headers: {
       authorization: authToken
