@@ -92,7 +92,6 @@ function MyLibrary() {
       content: <AssignStep3 />
     }
   ];
-  console.log(myCollection);
   const collectionTab = (
     <Row gutter={[16, 16]}>
       {myCollection?.length ? (
