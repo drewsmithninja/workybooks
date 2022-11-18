@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const getCurrentUser = () => JSON.parse(localStorage.getItem('user'));
+
 const register = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/register`, userData);
   return response.data;
@@ -58,7 +60,8 @@ const authAPI = {
   forgotPassword,
   resetPassword,
   logout,
-  verifyEmail
+  verifyEmail,
+  getCurrentUser
 };
 
 export default authAPI;

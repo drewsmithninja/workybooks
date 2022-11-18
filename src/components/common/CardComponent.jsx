@@ -78,10 +78,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
       }
     };
     // dispatch(likeWorksheet(data)).unwrap().then(setRerender(Math.random()));
-    dispatch(likeWorksheet(data));
-    setTimeout(() => {
-      setRerender(Math.random());
-    }, 300);
+    dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
   };
 
   const steps = [

@@ -4,12 +4,32 @@ import authAPI from '../../api/authApi';
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
-  user: user || null,
+  user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: ''
 };
+
+// export const fetchUserByToken = createAsyncThunk('auth/fetchUserByToken', async (user, thunkAPI) => {
+//   try {
+//     const response = await authAPI.getCurrentUser(user);
+//     return response.data;
+//   } catch (error) {
+//     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+//     return thunkAPI.rejectWithValue(message);
+//   }
+// });
+
+export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
+  try {
+    const response = await homeAPI.worksheetDetails(worksheetId);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const register = createAsyncThunk('auth/register', async (userRegister, thunkAPI) => {
   try {
@@ -89,6 +109,19 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
+      // fetch user by token
+      // .addCase(fetchUserByToken.pending, (state, action) => {
+      //   state.isLoading = true;
+      // })
+      // .addCase(fetchUserByToken.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isSuccess = true;
+      //   state.user = action.payload;
+      // })
+      // .addCase(fetchUserByToken.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isError = true;
+      // })
       // verify email cases
       .addCase(verifyEmail.pending, (state, action) => {
         state.isLoading = true;

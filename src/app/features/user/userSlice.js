@@ -5,7 +5,7 @@ import userAPI from '../../api/userApi';
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
-  user: user || null,
+  user: null,
   userData: null,
   isError: false,
   isSuccess: false,

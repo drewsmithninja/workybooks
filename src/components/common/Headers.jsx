@@ -15,7 +15,6 @@ function Headers() {
   const dispatch = useDispatch();
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
-  // const { user } = useSelector((state) => state.auth);
   const user = localStorage.getItem('user');
   const handleToggleNavbar = () => {
     navbarRef.current.classList.toggle('flex');

@@ -19,6 +19,8 @@ import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignment
 import { updateCollectionLike } from '../../app/features/collection/collectionSlice';
 
 function MyLibrary() {
+  const user = localStorage.getItem('user');
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);

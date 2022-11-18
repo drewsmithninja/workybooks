@@ -10,6 +10,7 @@ import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 
 function Home() {
   const user = localStorage.getItem('user');
+  // const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
