@@ -2,11 +2,10 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const user = JSON.parse(localStorage.getItem('user'));
-const authToken = user?.data?.token?.accessToken;
-
 // register user
 const search = async (searchText) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const response = await axios.post(`${API_URL}/content/getBy/subGradeCcsTopic/search `, searchText, {
     headers: {
       authorization: authToken
@@ -16,6 +15,8 @@ const search = async (searchText) => {
 };
 
 const searchSuggest = async (searchText) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const response = await axios.post(`${API_URL}/content/getBy/keyw/ccs/sub/search `, searchText, {
     headers: {
       authorization: authToken

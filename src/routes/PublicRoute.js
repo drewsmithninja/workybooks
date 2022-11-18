@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { getSessionToken, getSessionUser } from '../utils/helperAuthentication';
 
 function PublicRoute({ children }) {
-  const user = getSessionUser();
+  // const user = getSessionUser();
   const token = getSessionToken();
 
   if (user && token) {

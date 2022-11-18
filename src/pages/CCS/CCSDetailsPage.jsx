@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import { ccsTopic } from '../../features/search/searchpageSlice';
+import { ccsTopic } from '../../app/features/search/searchpageSlice';
 
 let ccsDetail; let ccsNewDetail;
 export default function CCSDetailsPage() {

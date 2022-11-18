@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import { search } from '../../features/search/searchpageSlice';
+import { search } from '../../app/features/search/searchpageSlice';
 // import { grades } from '../../utils/appData';
 
 function SearchResult() {
@@ -39,13 +39,15 @@ function SearchResult() {
   };
 
   function closeTag() {
-    dispatch(search({
-      search: '',
-      subject: subjectArr,
-      grade: gradeArr,
-      commonCoreStandards: ccsArr,
-      stds_topic: []
-    }));
+    dispatch(
+      search({
+        search: '',
+        subject: subjectArr,
+        grade: gradeArr,
+        commonCoreStandards: ccsArr,
+        stds_topic: []
+      })
+    );
   }
 
   const handleCcs = (value) => {
@@ -53,13 +55,15 @@ function SearchResult() {
   };
   useEffect(() => {
     if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
-      dispatch(search({
-        search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
-        subject: subjectArr,
-        grade: gradeArr,
-        commonCoreStandards: ccsArr,
-        stds_topic: []
-      }));
+      dispatch(
+        search({
+          search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
+          subject: subjectArr,
+          grade: gradeArr,
+          commonCoreStandards: ccsArr,
+          stds_topic: []
+        })
+      );
     }
   }, [subjectArr, gradeArr, ccsArr]);
 
@@ -71,23 +75,16 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>GRADES</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                <Checkbox.Group
-                  onChange={onChange}
-                >
+                <Checkbox.Group onChange={onChange}>
                   {grades?.length > 0 &&
-                  grades.map((item) => (
-                    <Row className='pb-1.5'>
-                      <Checkbox
-                        key={`grade_${item?._id}`}
-                        value={item?._id}
-                        className='!ml-0'
-                      >
-                        Grade
-                        <span className='capitalize'>{item?.title}</span>
-                      </Checkbox>
-                    </Row>
-                  ))}
-
+                    grades.map((item) => (
+                      <Row className='pb-1.5'>
+                        <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
+                          Grade
+                          <span className='capitalize'>{item?.title}</span>
+                        </Checkbox>
+                      </Row>
+                    ))}
                 </Checkbox.Group>
               </div>
               <Divider className='my-0' />
@@ -95,17 +92,15 @@ function SearchResult() {
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
               <Typography.Text className='font-bold'>SUBJECTS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
-                <Checkbox.Group
-                  onChange={onChangeSubject}
-                >
+                <Checkbox.Group onChange={onChangeSubject}>
                   {subjects?.length > 0 &&
-                  subjects.map((item) => (
-                    <Row className='pb-1.5'>
-                      <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
-                        <span className='capitalize'>{item?.title}</span>
-                      </Checkbox>
-                    </Row>
-                  ))}
+                    subjects.map((item) => (
+                      <Row className='pb-1.5'>
+                        <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
+                          <span className='capitalize'>{item?.title}</span>
+                        </Checkbox>
+                      </Row>
+                    ))}
                 </Checkbox.Group>
               </div>
               <Divider className='my-0' />
@@ -114,10 +109,7 @@ function SearchResult() {
               <Typography.Text className='font-bold'>CCS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Select className='max-w-[220px] !rounded-[8px]' onChange={handleCcs}>
-                  {ccl?.length > 0 &&
-                    ccl?.map((item) => (
-                      <Select.Option value={item?._id}>{item?.title}</Select.Option>
-                    ))}
+                  {ccl?.length > 0 && ccl?.map((item) => <Select.Option value={item?._id}>{item?.title}</Select.Option>)}
                 </Select>
               </div>
             </Col>
@@ -130,16 +122,16 @@ function SearchResult() {
                 <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
               </ADButton>
             </Col> */}
-            { (searchData?.data?.searchText) && (
-            <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
-              {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
+            {searchData?.data?.searchText && (
+              <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
+                {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                 <Typography.Text className='text-baseline' />
               </Tag> */}
 
-              <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline'>{searchData?.data?.searchText}</Typography.Text>
-              </Tag>
-            </Col>
+                <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
+                  <Typography.Text className='text-baseline'>{searchData?.data?.searchText}</Typography.Text>
+                </Tag>
+              </Col>
             )}
             {/* <Col span={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
@@ -210,7 +202,6 @@ function SearchResult() {
                     {' '}
                     <span className='capitalize'>{item.title}</span>
                   </Checkbox>
-
                 ))}
             </div>
             <Divider className='my-0' />

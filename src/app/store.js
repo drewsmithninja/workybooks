@@ -1,12 +1,12 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import authReducer from '../features/auth/authSlice';
-import homeReducer from '../features/home/homepageSlice';
-import searchReducer from '../features/search/searchpageSlice';
-import userReducer from '../features/user/userSlice';
-import libraryReducer from '../features/library/librarypageSlice';
-import collectionReducer from '../features/collection/collectionSlice';
+import authReducer from './features/auth/authSlice';
+import homeReducer from './features/home/homepageSlice';
+import searchReducer from './features/search/searchpageSlice';
+import userReducer from './features/user/userSlice';
+import libraryReducer from './features/library/librarypageSlice';
+import collectionReducer from './features/collection/collectionSlice';
 
 const persistConfig = {
   key: 'root',

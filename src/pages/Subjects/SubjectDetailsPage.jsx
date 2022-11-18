@@ -8,7 +8,7 @@ import ADButton from '../../components/antd/ADButton';
 import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
-import { subjectTopic } from '../../features/search/searchpageSlice';
+import { subjectTopic } from '../../app/features/search/searchpageSlice';
 
 let subjectDetail; let subjectNewDetail;
 export default function SubjectDetailsPage() {

@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Steps } from 'antd';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADCard from '../antd/ADCard';
 import ADButton from '../antd/ADButton';
+import sampleImage from '../../assets/images/dummyImage.png';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
 
-function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -68,10 +69,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
           onClick: showAssignModal
         },
         {
-          label: 'ADD TO COLLECTION',
+          label: 'COPY TO MY COLLECTION',
           key: '3',
-          icon: <img src={folderIcon} alt='add to collection' />,
-          onClick: showCollectionModal
+          icon: <img src={folderIcon} alt='copy to my collection' />
+          // onClick: showCollectionModal
         },
         {
           label: 'SHARE',
@@ -170,10 +171,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
         <div className='flex justify-between items-center py-2'>
           <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
           <div className='flex items-center'>
-            <ADButton className='!p-1 text-xl' type='text' onClick={onFavChange}>
+            <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
               {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
             </ADButton>
-            <span className='text-sm'>{` ${likes}`}</span>
+            <span className='text-sm pl-2'>{likes}</span>
           </div>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
@@ -181,14 +182,14 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, thumbna
             </div>
           </Dropdown>
         </div>
-        <div>{props.collection?.title}</div>
+        <div>{collection?.title}</div>
         <div className='flex justify-between'>
-          <div className='text-xs text-secondary'>
+          <div className='text-xs text-slate-400'>
             By
-            {props.collection?.added_by?.firstName}
-            {props.collection?.added_by?.lastName}
+            {collection?.added_by?.firstName}
+            {collection?.added_by?.lastName}
           </div>
-          <div className='text-xs text-secondary'>12 Worksheets</div>
+          <div className='text-xs text-slate-400'>{`${thumbnails.length} Worksheets`}</div>
         </div>
       </ADCard>
     </>
@@ -200,7 +201,6 @@ ThumbnailCard.defaultProps = {
   cardWidth: 'w-full',
   cardChecked: false,
   favorite: false,
-  likes: 15.3
-  //   thumbnails: []
+  likes: 15.4
 };
 export default ThumbnailCard;

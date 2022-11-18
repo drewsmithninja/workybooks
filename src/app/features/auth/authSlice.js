@@ -1,32 +1,57 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import authAPI from '../../app/api/authApi';
+import authAPI from '../../api/authApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
-  user: user || null,
+  user: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: ''
 };
 
-// register user
-// eslint-disable-next-line no-shadow
-export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
+// export const fetchUserByToken = createAsyncThunk('auth/fetchUserByToken', async (user, thunkAPI) => {
+//   try {
+//     const response = await authAPI.getCurrentUser(user);
+//     return response.data;
+//   } catch (error) {
+//     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+//     return thunkAPI.rejectWithValue(message);
+//   }
+// });
+
+export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
   try {
-    return await authAPI.register(user);
+    const response = await homeAPI.worksheetDetails(worksheetId);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const register = createAsyncThunk('auth/register', async (userRegister, thunkAPI) => {
+  try {
+    return await authAPI.register(userRegister);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-// login user
-// eslint-disable-next-line no-shadow
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
   try {
-    return await authAPI.login(user);
+    return await authAPI.verifyEmail(emailVerificationId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const login = createAsyncThunk('auth/login', async (userLogin, thunkAPI) => {
+  try {
+    return await authAPI.login(userLogin);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -42,9 +67,9 @@ export const forgotPassword = createAsyncThunk('auth/forgotPassword', async (ema
   }
 });
 
-export const resetPassword = createAsyncThunk('auth/resetPassword', async (userpass, thunkAPI) => {
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (password, thunkAPI) => {
   try {
-    return await authAPI.resetPassword(userpass);
+    return await authAPI.resetPassword(password);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -59,7 +84,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: (state, action) => {
+    reset: (state) => {
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
@@ -76,8 +101,37 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        state.message = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
+      })
+      // fetch user by token
+      // .addCase(fetchUserByToken.pending, (state, action) => {
+      //   state.isLoading = true;
+      // })
+      // .addCase(fetchUserByToken.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isSuccess = true;
+      //   state.user = action.payload;
+      // })
+      // .addCase(fetchUserByToken.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isError = true;
+      // })
+      // verify email cases
+      .addCase(verifyEmail.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

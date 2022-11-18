@@ -3,7 +3,7 @@ import { Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, reset } from '../../features/auth/authSlice';
+import { login, reset } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -11,6 +11,7 @@ import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 
 function NewSignIn() {
+  const user = JSON.parse(localStorage.getItem('user'));
   window.document.title = 'Workybook - Sign In';
   const { Header } = Layout;
   const [form] = Form.useForm();
@@ -18,7 +19,7 @@ function NewSignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, message } = useSelector((state) => state.auth);
+  const { isLoading, isError, message } = useSelector((state) => state.auth);
   useEffect(() => {
     if (isError) {
       toast.error(message);

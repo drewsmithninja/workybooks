@@ -1,43 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Space } from 'antd';
 import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { collectionDetail } from '../../features/library/librarypageSlice';
+import { collectionDetail } from '../../app/features/library/librarypageSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
-import dummyImage from '../../assets/images/dummyImage.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
 
 function MyCollection() {
   const { id } = useParams();
-  const { worksheetData } = useSelector((state) => state.home);
+  const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);
-  const cards = [];
   const collectionInfo = collectionDetailsList?.data;
   const worksheetList = collectionDetailsList?.data?.content || [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(collectionDetail({
-      id
-    }));
-  }, [id]);
+    dispatch(
+      collectionDetail({
+        id
+      })
+    );
+  }, [id, rerender]);
 
-  Array(8)
-    .fill(1)
-    .map((item) => {
-      cards.push({
-        id: item + 1,
-        key: item + 1,
-        name: 'test_card'
-      });
-      return cards;
-    });
   return (
     <MainLayout>
       <div className='px-8 pb-4 pt-4'>
@@ -49,10 +39,7 @@ function MyCollection() {
             <ADTitle level={3}>{collectionInfo?.title}</ADTitle>
             <div className='py-3 flex text-xs'>
               <div className='pr-16'>By Mrs. Biries</div>
-              <div>
-                {worksheetList?.length}
-                Worksheets
-              </div>
+              <div>{`${worksheetList?.length} Worksheets`}</div>
             </div>
             <Space size='large' className='pt-1'>
               <ADTitle level={5}>Standards</ADTitle>
@@ -88,7 +75,7 @@ function MyCollection() {
         </Row>
       </div>
       <div className='px-8'>
-        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
+        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent setRerender={setRerender} likeStatus={item.likes.isLike} key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
       </div>
     </MainLayout>
   );

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import searchAPI from '../../app/api/searchApi';
+import searchAPI from '../../api/searchApi';
 
 const initialState = {
   searchData: null,

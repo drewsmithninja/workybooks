@@ -1,25 +1,23 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { CloseOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Dropdown, Input, Menu, message, Modal, Row, Space, Steps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ADTitle from '../antd/ADTitle';
-import ADButton from '../antd/ADButton';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
-import { createCollection } from '../../features/collection/collectionSlice';
-import { likeWorksheet } from '../../features/home/homepageSlice';
+import { createCollection } from '../../app/features/collection/collectionSlice';
+import { likeWorksheet } from '../../app/features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import AssignStep3 from '../assignSteps/AssignStep3';
+import ADButton from '../antd/ADButton';
 
-function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', likeStatus, cardWidth = 215, cardData = null }) {
+function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', likeStatus, cardWidth = 215, cardData = null, setRerender }) {
   const dispatch = useDispatch();
   const { Step } = Steps;
   const { collections } = useSelector((state) => state);
@@ -72,16 +70,14 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
     setCurrentStep(currentStep - 1);
   };
 
-  const setLike = (e) => {
+  const setLike = () => {
     const data = {
       id: cardData._id,
       status: {
-        like: !cardData?.likes?.isLike
+        like: cardData?.likes?.isLike !== undefined ? !cardData?.likes?.isLike : true
       }
     };
-    dispatch(likeWorksheet(data));
-    likeStatus(true);
-    // e.preventdefault();
+    dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
   };
 
   const steps = [
@@ -180,9 +176,9 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             checked={c}
           />
         </div>
-        <div className='flex flex-1 items-center justify-center' onClick={setLike}>
-          {cardData?.likes?.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
-        </div>
+        <ADButton className='flex flex-1 items-center justify-center' onClick={setLike} type='text'>
+          {likeStatus ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
+        </ADButton>
         <div className='flex flex-1 items-center justify-end'>
           <Dropdown overlay={menu} placement='topLeft' arrow>
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
@@ -190,27 +186,12 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             </div>
           </Dropdown>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} cardData={cardData} />
           </Modal>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} itemData={cardData} />
+            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} cardData={cardData} />
           </Modal>
-          <Modal
-            className='rounded-xl'
-            closeIcon={(
-              <CloseOutlined
-                style={{
-                  color: '#EC1E24'
-                }}
-                className='!text-danger font-bold'
-                onClick={() => setIsStepModalOpen(false)}
-              />
-            )}
-            centered
-            width={670}
-            footer={false}
-            open={isStepModalOpen}
-          >
+          <Modal className='rounded-xl' closeIcon={<CloseOutlined className='!text-danger font-bold' onClick={() => setIsStepModalOpen(false)} />} centered width={670} footer={false} open={isStepModalOpen}>
             <ADTitle level={3} className='text-center text-danger pb-8'>
               Create New Assign Activities
             </ADTitle>
@@ -263,11 +244,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
       </div>
 
       {/* Card Title */}
-      <p className='leading-4 text-[12px] mb-0'>
-        {cardData.title}
-        -
-        {`${cardData?.descrpt?.substring(0, 50)}`}
-      </p>
+      <p className='leading-4 text-[12px] mb-0'>{`${cardData.title}-${cardData?.descrpt?.substring(0, 50)}`}</p>
 
       {/* Card author */}
       <p className='leading-4 text-[10px] text-gray-400'>{cardData.author}</p>

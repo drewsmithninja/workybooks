@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
-import libraryAPI from '../../app/api/libraryApi';
+import libraryAPI from '../../api/libraryApi';
 
 const initialState = {
   favoriteList: null,
