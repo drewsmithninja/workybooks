@@ -16,6 +16,7 @@ const verifyEmail = async (id) => {
       authorization: id
     }
   });
+  console.log(response.data.payload, 'verify');
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }
@@ -24,6 +25,7 @@ const verifyEmail = async (id) => {
 
 const login = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/login`, userData);
+  console.log(response.data.payload, 'login');
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }
@@ -32,7 +34,7 @@ const login = async (userData) => {
 
 const forgotPassword = async (emailId) => {
   const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
-  toast.success('A password reset link was sent. Click the link in the email to create a new password.');
+  toast.success(response?.data?.message);
   return response.data;
 };
 
@@ -44,13 +46,12 @@ const resetPassword = async (data) => {
     }
   });
   if (id && pass) {
-    toast.success('Password has been Reset!');
+    toast.success(response?.data?.message);
   }
   return response.data;
 };
 
 const logout = () => {
-  // localStorage.removeItem('user');
   localStorage.clear();
 };
 

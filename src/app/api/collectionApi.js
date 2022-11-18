@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const user = JSON.parse(localStorage.getItem('user'));
-const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
 
 // worksheet details
 const createCollection = async (collectionData) => {

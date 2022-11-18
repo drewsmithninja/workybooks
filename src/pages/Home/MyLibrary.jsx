@@ -16,7 +16,7 @@ import { updateCollection, updateCollectionLike } from '../../app/features/colle
 
 function MyLibrary() {
   const user = localStorage.getItem('user');
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
