@@ -20,7 +20,9 @@ const useFetchApiData = (url, fetchAgain) => {
     fetchData();
   }, [url, fetchAgain]);
 
-  return { loading, response, error };
+  return {
+    loading, response, error
+  };
 };
 
 export default useFetchApiData;

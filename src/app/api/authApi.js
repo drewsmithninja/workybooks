@@ -16,7 +16,6 @@ const verifyEmail = async (id) => {
       authorization: id
     }
   });
-  console.log(response.data.payload, 'verify');
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }
@@ -25,7 +24,6 @@ const verifyEmail = async (id) => {
 
 const login = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/login`, userData);
-  console.log(response.data.payload, 'login');
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data));
   }

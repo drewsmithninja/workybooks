@@ -15,8 +15,8 @@ function MyCollection() {
   const { id } = useParams();
   const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);
-  const collectionInfo = collectionDetailsList?.data;
-  const worksheetList = collectionDetailsList?.data?.content || [];
+  const collectionInfo = collectionDetailsList;
+  const worksheetList = collectionDetailsList?.content || [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

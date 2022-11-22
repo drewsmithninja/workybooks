@@ -11,7 +11,7 @@ function SearchBar() {
   const [optionsVal, setoptionVal] = useState([]);
   const { suggestKeyword } = useSelector((state) => state.search);
 
-  const options = suggestKeyword?.data?.result ? suggestKeyword?.data?.result : [];
+  const options = suggestKeyword?.result ? suggestKeyword?.result : [];
 
   const onSearchtext = (value) => {
     if (value !== '' && value !== undefined) {

@@ -15,7 +15,7 @@ function Home() {
   const [rerender, setRerender] = useState(0);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);
   window.document.title = 'Workybooks App — Home';
-  const worksheets = worksheetData?.data?.list;
+  const worksheets = worksheetData?.list;
   useEffect(() => {
     if (user) {
       dispatch(
@@ -31,13 +31,12 @@ function Home() {
   }, [user, rerender]);
 
   const handleGrade = () => {};
-
   return (
     <MainLayout>
       {user && (
         <div className='w-full max-w-[95%] m-auto'>
-          <TopSubjectComponent subjectList={subjectData?.data?.list} ccsList={ccsData?.data?.list} />
-          <GradeComponent activeGrade='3' gradeList={gradeData?.data?.list} getGrade={handleGrade} />
+          <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData?.list} />
+          <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
 
           <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>
             <Col span={16} className='max-h-[253px] pr-0'>
@@ -49,10 +48,10 @@ function Home() {
           </Row>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
 
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length > 0 && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
+          <div className='flex flex-row scrollVertical width-full'>{worksheets?.length && worksheets.slice(0, 15).map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />)}</div>
         </div>
       )}
     </MainLayout>

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import authAPI from '../../api/authApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -41,10 +42,16 @@ export const register = createAsyncThunk('auth/register', async (userRegister, t
 });
 
 export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
+  const notify = (x) => {
+    toast.error(x, {
+      toastId: x
+    });
+  };
   try {
     return await authAPI.verifyEmail(emailVerificationId);
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    notify(message);
     return thunkAPI.rejectWithValue(message);
   }
 });

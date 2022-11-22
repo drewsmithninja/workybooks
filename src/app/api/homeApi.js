@@ -5,11 +5,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  // const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
-  // console.log(user?.payload.user, 'user');
-  // console.log(authToken, 'authToken');
-  const authToken = user;
-  console.log(authToken);
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
     headers: {
       authorization: authToken
