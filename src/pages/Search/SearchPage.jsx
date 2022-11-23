@@ -56,7 +56,7 @@ function SearchResult() {
     setccsArr([value]);
   };
   useEffect(() => {
-    if (user && authToken) {
+    if (user) {
       if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
         dispatch(
           search({

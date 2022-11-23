@@ -17,7 +17,7 @@ function UserProfile() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user && authToken) {
+    if (user) {
       dispatch(
         getProfile({
           id: user?.data?.user?._id

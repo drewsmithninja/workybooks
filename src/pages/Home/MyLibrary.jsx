@@ -39,7 +39,7 @@ function MyLibrary() {
   };
 
   useEffect(() => {
-    if (user && authToken) {
+    if (user) {
       dispatch(updateCollectionLike());
       dispatch(favoriteData());
       dispatch(recentList());

@@ -23,7 +23,7 @@ function MyCollection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user && authToken) {
+    if (user) {
       dispatch(
         collectionDetail({
           id

@@ -20,7 +20,7 @@ function Worksheet() {
   const { worksheetData, worksheetDetailsInfo, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
 
   useEffect(() => {
-    if (user && authToken && userId) {
+    if (user && userId) {
       dispatch(
         worksheetDetails({
           id: userId
