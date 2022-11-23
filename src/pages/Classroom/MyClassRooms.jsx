@@ -6,25 +6,30 @@ import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
 import StudentsPage from '../../components/myClassRooms/students/Students';
 import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
+import { getClassRoomOptions } from '../../app/features/classRoom/classRoomSlice';
 import { getStudents } from '../../app/features/students/studentsSlice';
 
 function MyClassrooms() {
   const { Option } = Select;
   const dispatch = useDispatch();
+  const [classRoomsOptions, setClassRoomsOptions] = useState([]);
   const [currentTab, setCurrentTab] = useState('students');
-  const [studentList, setStudentList] = useState([]);
-  const students = useSelector((state) => state.students);
-
-  const handleChange = (value) => {};
+  const classes = useSelector((state) => state.classRoom);
+  const [selectedClass, setSelectedClass] = useState(null);
 
   useEffect(() => {
-    dispatch(getStudents());
+    dispatch(getClassRoomOptions());
+    setClassRoomsOptions(classes?.classes.collection);
   }, []);
+
+  const handleChange = (e) => {
+    dispatch(getStudents(e));
+    setSelectedClass(e);
+  };
 
   const tabChangeHandler = (e) => {
     if (e === 'students') {
       setCurrentTab(e);
-      // dispatch(getStudents()).unwrap().then(setStudentList(students));
     } else if (e === 'assignment') {
       setCurrentTab(e);
       // dispatch(favoriteData());
@@ -33,13 +38,12 @@ function MyClassrooms() {
       // dispatch(recentList());
     }
   };
-  console.log(students, 'students');
 
   const tabItems = [
     {
       label: 'students',
       key: 'students',
-      children: <StudentsPage studentList={studentList} />
+      children: <StudentsPage classId={selectedClass} />
     },
     {
       label: 'assignment',
@@ -55,15 +59,22 @@ function MyClassrooms() {
 
   return (
     <MainLayout>
-      {students.isLoading && 'Loading...'}
-      {!students.isLoading && students.isError && 'Getting Some Error'}
-      {!students.isLoading && students.length ? <div>Hello</div> : null}
       <div className='p-4 w-full'>
         <div className='py-2'>
           <Space size='large'>
             <ADTitle level={3}>Class</ADTitle>
-            <Select defaultValue='lucy' onChange={handleChange} className='custom-select'>
-              <Option value='class3B'>Class 3B</Option>
+            <Select defaultValue='-' onChange={handleChange} className='custom-select'>
+              {classRoomsOptions.length ? (
+                classRoomsOptions.map((option) => (
+                  <Option key={option._id} value={option._id}>
+                    {option.name}
+                  </Option>
+                ))
+              ) : (
+                <Option value='-' disabled>
+                  No Class Options
+                </Option>
+              )}
             </Select>
             <div className='flex'>
               <FaPencilAlt className='text-gray-400 text-lg' />

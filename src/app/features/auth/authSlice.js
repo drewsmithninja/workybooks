@@ -12,15 +12,15 @@ const initialState = {
   message: ''
 };
 
-// export const fetchUserByToken = createAsyncThunk('auth/fetchUserByToken', async (user, thunkAPI) => {
-//   try {
-//     const response = await authAPI.getCurrentUser(user);
-//     return response.data;
-//   } catch (error) {
-//     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-//     return thunkAPI.rejectWithValue(message);
-//   }
-// });
+export const fetchUserByToken = createAsyncThunk('auth/fetchUserByToken', async (currentUser, thunkAPI) => {
+  try {
+    const response = await authAPI.getCurrentUser(currentUser);
+    return response.data;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
   try {

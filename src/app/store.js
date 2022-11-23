@@ -8,6 +8,7 @@ import userReducer from './features/user/userSlice';
 import libraryReducer from './features/library/librarypageSlice';
 import collectionReducer from './features/collection/collectionSlice';
 import studentsReducer from './features/students/studentsSlice';
+import classRoomReducer from './features/classRoom/classRoomSlice';
 
 const persistConfig = {
   key: 'root',
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   library: libraryReducer,
   collection: collectionReducer,
-  students: studentsReducer
+  students: studentsReducer,
+  classRoom: classRoomReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

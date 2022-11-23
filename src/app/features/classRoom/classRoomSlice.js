@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import studentsAPI from '../../api/studentsAPI';
+import classRoomAPI from '../../api/classRoomApi';
 
-export const getStudents = createAsyncThunk('students/getStudents', async (classId, thunkAPI) => {
+export const getClassRoomOptions = createAsyncThunk('classRoom/getClassRoomOptions', async (thunkAPI) => {
   try {
-    const response = await studentsAPI.getStudents(classId);
+    const response = await classRoomAPI.getClassRoomOptions();
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -11,10 +11,10 @@ export const getStudents = createAsyncThunk('students/getStudents', async (class
   }
 });
 
-export const studentsSlice = createSlice({
-  name: 'students',
+export const classRoomSlice = createSlice({
+  name: 'classRoom',
   initialState: {
-    students: [],
+    classes: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -22,25 +22,25 @@ export const studentsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getStudents.pending, (state) => {
+      .addCase(getClassRoomOptions.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.message = '';
         state.isError = false;
-        state.students = [];
+        state.classes = [];
       })
-      .addCase(getStudents.fulfilled, (state, action) => {
+      .addCase(getClassRoomOptions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.students = action.payload;
+        state.classes = action.payload;
       })
-      .addCase(getStudents.rejected, (state, action) => {
+      .addCase(getClassRoomOptions.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.students = [];
+        state.classes = [];
       });
   }
 });
 
-export default studentsSlice.reducer;
+export default classRoomSlice.reducer;
