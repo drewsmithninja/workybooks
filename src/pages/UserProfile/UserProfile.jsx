@@ -10,17 +10,20 @@ import ADTitle from '../../components/antd/ADTitle';
 import { getProfile, updateProfile } from '../../app/features/user/userSlice';
 
 function UserProfile() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
-  const { user } = useSelector((state) => state.auth);
   const { userData } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(
-      getProfile({
-        id: user?.data?.user?._id
-      })
-    );
+    if (user && authToken) {
+      dispatch(
+        getProfile({
+          id: user?.data?.user?._id
+        })
+      );
+    }
   }, [user?.data?.user]);
 
   useEffect(() => {

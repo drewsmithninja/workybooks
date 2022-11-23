@@ -9,6 +9,8 @@ import { search } from '../../app/features/search/searchpageSlice';
 // import { grades } from '../../utils/appData';
 
 function SearchResult() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const dispatch = useDispatch();
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
@@ -54,16 +56,18 @@ function SearchResult() {
     setccsArr([value]);
   };
   useEffect(() => {
-    if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
-      dispatch(
-        search({
-          search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
-          subject: subjectArr,
-          grade: gradeArr,
-          commonCoreStandards: ccsArr,
-          stds_topic: []
-        })
-      );
+    if (user && authToken) {
+      if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
+        dispatch(
+          search({
+            search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
+            subject: subjectArr,
+            grade: gradeArr,
+            commonCoreStandards: ccsArr,
+            stds_topic: []
+          })
+        );
+      }
     }
   }, [subjectArr, gradeArr, ccsArr]);
 

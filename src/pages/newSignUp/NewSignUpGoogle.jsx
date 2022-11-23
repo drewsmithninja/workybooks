@@ -2,7 +2,6 @@ import { Button, Col, Form, Input, Layout, Row, Typography } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import setUserLoggedIn from '../../redux/actions/userAction';
 
 import logo from '../../assets/images/logo.png';
 import ADButton from '../../components/antd/ADButton';
