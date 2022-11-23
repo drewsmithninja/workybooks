@@ -3,7 +3,6 @@ import { Col, Form, Input, Modal, Row, Table, Typography } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import setUserLoggedIn from '../../redux/actions/userAction';
 import LogoHeader from '../../components/common/LogoHeader';
 import MainContent from '../../components/CreateClass/mainContent';
 import ImportContent from '../../components/CreateClass/importContent';

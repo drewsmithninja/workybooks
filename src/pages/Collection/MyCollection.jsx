@@ -12,6 +12,8 @@ import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
 
 function MyCollection() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const { id } = useParams();
   const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);
@@ -21,11 +23,13 @@ function MyCollection() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      collectionDetail({
-        id
-      })
-    );
+    if (user && authToken) {
+      dispatch(
+        collectionDetail({
+          id
+        })
+      );
+    }
   }, [id, rerender]);
 
   return (

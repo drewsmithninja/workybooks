@@ -39,10 +39,12 @@ function MyLibrary() {
   };
 
   useEffect(() => {
-    dispatch(updateCollectionLike());
-    dispatch(favoriteData());
-    dispatch(recentList());
-    dispatch(collectionList());
+    if (user && authToken) {
+      dispatch(updateCollectionLike());
+      dispatch(favoriteData());
+      dispatch(recentList());
+      dispatch(collectionList());
+    }
   }, [rerender]);
 
   const showAssignModal = () => {

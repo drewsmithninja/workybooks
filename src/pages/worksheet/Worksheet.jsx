@@ -12,13 +12,15 @@ import MainLayout from '../../components/layout/MainLayout';
 
 let wDetail;
 function Worksheet() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const { userId } = useParams();
   const dispatch = useDispatch();
   const [worksheetDetail, setWorksheetDetails] = useState();
   const { worksheetData, worksheetDetailsInfo, ccsData, gradeData, isError, isSucess, message } = useSelector((state) => state.home);
 
   useEffect(() => {
-    if (userId) {
+    if (user && authToken && userId) {
       dispatch(
         worksheetDetails({
           id: userId
