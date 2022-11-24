@@ -10,6 +10,7 @@ import CardComponent from '../../components/common/CardComponent';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
+import ADImage from '../../components/antd/ADImage';
 
 function MyCollection() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -69,7 +70,7 @@ function MyCollection() {
                 </Col>
                 <Col xs={24} lg={8} className='flex items-center'>
                   <div className='text-2xl mr-2 flex'>
-                    <img src={shareIcon} alt='share' />
+                    <ADImage src={shareIcon} alt='share' />
                   </div>
                   <div className='text-xs text-gray-500 leading-snug'>Share</div>
                 </Col>

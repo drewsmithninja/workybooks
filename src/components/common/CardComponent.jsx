@@ -15,6 +15,7 @@ import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import ADButton from '../antd/ADButton';
+import ADImage from '../antd/ADImage';
 
 function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', likeStatus, cardWidth = 215, cardData = null, setRerender }) {
   const dispatch = useDispatch();
@@ -101,24 +102,24 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
         {
           label: 'PRINT',
           key: '1',
-          icon: <img src={printIcon} alt='print' />
+          icon: <ADImage src={printIcon} alt='print' />
         },
         {
           label: 'ASSIGN',
           key: '2',
-          icon: <img src={assignIcon} alt='assign' />,
+          icon: <ADImage src={assignIcon} alt='assign' />,
           onClick: showAssignModal
         },
         {
           label: 'ADD TO COLLECTION',
           key: '3',
-          icon: <img src={folderIcon} alt='add to collection' />,
+          icon: <ADImage src={folderIcon} alt='add to collection' />,
           onClick: showCollectionModal
         },
         {
           label: 'SHARE',
           key: '4',
-          icon: <img src={shareIcon} alt='share' />
+          icon: <ADImage src={shareIcon} alt='share' />
         }
       ]}
     />
@@ -148,7 +149,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
         }}
       >
         <Link to={cardData._id ? `/worksheet/${cardData._id}` : ''}>
-          <img
+          <ADImage
             src={cardImage}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null; // prevents looping
@@ -253,8 +254,8 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
       {/* Extra content */}
       <div className='flex flex-row gap-[10px]'>
         {cardData?.stds_topic?.length > 0 &&
-          cardData?.stds_topic?.slice(0, 3).map((item) => (
-            <span key={item} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
+          cardData?.stds_topic?.slice(0, 3).map((item, index) => (
+            <span key={index} className='leading-4 text-[10px] bg-gray-300 text-black px-[3px] rounded-[3px]'>
               {item}
             </span>
           ))}

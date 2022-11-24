@@ -7,6 +7,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { logout, reset } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../antd/ADButton';
+import ADImage from '../antd/ADImage';
 
 const { Header } = Layout;
 
@@ -50,7 +51,7 @@ function Headers() {
   return (
     <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
       <Link to='/'>
-        <img
+        <ADImage
           src={logo}
           alt='logo'
           style={{

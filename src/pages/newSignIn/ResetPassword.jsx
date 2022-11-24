@@ -7,6 +7,7 @@ import { logout, reset, resetPassword } from '../../app/features/auth/authSlice'
 import logo from '../../assets/images/logo.png';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
+import ADImage from '../../components/antd/ADImage';
 
 function ResetPassword() {
   window.document.title = 'Workybook - Reset Password';
@@ -56,7 +57,7 @@ function ResetPassword() {
         <div className='flex items-center justify-between pt-2'>
           <div>
             <Link to='/'>
-              <img
+              <ADImage
                 src={logo}
                 alt='logo'
                 style={{

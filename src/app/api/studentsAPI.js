@@ -12,7 +12,6 @@ const getStudents = async (classId) => {
       authorization: authToken
     }
   });
-  console.log(response.data);
   return response.data;
 };
 

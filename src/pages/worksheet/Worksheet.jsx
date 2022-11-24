@@ -147,7 +147,6 @@ function Worksheet() {
           {worksheetData?.list?.slice(0, 15).map((i) => (
             <Link to={i._id ? `/worksheet/${i._id}` : ''}>
               <Image
-                width={200}
                 key={i}
                 src={i.thumbnail}
                 onError={({ currentTarget }) => {
@@ -155,7 +154,7 @@ function Worksheet() {
                   currentTarget.src = 'https://via.placeholder.com/215x278';
                 }}
                 preview={false}
-                className='rounded-2xl w-full'
+                className='rounded-2xl w-full w-[200px]'
               />
             </Link>
           ))}

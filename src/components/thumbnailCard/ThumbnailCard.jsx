@@ -14,6 +14,7 @@ import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
+import ADImage from '../antd/ADImage';
 
 function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -60,24 +61,24 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         {
           label: 'PRINT',
           key: '1',
-          icon: <img src={printIcon} alt='print' />
+          icon: <ADImage src={printIcon} alt='print' />
         },
         {
           label: 'ASSIGN',
           key: '2',
-          icon: <img src={assignIcon} alt='assign' />,
+          icon: <ADImage src={assignIcon} alt='assign' />,
           onClick: showAssignModal
         },
         {
           label: 'COPY TO MY COLLECTION',
           key: '3',
-          icon: <img src={folderIcon} alt='copy to my collection' />
+          icon: <ADImage src={folderIcon} alt='copy to my collection' />
           // onClick: showCollectionModal
         },
         {
           label: 'SHARE',
           key: '4',
-          icon: <img src={shareIcon} alt='share' />
+          icon: <ADImage src={shareIcon} alt='share' />
         }
       ]}
     />

@@ -23,7 +23,6 @@ function SearchResult() {
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content ? searchData?.content : [];
-
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
   };
@@ -66,7 +65,6 @@ function SearchResult() {
   useEffect(() => {
     dispatch(search());
   }, [rerender]);
-  console.log(grades._id);
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -122,17 +120,8 @@ function SearchResult() {
         </div>
         <div className='flex flex-1 pt-[15px]'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0'>
-            {/* <Col span={24} className='flex gap-[10px] md:hidden pb-[20px] items-center justify-center'>
-              <ADButton type='primary' className='!rounded-[60px] w-full !text-center !mx-auto' onClick={() => setShowMobileFilter(true)}>
-                <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
-              </ADButton>
-            </Col> */}
             {searchData?.searchText && (
               <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
-                {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline' />
-              </Tag> */}
-
                 <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                   <Typography.Text className='text-baseline'>{searchData?.searchText}</Typography.Text>
                 </Tag>

@@ -7,6 +7,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import dummyImage1 from '../../assets/images/dummyImage1.png';
 import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
+import ADImage from '../../components/antd/ADImage';
 
 function Home() {
   const user = localStorage.getItem('user');
@@ -40,10 +41,10 @@ function Home() {
 
           <Row gutter={[16, 16]} className='mt-[15px] border rounded-md'>
             <Col span={16} className='max-h-[253px] pr-0'>
-              <img src={dummyImage1} alt='test' width='100%' height='100%' />
+              <ADImage src={dummyImage1} alt='test' height='100%' />
             </Col>
             <Col span={8} className='max-h-[253px] pl-0'>
-              <img src={dummyImage1} alt='test' width='100%' height='100%' />
+              <ADImage src={dummyImage1} alt='test' height='100%' />
             </Col>
           </Row>
 

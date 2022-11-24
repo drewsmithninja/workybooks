@@ -13,6 +13,7 @@ import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
 import { updateCollection, updateCollectionLike } from '../../app/features/collection/collectionSlice';
+import ADImage from '../../components/antd/ADImage';
 
 function MyLibrary() {
   const user = localStorage.getItem('user');
@@ -241,7 +242,7 @@ function MyLibrary() {
       <div className='px-8 py-8 flex justify-between align-center'>
         <ADTitle level={3}>{`My Library - ${currentTab}`}</ADTitle>
         <Space>
-          <img src={sortIcon} alt='sort' />
+          <ADImage src={sortIcon} alt='sort' />
           <Select
             placeholder='Sort By'
             className='w-[150px] text-left'

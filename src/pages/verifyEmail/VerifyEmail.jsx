@@ -6,6 +6,7 @@ import logo from '../../assets/images/logo.png';
 import { verifyEmail } from '../../app/features/auth/authSlice';
 import Spinner from '../../components/spinner/Spinner';
 import ADTitle from '../../components/antd/ADTitle';
+import ADImage from '../../components/antd/ADImage';
 
 export default function VerifyEmail() {
   const { Header } = Layout;
@@ -28,7 +29,7 @@ export default function VerifyEmail() {
             <div className='flex items-center justify-between pt-2'>
               <div>
                 <Link to='/'>
-                  <img
+                  <ADImage
                     src={logo}
                     alt='logo'
                     style={{

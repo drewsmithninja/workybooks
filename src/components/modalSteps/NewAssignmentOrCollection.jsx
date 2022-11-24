@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADButton from '../antd/ADButton';
 import ADTitle from '../antd/ADTitle';
 import { updateCollection } from '../../app/features/collection/collectionSlice';
+import ADImage from '../antd/ADImage';
 
 function NewAssignmentOrCollection({ assign, onCreateClick, cardData }) {
   const [inputVal, setInputVal] = useState();
@@ -36,7 +37,7 @@ function NewAssignmentOrCollection({ assign, onCreateClick, cardData }) {
       <Row className='pb-8'>
         <Col xs={24} sm={8}>
           <div className='h-auto w-[200px] rounded-lg overflow-hidden'>
-            <img src={cardData?.thumbnail} alt='thumbnail-worksheet-img' className='w-full object-cover aspect-[3/4]' />
+            <ADImage src={cardData?.thumbnail} alt='thumbnail-worksheet-img' className='w-full object-cover aspect-[3/4]' />
           </div>
         </Col>
         <Col xs={24} sm={16}>

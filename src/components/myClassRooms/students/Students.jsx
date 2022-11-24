@@ -6,7 +6,6 @@ import ADButton from '../../antd/ADButton';
 import { getStudents } from '../../../app/features/students/studentsSlice';
 
 function StudentsPage({ classId }) {
-  console.log(classId);
   const dispatch = useDispatch();
   const [selectedStudents, setSelectedStudents] = useState([]);
   const students = useSelector((state) => state.students);
