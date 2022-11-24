@@ -6,12 +6,13 @@ import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
-// import { grades } from '../../utils/appData';
+import { newWorksheet } from '../../app/features/home/homepageSlice';
 
 function SearchResult() {
   const user = JSON.parse(localStorage.getItem('user'));
   const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const dispatch = useDispatch();
+  const [rerender, setRerender] = useState(0);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
   const { subjectData, ccsData, gradeData } = useSelector((state) => state.home);
@@ -23,13 +24,6 @@ function SearchResult() {
   const subjects = subjectData?.data?.list;
   const ccl = ccsData?.data?.list;
 
-  Array(2)
-    .fill(1)
-    .map((item, index) => cards.push({
-      id: index + 1,
-      key: index + 1,
-      name: 'test_card'
-    }));
   const worksheets = searchData?.data?.content ? searchData?.data?.content : [];
 
   const onChange = (checkedValues) => {
@@ -55,6 +49,7 @@ function SearchResult() {
   const handleCcs = (value) => {
     setccsArr([value]);
   };
+
   useEffect(() => {
     if (user) {
       if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
@@ -71,6 +66,10 @@ function SearchResult() {
     }
   }, [subjectArr, gradeArr, ccsArr]);
 
+  useEffect(() => {
+    dispatch(search());
+  }, [rerender]);
+  console.log(grades._id);
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -137,21 +136,6 @@ function SearchResult() {
                 </Tag>
               </Col>
             )}
-            {/* <Col span={24} className='!pl-[20px]'>
-              <Typography.Text className='font-bold'>
-                COLLECTIONS
-                {' '}
-                <span className='font-normal'>
-                  (
-                  {cards.length}
-                  {' '}
-                  results)
-                </span>
-              </Typography.Text>
-            </Col>
-            <Col span={24} className='flex flex-wrap'>
-              {cards.length > 0 && cards.map((item, index) => <CardComponent cardWidth={350} />)}
-            </Col> */}
             <Col xs={12} md={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>
                 WORKSHEETS
@@ -165,7 +149,7 @@ function SearchResult() {
               </Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets?.length > 0 ? worksheets.map((item, index) => <CardComponent key={item._id} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+              {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
           </Row>
         </div>

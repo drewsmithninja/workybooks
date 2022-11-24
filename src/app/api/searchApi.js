@@ -26,12 +26,24 @@ const searchSuggest = async (searchText) => {
 };
 
 const subjectTopic = async (searchText) => {
-  const response = await axios.post(`${API_URL}/subject/getBy/subject/topic/content/list `, searchText);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const response = await axios.post(`${API_URL}/subject/getBy/subject/topic/content/list `, searchText, {
+    headers: {
+      authorization: authToken
+    }
+  });
   return response.data;
 };
 
 const ccsTopic = async (searchText) => {
-  const response = await axios.post(`${API_URL}/commonCoreStandard/getBy/ccs/topic/content/list`, searchText);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const response = await axios.post(`${API_URL}/commonCoreStandard/getBy/ccs/topic/content/list`, searchText, {
+    headers: {
+      authorization: authToken
+    }
+  });
   return response.data;
 };
 

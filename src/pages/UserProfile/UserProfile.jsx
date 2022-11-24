@@ -20,7 +20,7 @@ function UserProfile() {
     if (user) {
       dispatch(
         getProfile({
-          id: user?.data?.user?._id
+          id: user?.data?.user?._id === undefined ? user?.data?._id : null
         })
       );
     }
