@@ -6,9 +6,11 @@ import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
-// import { grades } from '../../utils/appData';
+import { newWorksheet } from '../../app/features/home/homepageSlice';
 
 function SearchResult() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -45,6 +47,7 @@ function SearchResult() {
   const handleCcs = (value) => {
     setccsArr([value]);
   };
+
   useEffect(() => {
     if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
       dispatch(
@@ -60,6 +63,10 @@ function SearchResult() {
     }
   }, [subjectArr, gradeArr, ccsArr, rerender]);
 
+  useEffect(() => {
+    dispatch(search());
+  }, [rerender]);
+  console.log(grades._id);
   return (
     <MainLayout>
       <div className='w-full h-full overflow-hidden flex flex-row'>
@@ -131,26 +138,11 @@ function SearchResult() {
                 </Tag>
               </Col>
             )}
-            {/* <Col span={24} className='!pl-[20px]'>
-              <Typography.Text className='font-bold'>
-                COLLECTIONS
-                {' '}
-                <span className='font-normal'>
-                  (
-                  {cards.length}
-                  {' '}
-                  results)
-                </span>
-              </Typography.Text>
-            </Col>
-            <Col span={24} className='flex flex-wrap'>
-              {cards.length > 0 && cards.map((item, index) => <CardComponent cardWidth={350} />)}
-            </Col> */}
             <Col xs={12} md={24} className='!pl-[20px]'>
               <Typography.Text className='font-bold'>{`WORKSHEETS ${(<span className='font-normal'>{`${worksheets?.length} results`}</span>)}`}</Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets?.length > 0 ? worksheets.map((item) => <CardComponent setRerender={setRerender} key={item._id} cardData={item} cardImage={item.thumbnail} likeStatus={item.likes.isLike} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+              {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
           </Row>
         </div>

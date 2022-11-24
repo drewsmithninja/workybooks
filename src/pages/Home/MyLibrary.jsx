@@ -34,18 +34,16 @@ function MyLibrary() {
       collectionId: e._id,
       favorite: !e.favorite
     };
-    await dispatch(updateCollectionLike(data));
-    await dispatch(collectionList());
-    await setRerender(Math.random());
+    dispatch(updateCollectionLike(data)).then(setRerender(Math.random()));
   };
 
   useEffect(() => {
-    batch(() => {
+    if (user) {
       dispatch(updateCollectionLike());
       dispatch(favoriteData());
       dispatch(recentList());
       dispatch(collectionList());
-    });
+    }
   }, [rerender]);
 
   const showAssignModal = () => {
@@ -95,7 +93,6 @@ function MyLibrary() {
       content: <AssignStep3 />
     }
   ];
-
   const collectionTab = (
     <Row gutter={[16, 16]}>
       {myCollection?.length ? (

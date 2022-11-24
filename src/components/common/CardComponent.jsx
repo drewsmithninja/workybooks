@@ -7,7 +7,6 @@ import ADTitle from '../antd/ADTitle';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
-import { selectCollection, unselectCollection } from '../../redux/actions/selectedCollectionAction';
 import { createCollection, updateCollection } from '../../app/features/collection/collectionSlice';
 import { likeWorksheet } from '../../app/features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';

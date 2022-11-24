@@ -184,12 +184,12 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         </div>
         <div>{collection?.title}</div>
         <div className='flex justify-between'>
-          <div className='text-xs text-secondary'>
+          <div className='text-xs text-slate-400'>
             By
             {collection?.added_by?.firstName}
             {collection?.added_by?.lastName}
           </div>
-          <div className='text-xs text-secondary'>12 Worksheets</div>
+          <div className='text-xs text-slate-400'>{`${thumbnails.length} Worksheets`}</div>
         </div>
       </ADCard>
     </>
@@ -201,7 +201,6 @@ ThumbnailCard.defaultProps = {
   cardWidth: 'w-full',
   cardChecked: false,
   favorite: false,
-  likes: 15.3
-  //   thumbnails: []
+  likes: 15.4
 };
 export default ThumbnailCard;
