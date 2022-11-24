@@ -10,38 +10,36 @@ import ADTitle from '../../components/antd/ADTitle';
 import { getProfile, updateProfile } from '../../app/features/user/userSlice';
 
 function UserProfile() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const { userData } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user) {
-      dispatch(
-        getProfile({
-          id: user?.data?.user?._id === undefined ? user?.data?._id : null
-        })
-      );
-    }
-  }, [user?.data?.user]);
+    dispatch(
+      getProfile({
+        id: user?.payload?._id
+      })
+    );
+  }, [user?.user]);
 
   useEffect(() => {
     form.setFieldsValue({
-      salutation: userData?.data?.salutation || '',
-      firstname: userData?.data?.firstName || '',
-      lastname: userData?.data?.lastName || '',
-      email: userData?.data?.email || '',
-      password: userData?.data?.password || '',
-      schoolname: userData?.data?.schoolName || '',
-      state: userData?.data?.state || '',
-      city: userData?.data?.city || ''
+      salutation: userData?.user?.salutation || '',
+      firstname: userData?.user?.firstName || '',
+      lastname: userData?.user?.lastName || '',
+      email: userData?.user?.email || '',
+      password: userData?.user?.password || '',
+      schoolname: userData?.user?.schoolName || '',
+      state: userData?.user?.state || '',
+      city: userData?.user?.city || ''
     });
-  }, [userData?.data]);
+  }, [userData]);
 
   const onFinish = (values) => {
     const userInfo = {
-      id: user?.data?.user?._id,
+      id: user?.payload?._id,
       userDetail: {
         salutation: values.salutation,
         firstName: values.firstname,
@@ -105,9 +103,6 @@ function UserProfile() {
                           <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
                         </svg>
                       </span>
-                      {/* <ADButton className='ml-5' size='small'>
-                        Change
-                      </ADButton> */}
                       <Form.Item name='image' getValueFromEvent={getFile}>
                         <Upload>
                           <Button icon={<UploadOutlined />}>Upload</Button>
@@ -132,7 +127,7 @@ function UserProfile() {
                   </Col>
                   <Col span={8}>
                     <Form.Item label={false} name='salutation'>
-                      <ADInput placeholder='Salutation' value={userData?.data?.salutation} />
+                      <ADInput placeholder='Salutation' value={userData?.user?.salutation} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -184,7 +179,7 @@ function UserProfile() {
                 >
                   <Col offset={8} span={16}>
                     <Form.Item label={false} name='email'>
-                      <ADInput placeholder='Email' value={userData?.data?.email} />
+                      <ADInput placeholder='Email' value={userData?.user?.email} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -215,11 +210,8 @@ function UserProfile() {
                     >
                       <Col span={12}>
                         <Form.Item label={false} name='password'>
-                          <ADInput bordered={false} value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
+                          <ADInput value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
                         </Form.Item>
-                      </Col>
-                      <Col span={12}>
-                        <ADButton className='w-full'>CHANGE PASSWORD</ADButton>
                       </Col>
                     </Row>
                   </Col>
@@ -240,7 +232,7 @@ function UserProfile() {
                   </Col>
                   <Col span={16}>
                     <Form.Item label={false} name='schoolname'>
-                      <ADInput placeholder='School Name' value={userData?.data?.schoolName} />
+                      <ADInput placeholder='School Name' value={userData?.user?.schoolName} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -268,12 +260,12 @@ function UserProfile() {
                     >
                       <Col span={12}>
                         <Form.Item label={false} name='state'>
-                          <ADInput placeholder='State' value={userData?.data?.state} />
+                          <ADInput placeholder='State' value={userData?.user?.state} />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
                         <Form.Item label={false} name='city'>
-                          <ADInput placeholder='City' value={userData?.data?.city} />
+                          <ADInput placeholder='City' value={userData?.user?.city} />
                         </Form.Item>
                       </Col>
                     </Row>

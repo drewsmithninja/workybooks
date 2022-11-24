@@ -13,12 +13,12 @@ import ADButton from '../../components/antd/ADButton';
 
 function MyCollection() {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const { id } = useParams();
   const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);
-  const collectionInfo = collectionDetailsList?.data;
-  const worksheetList = collectionDetailsList?.data?.content || [];
+  const collectionInfo = collectionDetailsList;
+  const worksheetList = collectionDetailsList?.content || [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

@@ -10,7 +10,7 @@ import { newWorksheet } from '../../app/features/home/homepageSlice';
 
 function SearchResult() {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
@@ -19,12 +19,10 @@ function SearchResult() {
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
   const [ccsArr, setccsArr] = useState([]);
-  const cards = [];
-  const grades = gradeData?.data?.list;
-  const subjects = subjectData?.data?.list;
-  const ccl = ccsData?.data?.list;
-
-  const worksheets = searchData?.data?.content ? searchData?.data?.content : [];
+  const grades = gradeData?.list;
+  const subjects = subjectData?.list;
+  const ccl = ccsData?.list;
+  const worksheets = searchData?.content ? searchData?.content : [];
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
@@ -51,20 +49,19 @@ function SearchResult() {
   };
 
   useEffect(() => {
-    if (user) {
-      if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
-        dispatch(
-          search({
-            search: searchData?.data?.searchText ? searchData?.data?.searchText : '',
-            subject: subjectArr,
-            grade: gradeArr,
-            commonCoreStandards: ccsArr,
-            stds_topic: []
-          })
-        );
-      }
+    if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
+      dispatch(
+        search({
+          search: searchData?.searchText ? searchData?.searchText : '',
+          subject: subjectArr,
+          grade: gradeArr,
+          commonCoreStandards: ccsArr,
+          stds_topic: []
+        })
+      );
+      setRerender(Math.random());
     }
-  }, [subjectArr, gradeArr, ccsArr]);
+  }, [subjectArr, gradeArr, ccsArr, rerender]);
 
   useEffect(() => {
     dispatch(search());
@@ -81,7 +78,7 @@ function SearchResult() {
                 <Checkbox.Group onChange={onChange}>
                   {grades?.length > 0 &&
                     grades.map((item) => (
-                      <Row className='pb-1.5'>
+                      <Row className='pb-1.5' key={item._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
                           Grade
                           <span className='capitalize'>{item?.title}</span>
@@ -98,7 +95,7 @@ function SearchResult() {
                 <Checkbox.Group onChange={onChangeSubject}>
                   {subjects?.length > 0 &&
                     subjects.map((item) => (
-                      <Row className='pb-1.5'>
+                      <Row className='pb-1.5' key={item._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
                           <span className='capitalize'>{item?.title}</span>
                         </Checkbox>
@@ -112,7 +109,12 @@ function SearchResult() {
               <Typography.Text className='font-bold'>CCS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Select className='max-w-[220px] !rounded-[8px]' onChange={handleCcs}>
-                  {ccl?.length > 0 && ccl?.map((item) => <Select.Option value={item?._id}>{item?.title}</Select.Option>)}
+                  {ccl?.length > 0 &&
+                    ccl?.map((item) => (
+                      <Select.Option key={item._id} value={item?._id}>
+                        {item?.title}
+                      </Select.Option>
+                    ))}
                 </Select>
               </div>
             </Col>
@@ -125,28 +127,19 @@ function SearchResult() {
                 <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
               </ADButton>
             </Col> */}
-            {searchData?.data?.searchText && (
+            {searchData?.searchText && (
               <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
                 {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                 <Typography.Text className='text-baseline' />
               </Tag> */}
 
                 <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                  <Typography.Text className='text-baseline'>{searchData?.data?.searchText}</Typography.Text>
+                  <Typography.Text className='text-baseline'>{searchData?.searchText}</Typography.Text>
                 </Tag>
               </Col>
             )}
             <Col xs={12} md={24} className='!pl-[20px]'>
-              <Typography.Text className='font-bold'>
-                WORKSHEETS
-                {' '}
-                <span className='font-normal'>
-                  (
-                  {worksheets?.length}
-                  {' '}
-                  results)
-                </span>
-              </Typography.Text>
+              <Typography.Text className='font-bold'>{`WORKSHEETS ${(<span className='font-normal'>{`${worksheets?.length} results`}</span>)}`}</Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
               {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
@@ -185,10 +178,8 @@ function SearchResult() {
             <div className='flex flex-col gap-[10px]'>
               {grades?.length > 0 &&
                 grades.map((item) => (
-                  <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
-                    Grade
-                    {' '}
-                    <span className='capitalize'>{item.title}</span>
+                  <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
+                    {`Grade ${(<span className='capitalize'>{item.title}</span>)}`}
                   </Checkbox>
                 ))}
             </div>
@@ -199,10 +190,8 @@ function SearchResult() {
             <div className='flex flex-col gap-[10px]'>
               {grades?.length > 0 &&
                 grades.map((item) => (
-                  <Checkbox value={item} key={`grade_${item}`} className='!ml-0'>
-                    Grade
-                    {' '}
-                    <span className='capitalize'>{item}</span>
+                  <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
+                    {`Grade ${(<span className='capitalize'>{item}</span>)}`}
                   </Checkbox>
                 ))}
             </div>

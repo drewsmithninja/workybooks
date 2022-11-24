@@ -16,7 +16,7 @@ import { updateCollection, updateCollectionLike } from '../../app/features/colle
 
 function MyLibrary() {
   const user = localStorage.getItem('user');
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
@@ -26,11 +26,10 @@ function MyLibrary() {
   const dispatch = useDispatch();
   const { favoriteList, recentData } = useSelector((state) => state.library);
   const myCollectionData = useSelector((state) => state.library.myCollectionData);
-  const myCollection = myCollectionData?.data?.list;
-
+  const myCollection = myCollectionData?.list;
   const { Step } = Steps;
 
-  const collectionFavHandler = (e) => {
+  const collectionFavHandler = async (e) => {
     const data = {
       collectionId: e._id,
       favorite: !e.favorite
@@ -130,8 +129,8 @@ function MyLibrary() {
       </Row>
       <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
       <div className='flex flex-row flex-wrap'>
-        {favoriteList?.data?.list?.length ? (
-          favoriteList?.data?.list.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
+        {favoriteList?.list?.length ? (
+          favoriteList?.list.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
         ) : (
           <ADTitle level={3} className='px-2 py-20 rounded-xl'>
             No any favorites Worksheets
@@ -143,8 +142,8 @@ function MyLibrary() {
 
   const recentTab = (
     <div className='flex flex-row flex-wrap'>
-      {recentData?.data?.list?.length > 0 ? (
-        recentData?.data?.list?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
+      {recentData?.list?.length > 0 ? (
+        recentData?.list?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
       ) : (
         <ADTitle level={3} className='px-2 py-20 rounded-xl'>
           No any recent Worksheets

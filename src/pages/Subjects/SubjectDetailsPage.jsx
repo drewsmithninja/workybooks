@@ -18,16 +18,16 @@ export default function SubjectDetailsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { ccsData: ccsData1, subjectData, gradeData } = useSelector((state) => state.home);
-  mappedSubjectsData.push(subjectData.data.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
+  mappedSubjectsData.push(subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
 
   useEffect(() => {
-    setCurSubject(subjectData?.data?.list?._id);
+    setCurSubject(subjectData?.list?._id);
   }, []);
   useEffect(() => {
     const ccsItemsAr = [];
-    const subjTree = subjectData?.data?.list;
+    const subjTree = subjectData?.list;
     subjectDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
     // eslint-disable-next-line no-use-before-define
     renderCCSItem(ccsItemsAr, subjectDetail, 0);
@@ -140,7 +140,7 @@ export default function SubjectDetailsPage() {
   const onSearch = (value) => {
     const ab = [];
     const ccsItemsArr = [];
-    const subjTree = subjectData?.data?.list;
+    const subjTree = subjectData?.list;
     subjectNewDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
     ab.push(subjectNewDetail);
     const newData = searchData(ab, value);
@@ -150,8 +150,8 @@ export default function SubjectDetailsPage() {
 
   return (
     <MainLayout>
-      <TopSubjectComponent subjectList={subjectData?.data?.list} ccsList={ccsData1?.data?.list} />
-      <GradeComponent activeGrade='3' gradeList={gradeData?.data?.list} getGrade={handleGrade} />
+      <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData1?.list} />
+      <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
       <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>

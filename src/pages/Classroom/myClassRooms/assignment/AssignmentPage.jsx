@@ -3,6 +3,7 @@ import { Avatar, Badge, Col, Image, List, Progress, Radio, Row, Segmented, Space
 import { UserOutlined } from '@ant-design/icons';
 import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 import { BsArrowRightCircle } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 
 const options = [
@@ -38,7 +39,7 @@ function AssignmentPage() {
       .then((res) => res.json())
       .then((body) => {
         setData(data.concat(body.results));
-        message.success(`${body.results.length} more items loaded!`);
+        toast.success(`${body.results.length} more items loaded!`);
       });
   };
 

@@ -13,7 +13,7 @@ import MainLayout from '../../components/layout/MainLayout';
 let wDetail;
 function Worksheet() {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const { userId } = useParams();
   const dispatch = useDispatch();
   const [worksheetDetail, setWorksheetDetails] = useState();
@@ -30,10 +30,10 @@ function Worksheet() {
   }, [userId]);
 
   useEffect(() => {
-    if (worksheetDetailsInfo?.data !== undefined) {
-      setWorksheetDetails(worksheetDetailsInfo?.data);
+    if (worksheetDetailsInfo !== undefined) {
+      setWorksheetDetails(worksheetDetailsInfo);
     }
-  }, [worksheetDetailsInfo?.data]);
+  }, [worksheetDetailsInfo]);
 
   return (
     <MainLayout>
@@ -144,7 +144,7 @@ function Worksheet() {
         </Row>
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
-          {worksheetData?.data?.list?.slice(0, 15).map((i) => (
+          {worksheetData?.list?.slice(0, 15).map((i) => (
             <Link to={i._id ? `/worksheet/${i._id}` : ''}>
               <Image
                 width={200}

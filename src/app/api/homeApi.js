@@ -5,7 +5,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 // New worksheet list
 const newWorksheet = async (worksheetData) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
     headers: {
       authorization: authToken
@@ -17,7 +17,7 @@ const newWorksheet = async (worksheetData) => {
 // worksheet details
 const worksheetDetails = async (worksheetId) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/content/getBy/id`, worksheetId, {
     headers: {
       authorization: authToken
@@ -29,7 +29,7 @@ const worksheetDetails = async (worksheetId) => {
 // Subject list
 const listSubject = async (subjectData) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/subject/list`, subjectData, {
     headers: {
       authorization: authToken
@@ -41,7 +41,7 @@ const listSubject = async (subjectData) => {
 // CCS list
 const listCCL = async (ccsData) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/commonCoreStandard/list`, ccsData, {
     headers: {
       authorization: authToken
@@ -53,7 +53,7 @@ const listCCL = async (ccsData) => {
 // Grade list
 const listGrade = async (gradeData) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.post(`${API_URL}/grade/list`, gradeData, {
     headers: {
       authorization: authToken
@@ -65,7 +65,7 @@ const listGrade = async (gradeData) => {
 // Like Worsheet
 const likeWorksheet = async (worksheet) => {
   const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.data?.verification?.isVerified ? user.data.verification.token : null;
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const response = await axios.put(`${API_URL}/content/like/${worksheet?.id}`, worksheet?.status, {
     headers: {
       authorization: authToken

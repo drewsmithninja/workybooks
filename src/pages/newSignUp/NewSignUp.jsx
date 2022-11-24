@@ -31,7 +31,7 @@ function NewSignUp() {
     }
     if (isSuccess) {
       setIsVerified(true);
-      setSuccessMessage(message?.data?.message);
+      setSuccessMessage(message?.message);
     }
 
     dispatch(reset());

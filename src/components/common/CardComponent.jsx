@@ -7,7 +7,7 @@ import ADTitle from '../antd/ADTitle';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
-import { createCollection } from '../../app/features/collection/collectionSlice';
+import { createCollection, updateCollection } from '../../app/features/collection/collectionSlice';
 import { likeWorksheet } from '../../app/features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
@@ -59,7 +59,9 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
         added_by: user?.data?.user?._id
       };
       dispatch(createCollection(data));
+      dispatch(updateCollection());
       setIsCollectionModalOpen(false);
+      setRerender(Math.random());
     }
   };
   const nextStep = () => {
@@ -129,7 +131,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
         setc(false);
       }
     }
-  }, [collections]);
+  }, [collections, setRerender]);
 
   return (
     <div

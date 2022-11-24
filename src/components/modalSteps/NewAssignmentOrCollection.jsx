@@ -8,7 +8,7 @@ import { updateCollection } from '../../app/features/collection/collectionSlice'
 function NewAssignmentOrCollection({ assign, onCreateClick, cardData }) {
   const [inputVal, setInputVal] = useState();
   const { favoriteList, myCollectionData, recentData } = useSelector((state) => state.library);
-  const myCollectionList = myCollectionData?.data?.list;
+  const myCollectionList = myCollectionData?.list;
   const dispatch = useDispatch();
 
   const handleChange = (e) => {

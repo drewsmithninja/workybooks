@@ -32,7 +32,7 @@ const login = async (userData) => {
 
 const forgotPassword = async (emailId) => {
   const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
-  toast.success('A password reset link was sent. Click the link in the email to create a new password.');
+  toast.success(response?.data?.message);
   return response.data;
 };
 
@@ -44,13 +44,12 @@ const resetPassword = async (data) => {
     }
   });
   if (id && pass) {
-    toast.success('Password has been Reset!');
+    toast.success(response?.data?.message);
   }
   return response.data;
 };
 
 const logout = () => {
-  // localStorage.removeItem('user');
   localStorage.clear();
 };
 
