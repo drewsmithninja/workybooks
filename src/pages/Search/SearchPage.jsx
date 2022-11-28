@@ -60,7 +60,7 @@ function SearchResult() {
       );
       setRerender(Math.random());
     }
-  }, [subjectArr, gradeArr, ccsArr, rerender]);
+  }, [subjectArr, gradeArr, ccsArr]);
 
   useEffect(() => {
     dispatch(search());
