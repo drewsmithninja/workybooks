@@ -67,7 +67,7 @@ function SearchResult() {
   }, [rerender]);
   return (
     <MainLayout>
-      <div className='w-full h-full overflow-hidden flex flex-row'>
+      <div className='w-full h-full flex flex-row'>
         <div className='min-w-[300px] hidden md:flex items-start'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0 pt-[35px] flex-col'>
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
@@ -128,7 +128,7 @@ function SearchResult() {
               </Col>
             )}
             <Col xs={12} md={24} className='!pl-[20px]'>
-              <Typography.Text className='font-bold'>{`WORKSHEETS ${(<span className='font-normal'>{`${worksheets?.length} results`}</span>)}`}</Typography.Text>
+              <Typography.Text className='font-bold'>{`${worksheets?.length ?? 0} resources found`}</Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
               {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}

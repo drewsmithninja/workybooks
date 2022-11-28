@@ -35,7 +35,7 @@ const collectionDetail = async (collectionId) => {
       authorization: authToken
     }
   });
-  return response.data;
+  return response.data.collection;
 };
 
 // Recent list

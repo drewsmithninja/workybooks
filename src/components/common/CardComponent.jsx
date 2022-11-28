@@ -72,14 +72,14 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
     setCurrentStep(currentStep - 1);
   };
 
-  const setLike = () => {
+  const setLike = async () => {
     const data = {
-      id: cardData._id,
+      id: await cardData._id,
       status: {
-        like: cardData?.likes?.isLike !== undefined ? !cardData?.likes?.isLike : true
+        like: (await cardData?.likes?.isLike) !== undefined ? !cardData?.likes?.isLike : true
       }
     };
-    dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
+    await dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
   };
 
   const steps = [
@@ -188,10 +188,10 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             </div>
           </Dropdown>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-            <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} cardData={cardData} />
+            <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} cardData={cardData} />
           </Modal>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-            <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} cardData={cardData} />
+            <NewAssignmentOrCollection onCreate={onCollectionCreateClick} cardData={cardData} />
           </Modal>
           <Modal className='rounded-xl' closeIcon={<CloseOutlined className='!text-danger font-bold' onClick={() => setIsStepModalOpen(false)} />} centered width={670} footer={false} open={isStepModalOpen}>
             <ADTitle level={3} className='text-center text-danger pb-8'>

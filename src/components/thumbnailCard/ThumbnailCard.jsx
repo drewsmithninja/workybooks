@@ -23,6 +23,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const { Step } = Steps;
   const navigate = useNavigate();
+
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
   };
@@ -101,10 +102,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   return (
     <>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
       </Modal>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
+        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
       </Modal>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>

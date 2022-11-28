@@ -22,7 +22,6 @@ function MyCollection() {
   const worksheetList = collectionDetailsList?.content || [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (user) {
       dispatch(

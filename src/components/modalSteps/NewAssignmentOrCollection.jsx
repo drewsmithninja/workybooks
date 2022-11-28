@@ -6,7 +6,7 @@ import ADTitle from '../antd/ADTitle';
 import { updateCollection } from '../../app/features/collection/collectionSlice';
 import ADImage from '../antd/ADImage';
 
-function NewAssignmentOrCollection({ assign, onCreateClick, cardData }) {
+function NewAssignmentOrCollection({ assign, onCreate, cardData }) {
   const [inputVal, setInputVal] = useState();
   const { favoriteList, myCollectionData, recentData } = useSelector((state) => state.library);
   const myCollectionList = myCollectionData?.list;
@@ -17,7 +17,7 @@ function NewAssignmentOrCollection({ assign, onCreateClick, cardData }) {
   };
 
   const onCreateCollection = (e) => {
-    onCreateClick(inputVal);
+    onCreate(inputVal);
   };
 
   const addCollectionHandler = (e) => {
