@@ -3,6 +3,7 @@ import { Layout } from 'antd';
 import { Link } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.png';
+import ADImage from '../antd/ADImage';
 
 function LogoHeader() {
   const { Header } = Layout;
@@ -11,7 +12,7 @@ function LogoHeader() {
       <div className='flex items-center justify-between pt-2'>
         <div>
           <Link to='/'>
-            <img
+            <ADImage
               src={logo}
               alt='logo'
               style={{

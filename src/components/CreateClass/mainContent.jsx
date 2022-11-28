@@ -4,6 +4,7 @@ import React from 'react';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
 import ADButton from '../antd/ADButton';
+import ADImage from '../antd/ADImage';
 
 function MainContent({ setIsImport, setIsManual, setManualStep }) {
   return (
@@ -18,11 +19,11 @@ function MainContent({ setIsImport, setIsManual, setManualStep }) {
       </Typography.Title>
       <div className='flex flex-col gap-[14px] pb-[37px]'>
         <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto' onClick={() => setIsImport(true)}>
-          <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
+          <ADImage src={googleIcon} alt='googleIcon' className='w-[24px] mr-[8px]' />
           Import from Google Classroom
         </ADButton>
         <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto' onClick={() => setIsImport(true)}>
-          <img src={cleverIcon} width='24' alt='cleverIcon' className='mr-[8px]' />
+          <ADImage src={cleverIcon} alt='cleverIcon' className='w-[24px] mr-[8px]' />
           Import from Clever
         </ADButton>
         <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto' onClick={() => setIsImport(true)}>

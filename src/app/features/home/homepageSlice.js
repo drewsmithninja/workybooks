@@ -29,7 +29,7 @@ export const newWorksheet = createAsyncThunk('home/newWorksheet', async (workshe
 export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
   try {
     const response = await homeAPI.worksheetDetails(worksheetId);
-    return response;
+    return response.content;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);

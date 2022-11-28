@@ -9,6 +9,7 @@ import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
+import ADImage from '../../../../components/antd/ADImage';
 
 function AssignmentDetailsPage() {
   const { Option } = Select;
@@ -142,7 +143,7 @@ function AssignmentDetailsPage() {
                 <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
                   <Row gutter={16} className='w-full'>
                     <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
-                      <img alt='cover-img' src={dummyImage} className='w-full aspect-[80px/100px] object-cover rounded max-w-[100px]' />
+                      <ADImage alt='cover-img' src={dummyImage} className='w-full aspect-[80px/100px] object-cover rounded max-w-[100px]' />
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                       <div className='flex flex-col justify-center h-full lg:py-0 py-4'>

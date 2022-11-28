@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.png';
 import ADButton from '../../components/antd/ADButton';
+import ADImage from '../../components/antd/ADImage';
 
 function NewSignUpGoogle() {
   window.document.title = 'Workybook - Sign Up';
@@ -20,7 +21,7 @@ function NewSignUpGoogle() {
         <div className='flex items-center justify-between pt-2'>
           <div>
             <Link to='/'>
-              <img
+              <ADImage
                 src={logo}
                 alt='logo'
                 style={{

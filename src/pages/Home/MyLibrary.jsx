@@ -13,10 +13,10 @@ import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
 import { updateCollection, updateCollectionLike } from '../../app/features/collection/collectionSlice';
+import ADImage from '../../components/antd/ADImage';
 
 function MyLibrary() {
   const user = localStorage.getItem('user');
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
@@ -31,17 +31,18 @@ function MyLibrary() {
 
   const collectionFavHandler = async (e) => {
     const data = {
-      collectionId: e._id,
+      collectionId: await e._id,
       favorite: !e.favorite
     };
-    dispatch(updateCollectionLike(data)).then(setRerender(Math.random()));
+    await dispatch(updateCollectionLike(data));
+    await setRerender(Math.random());
   };
 
   useEffect(() => {
     if (user) {
       dispatch(updateCollectionLike());
-      dispatch(favoriteData());
       dispatch(recentList());
+      dispatch(favoriteData());
       dispatch(collectionList());
     }
   }, [rerender]);
@@ -184,10 +185,10 @@ function MyLibrary() {
   return (
     <MainLayout>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreateClick={onAssignCreateClick} />
+        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
       </Modal>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreateClick={onCollectionCreateClick} />
+        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
       </Modal>
       <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
@@ -241,7 +242,7 @@ function MyLibrary() {
       <div className='px-8 py-8 flex justify-between align-center'>
         <ADTitle level={3}>{`My Library - ${currentTab}`}</ADTitle>
         <Space>
-          <img src={sortIcon} alt='sort' />
+          <ADImage src={sortIcon} alt='sort' />
           <Select
             placeholder='Sort By'
             className='w-[150px] text-left'

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import ADTitle from '../antd/ADTitle';
+import ADImage from '../antd/ADImage';
 
 export default function AssignStep1() {
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -88,7 +89,7 @@ export default function AssignStep1() {
           {fileList.length >= 8 ? null : uploadButton}
         </Upload>
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-          <img
+          <ADImage
             alt='example'
             style={{
               width: '100%'

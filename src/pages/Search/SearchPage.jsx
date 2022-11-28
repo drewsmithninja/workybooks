@@ -23,7 +23,6 @@ function SearchResult() {
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content ? searchData?.content : [];
-
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
   };
@@ -61,15 +60,14 @@ function SearchResult() {
       );
       setRerender(Math.random());
     }
-  }, [subjectArr, gradeArr, ccsArr, rerender]);
+  }, [subjectArr, gradeArr, ccsArr]);
 
   useEffect(() => {
     dispatch(search());
   }, [rerender]);
-  console.log(grades._id);
   return (
     <MainLayout>
-      <div className='w-full h-full overflow-hidden flex flex-row'>
+      <div className='w-full h-full flex flex-row'>
         <div className='min-w-[300px] hidden md:flex items-start'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0 pt-[35px] flex-col'>
             <Col span={24} className='!pl-[50px] flex flex-col gap-[10px]'>
@@ -122,24 +120,15 @@ function SearchResult() {
         </div>
         <div className='flex flex-1 pt-[15px]'>
           <Row gutter={[16, 16]} className='flex flex-1 w-full !m-0'>
-            {/* <Col span={24} className='flex gap-[10px] md:hidden pb-[20px] items-center justify-center'>
-              <ADButton type='primary' className='!rounded-[60px] w-full !text-center !mx-auto' onClick={() => setShowMobileFilter(true)}>
-                <Typography.Text className='text-normal text-white'>Filter</Typography.Text>
-              </ADButton>
-            </Col> */}
             {searchData?.searchText && (
               <Col span={24} className='!pl-[20px] flex flex-wrap gap-[10px]'>
-                {/* <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
-                <Typography.Text className='text-baseline' />
-              </Tag> */}
-
                 <Tag closable className='h-[32px] bg-[#21212114] border-0 pt-[5px] rounded-[16px] px-[15px]' onClose={() => closeTag()} closeIcon={<CloseCircleFilled className='text-[12px] pl-[5px] pt-[5px]' />}>
                   <Typography.Text className='text-baseline'>{searchData?.searchText}</Typography.Text>
                 </Tag>
               </Col>
             )}
             <Col xs={12} md={24} className='!pl-[20px]'>
-              <Typography.Text className='font-bold'>{`WORKSHEETS ${(<span className='font-normal'>{`${worksheets?.length} results`}</span>)}`}</Typography.Text>
+              <Typography.Text className='font-bold'>{`${worksheets?.length ?? 0} resources found`}</Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
               {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
