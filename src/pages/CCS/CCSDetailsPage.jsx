@@ -31,7 +31,7 @@ export default function CCSDetailsPage() {
     ccsDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
     for (let i = 0; i < ccsData?.list?.length; i += 1) {
       if (ccsData?.list[i]._id === id) {
-        for (let j = 0; j < ccsData?.list[i].tree.length; j += 1) {
+        for (let j = 0; j < ccsData?.list[i].tree?.length; j += 1) {
           const ccs = ccsData?.list[i]?.tree[j];
 
           // eslint-disable-next-line no-use-before-define
@@ -61,7 +61,7 @@ export default function CCSDetailsPage() {
   //     .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
   //   if (objHasSearchTerm && !obj) return [obj];
   //   const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
-  //   const searchedData = objHasSearchTerm || matchedTopics.length > 0 ?
+  //   const searchedData = objHasSearchTerm || matchedTopics?.length > 0 ?
   //     [{
   //       ...obj,
   //       topics: matchedTopics
@@ -87,7 +87,7 @@ export default function CCSDetailsPage() {
   function renderCCSItem(items, ccsItem, level) {
     let item = '<></>;';
 
-    if (ccsItem.topics && ccsItem.topics.length > 0) {
+    if (ccsItem.topics && ccsItem.topics?.length > 0) {
       // eslint-disable-next-line no-plusplus
       level++;
       if (level === 1) {
@@ -107,7 +107,7 @@ export default function CCSDetailsPage() {
 
       if (level === 2 || level === 3) {
         const subItems = [];
-        for (let i = 0; i < ccsItem.topics.length; i += 1) {
+        for (let i = 0; i < ccsItem.topics?.length; i += 1) {
           renderCCSItem(subItems, ccsItem.topics[i], level);
         }
 
@@ -123,7 +123,7 @@ export default function CCSDetailsPage() {
         items.push(parentItem);
       } else {
         items.push(parentItem);
-        for (let i = 0; i < ccsItem.topics.length; i += 1) {
+        for (let i = 0; i < ccsItem.topics?.length; i += 1) {
           renderCCSItem(items, ccsItem.topics[i], level);
         }
       }
@@ -153,7 +153,7 @@ export default function CCSDetailsPage() {
     const newData = searchData(ccsNewDetail?.tree, '3.RL.3.2');
     for (let i = 0; i < newData?.list?.length; i += 1) {
       if (newData?.list[i]._id === id) {
-        for (let j = 0; j < newData?.list[i].tree.length; j += 1) {
+        for (let j = 0; j < newData?.list[i].tree?.length; j += 1) {
           const ccs = newData?.list[i]?.tree[j];
 
           // eslint-disable-next-line no-use-before-define

@@ -1,55 +1,78 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import data from '../../data.json';
 import ADButton from '../../components/antd/ADButton';
 import dummyImage from '../../assets/images/dummyImage.png';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 import ADImage from '../../components/antd/ADImage';
+import ADSelect from '../../components/antd/ADSelect';
+import { getStudent } from '../../app/features/students/studentsSlice';
 
-function StudentDetailPage() {
-  const { Option } = Select;
+function StudentDashboard() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const students = useSelector((state) => state.students);
+  const header = (
+    <Row>
+      <Col xl={7} lg={7} md={7} sm={8} xs={10}>
+        <div className='text-center inter-font font-medium text-xs'>NAME</div>
+      </Col>
+      <Col xl={8} lg={8} md={8} sm={10} xs={8}>
+        <div className='text-center inter-font font-medium text-xs'>SCORE</div>
+      </Col>
+      <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+        <div className='text-center inter-font font-medium text-xs'>GRADE</div>
+      </Col>
+      <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+        <div className='text-center inter-font font-medium text-xs'>DATE SUBMITTED</div>
+      </Col>
+      <Col xl={3} lg={3} md={3} sm={3} xs={3}>
+        <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
+      </Col>
+    </Row>
+  );
+
+  useEffect(() => {
+    dispatch(getStudent(id));
+  }, []);
+  console.log(students);
+
   return (
     <MainLayout>
-      <div className='px-4 py-5 w-full flex justify-between'>
+      <div className='px-4 py-8 w-full flex justify-between'>
         <Space size='large'>
-          <ADTitle level={3}>Class</ADTitle>
-          <Select defaultValue='lucy' className='custom-select'>
-            <Option value={id}>{id}</Option>
-          </Select>
+          <div className='flex flex-col'>
+            <div className='relative'>
+              <ADTitle level={5} className='!text-sm absolute h-0 top-[-16px] left-0'>
+                Class 3B
+              </ADTitle>
+              <ADTitle level={2}>Class</ADTitle>
+            </div>
+          </div>
+          <ADSelect
+            className='w-34'
+            // defaultValue={updatedClassOptions[0]} // initially load with all class students
+            // onChange={handleChange}
+            // options={updatedClassOptions}
+          />
           <div className='flex'>
             <FaPencilAlt className='text-gray-400 text-lg' />
           </div>
         </Space>
-        <ADButton type='primary'>Student Reports</ADButton>
+        <ADButton type='primary' className='h-fit'>
+          Student Reports
+        </ADButton>
       </div>
       <div className='mx-4 border border-solid border-t-0' />
       <div className='xl:px-20 lg:px-16 md:px-10 px-0 py-6'>
         <List
           className='rounded-t-lg with-header'
-          header={(
-            <Row>
-              <Col xl={7} lg={7} md={7} sm={8} xs={10}>
-                <div className='text-center inter-font font-medium text-xs'>NAME</div>
-              </Col>
-              <Col xl={8} lg={8} md={8} sm={10} xs={8}>
-                <div className='text-center inter-font font-medium text-xs'>SCORE</div>
-              </Col>
-              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>GRADE</div>
-              </Col>
-              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>DATE SUBMITTED</div>
-              </Col>
-              <Col xl={3} lg={3} md={3} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
-              </Col>
-            </Row>
-          )}
+          header={header}
           itemLayout='horizontal'
           dataSource={data}
           bordered
@@ -203,4 +226,4 @@ function StudentDetailPage() {
   );
 }
 
-export default StudentDetailPage;
+export default StudentDashboard;

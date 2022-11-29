@@ -23,30 +23,26 @@ function Headers() {
     hamburgerRef.current.classList.toggle('open');
   };
 
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: 'Edit Profile',
-          key: '1',
-          icon: <EditOutlined className='text-base text-gray-400' />,
-          onClick: () => {
-            navigate('/user-profile');
-          }
-        },
-        {
-          label: 'Logout',
-          key: '2',
-          icon: <LogoutOutlined className='text-base text-gray-400' />,
-          onClick: () => {
-            dispatch(logout());
-            dispatch(reset());
-            navigate('/sign-in');
-          }
-        }
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: 'Edit Profile',
+      key: '1',
+      icon: <EditOutlined className='text-base text-gray-400' />,
+      onClick: () => {
+        navigate('/user-profile');
+      }
+    },
+    {
+      label: 'Logout',
+      key: '2',
+      icon: <LogoutOutlined className='text-base text-gray-400' />,
+      onClick: () => {
+        dispatch(logout());
+        dispatch(reset());
+        navigate('/sign-in');
+      }
+    }
+  ];
 
   return (
     <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
@@ -89,7 +85,11 @@ function Headers() {
           <div className='flex'>
             <FaUserCircle className='text-4xl text-secondary' />
           </div>
-          <Dropdown overlay={menu}>
+          <Dropdown
+            menu={{
+              items
+            }}
+          >
             <Space>
               <DownOutlined className='mr-5' />
             </Space>

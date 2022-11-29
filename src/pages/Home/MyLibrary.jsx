@@ -143,7 +143,7 @@ function MyLibrary() {
 
   const recentTab = (
     <div className='flex flex-row flex-wrap'>
-      {recentData?.list?.length > 0 ? (
+      {recentData?.list?.length ? (
         recentData?.list?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
       ) : (
         <ADTitle level={3} className='px-2 py-20 rounded-xl'>

@@ -11,6 +11,8 @@ export const getClassRoomOptions = createAsyncThunk('classRoom/getClassRoomOptio
   }
 });
 
+export const changeClass = (currentClass) => currentClass;
+
 export const classRoomSlice = createSlice({
   name: 'classRoom',
   initialState: {
@@ -18,7 +20,16 @@ export const classRoomSlice = createSlice({
     isError: false,
     isSuccess: false,
     isLoading: false,
+    currentClass: null,
     message: ''
+  },
+  reducers: {
+    changeClass: (state) => {
+      state.currentClass = action.payload;
+    }
+    // incrementByAmount: (state, action) => {
+    //   state.value += action.payload;
+    // }
   },
   extraReducers: (builder) => {
     builder

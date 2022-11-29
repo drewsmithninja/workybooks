@@ -48,7 +48,7 @@ function SearchResult() {
   };
 
   useEffect(() => {
-    if (subjectArr.length > 0 || gradeArr.length > 0 || ccsArr.length > 0) {
+    if (subjectArr?.length || gradeArr?.length || ccsArr?.length) {
       dispatch(
         search({
           search: searchData?.searchText ? searchData?.searchText : '',
@@ -74,7 +74,7 @@ function SearchResult() {
               <Typography.Text className='font-bold'>GRADES</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Checkbox.Group onChange={onChange}>
-                  {grades?.length > 0 &&
+                  {grades?.length &&
                     grades.map((item) => (
                       <Row className='pb-1.5' key={item._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
@@ -91,7 +91,7 @@ function SearchResult() {
               <Typography.Text className='font-bold'>SUBJECTS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Checkbox.Group onChange={onChangeSubject}>
-                  {subjects?.length > 0 &&
+                  {subjects?.length &&
                     subjects.map((item) => (
                       <Row className='pb-1.5' key={item._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
@@ -107,7 +107,7 @@ function SearchResult() {
               <Typography.Text className='font-bold'>CCS</Typography.Text>
               <div className='flex flex-col gap-[10px]'>
                 <Select className='max-w-[220px] !rounded-[8px]' onChange={handleCcs}>
-                  {ccl?.length > 0 &&
+                  {ccl?.length &&
                     ccl?.map((item) => (
                       <Select.Option key={item._id} value={item?._id}>
                         {item?.title}
@@ -165,7 +165,7 @@ function SearchResult() {
           <Col span={24} className='!pl-[10px] flex flex-col gap-[10px]'>
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
-              {grades?.length > 0 &&
+              {grades?.length &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
                     {`Grade ${(<span className='capitalize'>{item.title}</span>)}`}
@@ -177,7 +177,7 @@ function SearchResult() {
           <Col span={24} className='!pl-[10px] flex flex-col gap-[10px]'>
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
-              {grades?.length > 0 &&
+              {grades?.length &&
                 grades.map((item) => (
                   <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
                     {`Grade ${(<span className='capitalize'>{item}</span>)}`}

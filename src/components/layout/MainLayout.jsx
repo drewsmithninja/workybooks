@@ -12,7 +12,7 @@ function MainLayout({ children, className }) {
   const { collections } = useSelector((state) => state);
   const [showPrint, setShowPrint] = useState(0);
   useEffect(() => {
-    setShowPrint(collections?.selectedCollections.length);
+    setShowPrint(collections?.selectedCollections?.length);
   }, [collections]);
   return (
     <Layout className={`${className ?? ''}`}>

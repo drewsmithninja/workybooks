@@ -4,9 +4,7 @@ function ADButton({ children, className, type, htmlType, innerRef, size, ...prop
   return (
     <Button
       className={`${className ?? ''}${' '}
-      rounded-md font-medium
-      ${type === 'default' ? 'border-2' : ''}
-      ${type === 'secondary' ? 'bg-secondary' : ''}
+      rounded-md font-medium flex items-center justify-center
       ${size === 'medium' ? 'py-2 px-4 h-auto' : ''}
       ${size === 'small' ? 'py-1 px-3 h-auto' : ''}
       `}
