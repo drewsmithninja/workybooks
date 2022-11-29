@@ -2,12 +2,12 @@ function truncateString(str, max, sep) {
   // Default to 10 characters
   max = max || 10;
 
-  const len = str.length;
+  const len = str?.length;
   if (len > max) {
     // Default to ellipsis
     sep = sep || '...';
 
-    const sepLen = sep.length;
+    const sepLen = sep?.length;
 
     // If separator is larger than character limit,
     // well then we don't want to just show the separator,

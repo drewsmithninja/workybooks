@@ -19,7 +19,7 @@ function AssignmentDetailsPage() {
       <div className='px-4 py-5 w-full flex justify-between'>
         <Space size='large'>
           <ADTitle level={3}>Assignment</ADTitle>
-          <Select defaultValue='lucy' className='custom-select'>
+          <Select defaultValue='lucy'>
             <Option value={id}>{id}</Option>
           </Select>
           <div className='flex'>

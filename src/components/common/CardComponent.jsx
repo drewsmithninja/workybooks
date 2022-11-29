@@ -96,34 +96,30 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
       content: <AssignStep3 />
     }
   ];
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: 'PRINT',
-          key: '1',
-          icon: <ADImage src={printIcon} alt='print' />
-        },
-        {
-          label: 'ASSIGN',
-          key: '2',
-          icon: <ADImage src={assignIcon} alt='assign' />,
-          onClick: showAssignModal
-        },
-        {
-          label: 'ADD TO COLLECTION',
-          key: '3',
-          icon: <ADImage src={folderIcon} alt='add to collection' />,
-          onClick: showCollectionModal
-        },
-        {
-          label: 'SHARE',
-          key: '4',
-          icon: <ADImage src={shareIcon} alt='share' />
-        }
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: 'PRINT',
+      key: '1',
+      icon: <ADImage src={printIcon} alt='print' />
+    },
+    {
+      label: 'ASSIGN',
+      key: '2',
+      icon: <ADImage src={assignIcon} alt='assign' />,
+      onClick: showAssignModal
+    },
+    {
+      label: 'ADD TO COLLECTION',
+      key: '3',
+      icon: <ADImage src={folderIcon} alt='add to collection' />,
+      onClick: showCollectionModal
+    },
+    {
+      label: 'SHARE',
+      key: '4',
+      icon: <ADImage src={shareIcon} alt='share' />
+    }
+  ];
   useEffect(() => {
     if (collections?.selectedCollections?.length > 0) {
       if (collections?.selectedCollections?.findIndex((x) => x.id === cardData.id) > -1) {
@@ -182,7 +178,13 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
           {likeStatus ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
         </ADButton>
         <div className='flex flex-1 items-center justify-end'>
-          <Dropdown overlay={menu} placement='topLeft' arrow>
+          <Dropdown
+            menu={{
+              items
+            }}
+            placement='topLeft'
+            arrow
+          >
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>

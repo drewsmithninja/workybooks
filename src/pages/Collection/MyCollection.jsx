@@ -79,7 +79,7 @@ function MyCollection() {
         </Row>
       </div>
       <div className='px-8'>
-        <div className='flex flex-row flex-wrap'>{worksheetList.length > 0 && worksheetList.map((item) => <CardComponent setRerender={setRerender} likeStatus={item.likes.isLike} key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
+        <div className='flex flex-row flex-wrap'>{worksheetList?.length && worksheetList.map((item) => <CardComponent setRerender={setRerender} likeStatus={item.likes.isLike} key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
       </div>
     </MainLayout>
   );

@@ -56,34 +56,30 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  const menu = (
-    <Menu
-      items={[
-        {
-          label: 'PRINT',
-          key: '1',
-          icon: <ADImage src={printIcon} alt='print' />
-        },
-        {
-          label: 'ASSIGN',
-          key: '2',
-          icon: <ADImage src={assignIcon} alt='assign' />,
-          onClick: showAssignModal
-        },
-        {
-          label: 'COPY TO MY COLLECTION',
-          key: '3',
-          icon: <ADImage src={folderIcon} alt='copy to my collection' />
-          // onClick: showCollectionModal
-        },
-        {
-          label: 'SHARE',
-          key: '4',
-          icon: <ADImage src={shareIcon} alt='share' />
-        }
-      ]}
-    />
-  );
+  const items = [
+    {
+      label: 'PRINT',
+      key: '1',
+      icon: <ADImage src={printIcon} alt='print' />
+    },
+    {
+      label: 'ASSIGN',
+      key: '2',
+      icon: <ADImage src={assignIcon} alt='assign' />,
+      onClick: showAssignModal
+    },
+    {
+      label: 'COPY TO MY COLLECTION',
+      key: '3',
+      icon: <ADImage src={folderIcon} alt='copy to my collection' />
+      // onClick: showCollectionModal
+    },
+    {
+      label: 'SHARE',
+      key: '4',
+      icon: <ADImage src={shareIcon} alt='share' />
+    }
+  ];
 
   const steps = [
     {
@@ -159,9 +155,9 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
       <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
         <div className='w-full h-full aspect-[16/9]'>
           <Row gutter={[8, 8]}>
-            {thumbnails && thumbnails.length ? (
+            {thumbnails && thumbnails?.length ? (
               thumbnails.slice(0, 4).map((item, index) => (
-                <Col key={index} xs={thumbnails.length === 1 ? 24 : 12} onClick={() => navigate(`/collection/${id}`)}>
+                <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} onClick={() => navigate(`/collection/${id}`)}>
                   <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
                 </Col>
               ))
@@ -178,7 +174,13 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             </ADButton>
             <span className='text-sm pl-2'>{likes}</span>
           </div>
-          <Dropdown overlay={menu} placement='topLeft' arrow>
+          <Dropdown
+            menu={{
+              items
+            }}
+            placement='topLeft'
+            arrow
+          >
             <div className='rounded-full border-solid border-2 border-slate-300 flex'>
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>
@@ -191,7 +193,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             {collection?.added_by?.firstName}
             {collection?.added_by?.lastName}
           </div>
-          <div className='text-xs text-slate-400'>{`${thumbnails.length} Worksheets`}</div>
+          <div className='text-xs text-slate-400'>{`${thumbnails?.length} Worksheets`}</div>
         </div>
       </ADCard>
     </>

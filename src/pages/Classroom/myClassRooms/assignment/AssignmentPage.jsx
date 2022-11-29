@@ -39,7 +39,7 @@ function AssignmentPage() {
       .then((res) => res.json())
       .then((body) => {
         setData(data.concat(body.results));
-        toast.success(`${body.results.length} more items loaded!`);
+        toast.success(`${body.results?.length} more items loaded!`);
       });
   };
 

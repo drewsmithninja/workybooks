@@ -52,7 +52,7 @@ export default function SubjectDetailsPage() {
       .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
     if (objHasSearchTerm && !obj) return [obj];
     const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
-    const searchedData = objHasSearchTerm || matchedTopics.length > 0 ?
+    const searchedData = objHasSearchTerm || matchedTopics?.length ?
       [{
         ...obj,
         topics: matchedTopics
@@ -64,7 +64,7 @@ export default function SubjectDetailsPage() {
   function renderCCSItem(items, ccsData, level) {
     let item = '<></>';
 
-    if (ccsData?.topics && ccsData?.topics.length > 0) {
+    if (ccsData?.topics && ccsData?.topics?.length) {
       if (level === 0) {
         items.push(<div className='w-full h-1' />);
       }
@@ -89,7 +89,7 @@ export default function SubjectDetailsPage() {
       if ((curSubject === 3 && level === 2) || (curSubject === 4 && level === 3)) {
       } else {
         const subItems = [];
-        for (let i = 0; i < ccsData.topics.length; i += 1) {
+        for (let i = 0; i < ccsData?.topics?.length; i += 1) {
           renderCCSItem(subItems, ccsData.topics[i], level);
         }
         if (level === 1) {

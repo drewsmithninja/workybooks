@@ -17,7 +17,7 @@ const search = async (searchText) => {
 const searchSuggest = async (searchText) => {
   const user = JSON.parse(localStorage.getItem('user'));
   const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
-  const response = await axios.post(`${API_URL}/content/getBy/keyw/ccs/sub/search`, searchText, {
+  const response = await axios.post(`${API_URL}/content/getBy/keyw/ccs/sub/suggestion/search`, searchText, {
     headers: {
       authorization: authToken
     }

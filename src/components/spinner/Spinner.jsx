@@ -2,7 +2,7 @@ import { Spin } from 'antd';
 import React from 'react';
 
 function Spinner() {
-  return <Spin className='flex justify-center' />;
+  return <Spin size='large' className='flex justify-center items-center j-border h-[851px]' />;
 }
 
 export default Spinner;

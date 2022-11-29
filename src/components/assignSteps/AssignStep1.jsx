@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
 
@@ -86,7 +86,7 @@ export default function AssignStep1() {
           onPreview={handlePreview}
           onChange={handleChange}
         >
-          {fileList.length >= 8 ? null : uploadButton}
+          {fileList?.length >= 8 ? null : uploadButton}
         </Upload>
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
           <ADImage

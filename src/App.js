@@ -20,7 +20,7 @@ import SearchResult from './pages/Search/SearchPage';
 import MyCollection from './pages/Collection/MyCollection';
 import PrivateRoutes from './components/privateRoutes/PrivateRoutes';
 import Worksheet from './pages/worksheet/Worksheet';
-import StudentDetailPage from './pages/Student/StudentDetailPage';
+import StudentDashboard from './pages/Student/StudentDashboard';
 import AssignmentDetailsPage from './pages/Classroom/myClassRooms/assignment/AssignmentDetailsPage';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -44,7 +44,7 @@ function App() {
           <Route path='/subject/:sid' element={<SubjectDetailsPage />} />
           <Route path='/ccs/:id' element={<CCSDetailsPage />} />
           <Route path='/my-classrooms' element={<MyClassrooms />} />
-          <Route path='/my-classrooms/students/:id' element={<StudentDetailPage />} />
+          <Route path='/my-classrooms/student-dashboard/:id' element={<StudentDashboard />} />
           <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />
           <Route path='/search-result' element={<SearchResult />} />
           <Route path='/worksheet/:userId' element={<Worksheet />} />

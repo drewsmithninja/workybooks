@@ -15,8 +15,22 @@ const getStudents = async (classId) => {
   return response.data;
 };
 
+const getStudent = async (studentId) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
+  const response = await axios.post(`${API_URL}/student/getby/id`, {
+    studentId
+  }, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
 const studentAPI = {
-  getStudents
+  getStudents,
+  getStudent
 };
 
 export default studentAPI;
