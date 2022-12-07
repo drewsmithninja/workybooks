@@ -23,7 +23,6 @@ function StudentsPage() {
 
   useEffect(() => {
     setStudentList();
-    console.log(currentClass, 'currentClass from studentsTab');
     dispatch(getStudents(currentClass?._id));
   }, [currentClass]);
 
@@ -49,7 +48,6 @@ function StudentsPage() {
   };
 
   const showEditStudentModal = (data) => {
-    console.log(data);
     setEditStudent(true);
   };
 

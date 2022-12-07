@@ -41,7 +41,6 @@ const editStudent = async (data) => {
       authorization: authToken
     }
   });
-  console.log(response.data);
   return response.data;
 };
 
