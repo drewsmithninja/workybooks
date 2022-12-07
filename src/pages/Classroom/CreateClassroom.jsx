@@ -48,7 +48,7 @@ function CreateClassroom() {
         <Row gutter={[16, 16]} className='text-center !m-[0px]'>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>PreK</Typography.Title>
               </ADButton>
@@ -56,7 +56,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>K</Typography.Title>
               </ADButton>
@@ -64,7 +64,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>1</Typography.Title>
               </ADButton>
@@ -72,7 +72,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>2</Typography.Title>
               </ADButton>
@@ -83,7 +83,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>3</Typography.Title>
               </ADButton>
@@ -91,7 +91,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={12}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>4</Typography.Title>
               </ADButton>
@@ -99,7 +99,7 @@ function CreateClassroom() {
           </Col>
           <Col lg={6} xs={24}>
             <Link to='/'>
-              <ADButton type='secondary' className='w-[125px] h-[90px]'>
+              <ADButton type='success' className='w-[125px] h-[90px]'>
                 <p className='text-[10px]'>GRADE</p>
                 <Typography.Title level={1}>5</Typography.Title>
               </ADButton>

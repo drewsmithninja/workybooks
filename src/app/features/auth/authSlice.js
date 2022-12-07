@@ -116,19 +116,6 @@ export const authSlice = createSlice({
         state.message = action.payload;
         state.user = null;
       })
-      // fetch user by token
-      // .addCase(fetchUserByToken.pending, (state, action) => {
-      //   state.isLoading = true;
-      // })
-      // .addCase(fetchUserByToken.fulfilled, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isSuccess = true;
-      //   state.user = action.payload;
-      // })
-      // .addCase(fetchUserByToken.rejected, (state, action) => {
-      //   state.isLoading = false;
-      //   state.isError = true;
-      // })
       // verify email cases
       .addCase(verifyEmail.pending, (state, action) => {
         state.isLoading = true;

@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { FaPrint, FaFolderPlus, FaRegImages, FaPinterest, FaInstagram, FaLink } from 'react-icons/fa';
+import { FaPrint, FaFolderPlus, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
-import { Col, Image, Modal, Row, Space, Tag } from 'antd';
+import { Col, Image, Row, Space, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineCheck } from 'react-icons/ai';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
-import { EmailShareButton, PinterestShareButton, InstapaperShareButton, TwitterShareButton, TwitterIcon, PinterestIcon, EmailIcon, InstapaperIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
+import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
 import { Link, useParams } from 'react-router-dom';
 import { worksheetDetails } from '../../app/features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
@@ -15,13 +14,12 @@ import CollectionModal from '../../components/modals/CollectionModal';
 import StepModal from '../../components/modals/StepModal';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
-import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
-import { createCollection, updateCollection } from '../../app/features/collection/collectionSlice';
+import { createCollection } from '../../app/features/collection/collectionSlice';
 
 let wDetail;
 function Worksheet() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
+  const { user } = useSelector((state) => state.auth);
+  const authToken = user?.payload?.verification?.token;
   const { userId } = useParams();
   const dispatch = useDispatch();
   const [worksheetDetail, setWorksheetDetails] = useState();
@@ -30,7 +28,7 @@ function Worksheet() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const { worksheetData, worksheetDetailsInfo, ccsData, gradeData, isError, isSuccess, message } = useSelector((state) => state.home);
+  const { worksheetData, worksheetDetailsInfo } = useSelector((state) => state.home);
 
   useEffect(() => {
     if (user && userId) {

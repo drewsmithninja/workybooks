@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Row, Form, Upload } from 'antd';
+import { Button, Col, Row, Form, Upload, message, Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import MainLayout from '../../components/layout/MainLayout';
 import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
@@ -10,9 +10,8 @@ import ADTitle from '../../components/antd/ADTitle';
 import { getProfile, updateProfile } from '../../app/features/user/userSlice';
 
 function UserProfile() {
+  const { user } = useSelector((state) => state.auth);
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const { userData } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -23,6 +22,17 @@ function UserProfile() {
       })
     );
   }, [user?.user]);
+
+  const onChange = (info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
 
   useEffect(() => {
     form.setFieldsValue({
@@ -98,13 +108,15 @@ function UserProfile() {
                   </Col>
                   <Col span={16}>
                     <div className='flex items-center'>
-                      <span className='inline-block h-[115px] w-[115px] overflow-hidden rounded-full bg-gray-100'>
-                        <svg className='h-full w-full text-gray-300' fill='currentColor' viewBox='0 0 24 24'>
-                          <path d='M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z' />
-                        </svg>
-                      </span>
-                      <Form.Item name='image' getValueFromEvent={getFile}>
-                        <Upload>
+                      <Avatar size={64} icon={<UserOutlined />} />
+                      <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
+                        <Upload
+                          name='file'
+                          headers={{
+                            authorization: 'authorization-text'
+                          }}
+                          onChange={onChange}
+                        >
                           <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
                       </Form.Item>

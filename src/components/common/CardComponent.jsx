@@ -190,7 +190,7 @@ function CardComponent({ cardImage = 'https://via.placeholder.com/400x200', like
             </div>
           </Dropdown>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-            <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} cardData={cardData} />
+            <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} cardData={cardData} closeModal={handleAssignModalCancel} />
           </Modal>
           <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
             <NewAssignmentOrCollection onCreate={onCollectionCreateClick} cardData={cardData} />

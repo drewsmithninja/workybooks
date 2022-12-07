@@ -11,7 +11,6 @@ import ADImage from '../../components/antd/ADImage';
 
 function Home() {
   const user = localStorage.getItem('user');
-  // const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const { worksheetData, subjectData, ccsData, gradeData } = useSelector((state) => state.home);

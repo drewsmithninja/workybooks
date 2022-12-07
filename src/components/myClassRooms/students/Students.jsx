@@ -2,20 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Col, Image, List, Row, Space } from 'antd';
 import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ADButton from '../../antd/ADButton';
+import { setClass } from '../../../app/features/classroom/classroomSlice';
 import { getStudents } from '../../../app/features/students/studentsSlice';
+import EditStudentModal from '../../modals/EditStudentModal';
 
-function StudentsPage({ classId }) {
+function StudentsPage() {
+  const { classes, currentClass } = useSelector((state) => state.classroom);
+  const { students } = useSelector((state) => state.students);
+  const [editStudent, setEditStudent] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedStudents, setSelectedStudents] = useState([]);
-  const students = useSelector((state) => state.students);
+
+  const setStudentList = async () => {
+    if (await classes?.length) {
+      dispatch(setClass(classes?.list?.[0]));
+    }
+  };
 
   useEffect(() => {
-    dispatch(getStudents(classId));
-    setSelectedStudents(students?.students?.list);
-  }, [classId]);
+    setStudentList();
+    dispatch(getStudents(currentClass?._id));
+  }, [currentClass]);
 
   const header = (
     <Row>
@@ -38,8 +47,23 @@ function StudentsPage({ classId }) {
     navigate(`student-dashboard/${e._id}`);
   };
 
+  const showEditStudentModal = (data) => {
+    setEditStudent(true);
+  };
+
+  const handleEditStudentOk = () => {
+    setEditStudent(false);
+  };
+
+  const handleEditStudentCancel = () => {
+    setEditStudent(false);
+  };
+
+  const editStudentModal = <EditStudentModal open={editStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
+
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
+      {editStudentModal}
       <Space direction='vertical' size='large' className='flex'>
         <div className='flex ant-row-end'>
           <ADButton type='primary'>ADD STUDENTS</ADButton>
@@ -48,7 +72,7 @@ function StudentsPage({ classId }) {
           className='rounded-t-lg with-header'
           header={header}
           itemLayout='horizontal'
-          dataSource={selectedStudents}
+          dataSource={students?.list || []}
           bordered
           renderItem={(item) => (
             <List.Item>
@@ -82,7 +106,11 @@ function StudentsPage({ classId }) {
                   <FaChartLine className='text-gray-400 text-lg' />
                 </Col>
                 <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <FaPencilAlt className='text-gray-400 text-lg' />
+                  <div className='flex'>
+                    <ADButton type='text' className='!p-0' onClick={() => showEditStudentModal(item)}>
+                      <FaPencilAlt className='text-gray-400 text-lg' />
+                    </ADButton>
+                  </div>
                 </Col>
               </Row>
             </List.Item>

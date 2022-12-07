@@ -13,8 +13,8 @@ import ADButton from '../../components/antd/ADButton';
 import ADImage from '../../components/antd/ADImage';
 
 function MyCollection() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
+  const { user } = useSelector((state) => state.auth);
+  const authToken = user?.payload?.verification?.token;
   const { id } = useParams();
   const [rerender, setRerender] = useState(0);
   const { collectionDetailsList } = useSelector((state) => state.library);

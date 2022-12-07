@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import CreateClassStep1 from '../createClassSteps/CreateClassStep1';
-import CreateClassStep2 from '../createClassSteps/CreateClassStep2';
-import CreateClassStep3 from '../createClassSteps/CreateClassStep3';
+import CreateClassAddStudents from '../steps/createClass/CreateClassAddStudents';
+import CreateClassManually from '../steps/createClass/CreateClassManually';
+import CreateClassCreated from '../steps/createClass/ManualClassCreated';
+import CreateClassStep1 from '../steps/CreateClassStep1';
+import ImportClass from '../steps/createClass/ImportClass';
+import ImportClassesCreated from '../steps/createClass/ImportClassesCreated';
 
 function CreateClassModal({ onShow, onCancel, ...props }) {
   const [current, setCurrent] = useState(0);
@@ -18,23 +21,37 @@ function CreateClassModal({ onShow, onCancel, ...props }) {
 
   const items = [
     {
-      title: 'first step',
-      content: <CreateClassStep1 next={next} />
+      title: 'create class', // 0
+      content: <CreateClassStep1 onGoogleClick={() => setCurrent(4)} onManualClick={() => setCurrent(1)} />
     },
     {
-      title: 'second step',
-      content: <CreateClassStep2 next={next} prev={prev} />
+      title: 'create manual', // 1
+      content: <CreateClassManually next={next} prev={prev} />
     },
     {
-      title: 'third step',
-      content: <CreateClassStep3 prev={prev} onCancel={onCancel} />
+      title: 'add students', // 2
+      content: <CreateClassAddStudents next={next} prev={prev} />
+    },
+    {
+      title: 'class created', // 3
+      content: <CreateClassCreated prev={prev} />
+    },
+    {
+      title: 'import class', // 4
+      content: <ImportClass next={next} prev={() => setCurrent(0)} />
+    },
+    {
+      title: 'classes created', // 5
+      content: <ImportClassesCreated prev={() => setCurrent(4)} onClose={onCancel} />
     }
   ];
 
   return (
     <ADModal centered width={670} footer={false} onCancel={onCancel} {...props}>
       <ADSteps items={items} current={1} />
-      <div className='steps-content'>{items[current].content}</div>
+      <div className='flex flex-col items-center justify-center'>
+        <div className='steps-content max-w-[420px]'>{items[current].content}</div>
+      </div>
     </ADModal>
   );
 }

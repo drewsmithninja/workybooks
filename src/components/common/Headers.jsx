@@ -83,7 +83,7 @@ function Headers() {
         <Space>
           <BellFilled className='text-2xl text-gray-400 mr-5 mt-6' />
           <div className='flex'>
-            <FaUserCircle className='text-4xl text-secondary' />
+            <FaUserCircle className='text-4xl text-success' />
           </div>
           <Dropdown
             menu={{

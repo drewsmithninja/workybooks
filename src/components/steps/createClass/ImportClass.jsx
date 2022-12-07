@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Table } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import ADTitle from '../antd/ADTitle';
-import ADButton from '../antd/ADButton';
+import ADTitle from '../../antd/ADTitle';
+import ADButton from '../../antd/ADButton';
 
-function CreateClassStep2({ next, prev }) {
+export default function ImportClass({ next, prev }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const onSelectChange = (newSelectedRowKeys) => {
-    // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -87,7 +86,6 @@ function CreateClassStep2({ next, prev }) {
   ];
   return (
     <div className='flex flex-col items-center'>
-      {prev && <ArrowLeftOutlined onClick={prev} />}
       <ADTitle level={2}>Import Classroom</ADTitle>
       <div className='py-4 text-dark text-lg'>Please select the classrooms you wish to import</div>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
@@ -97,5 +95,3 @@ function CreateClassStep2({ next, prev }) {
     </div>
   );
 }
-
-export default CreateClassStep2;

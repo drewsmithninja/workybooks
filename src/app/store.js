@@ -8,7 +8,9 @@ import userReducer from './features/user/userSlice';
 import libraryReducer from './features/library/librarypageSlice';
 import collectionReducer from './features/collection/collectionSlice';
 import studentsReducer from './features/students/studentsSlice';
-import classRoomReducer from './features/classRoom/classRoomSlice';
+import classroomReducer from './features/classroom/classroomSlice';
+import gradesReducer from './features/grade/GradeSlice';
+import modalReducer from './features/modal/modalSlice';
 
 const persistConfig = {
   key: 'root',
@@ -24,7 +26,9 @@ const rootReducer = combineReducers({
   library: libraryReducer,
   collection: collectionReducer,
   students: studentsReducer,
-  classRoom: classRoomReducer
+  classroom: classroomReducer,
+  grades: gradesReducer,
+  modal: modalReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,6 +37,10 @@ export const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
   middleware: () => getDefaultMiddleware({
+    immutableCheck: {
+      ignoredPaths: ['items.data']
+
+    },
     serializableCheck: false
   })
 });

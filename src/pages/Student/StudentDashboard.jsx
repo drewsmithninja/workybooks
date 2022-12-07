@@ -40,7 +40,6 @@ function StudentDashboard() {
   useEffect(() => {
     dispatch(getStudent(id));
   }, []);
-  console.log(students);
 
   return (
     <MainLayout>

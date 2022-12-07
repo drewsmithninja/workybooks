@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
+const user = localStorage.getItem('user');
+const authToken = JSON.parse(user)?.payload?.verification?.token;
 
-const getClassRoomOptions = async () => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
-  const response = await axios.get(`${API_URL}/classroom/optionList`, {
+const createClass = async (classData) => {
+  const response = await axios.post(`${API_URL}/classroom`, classData, {
     headers: {
       authorization: authToken
     }
@@ -13,8 +13,38 @@ const getClassRoomOptions = async () => {
   return response.data;
 };
 
-const classRoomAPI = {
-  getClassRoomOptions
+const editClass = async (data) => {
+  const response = await axios.put(`${API_URL}/classroom/${data.classId}`, data.values, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
 };
 
-export default classRoomAPI;
+// const getClassRoomOptions = async () => {
+//   const response = await axios.get(`${API_URL}/classroom/optionList`, {
+//     headers: {
+//       authorization: authToken
+//     }
+//   });
+//   return response.data;
+// };
+
+const getClassrooms = async (data) => {
+  const response = await axios.post(`${API_URL}/classroom/list`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+const classroomAPI = {
+  createClass,
+  editClass,
+  // getClassRoomOptions
+  getClassrooms
+};
+
+export default classroomAPI;
