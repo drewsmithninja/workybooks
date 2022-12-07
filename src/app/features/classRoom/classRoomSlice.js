@@ -1,9 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import classRoomAPI from '../../api/classRoomApi';
+import classroomAPI from '../../api/classroomApi';
 
-export const getClassRoomOptions = createAsyncThunk('classRoom/getClassRoomOptions', async (thunkAPI) => {
+export const createClass = createAsyncThunk('classroom/createClass', async (classData, thunkAPI) => {
   try {
-    const response = await classRoomAPI.getClassRoomOptions();
+    const response = await classroomAPI.createClass(classData);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const editClass = createAsyncThunk('classroom/editClass', async (data, thunkAPI) => {
+  try {
+    const response = await classroomAPI.editClass(data);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -11,47 +21,92 @@ export const getClassRoomOptions = createAsyncThunk('classRoom/getClassRoomOptio
   }
 });
 
-export const changeClass = (currentClass) => currentClass;
+// export const getClassRoomOptions = createAsyncThunk('classroom/getClassRoomOptions', async (thunkAPI) => {
+//   try {
+//     const response = await classroomAPI.getClassRoomOptions();
+//     return response;
+//   } catch (error) {
+//     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+//     return thunkAPI.rejectWithValue(message);
+//   }
+// });
 
-export const classRoomSlice = createSlice({
-  name: 'classRoom',
+export const getClassrooms = createAsyncThunk('classroom/getClassrooms', async (thunkAPI) => {
+  try {
+    const response = await classroomAPI.getClassrooms();
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const classroomSlice = createSlice({
+  name: 'classroom',
   initialState: {
     classes: [],
+    currentClass: [],
+    isLoading: false,
     isError: false,
     isSuccess: false,
-    isLoading: false,
-    currentClass: null,
-    message: ''
+    message: null
   },
   reducers: {
-    changeClass: (state) => {
+    setClass(state, action) {
       state.currentClass = action.payload;
+      state.isError = false;
+      state.isSuccess = true;
+    },
+    reset(state) {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = false;
+      state.message = null;
     }
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload;
-    // }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getClassRoomOptions.pending, (state) => {
+      .addCase(createClass.pending, (state) => {
         state.isLoading = true;
-        state.isSuccess = false;
-        state.message = '';
-        state.isError = false;
-        state.classes = [];
       })
-      .addCase(getClassRoomOptions.fulfilled, (state, action) => {
+      .addCase(createClass.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.currentClass = action.payload;
+      })
+      .addCase(createClass.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(editClass.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editClass.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.currentClass = action.payload;
+      })
+      .addCase(editClass.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getClassrooms.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getClassrooms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.classes = action.payload;
       })
-      .addCase(getClassRoomOptions.rejected, (state, action) => {
+      .addCase(getClassrooms.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.classes = [];
       });
   }
 });
 
-export default classRoomSlice.reducer;
+export const { reset, setClass } = classroomSlice.actions;
+export default classroomSlice.reducer;

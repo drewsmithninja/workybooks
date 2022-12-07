@@ -7,33 +7,27 @@ import ADTitle from '../../components/antd/ADTitle';
 import ADSelect from '../../components/antd/ADSelect';
 import StudentsPage from '../../components/myClassRooms/students/Students';
 import AssignmentPage from './myClassRooms/assignment/AssignmentPage';
-import { getClassRoomOptions } from '../../app/features/classRoom/classRoomSlice';
-import { getStudents } from '../../app/features/students/studentsSlice';
-import Fallback from '../../components/fallback/Fallback';
 import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
+import EditClassModal from '../../components/modals/EditClassModal';
+import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
 
 function MyClassrooms() {
-  const dispatch = useDispatch();
-  const [classRoomsOptions, setClassRoomsOptions] = useState([
-    {
-      value: '',
-      label: 'All'
-    }
-  ]);
+  const { classes, isLoading } = useSelector((state) => state.classroom);
   const [currentTab, setCurrentTab] = useState('students');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
-  const { classes, isError, isLoading, isSuccess } = useSelector((state) => state.classRoom);
-  const [selectedClass, setSelectedClass] = useState(null);
+  const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getClassRoomOptions());
-    setClassRoomsOptions(classes?.collection);
+    dispatch(getClassrooms());
+    dispatch(setClass(classes?.list?.[0]));
   }, []);
 
-  const handleChange = async (e) => {
-    await dispatch(getStudents(e));
-    await setSelectedClass(e);
+  const onClassChangeHandler = async (e) => {
+    const sc = classes?.list?.find((item) => item?._id === e);
+    dispatch(setClass(sc));
   };
 
   const showCreateClassModal = () => {
@@ -46,6 +40,18 @@ function MyClassrooms() {
 
   const handleCreateClassCancel = () => {
     setIsCreateClassModalOpen(false);
+  };
+
+  const showEditClassModal = (e) => {
+    setIsEditClassModalOpen(true);
+  };
+
+  const handleEditClassOk = () => {
+    setIsEditClassModalOpen(false);
+  };
+
+  const handleEditClassCancel = () => {
+    setIsEditClassModalOpen(false);
   };
 
   const tabChangeHandler = (e) => {
@@ -64,7 +70,7 @@ function MyClassrooms() {
     {
       label: 'students',
       key: 'students',
-      children: <StudentsPage classId={selectedClass} />
+      children: <StudentsPage />
     },
     {
       label: 'assignment',
@@ -78,53 +84,40 @@ function MyClassrooms() {
     }
   ];
 
-  const classOptions = classRoomsOptions.map(({ _id: value, name: label, ...rest }) => ({
+  const classOptions = classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
     value,
     label,
     ...rest
   }));
 
-  const updatedClassOptions = [
-    {
-      value: '',
-      label: 'All'
-    },
-    ...classOptions
-  ];
   const createClassRoom = <CreateClassModal open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
+  const editClassRoom = <EditClassModal open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
   return (
     <MainLayout>
       {createClassRoom}
+      {editClassRoom}
       {isLoading ? (
-        <Spinner />
-      ) : isError ? (
-        <Fallback />
+        <Spinner full />
       ) : (
-        isSuccess &&
-        classes?.collection?.length && (
-          <div className='p-4 w-full'>
-            <div className='py-2'>
-              <Space size='large'>
-                <ADTitle level={3}>Class</ADTitle>
-                <ADSelect
-                  className='w-34'
-                  defaultValue={updatedClassOptions[0]} // initially load with all class students
-                  onChange={handleChange}
-                  options={updatedClassOptions}
-                />
-                <div className='flex'>
+        <div className='p-4 w-full'>
+          <div className='py-2'>
+            <Space size='large'>
+              <ADTitle level={3}>Class</ADTitle>
+              <ADSelect className='w-34' defaultValue={classOptions?.[0]} onChange={onClassChangeHandler} options={classOptions} />
+              <div className='flex'>
+                <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
                   <FaPencilAlt className='text-gray-400 text-lg' />
-                </div>
-                <div className='flex'>
-                  <ADButton type='text' className='!p-0' onClick={showCreateClassModal}>
-                    <FaPlusCircle className='text-gray-400 text-lg' />
-                  </ADButton>
-                </div>
-              </Space>
-            </div>
-            <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
+                </ADButton>
+              </div>
+              <div className='flex'>
+                <ADButton type='text' className='!p-0' onClick={showCreateClassModal}>
+                  <FaPlusCircle className='text-gray-400 text-lg' />
+                </ADButton>
+              </div>
+            </Space>
           </div>
-        )
+          <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
+        </div>
       )}
     </MainLayout>
   );

@@ -9,8 +9,8 @@ import { search } from '../../app/features/search/searchpageSlice';
 import { newWorksheet } from '../../app/features/home/homepageSlice';
 
 function SearchResult() {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const authToken = user?.payload?.verification?.isVerified ? user.payload.verification.token : null;
+  const { user } = useSelector((state) => state.auth);
+  const authToken = user?.payload?.verification?.token;
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const [showMobileFilter, setShowMobileFilter] = useState(false);

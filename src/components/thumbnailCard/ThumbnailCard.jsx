@@ -170,7 +170,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
           <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
           <div className='flex items-center'>
             <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
-              {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-secondary' />}
+              {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-success' />}
             </ADButton>
             <span className='text-sm pl-2'>{likes}</span>
           </div>
