@@ -4,7 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import ADTitle from '../../antd/ADTitle';
 import ADButton from '../../antd/ADButton';
 
-export default function ImportClass({ next, prev }) {
+export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);

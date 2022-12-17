@@ -5,13 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ADButton from '../../antd/ADButton';
 import { setClass } from '../../../app/features/classroom/classroomSlice';
-import { getStudents } from '../../../app/features/students/studentsSlice';
+import { getStudents, setStudent } from '../../../app/features/students/studentsSlice';
 import EditStudentModal from '../../modals/EditStudentModal';
+import AddStudentsModal from '../../modals/AddStudentsModal';
 
 function StudentsPage() {
   const { classes, currentClass } = useSelector((state) => state.classroom);
   const { students } = useSelector((state) => state.students);
-  const [editStudent, setEditStudent] = useState(false);
+
+  const [showEditStudent, setShowEditStudent] = useState(false);
+  const [showAddStudents, setShowAddStudents] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -48,25 +52,30 @@ function StudentsPage() {
   };
 
   const showEditStudentModal = (data) => {
-    setEditStudent(true);
+    dispatch(setStudent(data));
+    setShowEditStudent(true);
   };
 
   const handleEditStudentOk = () => {
-    setEditStudent(false);
+    setShowEditStudent(false);
   };
 
   const handleEditStudentCancel = () => {
-    setEditStudent(false);
+    setShowEditStudent(false);
   };
 
-  const editStudentModal = <EditStudentModal open={editStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
+  const addStudentsModal = <AddStudentsModal closable={false} open={showAddStudents} onOk={() => setShowAddStudents(false)} onCancel={() => setShowAddStudents(false)} />;
+  const editStudentModal = <EditStudentModal closable={false} open={showEditStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
 
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
+      {addStudentsModal}
       {editStudentModal}
       <Space direction='vertical' size='large' className='flex'>
         <div className='flex ant-row-end'>
-          <ADButton type='primary'>ADD STUDENTS</ADButton>
+          <ADButton type='primary' onClick={() => setShowAddStudents(true)}>
+            ADD STUDENTS
+          </ADButton>
         </div>
         <List
           className='rounded-t-lg with-header'
@@ -91,13 +100,13 @@ function StudentsPage() {
                     <Col sm={12} xs={24}>
                       <div className='flex items-center flex-col mx-2 lg:mx-4'>
                         <div>ACTIVITIES</div>
-                        <div className='font-bold'>32</div>
+                        <div className='font-bold'>{item?.activity?.activities ?? '-'}</div>
                       </div>
                     </Col>
                     <Col sm={12} xs={24}>
                       <div className='flex items-center flex-col mx-2 lg:mx-4'>
                         <div className='whitespace-nowrap'>TIME PLAYED</div>
-                        <div className='font-bold'>03:01</div>
+                        <div className='font-bold'>{item?.activity?.timePlayed ?? '-'}</div>
                       </div>
                     </Col>
                   </Row>

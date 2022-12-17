@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import data from '../../data.json';
 import ADButton from '../../components/antd/ADButton';
 import dummyImage from '../../assets/images/dummyImage.png';
 import ADTitle from '../../components/antd/ADTitle';
@@ -14,9 +13,35 @@ import ADSelect from '../../components/antd/ADSelect';
 import { getStudent } from '../../app/features/students/studentsSlice';
 
 function StudentDashboard() {
+  const { currentClass } = useSelector((state) => state.classroom);
+  const { currentStudent } = useSelector((state) => state.students);
+  const { students } = useSelector((state) => state.students);
+
   const { id } = useParams();
   const dispatch = useDispatch();
-  const students = useSelector((state) => state.students);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getStudent(id));
+  }, []);
+
+  const onStudentChangeHandler = (e) => {
+    navigate(`/my-classrooms/student-dashboard/${e}`);
+  };
+
+  const studentsOptions = students?.list?.length ?
+    students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Student'
+      }
+    ];
+
   const header = (
     <Row>
       <Col xl={7} lg={7} md={7} sm={8} xs={10}>
@@ -37,10 +62,6 @@ function StudentDashboard() {
     </Row>
   );
 
-  useEffect(() => {
-    dispatch(getStudent(id));
-  }, []);
-
   return (
     <MainLayout>
       <div className='px-4 py-8 w-full flex justify-between'>
@@ -48,17 +69,12 @@ function StudentDashboard() {
           <div className='flex flex-col'>
             <div className='relative'>
               <ADTitle level={5} className='!text-sm absolute h-0 top-[-16px] left-0'>
-                Class 3B
+                {currentClass?.name}
               </ADTitle>
-              <ADTitle level={2}>Class</ADTitle>
+              <ADTitle level={2}>Student</ADTitle>
             </div>
           </div>
-          <ADSelect
-            className='w-34'
-            // defaultValue={updatedClassOptions[0]} // initially load with all class students
-            // onChange={handleChange}
-            // options={updatedClassOptions}
-          />
+          <ADSelect className='w-40' defaultValue={studentsOptions[0]} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           <div className='flex'>
             <FaPencilAlt className='text-gray-400 text-lg' />
           </div>
@@ -73,7 +89,7 @@ function StudentDashboard() {
           className='rounded-t-lg with-header'
           header={header}
           itemLayout='horizontal'
-          dataSource={data}
+          dataSource={[]}
           bordered
           renderItem={(item) => (
             <List.Item>

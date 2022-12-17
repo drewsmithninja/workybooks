@@ -1,23 +1,24 @@
 import React from 'react';
-import { ArrowLeftOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
-import { createStudents } from '../../../app/features/students/studentsSlice';
-import { getClassrooms } from '../../../app/features/classroom/classroomSlice';
+import { createStudents, getStudents } from '../../../app/features/students/studentsSlice';
 
-export default function CreateClassAddStudents({ next, prev }) {
-  const { currentClass, isSuccess } = useSelector((state) => state.classroom);
+export default function CreateClassAddStudents({ next }) {
+  const { isSuccess } = useSelector((state) => state.students);
+  const { currentClass } = useSelector((state) => state.classroom);
   const dispatch = useDispatch();
+
   const onFinish = async (values) => {
     const data = {
-      classroom: currentClass?.classroom?._id,
+      classroom: currentClass?._id,
       ...values
     };
-    dispatch(createStudents(data));
+    await dispatch(createStudents(data));
+    await dispatch(getStudents(currentClass?._id));
     if (await isSuccess) {
-      dispatch(getClassrooms());
       await next();
     }
   };
@@ -70,14 +71,14 @@ export default function CreateClassAddStudents({ next, prev }) {
                 </Space>
               ))}
               <Form.Item className='w-11/12'>
-                <Button type='dashed' onClick={() => add()} block icon={<PlusOutlined />}>
+                <ADButton className='w-full' type='dashed' onClick={() => add()} icon={<PlusOutlined />}>
                   Add Student
-                </Button>
+                </ADButton>
               </Form.Item>
             </>
           )}
         </Form.List>
-        <Form.Item>
+        <Form.Item className='flex justify-center'>
           <ADButton size='large' className='min-w-[140px]' type='primary' htmlType='submit'>
             ADD
           </ADButton>

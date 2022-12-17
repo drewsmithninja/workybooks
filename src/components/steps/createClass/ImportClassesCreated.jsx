@@ -1,13 +1,8 @@
 import React from 'react';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
 
-export default function ImportClassesCreated({ prev, onClose }) {
-  const { currentClass } = useSelector((state) => state.classroom);
-  const { students } = useSelector((state) => state.students);
-
+export default function ImportClassesCreated({ onClose }) {
   return (
     <div className='flex flex-col items-center'>
       <ADTitle level={2}>Classroom(s) created</ADTitle>

@@ -40,11 +40,27 @@ const getClassrooms = async (data) => {
   return response.data;
 };
 
+const getClassroom = async (id) => {
+  const response = await axios.post(
+    `${API_URL}/classroom/getBy/id`,
+    {
+      id
+    },
+    {
+      headers: {
+        authorization: authToken
+      }
+    }
+  );
+  return response.data;
+};
+
 const classroomAPI = {
   createClass,
   editClass,
   // getClassRoomOptions
-  getClassrooms
+  getClassrooms,
+  getClassroom
 };
 
 export default classroomAPI;
