@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { useState, useEffect } from 'react';
 import { Space, Tabs } from 'antd';
 import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
@@ -12,6 +13,7 @@ import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
 import EditClassModal from '../../components/modals/EditClassModal';
 import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
+import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 
 function MyClassrooms() {
   const { classes, isLoading } = useSelector((state) => state.classroom);
@@ -22,7 +24,6 @@ function MyClassrooms() {
 
   useEffect(() => {
     dispatch(getClassrooms());
-    dispatch(setClass(classes?.list?.[0]));
   }, []);
 
   const onClassChangeHandler = async (e) => {
@@ -34,7 +35,7 @@ function MyClassrooms() {
     setIsCreateClassModalOpen(true);
   };
 
-  const handleCreateClassOk = () => {
+  const handleCreateClassOk = async () => {
     setIsCreateClassModalOpen(false);
   };
 
@@ -59,10 +60,10 @@ function MyClassrooms() {
       setCurrentTab(e);
     } else if (e === 'assignment') {
       setCurrentTab(e);
-      // dispatch(favoriteData());
+      dispatch(getAssignments());
     } else if (e === 'reports') {
       setCurrentTab(e);
-      // dispatch(recentList());
+      // dispatch(getReports());
     }
   };
 
@@ -84,14 +85,22 @@ function MyClassrooms() {
     }
   ];
 
-  const classOptions = classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
-    value,
-    label,
-    ...rest
-  }));
+  const classOptions = classes?.list?.length ?
+    classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Class'
+      }
+    ];
 
-  const createClassRoom = <CreateClassModal open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
-  const editClassRoom = <EditClassModal open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
+  const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
+  const editClassRoom = <EditClassModal closable={false} open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
+
   return (
     <MainLayout>
       {createClassRoom}
@@ -103,7 +112,7 @@ function MyClassrooms() {
           <div className='py-2'>
             <Space size='large'>
               <ADTitle level={3}>Class</ADTitle>
-              <ADSelect className='w-34' defaultValue={classOptions?.[0]} onChange={onClassChangeHandler} options={classOptions} />
+              <ADSelect className='w-32' defaultValue={classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
               <div className='flex'>
                 <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
                   <FaPencilAlt className='text-gray-400 text-lg' />

@@ -9,6 +9,7 @@ import libraryReducer from './features/library/librarypageSlice';
 import collectionReducer from './features/collection/collectionSlice';
 import studentsReducer from './features/students/studentsSlice';
 import classroomReducer from './features/classroom/classroomSlice';
+import assignmentReducer from './features/assignment/assignmentSlice';
 import gradesReducer from './features/grade/GradeSlice';
 import modalReducer from './features/modal/modalSlice';
 
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   collection: collectionReducer,
   students: studentsReducer,
   classroom: classroomReducer,
+  assignment: assignmentReducer,
   grades: gradesReducer,
   modal: modalReducer
 });
@@ -39,7 +41,6 @@ export const store = configureStore({
   middleware: () => getDefaultMiddleware({
     immutableCheck: {
       ignoredPaths: ['items.data']
-
     },
     serializableCheck: false
   })

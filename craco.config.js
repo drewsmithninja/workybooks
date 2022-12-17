@@ -18,7 +18,7 @@ module.exports = {
               // @error-color: #f5222d; // error state color
               //
               'primary-color': '#5470FF',
-              'success-color': '#D9D9D9',
+              // 'success-color': '#D9D9D9',
               'info-color': '#67BCFA',
               'danger-color': '#FF2500',
               'black-color': '#000000',

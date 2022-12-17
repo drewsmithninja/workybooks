@@ -38,7 +38,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route element={<PrivateRoutes />}>
           <Route path='/user-profile' element={<UserProfile />} />
-          <Route path='/create-classroom' element={<CreateClassroom />} />
+          <Route path='/grade-selection' element={<CreateClassroom />} />
           <Route path='/select-classroom' element={<SelectClassroom />} />
           <Route path='/my-library' element={<MyLibrary />} />
           <Route path='/subject/:sid' element={<SubjectDetailsPage />} />
