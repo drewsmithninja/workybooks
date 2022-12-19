@@ -8,7 +8,7 @@ import ADTitle from '../antd/ADTitle';
 import ADButton from '../antd/ADButton';
 import { deleteStudent, editStudent, getStudents } from '../../app/features/students/studentsSlice';
 
-export default function EditStudentModal({ onShow, onCancel, ...props }) {
+export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent } = useSelector((state) => state.students);
 
@@ -17,12 +17,12 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
 
   useEffect(() => {
     form.setFieldsValue({
-      'nick-name': currentStudent?.nickName,
-      'first-name': currentStudent?.firstName,
-      'last-name': currentStudent?.lastName,
-      username: currentStudent?.userName,
+      nickName: currentStudent?.nickName,
+      firstName: currentStudent?.firstName,
+      lastName: currentStudent?.lastName,
+      userName: currentStudent?.userName,
       password: currentStudent?.password,
-      'parent-email': currentStudent?.parentEmail
+      parentEmail: currentStudent?.parentEmail
     });
   }, [currentStudent]);
 
@@ -33,11 +33,12 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
 
   const onFinish = async (values) => {
     const data = {
-      id: currentClass?._id,
-      values
+      id: currentStudent?._id,
+      ...values
     };
-    await dispatch(editStudent(values));
+    await dispatch(editStudent(data));
     await dispatch(getStudents(currentClass?._id));
+    onOk();
   };
 
   return (
@@ -55,7 +56,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
             </Space>
           </Col>
           <Col xs={24} sm={12} className='flex items-end'>
-            <Form.Item name='nick-name' className='w-full'>
+            <Form.Item name='nickName' className='w-full'>
               <Input size='large' placeholder='Nickname' />
             </Form.Item>
           </Col>
@@ -63,7 +64,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
         <Row gutter={16} className='pb-0 mb-2'>
           <Col xs={24} sm={12}>
             <Form.Item
-              name='first-name'
+              name='firstName'
               className='w-full'
               rules={[
                 {
@@ -77,7 +78,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
           </Col>
           <Col xs={24} sm={12} className='flex items-center'>
             <Form.Item
-              name='last-name'
+              name='lastName'
               className='w-full'
               rules={[
                 {
@@ -93,7 +94,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
         <Row gutter={16} className='pb-0 mb-2'>
           <Col xs={24} sm={12} className='flex items-center'>
             <Form.Item
-              name='username'
+              name='userName'
               className='w-full'
               rules={[
                 {
@@ -102,7 +103,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
                 }
               ]}
             >
-              <Input size='large' placeholder='Username' disabled />
+              <Input size='large' placeholder='Username' />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} className='flex items-center'>
@@ -111,7 +112,7 @@ export default function EditStudentModal({ onShow, onCancel, ...props }) {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item name='parent-email' className='mb-8'>
+        <Form.Item name='parentEmail' className='mb-8'>
           <Input size='large' className='mb-2' placeholder='Parent Email' />
         </Form.Item>
         <Row gutter={16} className='pb-0'>

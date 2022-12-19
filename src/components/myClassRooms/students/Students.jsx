@@ -19,16 +19,17 @@ function StudentsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const setStudentList = async () => {
+  const updateStudentList = async () => {
     if (await classes?.length) {
       dispatch(setClass(classes?.list?.[0]));
     }
+    await dispatch(getStudents(currentClass?._id));
   };
 
   useEffect(() => {
-    setStudentList();
+    updateStudentList();
     dispatch(getStudents(currentClass?._id));
-  }, [currentClass]);
+  }, []);
 
   const header = (
     <Row>
