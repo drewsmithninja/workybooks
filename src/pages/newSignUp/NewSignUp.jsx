@@ -16,15 +16,21 @@ function NewSignUp() {
   const { isLoading, isSuccess, isError, message } = useSelector((state) => state.auth);
   const [isVerified, setIsVerified] = useState(false);
   const [successMessage, setSuccessMessage] = useState(message);
+  const [showResend, setShowResend] = useState(false);
 
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
-  const { Paragraph } = Typography;
+  const { Paragraph, Text } = Typography;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const user = localStorage.getItem('user');
 
   useEffect(() => {
+    setShowResend(false);
+    setTimeout(() => {
+      setShowResend(true);
+    }, 5000);
+
     if (isError) {
       toast.error(message);
     } else if (user) {
@@ -41,6 +47,13 @@ function NewSignUp() {
   if (isLoading) {
     <Spinner />;
   }
+
+  const onResendHandler = () => {
+    setShowResend(false);
+    setTimeout(() => {
+      setShowResend(true);
+    }, 10000);
+  };
 
   const onFinish = (values) => {
     if (values.password !== values.confirmPassword) {
@@ -265,9 +278,19 @@ function NewSignUp() {
             </Form>
           </>
         ) : (
-          <ADCard hoverable className='shadow-lg rounded-xl text-xl p-8 mt-20'>
-            {successMessage}
-          </ADCard>
+          <div className='flex flex-col items-center'>
+            <ADCard hoverable className='shadow-lg rounded-xl text-xl p-8 mt-20'>
+              {successMessage}
+            </ADCard>
+            <Text type='secondary' className='mt-10'>
+              Just click on the link in that email to complete your sign up. If you don’y see it, you may need to check your spam folder.
+              <br />
+              Still can’t find the email?
+            </Text>
+            <ADButton className='my-10' disabled={!showResend} onClick={onResendHandler}>
+              Resend Verification Email
+            </ADButton>
+          </div>
         )}
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] !pb-[40px]'>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Space, Tabs } from 'antd';
 import { FaPencilAlt, FaPlusCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/layout/MainLayout';
 import ADTitle from '../../components/antd/ADTitle';
 import ADSelect from '../../components/antd/ADSelect';
@@ -14,21 +15,31 @@ import CreateClassModal from '../../components/modals/CreateClassModal';
 import EditClassModal from '../../components/modals/EditClassModal';
 import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
 import { getAssignments } from '../../app/features/assignment/assignmentSlice';
+import { getStudents } from '../../app/features/students/studentsSlice';
 
 function MyClassrooms() {
-  const { classes, isLoading } = useSelector((state) => state.classroom);
+  const { classes, isLoading, currentClass } = useSelector((state) => state.classroom);
+
   const [currentTab, setCurrentTab] = useState('students');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getClassrooms());
   }, []);
 
   const onClassChangeHandler = async (e) => {
-    const sc = classes?.list?.find((item) => item?._id === e);
-    dispatch(setClass(sc));
+    const sc = await classes?.list?.find((item) => item?._id === e);
+    await dispatch(setClass(await sc));
+    if ((await currentTab) === 'students') {
+      dispatch(getStudents(sc?._id));
+    }
+    if ((await currentTab) === 'assignment') {
+      dispatch(getAssignments(sc?._id));
+    }
   };
 
   const showCreateClassModal = () => {
@@ -55,12 +66,13 @@ function MyClassrooms() {
     setIsEditClassModalOpen(false);
   };
 
-  const tabChangeHandler = (e) => {
+  const tabChangeHandler = async (e) => {
     if (e === 'students') {
       setCurrentTab(e);
+      await dispatch(getStudents(await currentClass?._id));
     } else if (e === 'assignment') {
       setCurrentTab(e);
-      dispatch(getAssignments());
+      await dispatch(getAssignments(await currentClass?._id));
     } else if (e === 'reports') {
       setCurrentTab(e);
       // dispatch(getReports());

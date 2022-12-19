@@ -2,11 +2,11 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL;
-const user = localStorage.getItem('user');
-const authToken = JSON.parse(user)?.payload?.verification?.token;
 
 // worksheet details
 const createCollection = async (collectionData) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/collection`, collectionData, {
     headers: {
       authorization: authToken
@@ -17,6 +17,8 @@ const createCollection = async (collectionData) => {
 };
 
 const updateCollection = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const body = {
     favorite: false,
     content: [data.worksheetId]
@@ -31,6 +33,8 @@ const updateCollection = async (data) => {
 };
 
 const updateCollectionLike = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.put(`${API_URL}/collection/${data.collectionId}`, data, {
     headers: {
       authorization: authToken

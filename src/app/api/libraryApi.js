@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
-const user = localStorage.getItem('user');
-const authToken = JSON.parse(user)?.payload?.verification?.token;
 
 // Favorite list
 const favoriteData = async () => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.get(`${API_URL}/content/favoriteList`, {
     headers: {
       authorization: authToken
@@ -16,6 +16,8 @@ const favoriteData = async () => {
 
 // My collection list
 const collectionList = async (collectionData) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/collection/list`, collectionData, {
     headers: {
       authorization: authToken
@@ -26,6 +28,8 @@ const collectionList = async (collectionData) => {
 
 // My collection Details
 const collectionDetail = async (collectionId) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/collection/getBy/id`, collectionId, {
     headers: {
       authorization: authToken
@@ -36,6 +40,8 @@ const collectionDetail = async (collectionId) => {
 
 // Recent list
 const recentList = async () => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.get(`${API_URL}/content/recent/contentList`, {
     headers: {
       authorization: authToken

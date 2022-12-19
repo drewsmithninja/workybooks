@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import studentsAPI from '../../api/studentsAPI';
 
 export const createStudents = createAsyncThunk('students/createStudents', async (data, thunkAPI) => {
@@ -34,6 +35,7 @@ export const getStudent = createAsyncThunk('students/getStudent', async (student
 export const editStudent = createAsyncThunk('students/editStudent', async (data, thunkAPI) => {
   try {
     const response = await studentsAPI.editStudent(data);
+    toast.success(response?.message);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();

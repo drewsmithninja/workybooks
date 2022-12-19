@@ -1,32 +1,40 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect } from 'react';
 import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import ADButton from '../../components/antd/ADButton';
 import dummyImage from '../../assets/images/dummyImage.png';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 import ADImage from '../../components/antd/ADImage';
 import ADSelect from '../../components/antd/ADSelect';
-import { getStudent } from '../../app/features/students/studentsSlice';
+import { setStudent } from '../../app/features/students/studentsSlice';
+import { getSubmittedAssignments } from '../../app/features/assignment/assignmentSlice';
 
 function StudentDashboard() {
   const { currentClass } = useSelector((state) => state.classroom);
-  const { currentStudent } = useSelector((state) => state.students);
-  const { students } = useSelector((state) => state.students);
+  const { currentStudent, students } = useSelector((state) => state.students);
+  const { submittedAssignments } = useSelector((state) => state.assignment);
 
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getStudent(id));
+    const cs = students?.list.find((item) => item._id === id);
+    dispatch(setStudent(cs));
+    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
   }, []);
 
   const onStudentChangeHandler = (e) => {
+    const cs = students?.list.find((item) => item._id === e);
+    dispatch(setStudent(cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
+    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
   };
 
   const studentsOptions = students?.list?.length ?
@@ -89,7 +97,7 @@ function StudentDashboard() {
           className='rounded-t-lg with-header'
           header={header}
           itemLayout='horizontal'
-          dataSource={[]}
+          dataSource={submittedAssignments?.list}
           bordered
           renderItem={(item) => (
             <List.Item>
@@ -101,8 +109,12 @@ function StudentDashboard() {
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                       <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
-                        <div className='font-medium'>{item.title}</div>
-                        <div className='font-normal text-gray-400'>Description</div>
+                        <div className='font-medium'>{item?.assignment?.[0]?.title}</div>
+                        <div className='font-normal text-gray-400 truncate'>
+                          {item?.contentScore?.content?.[0]?.stds_topic.map((topic, index) => (
+                            <span key={index}>{`${topic}${index < item?.contentScore?.content?.[0]?.stds_topic.length - 1 ? ', ' : ''}`}</span>
+                          ))}
+                        </div>
                       </div>
                     </Col>
                   </Row>
@@ -123,7 +135,7 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       <div>TIME</div>
-                      <div>03:21</div>
+                      <div>{moment(item?.dt_added).format('hh:mm')}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -141,7 +153,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <FaCheck className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>8</div>
+                      <div className='font-bold'>{item?.currectAnswer}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -159,7 +171,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <FaTimes className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>8</div>
+                      <div className='font-bold'>{item?.wrongAnswer}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -177,7 +189,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <BsThreeDots className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>8</div>
+                      <div className='font-bold'>{item?.blankAnswer}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -193,7 +205,10 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       <div className=''>SCORE</div>
-                      <div className='font-bold'>75%</div>
+                      <div className='font-bold'>
+                        {item?.score}
+                        %
+                      </div>
                     </Col>
                     <Col
                       xs={12}
@@ -208,24 +223,23 @@ function StudentDashboard() {
                       }}
                       className='flex flex-col justify-center items-center'
                     >
-                      <Progress type='circle' width={50} percent={30} status='none' />
+                      {/* <Progress type='circle' width={50} percent={30} status='none' /> */}
+                      <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} />
                     </Col>
                   </Row>
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
                   <Badge
-                    count={4}
+                    count={item?.assignmentGrade?.[0]?.title}
                     style={{
                       backgroundColor: '#52c41a',
                       padding: '0 10px'
                     }}
                   />
                 </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <div>
-                    <div>08/27/2022</div>
-                    <div>06:00 pm</div>
-                  </div>
+                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex flex-col justify-center'>
+                  <div>{moment(item?.dt_added).format('MM/DD/YYYY')}</div>
+                  <div>{moment(item?.dt_added).format('hh:mm a')}</div>
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
                   <div className='flex'>
