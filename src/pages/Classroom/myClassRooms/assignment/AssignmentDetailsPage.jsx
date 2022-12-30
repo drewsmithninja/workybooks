@@ -17,7 +17,7 @@ import ADModal from '../../../../components/antd/ADModal';
 import ViewAssignmentReport from './ViewAssignmentReport';
 
 function AssignmentDetailsPage() {
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const { Option } = Select;
   const { id } = useParams();
