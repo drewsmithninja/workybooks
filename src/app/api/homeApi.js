@@ -3,16 +3,16 @@ import axios from 'axios';
 const API_URL = process.env.REACT_APP_API_URL;
 
 // New worksheet list
-const newWorksheet = async (worksheetData) => {
-  const user = localStorage.getItem('user');
-  const authToken = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
-    headers: {
-      authorization: authToken
-    }
-  });
-  return response.data;
-};
+// const newWorksheet = async (worksheetData) => {
+//   const user = localStorage.getItem('user');
+//   const authToken = JSON.parse(user)?.payload?.verification?.token;
+//   const response = await axios.post(`${API_URL}/content/list`, worksheetData, {
+//     headers: {
+//       authorization: authToken
+//     }
+//   });
+//   return response.data;
+// };
 
 // worksheet details
 const worksheetDetails = async (worksheetId) => {
@@ -50,18 +50,6 @@ const listCCL = async (ccsData) => {
   return response.data;
 };
 
-// Grade list
-const listGrade = async (gradeData) => {
-  const user = localStorage.getItem('user');
-  const authToken = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(`${API_URL}/grade/list`, gradeData, {
-    headers: {
-      authorization: authToken
-    }
-  });
-  return response.data;
-};
-
 // Like Worksheet
 const likeWorksheet = async (worksheet) => {
   const user = localStorage.getItem('user');
@@ -75,10 +63,9 @@ const likeWorksheet = async (worksheet) => {
 };
 
 const homeAPI = {
-  newWorksheet,
+  // newWorksheet,
   listSubject,
   listCCL,
-  listGrade,
   worksheetDetails,
   likeWorksheet
 };

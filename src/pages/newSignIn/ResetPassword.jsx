@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Checkbox, Form, Input, Layout, Typography } from 'antd';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Form, Input, Layout, Typography } from 'antd';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset, resetPassword } from '../../app/features/auth/authSlice';
@@ -84,12 +84,14 @@ function ResetPassword() {
               }
             ]}
           >
-            <Input.Password placeholder='new Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
+            <Input.Password placeholder='New Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
           </Form.Item>
-          <Form.Item>
-            <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
-              Submit
-            </ADButton>
+          <Form.Item shouldUpdate>
+            {() => (
+              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                Submit
+              </ADButton>
+            )}
           </Form.Item>
         </Form>
       </div>

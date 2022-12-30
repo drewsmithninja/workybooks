@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import EditClass from '../steps/editClass/EditClass';
-import ClassUpdated from '../steps/editClass/ClassUpdated';
+import NewCollection from '../steps/collection/NewCollection';
 
-export default function EditClassModal({ onOk, onShow, ...props }) {
+export default function AddToCollectionModal({ onOk, ...props }) {
   const [current, setCurrent] = useState(0);
 
-  const next = () => {
-    setCurrent(current + 1);
-  };
+  const dispatch = useDispatch();
 
   const afterClose = () => {
     setCurrent(0);
+    dispatch(resetSelectedWorksheets());
   };
 
   const items = [
     {
       title: 'first step',
-      content: <EditClass next={next} />
-    },
-    {
-      title: 'second step',
-      content: <ClassUpdated onOk={onOk} />
+      content: <NewCollection {...props} />
     }
   ];
 

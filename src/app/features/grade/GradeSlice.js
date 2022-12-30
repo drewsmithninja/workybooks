@@ -13,6 +13,7 @@ export const fetchGrades = createAsyncThunk('grades/fetchGrades', async () => {
 
 const initialState = {
   grades: [],
+  currentGrade: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -22,6 +23,11 @@ const initialState = {
 export const GradeSlice = createSlice({
   name: 'grades',
   initialState,
+  reducers: {
+    setCurrentGrade(state, action) {
+      state.currentGrade = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGrades.pending, (state) => {
@@ -31,6 +37,7 @@ export const GradeSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.grades = action.payload;
+        state.currentGrade = action.payload.list?.[4];
       })
       .addCase(fetchGrades.rejected, (state, action) => {
         state.isLoading = false;
@@ -41,5 +48,5 @@ export const GradeSlice = createSlice({
   }
 });
 
-// export const {} = GradeSlice.actions;
+export const { setCurrentGrade } = GradeSlice.actions;
 export default GradeSlice.reducer;

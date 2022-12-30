@@ -18,6 +18,7 @@ import { createCollection } from '../../app/features/collection/collectionSlice'
 
 let wDetail;
 function Worksheet() {
+  const worksheets = useSelector((state) => state.worksheet.worksheets);
   const { user } = useSelector((state) => state.auth);
   const authToken = user?.payload?.verification?.token;
   const { userId } = useParams();
@@ -28,7 +29,7 @@ function Worksheet() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const { worksheetData, worksheetDetailsInfo } = useSelector((state) => state.home);
+  const { worksheetDetailsInfo } = useSelector((state) => state.home);
 
   useEffect(() => {
     if (user && userId) {
@@ -122,12 +123,12 @@ function Worksheet() {
   };
 
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} onCreate={onAssignCreateClick} />;
-  const collectionModal = <CollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} onCreate={onCollectionCreateClick} cardData={worksheetDetail} />;
+  // const collectionModal = <CollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} onCreate={onCollectionCreateClick} cardData={worksheetDetail} />;
   const stepModal = <StepModal open={isStepModalOpen} onOk={handleStepModalOk} onCancel={handleStepModalCancel} nextStep={nextStep} prevStep={prevStep} />;
 
   return (
     <MainLayout>
-      {collectionModal}
+      {/* {collectionModal} */}
       {assignModal}
       {stepModal}
       <div className='container pt-16 my-0 mx-auto ml- md:px-4'>
@@ -262,7 +263,7 @@ function Worksheet() {
         </Row>
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
-          {worksheetData?.list?.slice(0, 15).map((i) => (
+          {worksheets?.list?.slice(0, 15).map((i) => (
             <Link key={i._id} to={i._id ? `/worksheet/${i._id}` : ''}>
               <Image
                 key={i}
