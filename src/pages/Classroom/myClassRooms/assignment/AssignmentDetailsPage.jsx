@@ -1,21 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import { BsThreeDots } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { AntDesignOutlined } from '@ant-design/icons';
+import Spinner from '../../../../components/spinner/Spinner';
 import data from '../../../../data.json';
 import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
 import ADImage from '../../../../components/antd/ADImage';
+import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
+import ADModal from '../../../../components/antd/ADModal';
+import ViewAssignmentReport from './ViewAssignmentReport';
 
 function AssignmentDetailsPage() {
+  const [modal, setModal] = useState(true);
+
   const { Option } = Select;
   const { id } = useParams();
-  return (
+  const dispatch = useDispatch();
+  const { studentAssignmentDetail, isLoading } = useSelector((state) => state.assignment);
+
+  // Todo - Check api and populate the data.
+
+  useEffect(() => {
+    dispatch(
+      getStudentAssignmentDetail({
+        assignmentId: id
+      })
+    );
+  }, []);
+
+  const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
+
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <MainLayout>
+      {ViewAssignmentReportModal}
       <div className='px-4 py-5 w-full flex justify-between'>
         <Space size='large'>
           <ADTitle level={3}>Assignment</ADTitle>
@@ -115,7 +140,7 @@ function AssignmentDetailsPage() {
       <div className='xl:px-20 lg:px-16 md:px-10 px-0 py-6'>
         <List
           className='rounded-t-lg with-header'
-          header={(
+          header={
             <Row>
               <Col xl={7} lg={7} md={7} sm={8} xs={10}>
                 <div className='text-center inter-font font-medium text-xs'>NAME</div>
@@ -133,7 +158,7 @@ function AssignmentDetailsPage() {
                 <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
               </Col>
             </Row>
-          )}
+          }
           itemLayout='horizontal'
           dataSource={data}
           bordered
@@ -274,9 +299,11 @@ function AssignmentDetailsPage() {
                   </div>
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <div className='flex'>
-                    <FaChartLine className='text-gray-400 text-2xl' />
-                  </div>
+                  <ADButton type='text' onClick={setModal}>
+                    <div className='flex'>
+                      <FaChartLine className='text-gray-400 text-2xl' />
+                    </div>
+                  </ADButton>
                 </Col>
               </Row>
             </List.Item>
