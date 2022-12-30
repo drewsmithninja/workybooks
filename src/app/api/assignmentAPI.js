@@ -74,20 +74,16 @@ const getAssignmentsByStudent = async (studentId) => {
 
 /* Get Student Assignment Detail */
 
-const getStudentAssignmentDetail = async (assignmentId) => {
+const getStudentAssignmentDetail = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
 
-  const response = await axios.post(
-    `${API_URL}/assignment/studentsAssignmentDetails`,
-
-    assignmentId,
-    {
-      headers: {
-        authorization: authToken
-      }
+  const response = await axios.post(`${API_URL}/assignment/studentsAssignmentDetails`, data, {
+    headers: {
+      authorization: authToken
     }
-  );
+  });
+  console.log('---response.data--->', response.data);
   return response.data;
 };
 

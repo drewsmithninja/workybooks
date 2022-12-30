@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Badge, Col, List, Progress, Row, Select, Space } from 'antd';
+import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { BsThreeDots } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { AntDesignOutlined } from '@ant-design/icons';
@@ -25,14 +26,15 @@ function AssignmentDetailsPage() {
   const { studentAssignmentDetail, isLoading } = useSelector((state) => state.assignment);
 
   // Todo - Check api and populate the data.
+  // useEffect(() => {
+  //   dispatch(
+  //     getStudentAssignmentDetail({
+  //       assignmentId: id
+  //     })
+  //   );
+  // }, []);
 
-  useEffect(() => {
-    dispatch(
-      getStudentAssignmentDetail({
-        assignmentId: id
-      })
-    );
-  }, []);
+  const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData?.[0];
 
   const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
@@ -56,15 +58,17 @@ function AssignmentDetailsPage() {
         <Row gutter={[16, 16]} className='border border-x-0 border-t-0 border-solid'>
           <Col xl={10}>
             <div>
-              <div className='font-bold text-xs'>ASSIGNMENT ITEMS (4 WORKSHEETS)</div>
+              <div className='font-bold text-xs'>{`ASSIGNMENT ITEMS (${assignmentItems.length} WORKSHEETS)`}</div>
             </div>
             <Space>
+              {/* <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
               <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
               <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
-              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
-              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
-
-              <div className='font-bold text-xs px-4 pt-3 items-center'>+2 MORE</div>
+              <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' /> */}
+              {assignmentItems.map((item, index) => (
+                <ADImage src={item?.thumbnail} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+              ))}
+              {assignmentItems.length > 4 ? <div className='font-bold text-xs px-4 pt-3 items-center'>+2 MORE</div> : null}
             </Space>
           </Col>
           <Col xl={7} className='border border-solid border-y-0 border-r-0'>
@@ -72,7 +76,12 @@ function AssignmentDetailsPage() {
               <div className='font-bold text-xs'>ASSIGNED TO</div>
             </div>
             <Space>
-              <Avatar.Group
+              {assignmentScore.map((item, index) => {
+                console.log('index', typeof index);
+                if (index === 3) return null;
+                return <Avatar src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
+              })}
+              {/* <Avatar.Group
                 maxCount={2}
                 maxPopoverTrigger='click'
                 size='large'
@@ -97,7 +106,7 @@ function AssignmentDetailsPage() {
                   }}
                   icon={<AntDesignOutlined />}
                 />
-              </Avatar.Group>
+              </Avatar.Group> */}
 
               <div>
                 <div className='font-bold text-xs'>+2 MORE</div>
@@ -109,9 +118,8 @@ function AssignmentDetailsPage() {
               <Col xl={8}>
                 <div className='font-bold text-xs'>DUE DATE</div>
                 <div className='text-slate-400 pt-3'>
-                  08/25/2022
+                  {moment(assignmentDetails?.[0]?.endDate).format('DD/MM/YYYY hh:mm a')}
                   <br />
-                  06:00 pm
                 </div>
               </Col>
               <Col xl={8}>
@@ -120,7 +128,7 @@ function AssignmentDetailsPage() {
               </Col>
               <Col xl={8}>
                 <div className='font-bold text-xs'>POINTS</div>
-                <div className='text-slate-400 pt-3'>4</div>
+                <div className='text-slate-400 pt-3'>{assignmentDetails?.[0]?.points}</div>
               </Col>
             </Row>
           </Col>
@@ -131,9 +139,9 @@ function AssignmentDetailsPage() {
           <ADTitle level={4}>Assignment Progress</ADTitle>
         </div>
         <Space size='large'>
-          <ADButton type='primary'>Student Reports</ADButton>
-          <ADButton type='primary'>Student Reports</ADButton>
-          <ADButton type='primary'>Student Reports</ADButton>
+          <ADButton type='primary'>Edit Grades</ADButton>
+          <ADButton type='primary'>Export Grades Reports</ADButton>
+          <ADButton type='primary'>Assignment Report</ADButton>
         </Space>
       </div>
       <div className='mx-4 border border-solid border-t-0' />
@@ -160,154 +168,170 @@ function AssignmentDetailsPage() {
             </Row>
           }
           itemLayout='horizontal'
-          dataSource={data}
+          dataSource={assignmentScore}
           bordered
-          renderItem={(item) => (
-            <List.Item>
-              <Row gutter={[0, 16]} className='w-full'>
-                <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
-                  <Row gutter={16} className='w-full'>
-                    <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
-                      <ADImage alt='cover-img' src={dummyImage} className='w-full aspect-[80px/100px] object-cover rounded max-w-[100px]' />
-                    </Col>
-                    <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
-                      <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
-                        <div className='font-medium'>{item.title}</div>
-                        <div className='font-normal text-gray-400'>Description</div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xl={8} lg={8} md={8} sm={10} xs={8} className='flex justify-center items-center'>
-                  <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 1
+          renderItem={(item) => {
+            const test = item?.AssignmentGrades;
+            return (
+              <List.Item>
+                <Row gutter={[0, 16]} className='w-full'>
+                  <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
+                    <Row gutter={16} className='w-full'>
+                      <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
+                        <ADImage alt='cover-img' src={item?.avatar || dummyImage} className='w-full aspect-[40px/100px] object-cover rounded max-w-[80px]' />
+                      </Col>
+                      <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
+                        <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
+                          <div className='font-medium'>{item?.student_name}</div>
+                          {/* <div className='font-normal text-gray-400'>Description</div> */}
+                        </div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xl={8} lg={8} md={8} sm={10} xs={8} className='flex justify-center items-center'>
+                    <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 1
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 1
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <div>TIME</div>
+                        <div>{item?.time.length > 0 ? moment(item?.time?.[0]).format('hh:mm') : 0}</div>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 4
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 2
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <div className='flex pb-1'>
+                          <FaCheck className='text-slate-400' />
+                        </div>
+                        <div className='font-bold'>{item?.totalCorrectAnswer}</div>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 5
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 3
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <div className='flex pb-1'>
+                          <FaTimes className='text-slate-400' />
+                        </div>
+                        <div className='font-bold'>{item?.totalWrongAnswer}</div>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 6
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 4
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <div className='flex pb-1'>
+                          <BsThreeDots className='text-slate-400' />
+                        </div>
+                        <div className='font-bold'>{item?.totalBlankAnswer}</div>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 2
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 5
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <div className=''>SCORE</div>
+                        <div className='font-bold'>{`${item?.averagePercentage}%`}</div>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={{
+                          span: 8,
+                          order: 3
+                        }}
+                        xl={{
+                          span: 4,
+                          order: 6
+                        }}
+                        className='flex flex-col justify-center items-center'
+                      >
+                        <Progress type='circle' width={50} percent={item?.averagePercentage} status='none' />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
+                    <Badge
+                      count={item?.AssignmentGrades?.[0]?.title}
+                      style={{
+                        backgroundColor: item.AssignmentGrades?.[0]?.color || '#52c41a',
+                        padding: '0 10px'
                       }}
-                      xl={{
-                        span: 4,
-                        order: 1
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <div>TIME</div>
-                      <div>03:21</div>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 4
-                      }}
-                      xl={{
-                        span: 4,
-                        order: 2
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <div className='flex pb-1'>
-                        <FaCheck className='text-slate-400' />
-                      </div>
-                      <div className='font-bold'>8</div>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 5
-                      }}
-                      xl={{
-                        span: 4,
-                        order: 3
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <div className='flex pb-1'>
-                        <FaTimes className='text-slate-400' />
-                      </div>
-                      <div className='font-bold'>8</div>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 6
-                      }}
-                      xl={{
-                        span: 4,
-                        order: 4
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <div className='flex pb-1'>
-                        <BsThreeDots className='text-slate-400' />
-                      </div>
-                      <div className='font-bold'>8</div>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 2
-                      }}
-                      xl={{
-                        span: 4,
-                        order: 5
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <div className=''>SCORE</div>
-                      <div className='font-bold'>75%</div>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={{
-                        span: 8,
-                        order: 3
-                      }}
-                      xl={{
-                        span: 4,
-                        order: 6
-                      }}
-                      className='flex flex-col justify-center items-center'
-                    >
-                      <Progress type='circle' width={50} percent={30} status='none' />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <Badge
-                    count={4}
-                    style={{
-                      backgroundColor: '#52c41a',
-                      padding: '0 10px'
-                    }}
-                  />
-                </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <div>
-                    <div>08/27/2022</div>
-                    <div>06:00 pm</div>
-                  </div>
-                </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <ADButton type='text' onClick={setModal}>
-                    <div className='flex'>
-                      <FaChartLine className='text-gray-400 text-2xl' />
+                    />
+                  </Col>
+                  <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
+                    <div>
+                      {item?.submittedDate.length > 0 ? (
+                        <>
+                          <div>{moment(item?.submittedDate[0]).format('DD/MM/YYYY')}</div>
+                          <div>{moment(item?.submittedDate[0]).format('hh:mm a')}</div>
+                        </>
+                      ) : (
+                        <span
+                          style={{
+                            color: 'red',
+                            textTransform: 'uppercase'
+                          }}
+                        >
+                          Not Submitted
+                        </span>
+                      )}
                     </div>
-                  </ADButton>
-                </Col>
-              </Row>
-            </List.Item>
-          )}
+                  </Col>
+                  <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
+                    <ADButton type='text' onClick={setModal}>
+                      <div className='flex'>
+                        <FaChartLine className='text-gray-400 text-2xl' />
+                      </div>
+                    </ADButton>
+                  </Col>
+                </Row>
+              </List.Item>
+            );
+          }}
         />
       </div>
     </MainLayout>
