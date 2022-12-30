@@ -1,33 +1,78 @@
+import React, { useEffect, useState } from 'react';
 import { Typography } from 'antd';
-import React from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import printIcon from '../../assets/images/icons/print.png';
 import folderIcon from '../../assets/images/icons/folder.png';
 import assignIcon from '../../assets/images/icons/assign.png';
 import shareIcon from '../../assets/images/icons/share.png';
 import ADImage from '../antd/ADImage';
+import ADButton from '../antd/ADButton';
+import { createCollection, getCollections, updateCollection } from '../../app/features/collection/collectionSlice';
+import AddToCollectionModal from '../modals/AddToCollectionModal';
 
 function FileUtils({ show = false }) {
+  const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+
+  const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const addToCollectionHandler = () => {
+    // dispatch(updateCollection(selectedWorksheets));
+    setIsCollectionModalOpen(true);
+  };
+
+  const onCollectionOkHandler = () => {
+    setIsCollectionModalOpen(false);
+  };
+
+  const showCollectionModal = () => {
+    dispatch(getCollections());
+    setIsCollectionModalOpen(true);
+  };
+
+  const handleCollectionModalOk = (val) => {
+    if (val) {
+      const data = {
+        title: val,
+        favorite: false,
+        content: selectedWorksheets,
+        added_by: user?.data?.user?._id
+      };
+      dispatch(createCollection(data));
+      dispatch(updateCollection());
+      setIsCollectionModalOpen(false);
+      setRerender(Math.random());
+    }
+  };
+
+  const handleCollectionModalCancel = () => {
+    setIsCollectionModalOpen(false);
+  };
+
+  const addToCollection = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onShow={showCollectionModal} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+
   return (
     <div className={`w-full fixed ${show ? 'show-print-box' : 'hide-print-box'} h-[54px] text-center block flex items-center justify-center bottom-print`}>
+      {addToCollection}
       <div className='w-full max-w-[536px] flex h-[54px] bg-blue-800 rounded-[27px] items-center justify-center px-[30px]'>
         <div className='w-full h-full flex flex-row justify-between'>
-          <div className='border-white flex items-center justify-center gap-[10px]'>
+          <ADButton type='text' className='!p-0 gap-[10px]'>
             <ADImage src={printIcon} alt='print' />
             <Typography.Text className='font-normal text-white'>PRINT</Typography.Text>
-          </div>
-          <div className='border-white flex items-center justify-center gap-[10px]'>
-            <ADImage src={assignIcon} alt='print' />
+          </ADButton>
+          <ADButton type='text' className='!p-0 gap-[10px]'>
+            <ADImage src={assignIcon} alt='assign' />
             <Typography.Text className='font-normal text-white'>ASSIGN</Typography.Text>
-          </div>
-          <div className='border-white flex items-center justify-center gap-[10px]'>
-            <ADImage src={folderIcon} alt='print' />
+          </ADButton>
+          <ADButton type='text' className='!p-0 gap-[10px]' onClick={addToCollectionHandler}>
+            <ADImage src={folderIcon} alt='addToCollection' />
             <Typography.Text className='font-normal text-white'>ADD TO COLLECTION</Typography.Text>
-          </div>
-          <div className='border-white flex items-center justify-center gap-[10px]'>
-            <ADImage src={shareIcon} alt='print' />
+          </ADButton>
+          <ADButton type='text' className='!p-0 gap-[10px]'>
+            <ADImage src={shareIcon} alt='share' />
             <Typography.Text className='font-normal text-white'>SHARE</Typography.Text>
-          </div>
+          </ADButton>
         </div>
       </div>
     </div>

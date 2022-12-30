@@ -2,11 +2,9 @@ import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ADButton from '../../components/antd/ADButton';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
-import { newWorksheet } from '../../app/features/home/homepageSlice';
 
 function SearchResult() {
   const { user } = useSelector((state) => state.auth);
@@ -131,7 +129,7 @@ function SearchResult() {
               <Typography.Text className='font-bold'>{`${worksheets?.length ?? 0} resources found`}</Typography.Text>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} cardData={item} cardImage={item.thumbnail} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+              {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
           </Row>
         </div>

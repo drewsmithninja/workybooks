@@ -21,10 +21,10 @@ function AddStudentsModal({ onOk, ...props }) {
   ];
 
   return (
-    <ADModal centered width={670} footer={false} onOk={onOk} afterClose={() => setCurrent(0)} {...props}>
+    <ADModal centered footer={false} onOk={onOk} afterClose={() => setCurrent(0)} {...props}>
       <ADSteps items={items} current={1} />
       <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content max-w-[420px]'>{items[current].content}</div>
+        <div className='steps-content'>{items[current].content}</div>
       </div>
     </ADModal>
   );

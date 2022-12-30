@@ -4,7 +4,7 @@ import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { collectionDetail } from '../../app/features/library/librarypageSlice';
+import { getCollection } from '../../app/features/collection/collectionSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
 import shareIcon from '../../assets/images/icons/share_gray.png';
@@ -25,7 +25,7 @@ function MyCollection() {
   useEffect(() => {
     if (user) {
       dispatch(
-        collectionDetail({
+        getCollection({
           id
         })
       );
@@ -79,7 +79,7 @@ function MyCollection() {
         </Row>
       </div>
       <div className='px-8'>
-        <div className='flex flex-row flex-wrap'>{worksheetList?.length && worksheetList.map((item) => <CardComponent setRerender={setRerender} likeStatus={item.likes.isLike} key={Math.random()} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)}</div>
+        <div className='flex flex-row flex-wrap'>{worksheetList?.length && worksheetList.map((item) => <CardComponent setRerender={setRerender} key={Math.random()} item={item} cardWidth={215} />)}</div>
       </div>
     </MainLayout>
   );

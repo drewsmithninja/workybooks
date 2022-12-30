@@ -29,14 +29,15 @@ function StudentDashboard() {
   useEffect(() => {
     const cs = students?.list.find((item) => item._id === id);
     dispatch(setStudent(cs));
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   }, []);
 
   const onStudentChangeHandler = (e) => {
     const cs = students?.list.find((item) => item._id === e);
     dispatch(setStudent(cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    console.log(currentStudent?._id);
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   };
 
   const showEditStudentModal = (data) => {

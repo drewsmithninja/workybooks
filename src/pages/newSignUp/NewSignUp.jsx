@@ -50,6 +50,7 @@ function NewSignUp() {
 
   const onResendHandler = () => {
     setShowResend(false);
+    //
     setTimeout(() => {
       setShowResend(true);
     }, 10000);
@@ -63,7 +64,7 @@ function NewSignUp() {
   };
 
   const onFinishFailed = () => {
-    toast.error('Something Wrong!, Not able to Register your account!');
+    toast.error('Please fill the required fields!');
   };
 
   return (
@@ -215,59 +216,31 @@ function NewSignUp() {
               </Row>
               <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
                 <Col span={24} className='!pr-0 !pl-0'>
-                  <Form.Item
-                    name='schoolName'
-                    label={false}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your school name!',
-                        whitespace: true
-                      }
-                    ]}
-                  >
+                  <Form.Item name='schoolName' label={false}>
                     <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
                 <Col span={12} className='!pl-[0px]'>
-                  <Form.Item
-                    label={false}
-                    name='state'
-                    rules={[
-                      {
-                        type: 'text'
-                      },
-                      {
-                        required: true,
-                        message: 'Please input your state!'
-                      }
-                    ]}
-                  >
+                  <Form.Item label={false} name='state'>
                     <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
                   </Form.Item>
                 </Col>
                 <Col span={12} className='!pr-0'>
-                  <Form.Item
-                    label={false}
-                    name='city'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your city!',
-                        whitespace: true
-                      }
-                    ]}
-                  >
+                  <Form.Item label={false} name='city'>
                     <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={isLoading}>
-                  {isLoading ? <Spinner /> : 'Sign Up'}
-                </ADButton>
+                <Form.Item shouldUpdate className='w-full'>
+                  {() => (
+                    <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0 || isLoading}>
+                      {isLoading ? <Spinner /> : 'Sign Up'}
+                    </ADButton>
+                  )}
+                </Form.Item>
                 <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
                   By signing up I agree to Workybooks
                   <Link to='/' className='ml-[5px]'>
