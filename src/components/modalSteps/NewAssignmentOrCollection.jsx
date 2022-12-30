@@ -6,10 +6,9 @@ import ADTitle from '../antd/ADTitle';
 import { updateCollection } from '../../app/features/collection/collectionSlice';
 import ADImage from '../antd/ADImage';
 
-function NewAssignmentOrCollection({ assign, onCreate, cardData, closeModal }) {
+function NewAssignmentOrCollection({ assign, onOk, item, closeModal }) {
+  const collections = useSelector((state) => state.collection.collections?.list);
   const [inputVal, setInputVal] = useState();
-  const { myCollectionData } = useSelector((state) => state.library);
-  const myCollectionList = myCollectionData?.list;
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -17,13 +16,13 @@ function NewAssignmentOrCollection({ assign, onCreate, cardData, closeModal }) {
   };
 
   const onCreateCollection = (e) => {
-    onCreate(inputVal);
+    onOk(inputVal);
   };
 
   const addCollectionHandler = (e) => {
     const data = {
       collectionId: e,
-      worksheetId: cardData?._id,
+      worksheetId: item?._id,
       favorite: false
     };
     dispatch(updateCollection(data));
@@ -37,8 +36,8 @@ function NewAssignmentOrCollection({ assign, onCreate, cardData, closeModal }) {
       </ADTitle>
       <Row className='pb-8'>
         <Col xs={24} sm={8}>
-          <div className='h-auto w-[200px] rounded-lg overflow-hidden'>
-            <ADImage src={cardData?.thumbnail} alt='thumbnail-worksheet-img' className='w-full object-cover aspect-[3/4]' />
+          <div className='rounded-lg overflow-hidden'>
+            <ADImage src={item?.thumbnail} alt='thumbnail-worksheet-img' className='w-full object-cover aspect-[3/4]' />
           </div>
         </Col>
         <Col xs={24} sm={16}>
@@ -59,14 +58,14 @@ function NewAssignmentOrCollection({ assign, onCreate, cardData, closeModal }) {
               {`Add to existing ${assign ? 'Assignment' : 'Collection'}`}
             </ADTitle>
             <div className='max-h-56 overflow-y-auto'>
-              {myCollectionList?.length &&
-                myCollectionList.map((item) => (
-                  <Row key={item._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addCollectionHandler(item._id)}>
+              {collections?.length &&
+                collections.map((i) => (
+                  <Row key={i._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addCollectionHandler(i._id)}>
                     <Col flex='none'>
                       <div className='bg-slate-300 h-auto w-[75px] aspect-[4/3] rounded-lg' />
                     </Col>
                     <Col xs={24} flex='auto' className='flex items-center'>
-                      {item.title}
+                      {i.title}
                     </Col>
                   </Row>
                 ))}

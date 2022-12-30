@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -44,7 +44,6 @@ function NewSignIn() {
   const onFinishFailed = () => {
     toast.error('Something Wrong!, Not able to login!');
   };
-
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -116,10 +115,12 @@ function NewSignIn() {
             </Form.Item>
             <Link to='/forgot-password'>Forgot your password?</Link>
           </div>
-          <Form.Item>
-            <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
-              Sign In
-            </ADButton>
+          <Form.Item shouldUpdate>
+            {() => (
+              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                Log in
+              </ADButton>
+            )}
           </Form.Item>
         </Form>
       </div>

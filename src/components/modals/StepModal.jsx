@@ -25,7 +25,7 @@ function StepModal({ nextStep, prevStep, currentStep, ...props }) {
   ];
 
   return (
-    <Modal className='rounded-xl' centered width={670} footer={false} {...props}>
+    <Modal className='rounded-xl' centered footer={false} {...props}>
       <ADTitle level={3} className='text-center text-danger pb-8'>
         Create New Assign Activities
       </ADTitle>

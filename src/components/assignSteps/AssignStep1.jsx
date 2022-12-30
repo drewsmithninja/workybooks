@@ -1,10 +1,11 @@
+/* eslint-disable implicit-arrow-linebreak */
 import { useState } from 'react';
 import { Modal, Upload, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
 
-export default function AssignStep1() {
+export default function AssignStep1({ next }) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -28,12 +29,13 @@ export default function AssignStep1() {
       status: 'error'
     }
   ]);
-  const getBase64 = (file) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -72,20 +74,15 @@ export default function AssignStep1() {
 
   return (
     <div className='mt-1'>
-      <div style={{
-        minHeight: '300px'
-      }}
+      <div
+        style={{
+          minHeight: '300px'
+        }}
       >
         <ADTitle level={5} className='text-center pb-2'>
           3 Items selected
         </ADTitle>
-        <Upload
-          action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-          listType='picture-card'
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-        >
+        <Upload action='https://www.mocky.io/v2/5cc8019d300000980a055e76' listType='picture-card' fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
           {fileList?.length >= 8 ? null : uploadButton}
         </Upload>
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>

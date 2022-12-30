@@ -1,6 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect } from 'react';
-import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
+import { Badge, Col, List, Progress, Row, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -27,14 +27,15 @@ function StudentDashboard() {
   useEffect(() => {
     const cs = students?.list.find((item) => item._id === id);
     dispatch(setStudent(cs));
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   }, []);
 
   const onStudentChangeHandler = (e) => {
     const cs = students?.list.find((item) => item._id === e);
     dispatch(setStudent(cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    console.log(currentStudent?._id);
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   };
 
   const studentsOptions = students?.list?.length ?
