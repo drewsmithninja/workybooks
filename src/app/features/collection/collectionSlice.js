@@ -2,18 +2,25 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import collectionAPI from '../../api/collectionApi';
 
 const initialState = {
-  collectionInfo: null,
+  collections: null,
+  favoriteCollections: null,
+  currentCollection: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: ''
 };
 
-// List new worksheet
-// eslint-disable-next-line no-shadow
-export const createCollection = createAsyncThunk('collection/createCollection', async (collectionData, thunkAPI) => {
+// getCollections done
+// getCollection done
+// getFavoriteCollection done
+// createCollection done
+// updateCollection done
+// deleteCollection
+
+export const getCollections = createAsyncThunk('library/getCollections', async (data, thunkAPI) => {
   try {
-    const response = await collectionAPI.createCollection(collectionData);
+    const response = await collectionAPI.getCollections(data);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -21,9 +28,39 @@ export const createCollection = createAsyncThunk('collection/createCollection', 
   }
 });
 
-export const updateCollection = createAsyncThunk('collection/updateCollection', async (updateCollectionData, thunkAPI) => {
+export const getFavoriteCollections = createAsyncThunk('library/getFavoriteCollections', async (thunkAPI) => {
   try {
-    const response = await collectionAPI.updateCollection(updateCollectionData);
+    const response = await collectionAPI.getFavoriteCollections();
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const getCollection = createAsyncThunk('library/getCollection', async (data, thunkAPI) => {
+  try {
+    const response = await collectionAPI.getCollection(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const createCollection = createAsyncThunk('collection/createCollection', async (data, thunkAPI) => {
+  try {
+    const response = await collectionAPI.createCollection(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateCollection = createAsyncThunk('collection/updateCollection', async (data, thunkAPI) => {
+  try {
+    const response = await collectionAPI.updateCollection(data);
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
@@ -46,20 +83,61 @@ export const collectionSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      // new Workybook List cases
+      .addCase(getCollections.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCollections.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.collections = action.payload;
+      })
+      .addCase(getCollections.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.collections = null;
+      })
+      .addCase(getFavoriteCollections.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFavoriteCollections.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.favoriteCollections = action.payload;
+      })
+      .addCase(getFavoriteCollections.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.favoriteCollections = null;
+      })
+      .addCase(getCollection.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCollection.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.currentCollection = action.payload;
+      })
+      .addCase(getCollection.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.currentCollection = null;
+      })
       .addCase(createCollection.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createCollection.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.collectionInfo = action.payload;
+        state.currentCollection = action.payload;
       })
       .addCase(createCollection.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.collectionInfo = null;
+        state.currentCollection = null;
       })
       // update workybook list
       .addCase(updateCollection.pending, (state) => {
@@ -68,13 +146,13 @@ export const collectionSlice = createSlice({
       .addCase(updateCollection.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.collectionInfo = action.payload;
+        state.currentCollection = action.payload;
       })
       .addCase(updateCollection.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.collectionInfo = null;
+        state.currentCollection = null;
       })
       // update workybook list likes
       .addCase(updateCollectionLike.pending, (state) => {
@@ -83,13 +161,13 @@ export const collectionSlice = createSlice({
       .addCase(updateCollectionLike.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.collectionInfo = action.payload;
+        state.currentCollection = action.payload;
       })
       .addCase(updateCollectionLike.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.collectionInfo = null;
+        state.currentCollection = null;
       });
   }
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Typography } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ export default function VerifyEmail() {
             </Typography.Title>
             {isError && (
               <ADTitle level={4}>
-                Your email is verified. Please visit Dashboard
+                Your email is already verified. Please visit Dashboard
                 <Link to='/'>{' here'}</Link>
               </ADTitle>
             )}

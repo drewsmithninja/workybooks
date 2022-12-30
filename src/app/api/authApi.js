@@ -20,6 +20,18 @@ const verifyEmail = async (id) => {
   return response.data;
 };
 
+const reVerifyEmail = async (id) => {
+  const response = await axios.post(`${API_URL}/auth/resend-verification-email`, id, {
+    headers: {
+      authorization: id
+    }
+  });
+  if (await response.data) {
+    localStorage.setItem('user', JSON.stringify(await response.data));
+  }
+  return response.data;
+};
+
 const login = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/login`, userData);
   if (response.data) {

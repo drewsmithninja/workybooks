@@ -42,7 +42,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   };
 
   return (
-    <ADModal forceRender centered width={670} footer={false} onCancel={onCancel} {...props}>
+    <ADModal forceRender centered footer={false} onCancel={onCancel} {...props}>
       <ADTitle level={2} className='text-center'>
         Edit Student
       </ADTitle>
