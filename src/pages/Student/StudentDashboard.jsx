@@ -1,5 +1,5 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Badge, Col, List, Progress, Row, Select, Space } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
@@ -14,11 +14,13 @@ import ADImage from '../../components/antd/ADImage';
 import ADSelect from '../../components/antd/ADSelect';
 import { setStudent } from '../../app/features/students/studentsSlice';
 import { getSubmittedAssignments } from '../../app/features/assignment/assignmentSlice';
+import EditStudentModal from '../../components/modals/EditStudentModal';
 
 function StudentDashboard() {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent, students } = useSelector((state) => state.students);
   const { submittedAssignments } = useSelector((state) => state.assignment);
+  const [showEditStudent, setShowEditStudent] = useState(false);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -27,15 +29,31 @@ function StudentDashboard() {
   useEffect(() => {
     const cs = students?.list.find((item) => item._id === id);
     dispatch(setStudent(cs));
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   }, []);
 
   const onStudentChangeHandler = (e) => {
     const cs = students?.list.find((item) => item._id === e);
     dispatch(setStudent(cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    dispatch(getSubmittedAssignments(currentStudent?.student?._id));
+    console.log(currentStudent?._id);
+    dispatch(getSubmittedAssignments(currentStudent?._id));
   };
+
+  const showEditStudentModal = (data) => {
+    dispatch(setStudent(data));
+    setShowEditStudent(true);
+  };
+
+  const handleEditStudentOk = () => {
+    setShowEditStudent(false);
+  };
+
+  const handleEditStudentCancel = () => {
+    setShowEditStudent(false);
+  };
+
+  const editStudentModal = <EditStudentModal closable={false} open={showEditStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
 
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
@@ -72,6 +90,7 @@ function StudentDashboard() {
 
   return (
     <MainLayout>
+      {editStudentModal}
       <div className='px-4 py-8 w-full flex justify-between'>
         <Space size='large'>
           <div className='flex flex-col'>
@@ -84,7 +103,9 @@ function StudentDashboard() {
           </div>
           <ADSelect className='w-40' defaultValue={studentsOptions[0]} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           <div className='flex'>
-            <FaPencilAlt className='text-gray-400 text-lg' />
+            <ADButton type='text' className='!p-0' onClick={() => showEditStudentModal(currentStudent)}>
+              <FaPencilAlt className='text-gray-400 text-lg' />
+            </ADButton>
           </div>
         </Space>
         <ADButton type='primary' className='h-fit'>
@@ -237,7 +258,7 @@ function StudentDashboard() {
                     }}
                   />
                 </Col>
-                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex flex-col justify-center'>
+                <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex flex-col justify-center items-center'>
                   <div>{moment(item?.dt_added).format('MM/DD/YYYY')}</div>
                   <div>{moment(item?.dt_added).format('hh:mm a')}</div>
                 </Col>

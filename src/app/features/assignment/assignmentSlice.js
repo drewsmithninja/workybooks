@@ -71,7 +71,7 @@ export const assignmentSlice = createSlice({
       .addCase(getAssignments.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.assignments = action.payload;
+        state.assignments = action.payload.list;
       })
       .addCase(getAssignments.rejected, (state, action) => {
         state.isLoading = false;
@@ -97,7 +97,7 @@ export const assignmentSlice = createSlice({
       .addCase(getAssignmentsByStatus.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.assignmentsByStatus = action.payload;
+        state.assignments = action.payload.assignment;
       })
       .addCase(getAssignmentsByStatus.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -156,10 +156,12 @@ function NewSignIn() {
             </Form.Item>
             <Link to='/forgot-password'>Forgot your password?</Link>
           </div>
-          <Form.Item>
-            <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
-              Sign In
-            </ADButton>
+          <Form.Item shouldUpdate>
+            {() => (
+              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                Log in
+              </ADButton>
+            )}
           </Form.Item>
         </Form>
       </div>

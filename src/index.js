@@ -12,6 +12,7 @@ import './styles.less';
 const persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+window.document.title = 'Workybooks App — Home';
 root.render(
   // <React.StrictMode>
   <Provider store={store}>

@@ -82,10 +82,12 @@ function ForgotPassword() {
           >
             <Input placeholder='Email' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
           </Form.Item>
-          <Form.Item>
-            <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto'>
-              Submit
-            </ADButton>
+          <Form.Item shouldUpdate>
+            {() => (
+              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                Submit
+              </ADButton>
+            )}
           </Form.Item>
         </Form>
       </div>

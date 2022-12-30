@@ -97,13 +97,13 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   ];
   return (
     <>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
+      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
         <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
       </Modal>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
+      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
         <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
       </Modal>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
+      <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities
         </ADTitle>

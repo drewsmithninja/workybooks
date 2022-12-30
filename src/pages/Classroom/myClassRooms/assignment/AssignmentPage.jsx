@@ -1,6 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable camelcase */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, List, Row, Segmented, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ function AssignmentPage() {
   const onSegmentChangeHandler = async (e) => {
     if (e) {
       dispatch(
-        getAssignmentsByStatus({
+        getAssignmentsByStatus(await {
           classId: currentClass?._id,
           status: e
         })
@@ -83,7 +83,7 @@ function AssignmentPage() {
             </Row>
           )}
           itemLayout='horizontal'
-          dataSource={assignments?.list || []}
+          dataSource={assignments || []}
           bordered
           renderItem={(item) => <AssignmentItem item={item} />}
         />

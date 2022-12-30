@@ -1,7 +1,6 @@
-import { Col, Menu, Modal, Row, Select, Space, Steps, Tabs, Typography } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { batch, useDispatch, useSelector } from 'react-redux';
-import { favoriteData, collectionList, recentList } from '../../app/features/library/librarypageSlice';
+import { Col, Modal, Row, Select, Space, Steps, Tabs, Typography } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import MainLayout from '../../components/layout/MainLayout';
 import sortIcon from '../../assets/images/icons/sort.png';
 import CardComponent from '../../components/common/CardComponent';
@@ -12,10 +11,14 @@ import AssignStep1 from '../../components/assignSteps/AssignStep1';
 import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
-import { updateCollection, updateCollectionLike } from '../../app/features/collection/collectionSlice';
+import { getCollections, getFavoriteCollections, updateCollectionLike } from '../../app/features/collection/collectionSlice';
 import ADImage from '../../components/antd/ADImage';
+import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
 
 function MyLibrary() {
+  const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
+  const collections = useSelector((state) => state.collection.collections?.list);
+  const recentCollections = useSelector((state) => state.worksheet?.recentCollections?.list);
   const user = localStorage.getItem('user');
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
@@ -24,9 +27,6 @@ function MyLibrary() {
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
-  const { favoriteList, recentData } = useSelector((state) => state.library);
-  const myCollectionData = useSelector((state) => state.library.myCollectionData);
-  const myCollection = myCollectionData?.list;
   const { Step } = Steps;
 
   const collectionFavHandler = async (e) => {
@@ -41,9 +41,9 @@ function MyLibrary() {
   useEffect(() => {
     if (user) {
       dispatch(updateCollectionLike());
-      dispatch(recentList());
-      dispatch(favoriteData());
-      dispatch(collectionList());
+      dispatch(getRecentWorksheets());
+      dispatch(getFavoriteCollections());
+      dispatch(getCollections());
     }
   }, [rerender]);
 
@@ -96,8 +96,8 @@ function MyLibrary() {
   ];
   const collectionTab = (
     <Row gutter={[16, 16]}>
-      {myCollection?.length ? (
-        myCollection?.map((item) => (
+      {collections?.length ? (
+        collections?.map((item) => (
           <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
             <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
           </Col>
@@ -114,8 +114,8 @@ function MyLibrary() {
     <>
       <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
       <Row gutter={[16, 16]} className='py-4'>
-        {myCollection?.length ? (
-          myCollection
+        {collections?.length ? (
+          collections
             ?.filter((item) => item.favorite)
             ?.map((item) => (
               <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
@@ -130,8 +130,8 @@ function MyLibrary() {
       </Row>
       <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
       <div className='flex flex-row flex-wrap'>
-        {favoriteList?.list?.length ? (
-          favoriteList?.list.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
+        {favoriteCollections?.length ? (
+          favoriteCollections.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
         ) : (
           <ADTitle level={3} className='px-2 py-20 rounded-xl'>
             No any favorites Worksheets
@@ -143,8 +143,8 @@ function MyLibrary() {
 
   const recentTab = (
     <div className='flex flex-row flex-wrap'>
-      {recentData?.list?.length ? (
-        recentData?.list?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} cardData={item} cardImage={item.thumbnail} cardWidth={215} />)
+      {recentCollections?.length ? (
+        recentCollections?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
       ) : (
         <ADTitle level={3} className='px-2 py-20 rounded-xl'>
           No any recent Worksheets
@@ -179,18 +179,18 @@ function MyLibrary() {
       dispatch(favoriteData());
     } else if (e === 'recent') {
       setCurrentTab(e);
-      dispatch(recentList());
+      dispatch(getRecentWorksheets());
     }
   };
   return (
     <MainLayout>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
+      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
         <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
       </Modal>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
+      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
         <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
       </Modal>
-      <Modal className='rounded-xl' centered width={670} footer={false} open={isStepModalOpen}>
+      <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities
         </ADTitle>
