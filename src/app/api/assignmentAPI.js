@@ -70,6 +70,21 @@ const getAssignmentsByStudent = async (studentId) => {
   return response.data;
 };
 
+/* Get Student Assignment Detail */
+
+const getStudentAssignmentDetail = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+
+  const response = await axios.post(`${API_URL}/assignment/studentsAssignmentDetails`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  console.log('---response.data--->', response.data);
+  return response.data;
+};
+
 // reference
 // const createClass = async (classData) => {
 //   const response = await axios.post(`${API_URL}/classroom`, classData, {
@@ -84,7 +99,8 @@ const assignmentAPI = {
   getAssignments,
   getAssignmentsByStatus,
   getAssignmentsByStudent,
-  getSubmittedAssignments
+  getSubmittedAssignments,
+  getStudentAssignmentDetail
 };
 
 export default assignmentAPI;

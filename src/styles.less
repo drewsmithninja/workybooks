@@ -16,7 +16,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /** CSS Resets */
 * {
   scroll-behavior: smooth;
@@ -159,7 +158,7 @@ body {
   bottom: -125px;
 }
 .active-menu {
-  color: #243E8F;
+  color: #243e8f;
   font-weight: bold;
 }
 
@@ -169,8 +168,8 @@ body {
 }
 
 /* ant-list */
-.ant-list.with-header .ant-list-header{
-  background: #F9FAFB;
+.ant-list.with-header .ant-list-header {
+  background: #f9fafb;
   border-radius: 8px;
 }
 
@@ -178,11 +177,11 @@ body {
   font-family: 'Inter', sans-serif;
 }
 .activeSubject {
-  border-bottom: 8px solid #243E8F;
+  border-bottom: 8px solid #243e8f;
 }
 
 .activeSubject img {
-  border: 3px solid #243E8F 
+  border: 3px solid #243e8f;
 }
 
 .mobileFilterModal .ant-modal-content {
@@ -191,33 +190,32 @@ body {
 
 .ad-tabs {
   width: 100%;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .ad-tabs .ant-tabs-nav {
   border-color: black;
-  transition: .3s;
+  transition: 0.3s;
   border: 2px solid blue !important;
 }
 .ad-tabs .ant-tabs-nav-wrap {
   /* margin: 0 -1rem 0; */
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .ad-tabs .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-btn {
   padding: 0 1rem;
   min-width: 120px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .ad-tabs .ant-tabs-nav .ant-tabs-tab-active {
-  border-bottom: 4px solid #243E8F;
-  transition: .3s;
+  border-bottom: 4px solid #243e8f;
+  transition: 0.3s;
 }
 
-
 .ad-tabs .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #5470FF;
+  color: #5470ff;
   font-weight: bold;
 }
 
@@ -227,8 +225,8 @@ body {
 
 // steps components
 .ant-steps {
-  background-color: #D8EEFF;
-  padding: .5rem 1rem;
+  background-color: #d8eeff;
+  padding: 0.5rem 1rem;
   .ant-steps-item {
     .ant-steps-icon {
       font-weight: 600;
@@ -237,8 +235,8 @@ body {
     }
     &.ant-steps-item-process {
       .ant-steps-item-icon {
-        background: #6EBEFA;
-        border: 1px solid #6EBEFA;
+        background: #6ebefa;
+        border: 1px solid #6ebefa;
         .ant-steps-icon {
           color: black;
         }
@@ -295,11 +293,17 @@ body {
     position: absolute;
     top: 6px;
     left: 6px;
-
   }
   .ant-steps {
     &.hidden {
       display: none;
     }
   }
+}
+.layout .ant-modal-content {
+  border-radius: 0;
+}
+.layout .border-bottom {
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
 }

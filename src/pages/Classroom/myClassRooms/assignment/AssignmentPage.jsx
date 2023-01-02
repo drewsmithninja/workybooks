@@ -38,10 +38,12 @@ function AssignmentPage() {
   const onSegmentChangeHandler = async (e) => {
     if (e) {
       dispatch(
-        getAssignmentsByStatus(await {
-          classId: currentClass?._id,
-          status: e
-        })
+        getAssignmentsByStatus(
+          await {
+            classId: currentClass?._id,
+            status: e
+          }
+        )
       );
     } else {
       dispatch(getAssignments(await currentClass?._id));
@@ -60,7 +62,7 @@ function AssignmentPage() {
             onChange: (page) => {},
             pageSize: 10
           }}
-          header={(
+          header={
             <Row>
               <Col xl={6} md={6} sm={8} xs={10}>
                 <div className='text-center inter-font font-medium text-xs'>ASSIGNMENT TITLE</div>
@@ -81,11 +83,11 @@ function AssignmentPage() {
                 <div className='text-center inter-font font-medium text-xs'>AVG. SCORE</div>
               </Col>
             </Row>
-          )}
+          }
           itemLayout='horizontal'
           dataSource={assignments || []}
           bordered
-          renderItem={(item) => <AssignmentItem item={item} />}
+          renderItem={(item) => <AssignmentItem item={item} classId={currentClass?._id} />}
         />
       </Space>
     </div>

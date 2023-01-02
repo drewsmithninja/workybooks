@@ -39,7 +39,20 @@ const login = async (userData) => {
   }
   return response.data;
 };
-
+const googleLogin = async (userData) => {
+  const response = await axios.post(`${API_URL}/auth/loginWithGoogle`, userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
+};
+const googleRegister = async (userData) => {
+  const response = await axios.post(`${API_URL}/auth/registerWithGoogle`, userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
+};
 const forgotPassword = async (emailId) => {
   const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
   toast.success(response?.data?.message);
@@ -69,7 +82,9 @@ const authAPI = {
   forgotPassword,
   resetPassword,
   logout,
-  verifyEmail
+  verifyEmail,
+  googleLogin,
+  googleRegister
 };
 
 export default authAPI;
