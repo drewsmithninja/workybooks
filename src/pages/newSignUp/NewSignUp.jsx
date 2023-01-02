@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Col, Form, Input, Layout, Row, Typography } from 'antd';
 import { toast } from 'react-toastify';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 import Spinner from '../../components/spinner/Spinner';
-import { register, reset } from '../../app/features/auth/authSlice';
+import { register, reset, googleLogin } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -13,18 +15,19 @@ import ADCard from '../../components/antd/ADCard';
 import ADImage from '../../components/antd/ADImage';
 
 function NewSignUp() {
-  const { isLoading, isSuccess, isError, message } = useSelector((state) => state.auth);
+  const { isLoading, isSuccess, isError, message, isGoogle } = useSelector((state) => state.auth);
   const [isVerified, setIsVerified] = useState(false);
   const [successMessage, setSuccessMessage] = useState(message);
   const [showResend, setShowResend] = useState(false);
-
+  const [googleData, setGoogleData] = useState({
+  });
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const { Paragraph, Text } = Typography;
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const user = localStorage.getItem('user');
-
+  const nevigate = useNavigate();
   useEffect(() => {
     setShowResend(false);
     setTimeout(() => {
@@ -32,9 +35,15 @@ function NewSignUp() {
     }, 5000);
 
     if (isError) {
-      toast.error(message);
+      if (isGoogle) {
+        nevigate('/sign-up-google', {
+          state: googleData
+        });
+      } else {
+        toast.error(message);
+      }
     } else if (user) {
-      // navigate('/');
+      nevigate('/');
     }
     if (isSuccess) {
       setIsVerified(true);
@@ -67,6 +76,37 @@ function NewSignUp() {
     toast.error('Please fill the required fields!');
   };
 
+  const login = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      try {
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`
+          }
+        });
+        if (res) {
+          setGoogleData({
+            email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+          });
+          dispatch(googleLogin({
+            email: res?.data?.email
+          }));
+          // nevigate('/sign-up-google', {
+          //   state: {
+          //     email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+          //   }
+          // });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    onError: () => {
+      toast.error('Login Failed');
+    },
+    prompt: 'consent'
+  });
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -94,12 +134,10 @@ function NewSignUp() {
         {!isVerified ? (
           <>
             <div className='flex flex-col gap-[14px] pb-[37px]'>
-              <Link to='/sign-up-google'>
-                <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-                  <ADImage src={googleIcon} alt='googleIcon' className='w-[24px] mr-[8px]' />
-                  Sign up with Google Classroom
-                </ADButton>
-              </Link>
+              <ADButton onClick={() => { login(); }} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+                <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
+                Sign up with Google Classroom
+              </ADButton>
               <a href='https://clever.com/oauth/authorize?response_type=code&redirect_uri=http://localhost/3000&client_id=480d04a0aef0fd0fe7b6'>
                 <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
                   <ADImage src={cleverIcon} alt='cleverIcon' className='w-[24px] mr-[8px]' />

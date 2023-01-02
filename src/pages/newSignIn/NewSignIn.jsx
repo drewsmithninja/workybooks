@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Checkbox, Form, Input, Layout, Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, reset } from '../../app/features/auth/authSlice';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { login, reset, googleLogin } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -19,11 +21,18 @@ function NewSignIn() {
   const { Paragraph } = Typography;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { isLoading, isError, message } = useSelector((state) => state.auth);
+  const [googleData, setGoogleData] = useState({
+  });
+  const { isLoading, isError, message, isGoogle } = useSelector((state) => state.auth);
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      if (isGoogle) {
+        navigate('/sign-up-google', {
+          state: googleData
+        });
+      } else {
+        toast.error(message);
+      }
     } else if (user) {
       navigate('/', {
         replace: true
@@ -44,6 +53,38 @@ function NewSignIn() {
   const onFinishFailed = () => {
     toast.error('Something Wrong!, Not able to login!');
   };
+
+  const googleLoginEv = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      try {
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`
+          }
+        });
+        if (res) {
+          setGoogleData({
+            email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+          });
+          dispatch(googleLogin({
+            email: res?.data?.email
+          }));
+          // nevigate('/sign-up-google', {
+          //   state: {
+          //     email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+          //   }
+          // });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    onError: () => {
+      toast.error('Login Failed');
+    },
+    prompt: 'consent'
+  });
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -67,7 +108,7 @@ function NewSignIn() {
         </Typography.Title>
 
         <div className='flex flex-col gap-[14px] pb-[37px]'>
-          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+          <ADButton onClick={() => { googleLoginEv(); }} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
             <ADImage src={googleIcon} alt='googleIcon' className='w-[24px] mr-[8px]' />
             Sign in with Google Classroom
           </ADButton>
