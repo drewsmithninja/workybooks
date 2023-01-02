@@ -103,39 +103,15 @@ function AssignmentDetailsPage() {
             </div>
             <Space>
               {assignmentScore.map((item, index) => {
-                if (index === 3) return null;
+                console.log('----index---', index);
+                if (index >= 3) return null;
                 return <Avatar src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
               })}
-              {/* <Avatar.Group
-                maxCount={2}
-                maxPopoverTrigger='click'
-                size='large'
-                className='mt-5'
-                maxStyle={{
-                  color: '#f56a00',
-                  backgroundColor: '#fde3cf',
-                  cursor: 'pointer'
-                }}
-              >
-                <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
-                <Avatar
-                  style={{
-                    backgroundColor: '#f56a00'
-                  }}
-                >
-                  K
-                </Avatar>
-                <Avatar
-                  style={{
-                    backgroundColor: '#1890ff'
-                  }}
-                  icon={<AntDesignOutlined />}
-                />
-              </Avatar.Group> */}
-
-              <div>
-                <div className='font-bold text-xs'>+2 MORE</div>
-              </div>
+              {assignmentScore.length > 4 ? (
+                <div>
+                  <div className='font-bold text-xs'>+{assignmentScore.length - 3} MORE</div>
+                </div>
+              ) : null}
             </Space>
           </Col>
           <Col xl={7} className='border border-solid border-y-0 border-r-0'>
