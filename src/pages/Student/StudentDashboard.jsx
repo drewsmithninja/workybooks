@@ -29,15 +29,20 @@ function StudentDashboard() {
   useEffect(() => {
     const cs = students?.list.find((item) => item._id === id);
     dispatch(setStudent(cs));
-    dispatch(getSubmittedAssignments(currentStudent?._id));
+    dispatch(getSubmittedAssignments({
+      studentId: id,
+      classId: currentClass?._id
+    }));
   }, []);
 
   const onStudentChangeHandler = (e) => {
     const cs = students?.list.find((item) => item._id === e);
     dispatch(setStudent(cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    console.log(currentStudent?._id);
-    dispatch(getSubmittedAssignments(currentStudent?._id));
+    dispatch(getSubmittedAssignments({
+      studentId: e,
+      classId: currentClass?._id
+    }));
   };
 
   const showEditStudentModal = (data) => {
@@ -130,9 +135,9 @@ function StudentDashboard() {
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                       <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
-                        <div className='font-medium'>{item?.assignment?.[0]?.title}</div>
+                        <div className='font-medium'>{item?.title}</div>
                         <div className='font-normal text-gray-400 truncate'>
-                          {item?.contentScore?.content?.[0]?.stds_topic.map((topic, index) => (
+                          {item?.SubmittedAssignments?.contentScore?.content?.[0]?.stds_topic.map((topic, index) => (
                             <span key={index}>{`${topic}${index < item?.contentScore?.content?.[0]?.stds_topic.length - 1 ? ', ' : ''}`}</span>
                           ))}
                         </div>
@@ -245,7 +250,9 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       {/* <Progress type='circle' width={50} percent={30} status='none' /> */}
-                      <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} />
+                      {(item?.score) ?
+                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> :
+                        null}
                     </Col>
                   </Row>
                 </Col>
