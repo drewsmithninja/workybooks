@@ -16,12 +16,12 @@ function AssignmentItem({ item, classId }) {
   const dispatch = useDispatch();
 
   const onAssignMentClick = (e) => {
-    dispatch(
-      getStudentAssignmentDetail({
-        assignmentId: e?._id,
-        classId
-      })
-    );
+    // dispatch(
+    //   getStudentAssignmentDetail({
+    //     assignmentId: e?._id,
+    //     classId
+    //   })
+    // );
     navigate(`assignment/${e?._id}`);
   };
 
