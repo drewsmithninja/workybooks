@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import assignmentAPI from '../../api/assignmentAPI';
 
@@ -57,6 +58,7 @@ export const assignmentSlice = createSlice({
     assignmentsByStatus: [],
     assignmentsByStudents: [],
     studentAssignmentDetail: [],
+    studentAssignmentReportJson: [],
     submittedAssignments: [],
     status: '',
     currentAssignment: null,
@@ -134,6 +136,25 @@ export const assignmentSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.studentAssignmentDetail = action.payload;
+
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        const { assignmentScore } = action?.payload?.studentsAssignmentData?.[0];
+        let newJsonData = [];
+        assignmentScore.forEach((data) => {
+          const newObject = {
+            studentName: data?.student_name,
+            submittedDate: moment(data?.submittedDate?.[0]).format('DD/MM/YYYY hh:mm a') || 'N/A',
+            time: moment(data?.time?.[0]).format('hh:mm') || 'N/A',
+            totalCorrectAnswer: data?.totalCorrectAnswer,
+            totalWrongAnswer: data?.totalWrongAnswer,
+            totalBlankAnswer: data?.totalBlankAnswer,
+            averagePercentage: data?.averagePercentage,
+            assignmentGrade: 'F',
+            assignmentGradeColor: 'red'
+          };
+          newJsonData = [...newJsonData, newObject];
+        });
+        state.studentAssignmentReportJson = newJsonData;
       })
       .addCase(getStudentAssignmentDetail.rejected, (state, action) => {
         state.isLoading = false;
