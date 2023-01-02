@@ -12,41 +12,47 @@ import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 import ADImage from '../../components/antd/ADImage';
 import ADSelect from '../../components/antd/ADSelect';
+import Spinner from '../../components/spinner/Spinner';
 import { setStudent } from '../../app/features/students/studentsSlice';
 import { getSubmittedAssignments } from '../../app/features/assignment/assignmentSlice';
 import EditStudentModal from '../../components/modals/EditStudentModal';
+import ViewAssignmentReport from '../Classroom/myClassRooms/assignment/ViewAssignmentReport';
 
 function StudentDashboard() {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent, students } = useSelector((state) => state.students);
-  const { submittedAssignments } = useSelector((state) => state.assignment);
+  const { submittedAssignments, isLoading } = useSelector((state) => state.assignment);
   const [showEditStudent, setShowEditStudent] = useState(false);
+  const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log('state', currentStudent, currentClass);
 
   useEffect(() => {
-    const cs = students?.list.find((item) => item._id === id);
-    dispatch(setStudent(cs));
-    dispatch(getSubmittedAssignments({
-      studentId: id,
-      classId: currentClass?._id
-    }));
+    if (id) {
+      const cs = students?.list.find((item) => item._id === id);
+      dispatch(setStudent(cs));
+      dispatch(getSubmittedAssignments({
+        studentId: id,
+        classId: currentClass?._id
+      }));
+    }
   }, []);
 
-  const onStudentChangeHandler = (e) => {
-    const cs = students?.list.find((item) => item._id === e);
-    dispatch(setStudent(cs));
+  const onStudentChangeHandler = async (e) => {
+    const cs = await students?.list.find((item) => item._id === e);
+    await dispatch(setStudent(await cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    dispatch(getSubmittedAssignments({
+    await dispatch(getSubmittedAssignments(await {
       studentId: e,
       classId: currentClass?._id
     }));
   };
 
-  const showEditStudentModal = (data) => {
-    dispatch(setStudent(data));
+  const showEditStudentModal = async (data) => {
+    await dispatch(setStudent(data));
     setShowEditStudent(true);
   };
 
@@ -58,7 +64,12 @@ function StudentDashboard() {
     setShowEditStudent(false);
   };
 
+  const openWork = () => {
+    setModal(true);
+  };
+
   const editStudentModal = <EditStudentModal closable={false} open={showEditStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
+  const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
@@ -93,9 +104,12 @@ function StudentDashboard() {
     </Row>
   );
 
-  return (
+  return isLoading ? (
+    <Spinner full />
+  ) : (
     <MainLayout>
       {editStudentModal}
+      {ViewAssignmentReportModal}
       <div className='px-4 py-8 w-full flex justify-between'>
         <Space size='large'>
           <div className='flex flex-col'>
@@ -106,7 +120,7 @@ function StudentDashboard() {
               <ADTitle level={2}>Student</ADTitle>
             </div>
           </div>
-          <ADSelect className='w-40' defaultValue={studentsOptions[0]} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
+          <ADSelect className='w-40' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           <div className='flex'>
             <ADButton type='text' className='!p-0' onClick={() => showEditStudentModal(currentStudent)}>
               <FaPencilAlt className='text-gray-400 text-lg' />
@@ -161,7 +175,7 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       <div>TIME</div>
-                      <div>{moment(item?.dt_added).format('hh:mm')}</div>
+                      <div>{item?.submittedDate ? moment(item?.submittedDate).format('hh:mm') : '-'}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -179,7 +193,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <FaCheck className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>{item?.currectAnswer}</div>
+                      <div className='font-bold'>{item?.currectAnswer || '-'}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -197,7 +211,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <FaTimes className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>{item?.wrongAnswer}</div>
+                      <div className='font-bold'>{item?.wrongAnswer || '-'}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -215,7 +229,7 @@ function StudentDashboard() {
                       <div className='flex pb-1'>
                         <BsThreeDots className='text-slate-400' />
                       </div>
-                      <div className='font-bold'>{item?.blankAnswer}</div>
+                      <div className='font-bold'>{item?.blankAnswer || '-'}</div>
                     </Col>
                     <Col
                       xs={12}
@@ -266,13 +280,26 @@ function StudentDashboard() {
                   />
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex flex-col justify-center items-center'>
-                  <div>{moment(item?.dt_added).format('MM/DD/YYYY')}</div>
-                  <div>{moment(item?.dt_added).format('hh:mm a')}</div>
+                  {item?.submittedDate ? (
+                    <>
+                      <div>{moment(item?.submittedDate).format('MM/DD/YYYY')}</div>
+                      <div>{moment(item?.submittedDate).format('hh:mm a')}</div>
+                    </>
+                  ) : (
+                    <span style={{
+                      color: 'red'
+                    }}
+                    >
+                      NOT SUBMITED
+                    </span>
+                  )}
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <div className='flex'>
-                    <FaChartLine className='text-gray-400 text-2xl' />
-                  </div>
+                  <ADButton type='text' onClick={() => openWork()}>
+                    <div className='flex'>
+                      <FaChartLine className='text-gray-400 text-2xl' />
+                    </div>
+                  </ADButton>
                 </Col>
               </Row>
             </List.Item>

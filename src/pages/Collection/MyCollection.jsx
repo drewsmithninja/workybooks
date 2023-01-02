@@ -17,9 +17,10 @@ function MyCollection() {
   const authToken = user?.payload?.verification?.token;
   const { id } = useParams();
   const [rerender, setRerender] = useState(0);
-  const { collectionDetailsList } = useSelector((state) => state.library);
-  const collectionInfo = collectionDetailsList;
-  const worksheetList = collectionDetailsList?.content || [];
+  const { currentCollection } = useSelector((state) => state.collection);
+  const collectionInfo = currentCollection;
+  const worksheetList = collectionInfo?.content || [];
+  console.log('list', collectionInfo);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -42,7 +43,13 @@ function MyCollection() {
             </ADButton>
             <ADTitle level={3}>{collectionInfo?.title}</ADTitle>
             <div className='py-3 flex text-xs'>
-              <div className='pr-16'>By Mrs. Biries</div>
+              <div className='pr-16'>
+                By Mrs.
+                {' '}
+                {collectionInfo?.added_by?.firstName}
+                {' '}
+                {collectionInfo?.added_by?.lastName}
+              </div>
               <div>{`${worksheetList?.length} Worksheets`}</div>
             </div>
             <Space size='large' className='pt-1'>
