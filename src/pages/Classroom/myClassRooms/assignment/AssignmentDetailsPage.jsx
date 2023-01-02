@@ -22,14 +22,20 @@ import ADInput from '../../../../components/antd/ADInput';
 function AssignmentDetailsPage() {
   const [modal, setModal] = useState(false);
   const [isEditableInput, setIsEditableInput] = useState(false);
-  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState({});
+
   const { Option } = Select;
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentClass } = useSelector((state) => state.classroom);
   const { studentAssignmentDetail, studentAssignmentReportJson, assignments, isLoading } = useSelector((state) => state.assignment);
+  const updatedAssignmentList = assignments.map((item) => ({
+    label: item?.title,
+    value: item?._id
+  }));
+  const getIndex = updatedAssignmentList.findIndex((item) => item.value === id);
 
+  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {});
   useEffect(() => {
     onAssignmentApiCall(id);
   }, []);
@@ -46,11 +52,6 @@ function AssignmentDetailsPage() {
 
   const viewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
-  const updatedAssignmentList = assignments.map((item) => ({
-    label: item?.title,
-    value: item?._id
-  }));
-
   const onChangeAssignment = (value) => {
     setCurrentSelectedAssignment(value);
     navigate(`/my-classrooms/assignment/${value}`);
@@ -66,7 +67,6 @@ function AssignmentDetailsPage() {
         <Space size='large'>
           <ADTitle level={3}>Assignment</ADTitle>
           <Select
-            defaultValue={updatedAssignmentList?.[0] || []}
             value={currentSelectedAssignment}
             onChange={onChangeAssignment}
             style={{
@@ -92,7 +92,7 @@ function AssignmentDetailsPage() {
               <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
               <div className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' /> */}
               {assignmentItems.map((item, index) => (
-                <ADImage src={item?.thumbnail} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
+                <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />
               ))}
               {assignmentItems.length > 4 ? <div className='font-bold text-xs px-4 pt-3 items-center'>+2 MORE</div> : null}
             </Space>
