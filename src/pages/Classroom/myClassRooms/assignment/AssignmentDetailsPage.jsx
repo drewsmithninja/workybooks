@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image } from 'antd';
+import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image, Input } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import CsvDownloadButton from 'react-json-to-csv';
 import moment from 'moment';
 import { BsThreeDots } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
 import { AntDesignOutlined } from '@ant-design/icons';
 import Spinner from '../../../../components/spinner/Spinner';
 import data from '../../../../data.json';
@@ -16,39 +17,64 @@ import ADImage from '../../../../components/antd/ADImage';
 import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
 import ADModal from '../../../../components/antd/ADModal';
 import ViewAssignmentReport from './ViewAssignmentReport';
+import ADInput from '../../../../components/antd/ADInput';
 
 function AssignmentDetailsPage() {
   const [modal, setModal] = useState(false);
-
+  const [isEditableInput, setIsEditableInput] = useState(false);
+  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState({});
   const { Option } = Select;
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { studentAssignmentDetail, isLoading } = useSelector((state) => state.assignment);
+  const { currentClass } = useSelector((state) => state.classroom);
+  const { studentAssignmentDetail, studentAssignmentReportJson, assignments, isLoading } = useSelector((state) => state.assignment);
 
-  // Todo - Check api and populate the data.
-  // useEffect(() => {
-  //   dispatch(
-  //     getStudentAssignmentDetail({
-  //       assignmentId: id
-  //     })
-  //   );
-  // }, []);
+  useEffect(() => {
+    onAssignmentApiCall(id);
+  }, []);
 
+  const onAssignmentApiCall = (assignmentId) => {
+    dispatch(
+      getStudentAssignmentDetail({
+        assignmentId,
+        classId: currentClass?._id
+      })
+    );
+  };
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData?.[0];
 
-  const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
+  const viewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
+
+  const updatedAssignmentList = assignments.map((item) => ({
+    label: item?.title,
+    value: item?._id
+  }));
+
+  const onChangeAssignment = (value) => {
+    setCurrentSelectedAssignment(value);
+    navigate(`/my-classrooms/assignment/${value}`);
+    onAssignmentApiCall(value);
+  };
 
   return isLoading ? (
     <Spinner />
   ) : (
     <MainLayout>
-      {ViewAssignmentReportModal}
+      {viewAssignmentReportModal}
       <div className='px-4 py-5 w-full flex justify-between'>
         <Space size='large'>
           <ADTitle level={3}>Assignment</ADTitle>
-          <Select defaultValue='lucy'>
-            <Option value={id}>{id}</Option>
-          </Select>
+          <Select
+            defaultValue={updatedAssignmentList?.[0] || []}
+            value={currentSelectedAssignment}
+            onChange={onChangeAssignment}
+            style={{
+              width: '200px'
+            }}
+            options={updatedAssignmentList || []}
+          />
+
           <div className='flex'>
             <FaPencilAlt className='text-gray-400 text-lg' />
           </div>
@@ -77,7 +103,6 @@ function AssignmentDetailsPage() {
             </div>
             <Space>
               {assignmentScore.map((item, index) => {
-                console.log('index', typeof index);
                 if (index === 3) return null;
                 return <Avatar src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
               })}
@@ -139,8 +164,17 @@ function AssignmentDetailsPage() {
           <ADTitle level={4}>Assignment Progress</ADTitle>
         </div>
         <Space size='large'>
-          <ADButton type='primary'>Edit Grades</ADButton>
-          <ADButton type='primary'>Export Grades Reports</ADButton>
+          <ADButton
+            type='primary'
+            onClick={() => {
+              setIsEditableInput(!isEditableInput);
+            }}
+          >
+            Edit Grades
+          </ADButton>
+          <CsvDownloadButton data={studentAssignmentReportJson} filename='student_report.csv' style={csvButton}>
+            Export Grades Reports
+          </CsvDownloadButton>
           <ADButton type='primary'>Assignment Report</ADButton>
         </Space>
       </div>
@@ -178,7 +212,7 @@ function AssignmentDetailsPage() {
                   <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
                     <Row gutter={16} className='w-full'>
                       <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
-                        <ADImage alt='cover-img' src={item?.avatar || dummyImage} className='w-full aspect-[40px/100px] object-cover rounded max-w-[80px]' />
+                        <ADImage alt='cover-img' src={item?.avatar || dummyImage} className='aspect-[80px/100px]   rounded max-w-[80px]' />
                       </Col>
                       <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                         <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
@@ -204,7 +238,7 @@ function AssignmentDetailsPage() {
                         className='flex flex-col justify-center items-center'
                       >
                         <div>TIME</div>
-                        <div>{item?.time.length > 0 ? moment(item?.time?.[0]).format('hh:mm') : 0}</div>
+                        <div className='font-medium text-lg'>{item?.time.length > 0 ? moment(item?.time?.[0]).format('hh:mm') : 0}</div>
                       </Col>
                       <Col
                         xs={12}
@@ -222,7 +256,7 @@ function AssignmentDetailsPage() {
                         <div className='flex pb-1'>
                           <FaCheck className='text-slate-400' />
                         </div>
-                        <div className='font-bold'>{item?.totalCorrectAnswer}</div>
+                        <div className='font-bold text-lg'>{item?.totalCorrectAnswer || '-'}</div>
                       </Col>
                       <Col
                         xs={12}
@@ -240,7 +274,7 @@ function AssignmentDetailsPage() {
                         <div className='flex pb-1'>
                           <FaTimes className='text-slate-400' />
                         </div>
-                        <div className='font-bold'>{item?.totalWrongAnswer}</div>
+                        <div className='font-bold text-lg'>{item?.totalWrongAnswer || '-'}</div>
                       </Col>
                       <Col
                         xs={12}
@@ -258,7 +292,7 @@ function AssignmentDetailsPage() {
                         <div className='flex pb-1'>
                           <BsThreeDots className='text-slate-400' />
                         </div>
-                        <div className='font-bold'>{item?.totalBlankAnswer}</div>
+                        <div className='font-bold text-lg'>{item?.totalBlankAnswer || '-'}</div>
                       </Col>
                       <Col
                         xs={12}
@@ -274,7 +308,7 @@ function AssignmentDetailsPage() {
                         className='flex flex-col justify-center items-center'
                       >
                         <div className=''>SCORE</div>
-                        <div className='font-bold'>{`${item?.averagePercentage}%`}</div>
+                        <div className='font-bold text-lg'>{`${item?.averagePercentage}%`}</div>
                       </Col>
                       <Col
                         xs={12}
@@ -294,13 +328,23 @@ function AssignmentDetailsPage() {
                     </Row>
                   </Col>
                   <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                    <Badge
-                      count={item?.AssignmentGrades?.[0]?.title}
-                      style={{
-                        backgroundColor: item.AssignmentGrades?.[0]?.color || '#52c41a',
-                        padding: '0 10px'
-                      }}
-                    />
+                    {isEditableInput ? (
+                      <ADInput
+                        placeholder='Grade'
+                        value={item?.AssignmentGrades?.[0]?.title}
+                        style={{
+                          margin: 'auto 30px'
+                        }}
+                      />
+                    ) : (
+                      <Badge
+                        count={item?.AssignmentGrades?.[0]?.title}
+                        style={{
+                          backgroundColor: item.AssignmentGrades?.[0]?.color || '#52c41a',
+                          padding: '0 10px'
+                        }}
+                      />
+                    )}
                   </Col>
                   <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
                     <div>
@@ -337,5 +381,20 @@ function AssignmentDetailsPage() {
     </MainLayout>
   );
 }
+const csvButton = {
+  // pass other props, like styles
+  boxShadow: '0 2px 0 rgb(0 0 0 / 5%)',
+  background: '#5470FF',
+  borderColor: '#5470FF',
+  borderRadius: '6px',
+  border: '1px solid #5470FF',
+  display: 'inline-block',
+  cursor: 'pointer',
+  color: '#ffffff',
+  fontSize: '14px',
+  padding: '6px 24px',
+  textDecoration: 'none',
+  textShadow: '0 -1px 0 rgb(0 0 0 / 12%)'
+};
 
 export default AssignmentDetailsPage;
