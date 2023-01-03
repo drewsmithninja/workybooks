@@ -6,7 +6,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 // getAssignment
 // getAssignmentByStudent
 // getAssignmentsByStatus // done
-// createAssignment
+// createAssignment // done
 // updateAssignment
 // deleteAssignment
 
@@ -72,21 +72,42 @@ const getAssignmentsByStudent = async (studentId) => {
   return response.data;
 };
 
-// reference
-// const createClass = async (classData) => {
-//   const response = await axios.post(`${API_URL}/classroom`, classData, {
-//     headers: {
-//       authorization: authToken
-//     }
-//   });
-//   return response.data;
-// };
+const createAssignment = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/assignment`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+const updateAssignment = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.put(
+    `${API_URL}/assignment/${data.id}`,
+    {
+      title: data.title,
+      content: data.content
+    },
+    {
+      headers: {
+        authorization: authToken
+      }
+    }
+  );
+  return response.data;
+};
 
 const assignmentAPI = {
   getAssignments,
   getAssignmentsByStatus,
   getAssignmentsByStudent,
-  getSubmittedAssignments
+  getSubmittedAssignments,
+  createAssignment,
+  updateAssignment
 };
 
 export default assignmentAPI;

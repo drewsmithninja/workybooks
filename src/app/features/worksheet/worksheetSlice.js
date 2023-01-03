@@ -50,6 +50,9 @@ export const worksheetSlice = createSlice({
     setCurrentWorksheet(state, action) {
       state.currentWorksheet = action.payload;
     },
+    resetCurrentWorksheet(state, action) {
+      state.currentWorksheet = null;
+    },
     selectWorksheet(state, action) {
       state.selectedWorksheets = [...state.selectedWorksheets, action.payload];
     },
@@ -107,5 +110,5 @@ export const worksheetSlice = createSlice({
   }
 });
 
-export const { selectWorksheet, unSelectWorksheet, resetSelectedWorksheets, setCurrentWorksheet } = worksheetSlice.actions;
+export const { selectWorksheet, unSelectWorksheet, resetSelectedWorksheets, setCurrentWorksheet, resetCurrentWorksheet } = worksheetSlice.actions;
 export default worksheetSlice.reducer;
