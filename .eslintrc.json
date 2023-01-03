@@ -8,7 +8,7 @@
         "plugin:react/recommended",
         "plugin:prettier/recommended"
     ],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+//    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-quotes": [1, "prefer-single"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
