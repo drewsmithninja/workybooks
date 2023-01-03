@@ -4,7 +4,7 @@ import { FaChartLine, FaPencilAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ADButton from '../../antd/ADButton';
-import { setClass } from '../../../app/features/classroom/classroomSlice';
+import { setClass } from '../../../app/features/classRoom/classRoomSlice';
 import { getStudents, setStudent } from '../../../app/features/students/studentsSlice';
 import EditStudentModal from '../../modals/EditStudentModal';
 import AddStudentsModal from '../../modals/AddStudentsModal';
