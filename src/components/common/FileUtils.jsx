@@ -9,21 +9,18 @@ import ADImage from '../antd/ADImage';
 import ADButton from '../antd/ADButton';
 import { createCollection, getCollections, updateCollection } from '../../app/features/collection/collectionSlice';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
+import AssignModal from '../modals/AssignModal';
 
 function FileUtils({ show = false }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
 
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
   const addToCollectionHandler = () => {
-    // dispatch(updateCollection(selectedWorksheets));
     setIsCollectionModalOpen(true);
-  };
-
-  const onCollectionOkHandler = () => {
-    setIsCollectionModalOpen(false);
   };
 
   const showCollectionModal = () => {
@@ -50,18 +47,32 @@ function FileUtils({ show = false }) {
     setIsCollectionModalOpen(false);
   };
 
+  const addToAssignmentHandler = () => {
+    setIsAssignModalOpen(true);
+  };
+
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
   const addToCollection = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onShow={showCollectionModal} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <div className={`w-full fixed ${show ? 'show-print-box' : 'hide-print-box'} h-[54px] text-center block flex items-center justify-center bottom-print`}>
       {addToCollection}
+      {assignModal}
       <div className='w-full max-w-[536px] flex h-[54px] bg-blue-800 rounded-[27px] items-center justify-center px-[30px]'>
         <div className='w-full h-full flex flex-row justify-between'>
           <ADButton type='text' className='!p-0 gap-[10px]'>
             <ADImage src={printIcon} alt='print' />
             <Typography.Text className='font-normal text-white'>PRINT</Typography.Text>
           </ADButton>
-          <ADButton type='text' className='!p-0 gap-[10px]'>
+          <ADButton type='text' className='!p-0 gap-[10px]' onClick={addToAssignmentHandler}>
             <ADImage src={assignIcon} alt='assign' />
             <Typography.Text className='font-normal text-white'>ASSIGN</Typography.Text>
           </ADButton>
