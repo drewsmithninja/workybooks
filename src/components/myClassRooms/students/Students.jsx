@@ -5,40 +5,45 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ADButton from '../../antd/ADButton';
 import { setClass } from '../../../app/features/classroom/classroomSlice';
-import { getStudents } from '../../../app/features/students/studentsSlice';
+import { getStudents, setStudent } from '../../../app/features/students/studentsSlice';
 import EditStudentModal from '../../modals/EditStudentModal';
+import AddStudentsModal from '../../modals/AddStudentsModal';
 
 function StudentsPage() {
   const { classes, currentClass } = useSelector((state) => state.classroom);
   const { students } = useSelector((state) => state.students);
-  const [editStudent, setEditStudent] = useState(false);
+
+  const [showEditStudent, setShowEditStudent] = useState(false);
+  const [showAddStudents, setShowAddStudents] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const setStudentList = async () => {
+  const updateStudentList = async () => {
     if (await classes?.length) {
       dispatch(setClass(classes?.list?.[0]));
     }
+    await dispatch(getStudents(currentClass?._id));
   };
 
   useEffect(() => {
-    setStudentList();
+    updateStudentList();
     dispatch(getStudents(currentClass?._id));
-  }, [currentClass]);
+  }, []);
 
   const header = (
     <Row>
       <Col xl={6} md={6} sm={8} xs={10}>
-        <div className='inter-font font-medium text-xs'>NAME</div>
+        <div className="inter-font font-medium text-xs">NAME</div>
       </Col>
       <Col xl={12} md={10} sm={10} xs={8}>
-        <div className='text-center inter-font font-medium text-xs'>ACTIVITY</div>
+        <div className="text-center inter-font font-medium text-xs">ACTIVITY</div>
       </Col>
       <Col xl={3} md={4} sm={3} xs={3}>
-        <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
+        <div className="text-center inter-font font-medium text-xs">VIEW WORK</div>
       </Col>
       <Col xl={3} md={4} sm={3} xs={3}>
-        <div className='text-center inter-font font-medium text-xs'>EDIT</div>
+        <div className="text-center inter-font font-medium text-xs">EDIT</div>
       </Col>
     </Row>
   );
@@ -48,67 +53,94 @@ function StudentsPage() {
   };
 
   const showEditStudentModal = (data) => {
-    setEditStudent(true);
+    dispatch(setStudent(data));
+    setShowEditStudent(true);
   };
 
   const handleEditStudentOk = () => {
-    setEditStudent(false);
+    setShowEditStudent(false);
   };
 
   const handleEditStudentCancel = () => {
-    setEditStudent(false);
+    setShowEditStudent(false);
   };
 
-  const editStudentModal = <EditStudentModal open={editStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
+  const addStudentsModal = (
+    <AddStudentsModal
+      closable={false}
+      open={showAddStudents}
+      onOk={() => setShowAddStudents(false)}
+      onCancel={() => setShowAddStudents(false)}
+    />
+  );
+  const editStudentModal = (
+    <EditStudentModal
+      closable={false}
+      open={showEditStudent}
+      onOk={handleEditStudentOk}
+      onCancel={handleEditStudentCancel}
+    />
+  );
 
   return (
-    <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
+    <div className="xl:px-20 lg:px-16 md:px-10 px-0">
+      {addStudentsModal}
       {editStudentModal}
-      <Space direction='vertical' size='large' className='flex'>
-        <div className='flex ant-row-end'>
-          <ADButton type='primary'>ADD STUDENTS</ADButton>
+      <Space direction="vertical" size="large" className="flex">
+        <div className="flex ant-row-end">
+          <ADButton type="primary" onClick={() => setShowAddStudents(true)}>
+            ADD STUDENTS
+          </ADButton>
         </div>
         <List
-          className='rounded-t-lg with-header'
+          className="rounded-t-lg with-header"
           header={header}
-          itemLayout='horizontal'
+          itemLayout="horizontal"
           dataSource={students?.list || []}
           bordered
           renderItem={(item) => (
             <List.Item>
-              <Row gutter={[0, 16]} className='w-full'>
-                <Col xl={6} md={6} sm={8} xs={10} className='flex items-center'>
+              <Row gutter={[0, 16]} className="w-full">
+                <Col xl={6} md={6} sm={8} xs={10} className="flex items-center">
                   <Space>
-                    <Avatar icon={<Image src={item.avatar} alt='img' />} />
-                    <div className='inter-font text-sm ml-5'>
-                      <ADButton type='text' className='font-medium !p-0' onClick={() => onStudentClickHandler(item)}>{`${item.firstName} ${item.lastName}`}</ADButton>
-                      <div className='font-normal text-gray-400'>{item.userName}</div>
+                    <Avatar icon={<Image src={item.avatar} alt="img" />} />
+                    <div className="inter-font text-sm ml-5">
+                      <ADButton
+                        type="text"
+                        className="font-medium !p-0"
+                        onClick={() =>
+                          onStudentClickHandler(item)
+                        }>{`${item.firstName} ${item.lastName}`}</ADButton>
+                      <div className="font-normal text-gray-400">{item.userName}</div>
                     </div>
                   </Space>
                 </Col>
-                <Col xl={12} md={10} sm={10} xs={8} className='flex justify-center'>
-                  <Row className='rounded-2xl md:px-4 px-2 py-2 border border-solid border-slate-300'>
+                <Col xl={12} md={10} sm={10} xs={8} className="flex justify-center">
+                  <Row className="rounded-2xl md:px-4 px-2 py-2 border border-solid border-slate-300">
                     <Col sm={12} xs={24}>
-                      <div className='flex items-center flex-col mx-2 lg:mx-4'>
+                      <div className="flex items-center flex-col mx-2 lg:mx-4">
                         <div>ACTIVITIES</div>
-                        <div className='font-bold'>32</div>
+                        <div className="font-bold">{item?.activity?.activities ?? '-'}</div>
                       </div>
                     </Col>
                     <Col sm={12} xs={24}>
-                      <div className='flex items-center flex-col mx-2 lg:mx-4'>
-                        <div className='whitespace-nowrap'>TIME PLAYED</div>
-                        <div className='font-bold'>03:01</div>
+                      <div className="flex items-center flex-col mx-2 lg:mx-4">
+                        <div className="whitespace-nowrap">TIME PLAYED</div>
+                        <div className="font-bold">{item?.activity?.timePlayed ?? '-'}</div>
                       </div>
                     </Col>
                   </Row>
                 </Col>
-                <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <FaChartLine className='text-gray-400 text-lg' />
+                <Col xl={3} md={4} sm={3} xs={3} className="flex justify-center items-center">
+                  <FaChartLine className="text-gray-400 text-lg" />
                 </Col>
-                <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <div className='flex'>
-                    <ADButton type='text' className='!p-0' onClick={() => showEditStudentModal(item)}>
-                      <FaPencilAlt className='text-gray-400 text-lg' />
+                <Col xl={3} md={4} sm={3} xs={3} className="flex justify-center items-center">
+                  <div className="flex">
+                    <ADButton
+                      type="text"
+                      className="!p-0"
+                      onClick={() => showEditStudentModal(item)}>
+                      <FaPencilAlt className="text-gray-400 text-lg" />
                     </ADButton>
                   </div>
                 </Col>

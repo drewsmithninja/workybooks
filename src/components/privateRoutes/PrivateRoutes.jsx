@@ -4,13 +4,13 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
 function PrivateRoutes() {
   const location = useLocation();
-  const { user } = useSelector((state) => state.auth);
+  const user = localStorage.getItem('user');
 
   return user ? (
     <Outlet />
   ) : (
     <Navigate
-      to='/sign-in'
+      to="/sign-in"
       state={{
         from: location
       }}

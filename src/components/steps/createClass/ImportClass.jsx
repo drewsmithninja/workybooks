@@ -4,7 +4,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import ADTitle from '../../antd/ADTitle';
 import ADButton from '../../antd/ADButton';
 
-export default function ImportClass({ next, prev }) {
+export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
@@ -85,11 +85,11 @@ export default function ImportClass({ next, prev }) {
     }
   ];
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       <ADTitle level={2}>Import Classroom</ADTitle>
-      <div className='py-4 text-dark text-lg'>Please select the classrooms you wish to import</div>
+      <div className="py-4 text-dark text-lg">Please select the classrooms you wish to import</div>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-      <ADButton size='large' className='my-4' type='primary' onClick={next}>
+      <ADButton size="large" className="my-4" type="primary" onClick={next}>
         Continue
       </ADButton>
     </div>

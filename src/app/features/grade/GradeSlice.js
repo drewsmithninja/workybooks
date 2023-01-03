@@ -1,18 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import gradeAPI from '../../api/GradeApi';
 
-export const fetchGrades = createAsyncThunk('grades/fetchGrades', async () => {
+export const fetchGrades = createAsyncThunk('grades/fetchGrades', async (thunkAPI) => {
   try {
     const response = await gradeAPI.fetchGrades();
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
 const initialState = {
   grades: [],
+  currentGrade: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -22,6 +26,11 @@ const initialState = {
 export const GradeSlice = createSlice({
   name: 'grades',
   initialState,
+  reducers: {
+    setCurrentGrade(state, action) {
+      state.currentGrade = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchGrades.pending, (state) => {
@@ -31,6 +40,7 @@ export const GradeSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.grades = action.payload;
+        state.currentGrade = action.payload.list?.[4];
       })
       .addCase(fetchGrades.rejected, (state, action) => {
         state.isLoading = false;
@@ -41,5 +51,5 @@ export const GradeSlice = createSlice({
   }
 });
 
-// export const {} = GradeSlice.actions;
+export const { setCurrentGrade } = GradeSlice.actions;
 export default GradeSlice.reducer;

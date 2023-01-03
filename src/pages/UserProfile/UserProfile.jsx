@@ -25,7 +25,7 @@ function UserProfile() {
 
   const onChange = (info) => {
     if (info.file.status !== 'uploading') {
-      console.log(info.file, info.fileList);
+      // console.log(info.file, info.fileList);
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
@@ -75,12 +75,12 @@ function UserProfile() {
 
   return (
     <MainLayout>
-      <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
-        <div className='px-4 py-5 sm:px-6'>
-          <h3 className='text-3xl font-bold leading-6'>Edit Profile</h3>
+      <div className="overflow-hidden bg-white shadow sm:rounded-lg">
+        <div className="px-4 py-5 sm:px-6">
+          <h3 className="text-3xl font-bold leading-6">Edit Profile</h3>
         </div>
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
-          <div className='px-6'>
+          <div className="px-6">
             <Row
               gutter={{
                 xs: 8,
@@ -89,8 +89,7 @@ function UserProfile() {
                 lg: 32,
                 xl: 40,
                 xxl: 48
-              }}
-            >
+              }}>
               <Col span={12}>
                 <Row
                   gutter={{
@@ -101,22 +100,20 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-10'
-                >
+                  className="pb-10">
                   <Col span={8}>
-                    <div className='text-lg text-gray-500'>Profile Picture</div>
+                    <div className="text-lg text-gray-500">Profile Picture</div>
                   </Col>
                   <Col span={16}>
-                    <div className='flex items-center'>
+                    <div className="flex items-center">
                       <Avatar size={64} icon={<UserOutlined />} />
-                      <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
+                      <Form.Item name="image" getValueFromEvent={getFile} valuePropName="avatar">
                         <Upload
-                          name='file'
+                          name="file"
                           headers={{
                             authorization: 'authorization-text'
                           }}
-                          onChange={onChange}
-                        >
+                          onChange={onChange}>
                           <Button icon={<UploadOutlined />}>Upload</Button>
                         </Upload>
                       </Form.Item>
@@ -132,14 +129,13 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
+                  className="pb-8">
                   <Col span={8}>
-                    <div className='text-lg font-medium text-gray-500'>Contact Information</div>
+                    <div className="text-lg font-medium text-gray-500">Contact Information</div>
                   </Col>
                   <Col span={8}>
-                    <Form.Item label={false} name='salutation'>
-                      <ADInput placeholder='Salutation' value={userData?.user?.salutation} />
+                    <Form.Item label={false} name="salutation">
+                      <ADInput placeholder="Salutation" value={userData?.user?.salutation} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -152,8 +148,7 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
+                  className="pb-8">
                   <Col offset={8} span={16}>
                     <Row
                       gutter={{
@@ -163,16 +158,15 @@ function UserProfile() {
                         lg: 32,
                         xl: 40,
                         xxl: 48
-                      }}
-                    >
+                      }}>
                       <Col span={12}>
-                        <Form.Item label={false} name='firstname'>
-                          <ADInput placeholder='First Name' />
+                        <Form.Item label={false} name="firstname">
+                          <ADInput placeholder="First Name" />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label={false} name='lastname'>
-                          <ADInput placeholder='Last Name' />
+                        <Form.Item label={false} name="lastname">
+                          <ADInput placeholder="Last Name" />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -187,11 +181,10 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
+                  className="pb-8">
                   <Col offset={8} span={16}>
-                    <Form.Item label={false} name='email'>
-                      <ADInput placeholder='Email' value={userData?.user?.email} />
+                    <Form.Item label={false} name="email">
+                      <ADInput placeholder="Email" value={userData?.user?.email} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -204,9 +197,8 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
-                  <Col span={8} className='text-lg font-medium text-gray-500'>
+                  className="pb-8">
+                  <Col span={8} className="text-lg font-medium text-gray-500">
                     Password
                   </Col>
                   <Col span={16}>
@@ -218,11 +210,14 @@ function UserProfile() {
                         lg: 32,
                         xl: 40,
                         xxl: 48
-                      }}
-                    >
+                      }}>
                       <Col span={12}>
-                        <Form.Item label={false} name='password'>
-                          <ADInput value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
+                        <Form.Item label={false} name="password">
+                          <ADInput
+                            value={userPassword}
+                            type="password"
+                            onChange={(e) => setUserPassword(e.target.value)}
+                          />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -237,14 +232,13 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
-                  <Col span={8} className='text-lg font-medium text-gray-500'>
+                  className="pb-8">
+                  <Col span={8} className="text-lg font-medium text-gray-500">
                     Your School
                   </Col>
                   <Col span={16}>
-                    <Form.Item label={false} name='schoolname'>
-                      <ADInput placeholder='School Name' value={userData?.user?.schoolName} />
+                    <Form.Item label={false} name="schoolname">
+                      <ADInput placeholder="School Name" value={userData?.user?.schoolName} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -257,8 +251,7 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-16'
-                >
+                  className="pb-16">
                   <Col offset={8} span={16}>
                     <Row
                       gutter={{
@@ -268,16 +261,15 @@ function UserProfile() {
                         lg: 32,
                         xl: 40,
                         xxl: 48
-                      }}
-                    >
+                      }}>
                       <Col span={12}>
-                        <Form.Item label={false} name='state'>
-                          <ADInput placeholder='State' value={userData?.user?.state} />
+                        <Form.Item label={false} name="state">
+                          <ADInput placeholder="State" value={userData?.user?.state} />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label={false} name='city'>
-                          <ADInput placeholder='City' value={userData?.user?.city} />
+                        <Form.Item label={false} name="city">
+                          <ADInput placeholder="City" value={userData?.user?.city} />
                         </Form.Item>
                       </Col>
                     </Row>
@@ -292,8 +284,7 @@ function UserProfile() {
                     xl: 40,
                     xxl: 48
                   }}
-                  className='pb-8'
-                >
+                  className="pb-8">
                   <Col offset={8} span={16}>
                     <Row
                       gutter={{
@@ -304,11 +295,10 @@ function UserProfile() {
                         xl: 40,
                         xxl: 48
                       }}
-                      className='pb-8'
-                    >
+                      className="pb-8">
                       <Col span={12}>
                         <Form.Item>
-                          <ADButton type='primary' htmlType='submit' className='w-full'>
+                          <ADButton type="primary" htmlType="submit" className="w-full">
                             Submit
                           </ADButton>
                         </Form.Item>

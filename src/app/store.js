@@ -5,12 +5,13 @@ import authReducer from './features/auth/authSlice';
 import homeReducer from './features/home/homepageSlice';
 import searchReducer from './features/search/searchpageSlice';
 import userReducer from './features/user/userSlice';
-import libraryReducer from './features/library/librarypageSlice';
 import collectionReducer from './features/collection/collectionSlice';
 import studentsReducer from './features/students/studentsSlice';
 import classroomReducer from './features/classroom/classroomSlice';
+import assignmentReducer from './features/assignment/assignmentSlice';
 import gradesReducer from './features/grade/GradeSlice';
 import modalReducer from './features/modal/modalSlice';
+import worksheetsReducer from './features/worksheet/worksheetSlice';
 
 const persistConfig = {
   key: 'root',
@@ -23,12 +24,13 @@ const rootReducer = combineReducers({
   home: homeReducer,
   search: searchReducer,
   user: userReducer,
-  library: libraryReducer,
   collection: collectionReducer,
   students: studentsReducer,
   classroom: classroomReducer,
+  assignment: assignmentReducer,
   grades: gradesReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  worksheet: worksheetsReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -36,11 +38,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
-  middleware: () => getDefaultMiddleware({
-    immutableCheck: {
-      ignoredPaths: ['items.data']
-
-    },
-    serializableCheck: false
-  })
+  middleware: () =>
+    getDefaultMiddleware({
+      immutableCheck: {
+        ignoredPaths: ['items.data']
+      },
+      serializableCheck: false
+    })
 });

@@ -3,12 +3,14 @@ import { Modal, Typography } from 'antd';
 export const popupModalComponent = (type = 'info', title = '', content = '', redirect = false) => {
   const config = {
     title: (
-      <Typography.Title level={1} className='!text-2xl md:!text-2xl mt-[30px] text-center'>
+      <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
         {title}
       </Typography.Title>
     ),
     content: (
-      <Typography.Title level={5} className='!font-normal !mt-[16px] !mb-[76px] !text-[14px] text-center'>
+      <Typography.Title
+        level={5}
+        className="!font-normal !mt-[16px] !mb-[76px] !text-[14px] text-center">
         {content}
       </Typography.Title>
     ),

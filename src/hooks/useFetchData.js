@@ -21,7 +21,9 @@ const useFetchApiData = (url, fetchAgain) => {
   }, [url, fetchAgain]);
 
   return {
-    loading, response, error
+    loading,
+    response,
+    error
   };
 };
 

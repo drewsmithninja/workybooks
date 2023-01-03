@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SearchOutlined } from '@ant-design/icons';
 import { Col, Input, Row, Typography } from 'antd';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,8 @@ import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { subjectTopic } from '../../app/features/search/searchpageSlice';
 
-let subjectDetail; let subjectNewDetail;
+let subjectDetail;
+let subjectNewDetail;
 export default function SubjectDetailsPage() {
   const mappedSubjectsData = [];
   const { sid } = useParams();
@@ -18,7 +18,9 @@ export default function SubjectDetailsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { ccsData: ccsData1, subjectData, gradeData } = useSelector((state) => state.home);
-  mappedSubjectsData.push(subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
+  mappedSubjectsData.push(
+    subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30))
+  );
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
 
@@ -47,26 +49,32 @@ export default function SubjectDetailsPage() {
     }
   };
 
-  const searchData = (dataArray, searchTerm) => dataArray?.flatMap((obj) => {
-    const objHasSearchTerm = Object.entries(obj)
-      .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
-    if (objHasSearchTerm && !obj) return [obj];
-    const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
-    const searchedData = objHasSearchTerm || matchedTopics?.length ?
-      [{
-        ...obj,
-        topics: matchedTopics
-      }] :
-      [];
-    return searchedData;
-  });
+  const searchData = (dataArray, searchTerm) =>
+    dataArray?.flatMap((obj) => {
+      const objHasSearchTerm = Object.entries(obj).some(
+        ([key, value]) =>
+          key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      if (objHasSearchTerm && !obj) return [obj];
+      const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
+      const searchedData =
+        objHasSearchTerm || matchedTopics?.length
+          ? [
+              {
+                ...obj,
+                topics: matchedTopics
+              }
+            ]
+          : [];
+      return searchedData;
+    });
 
   function renderCCSItem(items, ccsData, level) {
     let item = '<></>';
 
     if (ccsData?.topics && ccsData?.topics?.length) {
       if (level === 0) {
-        items.push(<div className='w-full h-1' />);
+        items.push(<div className="w-full h-1" />);
       }
       if (level === 1) {
         // items.push(<div className='w-full p-0.5 bg-gray-600' />);
@@ -79,9 +87,8 @@ export default function SubjectDetailsPage() {
       //  style+=" m-"+level*2;
 
       const parentItem = (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div className={style} onClick={() => topicSelectHandler(ccsData?.title)}>
-          <span className='cursor-pointer hover:text-blue-500'>{ccsData.title}</span>
+          <span className="cursor-pointer hover:text-blue-500">{ccsData.title}</span>
         </div>
       );
 
@@ -94,26 +101,26 @@ export default function SubjectDetailsPage() {
         }
         if (level === 1) {
           items.push(
-            <div className='bg-white w-full'>
+            <div className="bg-white w-full">
               {/* {parentItem} */}
-              <div className='bg-white my-4 w-full'>{subItems}</div>
+              <div className="bg-white my-4 w-full">{subItems}</div>
             </div>
           );
         }
         if (level === 2) {
           items.push(
-            <div className='bg-white'>
+            <div className="bg-white">
               <div>{parentItem}</div>
               {/* <div className='w-full p-0.5 bg-gray-600' /> */}
-              <div className='bg-gray-100 my-4 w-full'>{subItems}</div>
+              <div className="bg-gray-100 my-4 w-full">{subItems}</div>
             </div>
           );
         }
         if (level === 3) {
           items.push(
-            <div className='bg-white my-4'>
+            <div className="bg-white my-4">
               {parentItem}
-              <div className='bg-gray-100 w-full flex flex-wrap'>{subItems}</div>
+              <div className="bg-gray-100 w-full flex flex-wrap">{subItems}</div>
             </div>
           );
         }
@@ -121,13 +128,19 @@ export default function SubjectDetailsPage() {
     } else {
       if (level === 2) {
         item = (
-          <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
+          <ADButton
+            type="text"
+            onClick={() => topicSelectHandler(ccsData?.title)}
+            className="flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900">
             <span>{ccsData?.title}</span>
           </ADButton>
         );
       } else {
         item = (
-          <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
+          <ADButton
+            type="text"
+            onClick={() => topicSelectHandler(ccsData?.title)}
+            className="flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900">
             <span>{ccsData?.title}</span>
           </ADButton>
         );
@@ -151,24 +164,24 @@ export default function SubjectDetailsPage() {
   return (
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData1?.list} />
-      <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
-      <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
+      <GradeComponent activeGrade="3" gradeList={gradeData?.list} getGrade={handleGrade} />
+      <Row gutter={[16, 16]} className="container !mx-auto mt-[30px]">
         <Col lg={12} xs={24}>
-          <Typography.Title level={3} className='md:text-left text-center'>
+          <Typography.Title level={3} className="md:text-left text-center">
             {subjectDetail?.title}
             {' - Grade 3'}
           </Typography.Title>
         </Col>
-        <Col lg={12} xs={24} className='text-center md:text-right'>
+        <Col lg={12} xs={24} className="text-center md:text-right">
           <Search
             placeholder={`Search ${subjectDetail?.title} Topics`}
-            className='w-full max-w-[487px] h-[40px] rounded-[60px]'
-            suffix={<SearchOutlined className='text-[#A5A5A5]' />}
+            className="w-full max-w-[487px] h-[40px] rounded-[60px]"
+            suffix={<SearchOutlined className="text-[#A5A5A5]" />}
             onSearch={onSearch}
           />
         </Col>
       </Row>
-      <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems}</div>
+      <div className="w-full m-auto flex flex-wrap px-12">{ccsItems}</div>
     </MainLayout>
   );
 }

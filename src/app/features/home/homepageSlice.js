@@ -6,7 +6,6 @@ const initialState = {
   worksheetDetailsInfo: null,
   subjectData: null,
   ccsData: null,
-  gradeData: null,
   likeResponse: null,
   isError: false,
   isSuccess: false,
@@ -14,27 +13,21 @@ const initialState = {
   message: ''
 };
 
-// List new worksheet
-// eslint-disable-next-line no-shadow
-export const newWorksheet = createAsyncThunk('home/newWorksheet', async (worksheetData, thunkAPI) => {
-  try {
-    const response = await homeAPI.newWorksheet(worksheetData);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const worksheetDetails = createAsyncThunk(
+  'home/worksheetDetails',
+  async (worksheetId, thunkAPI) => {
+    try {
+      const response = await homeAPI.worksheetDetails(worksheetId);
+      return response.content;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
-
-export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
-  try {
-    const response = await homeAPI.worksheetDetails(worksheetId);
-    return response.content;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
+);
 
 // List Subject
 export const listSubject = createAsyncThunk('home/subject', async (subjectData, thunkAPI) => {
@@ -42,7 +35,10 @@ export const listSubject = createAsyncThunk('home/subject', async (subjectData, 
     const response = await homeAPI.listSubject(subjectData);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -53,32 +49,30 @@ export const listCCL = createAsyncThunk('home/commonCoreStandard', async (ccsDat
     const response = await homeAPI.listCCL(ccsData);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
-// List Grade
-export const listGrade = createAsyncThunk('home/grade/list', async (gradeData, thunkAPI) => {
-  try {
-    const response = await homeAPI.listGrade(gradeData);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
 // Like Worksheet
-export const likeWorksheet = createAsyncThunk('home/likeWorksheet', async (worksheetData, thunkAPI) => {
-  try {
-    const response = await homeAPI.likeWorksheet(worksheetData);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const likeWorksheet = createAsyncThunk(
+  'home/likeWorksheet',
+  async (worksheetData, thunkAPI) => {
+    try {
+      const response = await homeAPI.likeWorksheet(worksheetData);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const homeSlice = createSlice({
   name: 'home',
@@ -94,20 +88,20 @@ export const homeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // new Workybook List cases
-      .addCase(newWorksheet.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(newWorksheet.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.worksheetData = action.payload;
-      })
-      .addCase(newWorksheet.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        state.worksheetData = null;
-      })
+      // .addCase(newWorksheet.pending, (state, action) => {
+      //   state.isLoading = true;
+      // })
+      // .addCase(newWorksheet.fulfilled, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isSuccess = true;
+      //   state.worksheetData = action.payload;
+      // })
+      // .addCase(newWorksheet.rejected, (state, action) => {
+      //   state.isLoading = false;
+      //   state.isError = true;
+      //   state.message = action.payload;
+      //   state.worksheetData = null;
+      // })
       // Workysheet Details cases
       .addCase(worksheetDetails.pending, (state, action) => {
         state.isLoading = true;
@@ -152,21 +146,6 @@ export const homeSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.ccsData = null;
-      })
-      // Grade List Cases
-      .addCase(listGrade.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(listGrade.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.gradeData = action.payload;
-      })
-      .addCase(listGrade.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-        state.gradeData = null;
       })
       // Like worksheet Cases
       .addCase(likeWorksheet.pending, (state, action) => {

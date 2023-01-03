@@ -25,8 +25,8 @@ function StepModal({ nextStep, prevStep, currentStep, ...props }) {
   ];
 
   return (
-    <Modal className='rounded-xl' centered width={670} footer={false} {...props}>
-      <ADTitle level={3} className='text-center text-danger pb-8'>
+    <Modal className="rounded-xl" centered footer={false} {...props}>
+      <ADTitle level={3} className="text-center text-danger pb-8">
         Create New Assign Activities
       </ADTitle>
       <Steps current={currentStep}>
@@ -34,40 +34,40 @@ function StepModal({ nextStep, prevStep, currentStep, ...props }) {
           <Step key={item.title} title={item.title} />
         ))}
       </Steps>
-      <div className='steps-content'>{steps[currentStep]?.content}</div>
-      <div className='steps-action'>
+      <div className="steps-content">{steps[currentStep]?.content}</div>
+      <div className="steps-action">
         {currentStep === 0 && (
-          <div className='flex justify-between'>
-            <ADButton size='large' type='danger' onClick={nextStep}>
+          <div className="flex justify-between">
+            <ADButton size="large" type="danger" onClick={nextStep}>
               CANCEL
             </ADButton>
-            <ADButton size='large' type='primary' onClick={nextStep}>
+            <ADButton size="large" type="primary" onClick={nextStep}>
               ADD MORE ITEMS
             </ADButton>
-            <ADButton size='large' type='primary' onClick={nextStep}>
+            <ADButton size="large" type="primary" onClick={nextStep}>
               ASSIGN
             </ADButton>
           </div>
         )}
         {currentStep === 1 && (
-          <div className='flex justify-between'>
-            <ADButton size='large' type='danger' onClick={nextStep}>
+          <div className="flex justify-between">
+            <ADButton size="large" type="danger" onClick={nextStep}>
               CANCEL
             </ADButton>
-            <ADButton size='large' type='primary' onClick={prevStep}>
+            <ADButton size="large" type="primary" onClick={prevStep}>
               BACK
             </ADButton>
           </div>
         )}
         {currentStep === 2 && (
-          <div className='flex justify-between'>
-            <ADButton size='large' type='danger' onClick={nextStep}>
+          <div className="flex justify-between">
+            <ADButton size="large" type="danger" onClick={nextStep}>
               CANCEL
             </ADButton>
-            <ADButton size='large' type='primary' onClick={prevStep}>
+            <ADButton size="large" type="primary" onClick={prevStep}>
               BACK
             </ADButton>
-            <ADButton size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
+            <ADButton size="large" type="primary">
               ASSIGN
             </ADButton>
           </div>

@@ -1,20 +1,46 @@
-import { Radio } from 'antd';
 import React from 'react';
-import { grades } from '../../utils/appData';
+import { Radio } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentGrade } from '../../app/features/grade/GradeSlice';
+import { getPopularWorksheets, getWorksheets } from '../../app/features/worksheet/worksheetSlice';
 
-function GradeComponent({ activeGrade = '3', gradeList = [], getGrade }) {
-  const onChange = (e) => {
-    getGrade(e.target.value);
-    e.preventDefault();
-    //  setValue(e.target.value);
+function GradeComponent() {
+  const { grades, currentGrade } = useSelector((state) => state.grades);
+
+  const dispatch = useDispatch();
+
+  const onGradeChangeHandler = async (e) => {
+    const selectedGrade = await grades?.list?.find((grade) => grade?.title === e);
+    await dispatch(setCurrentGrade(selectedGrade));
+    await dispatch(
+      getWorksheets({
+        limit: 100,
+        gradeId: selectedGrade?._id
+      })
+    );
+    await dispatch(
+      getPopularWorksheets({
+        limit: 100,
+        gradeId: [selectedGrade?._id]
+      })
+    );
   };
+
   return (
-    <div className='flex items-center justify-center pt-[20px]'>
-      <span className='font-normal text-sm sm:pr-[20px]'>Grade</span>
-      <Radio.Group defaultValue={activeGrade} onChange={onChange} size='small' buttonStyle='solid' className='h-[60px] sm:h-auto flex flex-wrap sm:!max-w-full max-w-[320px] items-center justify-center'>
-        {gradeList?.map((item, index) => (
-          <Radio.Button value={`${item.title}`} key={`${item.title}`} className='mr-[10px] w-[58px] h-[25px] bg-[#D9D9D9] !rounded-[60px] text-xs text-center border-0 mb-[0px] sm:mb-0'>
-            {item.title}
+    <div className="flex items-center justify-center pt-[20px]">
+      <span className="font-normal text-sm sm:pr-[20px]">Grade</span>
+      <Radio.Group
+        value={currentGrade?.title}
+        onChange={(e) => onGradeChangeHandler(e.target.value)}
+        size="small"
+        buttonStyle="solid"
+        className="h-[60px] sm:h-auto flex flex-wrap sm:!max-w-full max-w-[320px] items-center justify-center">
+        {grades?.list?.map((grade) => (
+          <Radio.Button
+            value={`${grade.title}`}
+            key={`${grade.title}`}
+            className="mr-[10px] w-[58px] h-[25px] bg-[#D9D9D9] !rounded-[60px] text-xs text-center border-0 mb-[0px] sm:mb-0">
+            {grade.title}
           </Radio.Button>
         ))}
       </Radio.Group>

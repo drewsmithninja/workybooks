@@ -3,7 +3,7 @@ import React from 'react';
 
 export function Temp() {
   return (
-    <div className='border-primary border-solid primary-border'>
+    <div className="border-primary border-solid primary-border">
       <Row>
         <Col md={12} xs={24}>
           col-1

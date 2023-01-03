@@ -18,7 +18,10 @@ export const getProfile = createAsyncThunk('user/getProfile', async (userId, thu
   try {
     return await userAPI.getProfile(userId);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -28,7 +31,10 @@ export const updateProfile = createAsyncThunk('user/updateprofile', async (userI
   try {
     return await userAPI.updateProfile(userInfo);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

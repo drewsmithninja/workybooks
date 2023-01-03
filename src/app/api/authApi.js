@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -20,6 +21,18 @@ const verifyEmail = async (id) => {
   return response.data;
 };
 
+// const reVerifyEmail = async (id) => {
+//   const response = await axios.post(`${API_URL}/auth/resend-verification-email`, id, {
+//     headers: {
+//       authorization: id
+//     }
+//   });
+//   if (await response.data) {
+//     localStorage.setItem('user', JSON.stringify(await response.data));
+//   }
+//   return response.data;
+// };
+
 const login = async (userData) => {
   const response = await axios.post(`${API_URL}/auth/login`, userData);
   if (response.data) {
@@ -27,7 +40,20 @@ const login = async (userData) => {
   }
   return response.data;
 };
-
+const googleLogin = async (userData) => {
+  const response = await axios.post(`${API_URL}/auth/loginWithGoogle`, userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
+};
+const googleRegister = async (userData) => {
+  const response = await axios.post(`${API_URL}/auth/registerWithGoogle`, userData);
+  if (response.data) {
+    localStorage.setItem('user', JSON.stringify(response.data));
+  }
+  return response.data;
+};
 const forgotPassword = async (emailId) => {
   const response = await axios.post(`${API_URL}/auth/forgot-password`, emailId);
   toast.success(response?.data?.message);
@@ -57,7 +83,9 @@ const authAPI = {
   forgotPassword,
   resetPassword,
   logout,
-  verifyEmail
+  verifyEmail,
+  googleLogin,
+  googleRegister
 };
 
 export default authAPI;

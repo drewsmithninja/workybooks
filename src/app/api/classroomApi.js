@@ -1,10 +1,11 @@
+/* eslint-disable no-undef */
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
-const user = localStorage.getItem('user');
-const authToken = JSON.parse(user)?.payload?.verification?.token;
 
 const createClass = async (classData) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/classroom`, classData, {
     headers: {
       authorization: authToken
@@ -14,6 +15,8 @@ const createClass = async (classData) => {
 };
 
 const editClass = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.put(`${API_URL}/classroom/${data.classId}`, data.values, {
     headers: {
       authorization: authToken
@@ -23,6 +26,8 @@ const editClass = async (data) => {
 };
 
 // const getClassRoomOptions = async () => {
+// const user = localStorage.getItem('user');
+// const authToken = JSON.parse(user)?.payload?.verification?.token;
 //   const response = await axios.get(`${API_URL}/classroom/optionList`, {
 //     headers: {
 //       authorization: authToken
@@ -32,6 +37,8 @@ const editClass = async (data) => {
 // };
 
 const getClassrooms = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/classroom/list`, data, {
     headers: {
       authorization: authToken
@@ -40,11 +47,29 @@ const getClassrooms = async (data) => {
   return response.data;
 };
 
+const getClassroom = async (id) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(
+    `${API_URL}/classroom/getBy/id`,
+    {
+      id
+    },
+    {
+      headers: {
+        authorization: authToken
+      }
+    }
+  );
+  return response.data;
+};
+
 const classroomAPI = {
   createClass,
   editClass,
   // getClassRoomOptions
-  getClassrooms
+  getClassrooms,
+  getClassroom
 };
 
 export default classroomAPI;

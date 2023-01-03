@@ -8,13 +8,13 @@ import ADImage from '../antd/ADImage';
 function LogoHeader() {
   const { Header } = Layout;
   return (
-    <Header className='h-20 relative container mx-auto'>
-      <div className='flex items-center justify-between pt-2'>
+    <Header className="h-20 relative container mx-auto">
+      <div className="flex items-center justify-between pt-2">
         <div>
-          <Link to='/'>
+          <Link to="/">
             <ADImage
               src={logo}
-              alt='logo'
+              alt="logo"
               style={{
                 width: 100
               }}
