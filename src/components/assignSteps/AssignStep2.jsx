@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClass } from '../../app/features/classroom/classroomSlice';
+import { setClass } from '../../app/features/classRoom/classRoomSlice';
 import { getStudents } from '../../app/features/students/studentsSlice';
 import ADSelect from '../antd/ADSelect';
 import ADTitle from '../antd/ADTitle';
