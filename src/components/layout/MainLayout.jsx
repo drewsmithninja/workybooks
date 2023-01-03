@@ -27,7 +27,7 @@ function MainLayout({ children, className }) {
     <Layout className={`${className ?? ''}`}>
       <Headers />
       {user && <SearchBar />}
-      <Content className='bg-white'>{children}</Content>
+      <Content className="bg-white">{children}</Content>
       {showMultiple > 0 && <FileUtils show={showMultiple > 0} />}
     </Layout>
   );

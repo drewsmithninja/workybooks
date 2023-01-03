@@ -29,39 +29,44 @@ export default function CreateClassManually({ next }) {
   }, []);
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       <ADTitle level={2}>Create Classroom</ADTitle>
-      <div className='py-4 text-dark text-lg text-center'>Please provide the classroom details</div>
-      <Form name='add-class-manually' className='w-full' onFinish={onFinish}>
+      <div className="py-4 text-dark text-lg text-center">Please provide the classroom details</div>
+      <Form name="add-class-manually" className="w-full" onFinish={onFinish}>
         <Form.Item
-          name='name'
-          className='w-full'
+          name="name"
+          className="w-full"
           rules={[
             {
               required: true,
               message: 'Please input your class name!'
             }
-          ]}
-        >
-          <Input className='w-full' placeholder='Class Name' autoFocus />
+          ]}>
+          <Input className="w-full" placeholder="Class Name" autoFocus />
         </Form.Item>
-        <div className='py-4 text-dark text-lg text-center'>Grade Level</div>
+        <div className="py-4 text-dark text-lg text-center">Grade Level</div>
         <Form.Item
-          name='grade'
+          name="grade"
           rules={[
             {
               required: true,
               message: 'Please pick a grade!'
             }
-          ]}
-        >
-          <Radio.Group className='w-full' buttonStyle='solid' onChange={(e) => setValue(e.target.value)} value={value}>
-            <Space wrap className='flex justify-center py-6'>
+          ]}>
+          <Radio.Group
+            className="w-full"
+            buttonStyle="solid"
+            onChange={(e) => setValue(e.target.value)}
+            value={value}>
+            <Space wrap className="flex justify-center py-6">
               {isLoading ? (
-                <Spinner className='w-full' />
+                <Spinner className="w-full" />
               ) : grades?.list?.length ? (
                 grades?.list?.map((grade) => (
-                  <Radio.Button key={grade._id} value={grade._id} className='flex items-center whitespace-nowrap justify-center min-w-[70px] py-1 !rounded-full border border-success border-solid bg-success'>
+                  <Radio.Button
+                    key={grade._id}
+                    value={grade._id}
+                    className="flex items-center whitespace-nowrap justify-center min-w-[70px] py-1 !rounded-full border border-success border-solid bg-success">
                     {grade.title}
                   </Radio.Button>
                 ))
@@ -71,8 +76,8 @@ export default function CreateClassManually({ next }) {
             </Space>
           </Radio.Group>
         </Form.Item>
-        <Form.Item className='flex justify-center'>
-          <ADButton size='large' type='primary' htmlType='submit' disabled={isLoading}>
+        <Form.Item className="flex justify-center">
+          <ADButton size="large" type="primary" htmlType="submit" disabled={isLoading}>
             CONTINUE
           </ADButton>
         </Form.Item>

@@ -14,8 +14,7 @@ function ADButton({ children, className, type, htmlType, innerRef, size, ...prop
       type={type}
       size={size}
       htmlType={htmlType}
-      {...props}
-    >
+      {...props}>
       {children}
     </Button>
   );

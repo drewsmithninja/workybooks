@@ -23,60 +23,90 @@ export const getCollections = createAsyncThunk('library/getCollections', async (
     const response = await collectionAPI.getCollections(data);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const getFavoriteCollections = createAsyncThunk('library/getFavoriteCollections', async (thunkAPI) => {
-  try {
-    const response = await collectionAPI.getFavoriteCollections();
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getFavoriteCollections = createAsyncThunk(
+  'library/getFavoriteCollections',
+  async (thunkAPI) => {
+    try {
+      const response = await collectionAPI.getFavoriteCollections();
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const getCollection = createAsyncThunk('library/getCollection', async (data, thunkAPI) => {
   try {
     const response = await collectionAPI.getCollection(data);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const createCollection = createAsyncThunk('collection/createCollection', async (data, thunkAPI) => {
-  try {
-    const response = await collectionAPI.createCollection(data);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const createCollection = createAsyncThunk(
+  'collection/createCollection',
+  async (data, thunkAPI) => {
+    try {
+      const response = await collectionAPI.createCollection(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const updateCollection = createAsyncThunk('collection/updateCollection', async (data, thunkAPI) => {
-  try {
-    const response = await collectionAPI.updateCollection(data);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const updateCollection = createAsyncThunk(
+  'collection/updateCollection',
+  async (data, thunkAPI) => {
+    try {
+      const response = await collectionAPI.updateCollection(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const updateCollectionLike = createAsyncThunk('collection/updateCollectionLike', async (data, thunkAPI) => {
-  try {
-    const response = await collectionAPI.updateCollectionLike(data);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const updateCollectionLike = createAsyncThunk(
+  'collection/updateCollectionLike',
+  async (data, thunkAPI) => {
+    try {
+      const response = await collectionAPI.updateCollectionLike(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const collectionSlice = createSlice({
   name: 'collection',

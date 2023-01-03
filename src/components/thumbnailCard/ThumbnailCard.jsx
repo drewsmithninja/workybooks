@@ -12,11 +12,22 @@ import sampleImage from '../../assets/images/dummyImage.png';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
-import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
 
-function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+function ThumbnailCard({
+  className,
+  cardWidth,
+  onCheck,
+  id,
+  cardChecked,
+  collection,
+  thumbnails = [],
+  favorite,
+  onFavChange,
+  likes,
+  ...props
+}) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -60,24 +71,24 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
     {
       label: 'PRINT',
       key: '1',
-      icon: <ADImage src={printIcon} alt='print' />
+      icon: <ADImage src={printIcon} alt="print" />
     },
     {
       label: 'ASSIGN',
       key: '2',
-      icon: <ADImage src={assignIcon} alt='assign' />,
+      icon: <ADImage src={assignIcon} alt="assign" />,
       onClick: showAssignModal
     },
     {
       label: 'COPY TO MY COLLECTION',
       key: '3',
-      icon: <ADImage src={folderIcon} alt='copy to my collection' />
+      icon: <ADImage src={folderIcon} alt="copy to my collection" />
       // onClick: showCollectionModal
     },
     {
       label: 'SHARE',
       key: '4',
-      icon: <ADImage src={shareIcon} alt='share' />
+      icon: <ADImage src={shareIcon} alt="share" />
     }
   ];
 
@@ -97,14 +108,26 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   ];
   return (
     <>
-      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
+      <Modal
+        className="rounded-xl"
+        centered
+        footer={false}
+        open={isAssignModalOpen}
+        onOk={handleAssignModalOk}
+        onCancel={handleAssignModalCancel}>
+        {/* <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} /> */}
       </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
+      <Modal
+        className="rounded-xl"
+        centered
+        footer={false}
+        open={isCollectionModalOpen}
+        onOk={handleCollectionModalOk}
+        onCancel={handleCollectionModalCancel}>
+        {/* <NewAssignmentOrCollection onCreate={onCollectionCreateClick} /> */}
       </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
-        <ADTitle level={3} className='text-center text-danger pb-8'>
+      <Modal className="rounded-xl" centered footer={false} open={isStepModalOpen}>
+        <ADTitle level={3} className="text-center text-danger pb-8">
           Create New Assign Activities
         </ADTitle>
         <Steps current={currentStep}>
@@ -112,88 +135,109 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
-        <div className='steps-content'>{steps[currentStep].content}</div>
-        <div className='steps-action'>
+        <div className="steps-content">{steps[currentStep].content}</div>
+        <div className="steps-action">
           {currentStep === 0 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={nextStep}>
+              <ADButton size="large" type="primary" onClick={nextStep}>
                 ADD MORE ITEMS
               </ADButton>
-              <ADButton size='large' type='primary' onClick={nextStep}>
+              <ADButton size="large" type="primary" onClick={nextStep}>
                 ASSIGN
               </ADButton>
             </div>
           )}
           {currentStep === 1 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={prevStep}>
+              <ADButton size="large" type="primary" onClick={prevStep}>
                 BACK
               </ADButton>
             </div>
           )}
           {currentStep === 2 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={prevStep}>
+              <ADButton size="large" type="primary" onClick={prevStep}>
                 BACK
               </ADButton>
-              <ADButton size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
+              <ADButton size="large" type="primary" onClick={() => setIsStepModalOpen(false)}>
                 ASSIGN
               </ADButton>
             </div>
           )}
         </div>
       </Modal>
-      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
-        <div className='w-full h-full aspect-[16/9]'>
+      <ADCard
+        className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`}
+        hoverable
+        {...props}>
+        <div className="w-full h-full aspect-[16/9]">
           <Row gutter={[8, 8]}>
             {thumbnails && thumbnails?.length ? (
               thumbnails.slice(0, 4).map((item, index) => (
-                <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} onClick={() => navigate(`/collection/${id}`)}>
-                  <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
+                <Col
+                  key={index}
+                  xs={thumbnails?.length === 1 ? 24 : 12}
+                  onClick={() => navigate(`/collection/${id}`)}>
+                  <Image
+                    preview={false}
+                    src={item}
+                    className="rounded-md aspect-[16/9] object-cover"
+                  />
                 </Col>
               ))
             ) : (
-              <Image preview={false} src={sampleImage} className='rounded-md aspect-[16/9] object-cover' alt='thumbnail-default-image' />
+              <Image
+                preview={false}
+                src={sampleImage}
+                className="rounded-md aspect-[16/9] object-cover"
+                alt="thumbnail-default-image"
+              />
             )}
           </Row>
         </div>
-        <div className='flex justify-between items-center py-2'>
+        <div className="flex justify-between items-center py-2">
           <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
-          <div className='flex items-center'>
-            <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
-              {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-success' />}
+          <div className="flex items-center">
+            <ADButton
+              className="!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent"
+              type="text"
+              onClick={onFavChange}>
+              {favorite ? (
+                <HeartFilled className="text-primary" />
+              ) : (
+                <HeartOutlined className="text-success" />
+              )}
             </ADButton>
-            <span className='text-sm pl-2'>{likes}</span>
+            <span className="text-sm pl-2">{likes}</span>
           </div>
           <Dropdown
             menu={{
               items
             }}
-            placement='topLeft'
-            arrow
-          >
-            <div className='rounded-full border-solid border-2 border-slate-300 flex'>
-              <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
+            placement="topLeft"
+            arrow>
+            <div className="rounded-full border-solid border-2 border-slate-300 flex">
+              <EllipsisOutlined className="text-[18px] text-medium p-px text-gray-400" />
             </div>
           </Dropdown>
         </div>
         <div>{collection?.title}</div>
-        <div className='flex justify-between'>
-          <div className='text-xs text-slate-400'>
+        <div className="flex justify-between">
+          <div className="text-xs text-slate-400">
             By
             {collection?.added_by?.firstName}
             {collection?.added_by?.lastName}
           </div>
-          <div className='text-xs text-slate-400'>{`${thumbnails?.length} Worksheets`}</div>
+          <div className="text-xs text-slate-400">{`${thumbnails?.length} Worksheets`}</div>
         </div>
       </ADCard>
     </>

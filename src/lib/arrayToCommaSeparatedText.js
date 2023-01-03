@@ -1,8 +1,9 @@
-const arrayToCommaSeparatedText = (array) => (array ?
+const arrayToCommaSeparatedText = (array) =>
   array
-    .map((item) => item)
-    .join(', ')
-    .toString() :
-  'None');
+    ? array
+        .map((item) => item)
+        .join(', ')
+        .toString()
+    : 'None';
 
 export default arrayToCommaSeparatedText;

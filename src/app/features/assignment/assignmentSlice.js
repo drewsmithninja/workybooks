@@ -3,77 +3,98 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import assignmentAPI from '../../api/assignmentAPI';
 
-export const getAssignments = createAsyncThunk('assignment/getAssignments', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.getAssignments(data);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const getAssignments = createAsyncThunk(
+  'assignment/getAssignments',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.getAssignments(data);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const getSubmittedAssignments = createAsyncThunk('assignment/getSubmittedAssignments', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.getSubmittedAssignments(data);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const getSubmittedAssignments = createAsyncThunk(
+  'assignment/getSubmittedAssignments',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.getSubmittedAssignments(data);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const getAssignmentsByStatus = createAsyncThunk('assignment/getAssignmentsByStatus', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.getAssignmentsByStatus(data);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const getAssignmentsByStatus = createAsyncThunk(
+  'assignment/getAssignmentsByStatus',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.getAssignmentsByStatus(data);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const getAssignmentsByStudent = createAsyncThunk('assignment/getAssignmentsByStudent', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.getAssignmentsByStudent(data);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const getAssignmentsByStudent = createAsyncThunk(
+  'assignment/getAssignmentsByStudent',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.getAssignmentsByStudent(data);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
-export const getStudentAssignmentDetail = createAsyncThunk('assignment/getStudentAssignmentDetail', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.getStudentAssignmentDetail(data);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+);
+export const getStudentAssignmentDetail = createAsyncThunk(
+  'assignment/getStudentAssignmentDetail',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.getStudentAssignmentDetail(data);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const updateAssignment = createAsyncThunk('assignment/updateAssignment', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.updateAssignment(data);
-    toast.success(response.message);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const updateAssignment = createAsyncThunk(
+  'assignment/updateAssignment',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.updateAssignment(data);
+      toast.success(response.message);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const createAssignment = createAsyncThunk('assignment/createAssignment', async (data, thunkAPI) => {
-  try {
-    const response = await assignmentAPI.createAssignment(data);
-    toast.success(response?.message);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    toast.error(message);
-    return thunkAPI.rejectWithValue(message);
+export const createAssignment = createAsyncThunk(
+  'assignment/createAssignment',
+  async (data, thunkAPI) => {
+    try {
+      const response = await assignmentAPI.createAssignment(data);
+      toast.success(response?.message);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      toast.error(message);
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const assignmentSlice = createSlice({
   name: 'assignment',
@@ -220,5 +241,6 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus, setNewAssignment, resetNewAssignment } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setNewAssignment, resetNewAssignment } =
+  assignmentSlice.actions;
 export default assignmentSlice.reducer;

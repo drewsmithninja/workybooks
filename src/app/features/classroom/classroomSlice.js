@@ -1,22 +1,28 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import classroomAPI from '../../api/classroomApi';
 
-export const createClass = createAsyncThunk('classroom/createClass', async (classData, thunkAPI) => {
-  try {
-    const response = await classroomAPI.createClass(classData);
-    return response;
-  } catch (error) {
-    const message = error?.response?.data?.message;
-    return thunkAPI.rejectWithValue(message);
+export const createClass = createAsyncThunk(
+  'classroom/createClass',
+  async (classData, thunkAPI) => {
+    try {
+      const response = await classroomAPI.createClass(classData);
+      return response;
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const editClass = createAsyncThunk('classroom/editClass', async (data, thunkAPI) => {
   try {
     const response = await classroomAPI.editClass(data);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -36,7 +42,10 @@ export const getClassrooms = createAsyncThunk('classroom/getClassrooms', async (
     const response = await classroomAPI.getClassrooms();
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -46,7 +55,10 @@ export const getClassroom = createAsyncThunk('classroom/getClassroom', async (id
     const response = await classroomAPI.getClassroom(id);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -119,7 +131,9 @@ export const classroomSlice = createSlice({
       .addCase(getClassrooms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.currentClass = action.payload.list?.filter((x) => !state.classes?.list?.includes(x))?.[0];
+        state.currentClass = action.payload.list?.filter(
+          (x) => !state.classes?.list?.includes(x)
+        )?.[0];
         state.classes = action.payload;
       })
       .addCase(getClassrooms.rejected, (state, action) => {

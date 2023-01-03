@@ -52,12 +52,12 @@ function SearchBar() {
   }, [suggestKeyword]);
 
   return (
-    <div className='w-full py-3 flex items-center bg-[#243E8F]'>
+    <div className="w-full py-3 flex items-center bg-[#243E8F]">
       <AutoComplete
         autoFocus
         backfill
-        className='w-1/2 mx-auto'
-        placeholder='Search by common core standard, topic or keyword'
+        className="w-1/2 mx-auto"
+        placeholder="Search by common core standard, topic or keyword"
         onKeyUp={(e) => {
           if (e.key === 'Enter') {
             onSearchtext(e.target.value);

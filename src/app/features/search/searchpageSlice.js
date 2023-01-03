@@ -19,37 +19,55 @@ export const search = createAsyncThunk('search/search', async (searchData, thunk
     const response = await searchAPI.search(searchData);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const searchSuggest = createAsyncThunk('search/suggestKeyword', async (searchQuery, thunkAPI) => {
-  try {
-    const response = await searchAPI.searchSuggest(searchQuery);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const searchSuggest = createAsyncThunk(
+  'search/suggestKeyword',
+  async (searchQuery, thunkAPI) => {
+    try {
+      const response = await searchAPI.searchSuggest(searchQuery);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const subjectTopic = createAsyncThunk('search/subjectTopic', async (searchTopic, thunkAPI) => {
-  try {
-    const response = await searchAPI.subjectTopic(searchTopic);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const subjectTopic = createAsyncThunk(
+  'search/subjectTopic',
+  async (searchTopic, thunkAPI) => {
+    try {
+      const response = await searchAPI.subjectTopic(searchTopic);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const ccsTopic = createAsyncThunk('search/ccsTopic', async (searchTopic, thunkAPI) => {
   try {
     const response = await searchAPI.ccsTopic(searchTopic);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

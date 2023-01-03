@@ -48,13 +48,13 @@ function NewSignUpGoogle() {
   };
   return (
     <>
-      <Header className='h-20 relative container mx-auto'>
-        <div className='flex items-center justify-between pt-2'>
+      <Header className="h-20 relative container mx-auto">
+        <div className="flex items-center justify-between pt-2">
           <div>
-            <Link to='/'>
+            <Link to="/">
               <ADImage
                 src={logo}
-                alt='logo'
+                alt="logo"
                 style={{
                   width: 100
                 }}
@@ -63,21 +63,19 @@ function NewSignUpGoogle() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] min-h-[622px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
-        <Typography.Title level={2} className='!text-base md:!text-2xl mt-[56px]'>
-          Welcome
-          {' '}
-          {`${location?.state?.firstName} ${location?.state?.lastName}`}
+      <div className="w-[85%] max-w-[554px] min-h-[622px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center">
+        <Typography.Title level={2} className="!text-base md:!text-2xl mt-[56px]">
+          Welcome {`${location?.state?.firstName} ${location?.state?.lastName}`}
         </Typography.Title>
-        <Typography.Title level={5} className='!font-normal !mt-[0px] !mb-[65px] !text-[14px]'>
+        <Typography.Title level={5} className="!font-normal !mt-[0px] !mb-[65px] !text-[14px]">
           Please confirm your details
         </Typography.Title>
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Col span={12} className='!pl-[0px]'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <Col span={12} className="!pl-[0px]">
               <Form.Item
                 label={false}
-                name='firstName'
+                name="firstName"
                 rules={[
                   {
                     type: 'text'
@@ -87,18 +85,14 @@ function NewSignUpGoogle() {
                     message: 'Please input your last name!'
                   }
                 ]}
-                value={location?.state?.firstName}
-              >
-                <Input
-                  placeholder='First Name'
-                  className='w-full h-[46px] m-auto rounded-[6px]'
-                />
+                value={location?.state?.firstName}>
+                <Input placeholder="First Name" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
-            <Col span={12} className='!pr-0'>
+            <Col span={12} className="!pr-0">
               <Form.Item
                 label={false}
-                name='lastName'
+                name="lastName"
                 rules={[
                   {
                     type: 'text'
@@ -108,20 +102,16 @@ function NewSignUpGoogle() {
                     message: 'Please input your last name!'
                   }
                 ]}
-                value={location?.state?.lastName}
-              >
-                <Input
-                  placeholder='Last Name'
-                  className='w-full h-[46px] m-auto rounded-[6px]'
-                />
+                value={location?.state?.lastName}>
+                <Input placeholder="Last Name" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Col span={24} className='!pr-0 !pl-0'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <Col span={24} className="!pr-0 !pl-0">
               <Form.Item
                 label={false}
-                name='email'
+                name="email"
                 value={location?.state?.email}
                 rules={[
                   {
@@ -132,25 +122,21 @@ function NewSignUpGoogle() {
                     required: true,
                     message: 'Please input your E-mail!'
                   }
-                ]}
-              >
-                <Input
-                  placeholder='Email'
-                  className='w-full h-[46px] m-auto rounded-[6px]'
-                />
+                ]}>
+                <Input placeholder="Email" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Typography.Title level={5} className='!font-medium'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <Typography.Title level={5} className="!font-medium">
               Your School
             </Typography.Title>
           </Row>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Col span={24} className='!pr-0 !pl-0'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <Col span={24} className="!pr-0 !pl-0">
               <Form.Item
                 label={false}
-                name='schoolName'
+                name="schoolName"
                 rules={[
                   {
                     type: 'text'
@@ -159,17 +145,16 @@ function NewSignUpGoogle() {
                     required: true,
                     message: 'Please input your School Name!'
                   }
-                ]}
-              >
-                <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                ]}>
+                <Input placeholder="School Name" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-            <Col span={12} className='!pl-[0px]'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <Col span={12} className="!pl-[0px]">
               <Form.Item
                 label={false}
-                name='state'
+                name="state"
                 rules={[
                   {
                     type: 'text'
@@ -178,15 +163,14 @@ function NewSignUpGoogle() {
                     required: true,
                     message: 'Please input your State Name!'
                   }
-                ]}
-              >
-                <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
+                ]}>
+                <Input placeholder="State" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
-            <Col span={12} className='!pr-0'>
+            <Col span={12} className="!pr-0">
               <Form.Item
                 label={false}
-                name='city'
+                name="city"
                 rules={[
                   {
                     type: 'text'
@@ -195,15 +179,13 @@ function NewSignUpGoogle() {
                     required: true,
                     message: 'Please input your City Name!'
                   }
-                ]}
-              >
-                <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
+                ]}>
+                <Input placeholder="City" className="w-full h-[46px] m-auto rounded-[6px]" />
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-
-            <ADButton type='primary' htmlType='submit' className='w-full'>
+          <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+            <ADButton type="primary" htmlType="submit" className="w-full">
               CONFIRM
             </ADButton>
           </Row>

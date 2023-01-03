@@ -6,7 +6,7 @@ function PrivateRoute({ children }) {
   const token = getSessionToken();
 
   if (!user && !token) {
-    return <Navigate to='/sign-in' replace />;
+    return <Navigate to="/sign-in" replace />;
   }
   return children;
 }

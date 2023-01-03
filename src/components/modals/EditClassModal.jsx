@@ -29,8 +29,8 @@ export default function EditClassModal({ onOk, onShow, ...props }) {
   return (
     <ADModal centered afterClose={afterClose} footer={false} {...props}>
       <ADSteps items={items} current={1} />
-      <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content'>{items[current].content}</div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="steps-content">{items[current].content}</div>
       </div>
     </ADModal>
   );

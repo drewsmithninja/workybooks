@@ -43,8 +43,8 @@ function CreateClassModal({ onOk, ...props }) {
   return (
     <ADModal centered footer={false} onOk={onOk} afterClose={() => setCurrent(0)} {...props}>
       <ADSteps items={items} current={1} />
-      <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content'>{items[current].content}</div>
+      <div className="flex flex-col items-center justify-center">
+        <div className="steps-content">{items[current].content}</div>
       </div>
     </ADModal>
   );

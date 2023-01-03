@@ -50,21 +50,37 @@ function Home() {
   return (
     <MainLayout>
       {user && (
-        <div className='w-full max-w-[95%] m-auto'>
+        <div className="w-full max-w-[95%] m-auto">
           <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData?.list} />
           <GradeComponent />
-          <Row gutter={16} className='mt-[15px] border rounded-md'>
-            <Col span={16} className='max-h-[253px] pr-0'>
-              <ADImage src={dummyImage1} alt='test' height='100%' />
+          <Row gutter={16} className="mt-[15px] border rounded-md">
+            <Col span={16} className="max-h-[253px] pr-0">
+              <ADImage src={dummyImage1} alt="test" height="100%" />
             </Col>
-            <Col span={8} className='max-h-[253px] pl-0'>
-              <ADImage src={dummyImage1} alt='test' height='100%' />
+            <Col span={8} className="max-h-[253px] pl-0">
+              <ADImage src={dummyImage1} alt="test" height="100%" />
             </Col>
           </Row>
-          <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.list?.length ? worksheets?.list?.map((item) => <CardComponent setRerender={setRerender} key={item._id} item={item} />) : <h2 className='px-4 py-24 text-center w-full'>no any worksheet here!</h2>}</div>
-          <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
-          <div className='flex flex-row scrollVertical width-full'>{popularWorksheets?.length ? popularWorksheets?.map((item) => <CardComponent setRerender={setRerender} key={item._id} item={item} />) : <h2 className='px-4 py-24 text-center w-full'>no any popular worksheet here!</h2>}</div>
+          <h3 className="uppercase pl-[15px] mt-[15px]">New in workybooks</h3>
+          <div className="flex flex-row scrollVertical width-full">
+            {worksheets?.list?.length ? (
+              worksheets?.list?.map((item) => (
+                <CardComponent setRerender={setRerender} key={item._id} item={item} />
+              ))
+            ) : (
+              <h2 className="px-4 py-24 text-center w-full">no any worksheet here!</h2>
+            )}
+          </div>
+          <h3 className="uppercase pl-[15px] mt-[15px]">Popular</h3>
+          <div className="flex flex-row scrollVertical width-full">
+            {popularWorksheets?.length ? (
+              popularWorksheets?.map((item) => (
+                <CardComponent setRerender={setRerender} key={item._id} item={item} />
+              ))
+            ) : (
+              <h2 className="px-4 py-24 text-center w-full">no any popular worksheet here!</h2>
+            )}
+          </div>
         </div>
       )}
     </MainLayout>

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SearchOutlined } from '@ant-design/icons';
 import { Col, Input, Row, Typography } from 'antd';
 import { useEffect, useState } from 'react';
@@ -70,19 +68,20 @@ export default function CCSDetailsPage() {
   //   return searchedData;
   // });
 
-  const searchData = (array, searchTerm) => array.reduce((prev, curr) => {
-    const children = curr.topics ? searchData(curr.topics, searchTerm) : undefined;
-    return curr.id === searchTerm || children?.length > 0 ?
-      [
-        ...prev,
-        {
-          ...curr,
-          topics: children
-        }
-      ] :
-      prev;
-    // return curr.title === searchTerm || children?.length > 0 ? [...prev, { ...curr, topics: children }] : prev;
-  }, []);
+  const searchData = (array, searchTerm) =>
+    array.reduce((prev, curr) => {
+      const children = curr.topics ? searchData(curr.topics, searchTerm) : undefined;
+      return curr.id === searchTerm || children?.length > 0
+        ? [
+            ...prev,
+            {
+              ...curr,
+              topics: children
+            }
+          ]
+        : prev;
+      // return curr.title === searchTerm || children?.length > 0 ? [...prev, { ...curr, topics: children }] : prev;
+    }, []);
 
   function renderCCSItem(items, ccsItem, level) {
     let item = '<></>;';
@@ -91,7 +90,7 @@ export default function CCSDetailsPage() {
       // eslint-disable-next-line no-plusplus
       level++;
       if (level === 1) {
-        items.push(<div className='w-full p-0.5 bg-gray-600' />);
+        items.push(<div className="w-full p-0.5 bg-gray-600" />);
       }
       let style = 'flex w-full justify-between p-2 text-left text-gray-900';
       if (level <= 1) style += ' text-2xl font-bold mt-12 text-black';
@@ -99,9 +98,8 @@ export default function CCSDetailsPage() {
       else if (level === 3) style += ' text-md font-bold mt-4';
       else style += ' text-sm ';
       let parentItem = (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
         <div className={style} onClick={() => topicSelectHandler(ccsItem.id)}>
-          <span className='cursor-pointer hover:text-blue-500'>{ccsItem.title}</span>
+          <span className="cursor-pointer hover:text-blue-500">{ccsItem.title}</span>
         </div>
       );
 
@@ -113,10 +111,13 @@ export default function CCSDetailsPage() {
 
         parentItem = (
           <>
-            <div key={ccsItem.title} onClick={() => topicSelectHandler(ccsItem.id)} className='px-2 pt-4 pb-2 flex w-full justify-between  text-left text-sm font-bold text-gray-900 '>
-              <span className='cursor-pointer hover:text-blue-500'>{ccsItem.title}</span>
+            <div
+              key={ccsItem.title}
+              onClick={() => topicSelectHandler(ccsItem.id)}
+              className="px-2 pt-4 pb-2 flex w-full justify-between  text-left text-sm font-bold text-gray-900 ">
+              <span className="cursor-pointer hover:text-blue-500">{ccsItem.title}</span>
             </div>
-            <div className='px-2 py-1 text-sm text-gray-500  w-full bg-gray-100'>{subItems}</div>
+            <div className="px-2 py-1 text-sm text-gray-500  w-full bg-gray-100">{subItems}</div>
           </>
         );
 
@@ -129,14 +130,15 @@ export default function CCSDetailsPage() {
       }
     } else {
       item = (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div onClick={() => topicSelectHandler(ccsItem.id)} className=' w-full border-b  my-2 px-2 text-left text-sm font-medium text-gray-700 h-auto'>
-          <div className='flex flex-wrap w-full py-2 my-2 rounded-xl cursor-pointer  hover:bg-blue-100'>
-            <div className='w-32  m-2 rounded-xl'>
-              <span className='font-bold'>{ccsItem.id}</span>
+        <div
+          onClick={() => topicSelectHandler(ccsItem.id)}
+          className=" w-full border-b  my-2 px-2 text-left text-sm font-medium text-gray-700 h-auto">
+          <div className="flex flex-wrap w-full py-2 my-2 rounded-xl cursor-pointer  hover:bg-blue-100">
+            <div className="w-32  m-2 rounded-xl">
+              <span className="font-bold">{ccsItem.id}</span>
             </div>
-            <div className='flex flex-1 flex-wrap'>{ccsItem.description}</div>
-            <div className='w-16 text-center'>&gt;</div>
+            <div className="flex flex-1 flex-wrap">{ccsItem.description}</div>
+            <div className="w-16 text-center">&gt;</div>
           </div>
         </div>
       );
@@ -167,18 +169,23 @@ export default function CCSDetailsPage() {
   return (
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData?.list} />
-      <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
-      <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
+      <GradeComponent activeGrade="3" gradeList={gradeData?.list} getGrade={handleGrade} />
+      <Row gutter={[16, 16]} className="container !mx-auto mt-[30px]">
         <Col lg={12} xs={24}>
-          <Typography.Title level={3} className='md:text-left text-center'>
+          <Typography.Title level={3} className="md:text-left text-center">
             {`${ccsDetail?.title} - Grade 3`}
           </Typography.Title>
         </Col>
-        <Col lg={12} xs={24} className='text-center md:text-right'>
-          <Search placeholder={`Search ${ccsDetail?.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' suffix={<SearchOutlined className='text-[#A5A5A5]' />} onSearch={onSearch} />
+        <Col lg={12} xs={24} className="text-center md:text-right">
+          <Search
+            placeholder={`Search ${ccsDetail?.title} Topics`}
+            className="w-full max-w-[487px] h-[40px] rounded-[60px]"
+            suffix={<SearchOutlined className="text-[#A5A5A5]" />}
+            onSearch={onSearch}
+          />
         </Col>
       </Row>
-      <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems}</div>
+      <div className="w-full m-auto flex flex-wrap px-12">{ccsItems}</div>
     </MainLayout>
   );
 }

@@ -53,13 +53,13 @@ function ResetPassword() {
 
   return (
     <>
-      <Header className='h-20 relative container mx-auto'>
-        <div className='flex items-center justify-between pt-2'>
+      <Header className="h-20 relative container mx-auto">
+        <div className="flex items-center justify-between pt-2">
           <div>
-            <Link to='/'>
+            <Link to="/">
               <ADImage
                 src={logo}
-                alt='logo'
+                alt="logo"
                 style={{
                   width: 100
                 }}
@@ -68,42 +68,51 @@ function ResetPassword() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] h-[688px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
-        <Typography.Title level={2} className='mt-[56px] !mb-[65px]'>
+      <div className="w-[85%] max-w-[554px] h-[688px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center">
+        <Typography.Title level={2} className="mt-[56px] !mb-[65px]">
           Reset Password
         </Typography.Title>
 
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
           <Form.Item
             label={false}
-            name='newPassword'
+            name="newPassword"
             rules={[
               {
                 required: true,
                 message: 'Please input your password!'
               }
-            ]}
-          >
-            <Input.Password placeholder='New Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
+            ]}>
+            <Input.Password
+              placeholder="New Password"
+              className="w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]"
+            />
           </Form.Item>
           <Form.Item shouldUpdate>
             {() => (
-              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+              <ADButton
+                type="primary"
+                htmlType="submit"
+                className="w-[85%] max-w-[358px] m-auto"
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  form.getFieldsError().filter(({ errors }) => errors.length).length > 0
+                }>
                 Submit
               </ADButton>
             )}
           </Form.Item>
         </Form>
       </div>
-      <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] mb-[40px]'>
+      <Paragraph className="m-auto block w-[85%] max-w-[554px] text-center mt-[20px] mb-[40px]">
         Don’t have an account?
-        <Link to='/sign-up' className='ml-[5px]'>
+        <Link to="/sign-up" className="ml-[5px]">
           Sign up
         </Link>
       </Paragraph>
-      <Typography.Title level={5} className='mx-auto my-[20px] text-center font-medium'>
-        <span className='font-medium'>Student?&nbsp;</span>
-        <Link to='/' className='ml-[5px]'>
+      <Typography.Title level={5} className="mx-auto my-[20px] text-center font-medium">
+        <span className="font-medium">Student?&nbsp;</span>
+        <Link to="/" className="ml-[5px]">
           Go here
         </Link>
       </Typography.Title>

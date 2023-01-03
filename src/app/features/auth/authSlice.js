@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import authAPI from '../../api/authApi';
+import homeAPI from '../../api/homeApi';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
@@ -12,55 +13,79 @@ const initialState = {
   message: ''
 };
 
-export const fetchUserByToken = createAsyncThunk('auth/fetchUserByToken', async (currentUser, thunkAPI) => {
-  try {
-    const response = await authAPI.getCurrentUser(currentUser);
-    return response.data;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const fetchUserByToken = createAsyncThunk(
+  'auth/fetchUserByToken',
+  async (currentUser, thunkAPI) => {
+    try {
+      const response = await authAPI.getCurrentUser(currentUser);
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
-  try {
-    const response = await homeAPI.worksheetDetails(worksheetId);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const worksheetDetails = createAsyncThunk(
+  'home/worksheetDetails',
+  async (worksheetId, thunkAPI) => {
+    try {
+      const response = await homeAPI.worksheetDetails(worksheetId);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const register = createAsyncThunk('auth/register', async (userRegister, thunkAPI) => {
   try {
     return await authAPI.register(userRegister);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (emailVerificationId, thunkAPI) => {
-  const notify = (x) => {
-    toast.error(x, {
-      toastId: x
-    });
-  };
-  try {
-    return await authAPI.verifyEmail(emailVerificationId);
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    notify(message);
-    return thunkAPI.rejectWithValue(message);
+export const verifyEmail = createAsyncThunk(
+  'auth/verifyEmail',
+  async (emailVerificationId, thunkAPI) => {
+    const notify = (x) => {
+      toast.error(x, {
+        toastId: x
+      });
+    };
+    try {
+      return await authAPI.verifyEmail(emailVerificationId);
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      notify(message);
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const login = createAsyncThunk('auth/login', async (userLogin, thunkAPI) => {
   try {
     return await authAPI.login(userLogin);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -69,24 +94,36 @@ export const googleLogin = createAsyncThunk('auth/loginWithGoogle', async (userL
   try {
     return await authAPI.googleLogin(userLogin);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
-export const googleRegister = createAsyncThunk('auth/registerWithGoogle', async (userRegister, thunkAPI) => {
-  try {
-    return await authAPI.googleRegister(userRegister);
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const googleRegister = createAsyncThunk(
+  'auth/registerWithGoogle',
+  async (userRegister, thunkAPI) => {
+    try {
+      return await authAPI.googleRegister(userRegister);
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const forgotPassword = createAsyncThunk('auth/forgotPassword', async (emailId, thunkAPI) => {
   try {
     return await authAPI.forgotPassword(emailId);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -95,7 +132,10 @@ export const resetPassword = createAsyncThunk('auth/resetPassword', async (passw
   try {
     return await authAPI.resetPassword(password);
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

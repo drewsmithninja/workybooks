@@ -6,30 +6,45 @@ export const getWorksheets = createAsyncThunk('worksheet/getWorksheets', async (
     const response = await worksheetAPI.getWorksheets(data);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
-export const getPopularWorksheets = createAsyncThunk('library/getPopularWorksheets', async (data, thunkAPI) => {
-  try {
-    const response = await worksheetAPI.getPopularWorksheets(data);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getPopularWorksheets = createAsyncThunk(
+  'library/getPopularWorksheets',
+  async (data, thunkAPI) => {
+    try {
+      const response = await worksheetAPI.getPopularWorksheets(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
-export const getRecentWorksheets = createAsyncThunk('library/getRecentWorksheets', async (thunkAPI) => {
-  try {
-    const response = await worksheetAPI.getRecentWorksheets();
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getRecentWorksheets = createAsyncThunk(
+  'library/getRecentWorksheets',
+  async (thunkAPI) => {
+    try {
+      const response = await worksheetAPI.getRecentWorksheets();
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 const initialState = {
   worksheets: null,
@@ -110,5 +125,11 @@ export const worksheetSlice = createSlice({
   }
 });
 
-export const { selectWorksheet, unSelectWorksheet, resetSelectedWorksheets, setCurrentWorksheet, resetCurrentWorksheet } = worksheetSlice.actions;
+export const {
+  selectWorksheet,
+  unSelectWorksheet,
+  resetSelectedWorksheets,
+  setCurrentWorksheet,
+  resetCurrentWorksheet
+} = worksheetSlice.actions;
 export default worksheetSlice.reducer;

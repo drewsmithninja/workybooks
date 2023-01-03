@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import gradeAPI from '../../api/GradeApi';
 
-export const fetchGrades = createAsyncThunk('grades/fetchGrades', async () => {
+export const fetchGrades = createAsyncThunk('grades/fetchGrades', async (thunkAPI) => {
   try {
     const response = await gradeAPI.fetchGrades();
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

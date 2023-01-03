@@ -13,15 +13,21 @@ const initialState = {
   message: ''
 };
 
-export const worksheetDetails = createAsyncThunk('home/worksheetDetails', async (worksheetId, thunkAPI) => {
-  try {
-    const response = await homeAPI.worksheetDetails(worksheetId);
-    return response.content;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const worksheetDetails = createAsyncThunk(
+  'home/worksheetDetails',
+  async (worksheetId, thunkAPI) => {
+    try {
+      const response = await homeAPI.worksheetDetails(worksheetId);
+      return response.content;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // List Subject
 export const listSubject = createAsyncThunk('home/subject', async (subjectData, thunkAPI) => {
@@ -29,7 +35,10 @@ export const listSubject = createAsyncThunk('home/subject', async (subjectData, 
     const response = await homeAPI.listSubject(subjectData);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -40,21 +49,30 @@ export const listCCL = createAsyncThunk('home/commonCoreStandard', async (ccsDat
     const response = await homeAPI.listCCL(ccsData);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
 
 // Like Worksheet
-export const likeWorksheet = createAsyncThunk('home/likeWorksheet', async (worksheetData, thunkAPI) => {
-  try {
-    const response = await homeAPI.likeWorksheet(worksheetData);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const likeWorksheet = createAsyncThunk(
+  'home/likeWorksheet',
+  async (worksheetData, thunkAPI) => {
+    try {
+      const response = await homeAPI.likeWorksheet(worksheetData);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const homeSlice = createSlice({
   name: 'home',

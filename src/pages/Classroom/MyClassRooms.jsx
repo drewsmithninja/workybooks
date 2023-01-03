@@ -110,8 +110,24 @@ function MyClassrooms() {
         }
       ];
 
-  const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
-  const editClassRoom = <EditClassModal closable={false} open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
+  const createClassRoom = (
+    <CreateClassModal
+      closable={false}
+      open={isCreateClassModalOpen}
+      onShow={showCreateClassModal}
+      onOk={handleCreateClassOk}
+      onCancel={handleCreateClassCancel}
+    />
+  );
+  const editClassRoom = (
+    <EditClassModal
+      closable={false}
+      open={isEditClassModalOpen}
+      onShow={(e) => showEditClassModal(e)}
+      onOk={handleEditClassOk}
+      onCancel={handleEditClassCancel}
+    />
+  );
 
   return (
     <MainLayout>
@@ -120,19 +136,24 @@ function MyClassrooms() {
       {isLoading ? (
         <Spinner full />
       ) : (
-        <div className='p-4 w-full'>
-          <div className='py-2'>
-            <Space size='large'>
+        <div className="p-4 w-full">
+          <div className="py-2">
+            <Space size="large">
               <ADTitle level={3}>Class</ADTitle>
-              <ADSelect className='w-32' defaultValue={classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
-              <div className='flex'>
-                <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
-                  <FaPencilAlt className='text-gray-400 text-lg' />
+              <ADSelect
+                className="w-32"
+                defaultValue={classOptions?.[0] ?? 'No Class'}
+                onChange={onClassChangeHandler}
+                options={classOptions}
+              />
+              <div className="flex">
+                <ADButton type="text" className="!p-0" onClick={showEditClassModal}>
+                  <FaPencilAlt className="text-gray-400 text-lg" />
                 </ADButton>
               </div>
-              <div className='flex'>
-                <ADButton type='text' className='!p-0' onClick={showCreateClassModal}>
-                  <FaPlusCircle className='text-gray-400 text-lg' />
+              <div className="flex">
+                <ADButton type="text" className="!p-0" onClick={showCreateClassModal}>
+                  <FaPlusCircle className="text-gray-400 text-lg" />
                 </ADButton>
               </div>
             </Space>

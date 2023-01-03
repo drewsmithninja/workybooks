@@ -19,8 +19,7 @@ function NewSignUp() {
   const [isVerified, setIsVerified] = useState(false);
   const [successMessage, setSuccessMessage] = useState(message);
   const [showResend, setShowResend] = useState(false);
-  const [googleData, setGoogleData] = useState({
-  });
+  const [googleData, setGoogleData] = useState({});
   window.document.title = 'Workybook - Sign Up';
   const { Header } = Layout;
   const { Paragraph, Text } = Typography;
@@ -86,11 +85,16 @@ function NewSignUp() {
         });
         if (res) {
           setGoogleData({
-            email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+            email: res?.data?.email,
+            firstName: res?.data?.given_name,
+            lastName: res?.data?.family_name,
+            accessToken: codeResponse?.access_token
           });
-          dispatch(googleLogin({
-            email: res?.data?.email
-          }));
+          dispatch(
+            googleLogin({
+              email: res?.data?.email
+            })
+          );
           // nevigate('/sign-up-google', {
           //   state: {
           //     email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
@@ -109,13 +113,13 @@ function NewSignUp() {
 
   return (
     <>
-      <Header className='h-20 relative container mx-auto'>
-        <div className='flex items-center justify-between pt-2'>
+      <Header className="h-20 relative container mx-auto">
+        <div className="flex items-center justify-between pt-2">
           <div>
-            <Link to='/'>
+            <Link to="/">
               <ADImage
                 src={logo}
-                alt='logo'
+                alt="logo"
                 style={{
                   width: 100
                 }}
@@ -124,37 +128,41 @@ function NewSignUp() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] min-h-[522px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
-        <Typography.Title level={2} className='!text-base md:!text-2xl mt-[56px]'>
+      <div className="w-[85%] max-w-[554px] min-h-[522px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center">
+        <Typography.Title level={2} className="!text-base md:!text-2xl mt-[56px]">
           Create your teacher account
         </Typography.Title>
-        <Typography.Title level={5} className='!font-normal !mt-[0px] !mb-[65px] !text-[14px]'>
+        <Typography.Title level={5} className="!font-normal !mt-[0px] !mb-[65px] !text-[14px]">
           Sign-up for Workybooks
         </Typography.Title>
         {!isVerified ? (
           <>
-            <div className='flex flex-col gap-[14px] pb-[37px]'>
-              <ADButton onClick={() => { login(); }} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-                <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
+            <div className="flex flex-col gap-[14px] pb-[37px]">
+              <ADButton
+                onClick={() => {
+                  login();
+                }}
+                className="w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]">
+                <img src={googleIcon} width="24" alt="googleIcon" className="mr-[8px]" />
                 Sign up with Google Classroom
               </ADButton>
-              <a href='https://clever.com/oauth/authorize?response_type=code&redirect_uri=http://localhost/3000&client_id=480d04a0aef0fd0fe7b6'>
-                <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
-                  <ADImage src={cleverIcon} alt='cleverIcon' className='w-[24px] mr-[8px]' />
+              <a href="https://clever.com/oauth/authorize?response_type=code&redirect_uri=http://localhost/3000&client_id=480d04a0aef0fd0fe7b6">
+                <ADButton className="w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]">
+                  <ADImage src={cleverIcon} alt="cleverIcon" className="w-[24px] mr-[8px]" />
                   Sign in with Clever
                 </ADButton>
               </a>
-              <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
+              <ADButton className="w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]">
                 Sign up with Email
               </ADButton>
             </div>
 
             <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Col span={12} className="!pl-[0px]">
                   <Form.Item
                     label={false}
-                    name='firstName'
+                    name="firstName"
                     rules={[
                       {
                         type: 'text'
@@ -163,15 +171,17 @@ function NewSignUp() {
                         required: true,
                         message: 'Please input your first name!'
                       }
-                    ]}
-                  >
-                    <Input placeholder='First Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    ]}>
+                    <Input
+                      placeholder="First Name"
+                      className="w-full h-[46px] m-auto rounded-[6px]"
+                    />
                   </Form.Item>
                 </Col>
-                <Col span={12} className='!pr-0'>
+                <Col span={12} className="!pr-0">
                   <Form.Item
                     label={false}
-                    name='lastName'
+                    name="lastName"
                     rules={[
                       {
                         type: 'text'
@@ -180,17 +190,19 @@ function NewSignUp() {
                         required: true,
                         message: 'Please input your last name!'
                       }
-                    ]}
-                  >
-                    <Input placeholder='Last Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    ]}>
+                    <Input
+                      placeholder="Last Name"
+                      className="w-full h-[46px] m-auto rounded-[6px]"
+                    />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={24} className='!pr-0 !pl-0'>
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Col span={24} className="!pr-0 !pl-0">
                   <Form.Item
                     label={false}
-                    name='email'
+                    name="email"
                     rules={[
                       {
                         type: 'email',
@@ -200,32 +212,33 @@ function NewSignUp() {
                         required: true,
                         message: 'Please input your E-mail!'
                       }
-                    ]}
-                  >
-                    <Input placeholder='Email' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    ]}>
+                    <Input placeholder="Email" className="w-full h-[46px] m-auto rounded-[6px]" />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Col span={12} className="!pl-[0px]">
                   <Form.Item
                     label={false}
-                    name='password'
+                    name="password"
                     rules={[
                       {
                         required: true,
                         message: 'Please input your password!'
                       }
                     ]}
-                    hasFeedback
-                  >
-                    <Input.Password placeholder='Password' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    hasFeedback>
+                    <Input.Password
+                      placeholder="Password"
+                      className="w-full h-[46px] m-auto rounded-[6px]"
+                    />
                   </Form.Item>
                 </Col>
-                <Col span={12} className='!pr-0'>
+                <Col span={12} className="!pr-0">
                   <Form.Item
                     label={false}
-                    name='confirmPassword'
+                    name="confirmPassword"
                     dependencies={['password']}
                     hasFeedback
                     rules={[
@@ -238,50 +251,64 @@ function NewSignUp() {
                           if (!value || getFieldValue('password') === value) {
                             return Promise.resolve();
                           }
-                          return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                          return Promise.reject(
+                            new Error('The two passwords that you entered do not match!')
+                          );
                         }
                       })
-                    ]}
-                  >
-                    <Input.Password placeholder='Confirm' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    ]}>
+                    <Input.Password
+                      placeholder="Confirm"
+                      className="w-full h-[46px] m-auto rounded-[6px]"
+                    />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Typography.Title level={5} className='!font-medium'>
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Typography.Title level={5} className="!font-medium">
                   Your School
                 </Typography.Title>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={24} className='!pr-0 !pl-0'>
-                  <Form.Item name='schoolName' label={false}>
-                    <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Col span={24} className="!pr-0 !pl-0">
+                  <Form.Item name="schoolName" label={false}>
+                    <Input
+                      placeholder="School Name"
+                      className="w-full h-[46px] m-auto rounded-[6px]"
+                    />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
-                  <Form.Item label={false} name='state'>
-                    <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Col span={12} className="!pl-[0px]">
+                  <Form.Item label={false} name="state">
+                    <Input placeholder="State" className="w-full h-[46px] m-auto rounded-[6px]" />
                   </Form.Item>
                 </Col>
-                <Col span={12} className='!pr-0'>
-                  <Form.Item label={false} name='city'>
-                    <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
+                <Col span={12} className="!pr-0">
+                  <Form.Item label={false} name="city">
+                    <Input placeholder="City" className="w-full h-[46px] m-auto rounded-[6px]" />
                   </Form.Item>
                 </Col>
               </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Form.Item shouldUpdate className='w-full'>
+              <Row gutter={[16, 16]} className="w-[85%] max-w-[358px] !m-auto">
+                <Form.Item shouldUpdate className="w-full">
                   {() => (
-                    <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0 || isLoading}>
+                    <ADButton
+                      type={isLoading ? 'default' : 'primary'}
+                      htmlType="submit"
+                      className="w-full"
+                      disabled={
+                        form.getFieldsError().filter(({ errors }) => errors.length).length > 0 ||
+                        isLoading
+                      }>
                       {isLoading ? <Spinner /> : 'Sign Up'}
                     </ADButton>
                   )}
                 </Form.Item>
-                <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
+                <Paragraph className="m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs">
                   By signing up I agree to Workybooks
-                  <Link to='/' className='ml-[5px]'>
+                  <Link to="/" className="ml-[5px]">
                     Terms of Service
                   </Link>
                 </Paragraph>
@@ -289,24 +316,25 @@ function NewSignUp() {
             </Form>
           </>
         ) : (
-          <div className='flex flex-col items-center'>
-            <ADCard hoverable className='shadow-lg rounded-xl text-xl p-8 mt-20'>
+          <div className="flex flex-col items-center">
+            <ADCard hoverable className="shadow-lg rounded-xl text-xl p-8 mt-20">
               {successMessage}
             </ADCard>
-            <Text type='secondary' className='mt-10'>
-              Just click on the link in that email to complete your sign up. If you don’y see it, you may need to check your spam folder.
+            <Text type="secondary" className="mt-10">
+              Just click on the link in that email to complete your sign up. If you don’y see it,
+              you may need to check your spam folder.
               <br />
               Still can’t find the email?
             </Text>
-            <ADButton className='my-10' disabled={!showResend} onClick={onResendHandler}>
+            <ADButton className="my-10" disabled={!showResend} onClick={onResendHandler}>
               Resend Verification Email
             </ADButton>
           </div>
         )}
       </div>
-      <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] !pb-[40px]'>
+      <Paragraph className="m-auto block w-[85%] max-w-[554px] text-center mt-[20px] !pb-[40px]">
         Already have an account?
-        <Link to='/sign-in' className='ml-[5px]'>
+        <Link to="/sign-in" className="ml-[5px]">
           Sign In
         </Link>
       </Paragraph>

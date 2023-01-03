@@ -4,8 +4,7 @@ import { popupModalComponent } from '../../lib/utils';
 import ADButton from '../antd/ADButton';
 
 function ImportContent({ rowSelection, setCreateClassPopup }) {
-  const scroll = {
-  };
+  const scroll = {};
   scroll.y = 200;
   const tableProps = {
     rowSelection,
@@ -45,10 +44,12 @@ function ImportContent({ rowSelection, setCreateClassPopup }) {
   }
   return (
     <>
-      <Typography.Title level={1} className='!text-2xl md:!text-2xl mt-[30px] text-center'>
+      <Typography.Title level={1} className="!text-2xl md:!text-2xl mt-[30px] text-center">
         Import Classroom
       </Typography.Title>
-      <Typography.Title level={5} className='!font-normal !mt-[16px] !mb-[35px] !text-[14px] text-center'>
+      <Typography.Title
+        level={5}
+        className="!font-normal !mt-[16px] !mb-[35px] !text-[14px] text-center">
         Please select the classrooms you wish
         <br />
         to import
@@ -65,15 +66,19 @@ function ImportContent({ rowSelection, setCreateClassPopup }) {
             {...tableProps}
           />
         </Col>
-        <Col span={24} className='text-center'>
+        <Col span={24} className="text-center">
           <ADButton
-            type='primary'
-            className='mt-[63px] m-auto'
+            type="primary"
+            className="mt-[63px] m-auto"
             onClick={() => {
               setCreateClassPopup(false);
-              popupModalComponent('error', 'Classroom(s) created', '2 classrooms and 40 students have been imported to Workybooks', true);
-            }}
-          >
+              popupModalComponent(
+                'error',
+                'Classroom(s) created',
+                '2 classrooms and 40 students have been imported to Workybooks',
+                true
+              );
+            }}>
             CONTINUE
           </ADButton>
         </Col>

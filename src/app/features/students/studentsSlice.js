@@ -2,22 +2,31 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import studentsAPI from '../../api/studentsAPI';
 
-export const createStudents = createAsyncThunk('students/createStudents', async (data, thunkAPI) => {
-  try {
-    const response = await studentsAPI.createStudents(data);
-    return response;
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const createStudents = createAsyncThunk(
+  'students/createStudents',
+  async (data, thunkAPI) => {
+    try {
+      const response = await studentsAPI.createStudents(data);
+      return response;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const getStudents = createAsyncThunk('students/getStudents', async (classId, thunkAPI) => {
   try {
     const response = await studentsAPI.getStudents(classId);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -27,7 +36,10 @@ export const getStudent = createAsyncThunk('students/getStudent', async (student
     const response = await studentsAPI.getStudent(studentId);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -38,7 +50,10 @@ export const editStudent = createAsyncThunk('students/editStudent', async (data,
     toast.success(response?.message);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -48,7 +63,10 @@ export const deleteStudent = createAsyncThunk('students/deleteStudent', async (d
     const response = await studentsAPI.deleteStudent(data);
     return response;
   } catch (error) {
-    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    const message =
+      (error.response && error.response.data && error.response.message) ||
+      error.message ||
+      error.toString();
     return thunkAPI.rejectWithValue(message);
   }
 });

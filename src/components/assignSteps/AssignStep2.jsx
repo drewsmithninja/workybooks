@@ -65,51 +65,66 @@ export default function AssignStep2({ next, onCancel }) {
         initialValues={{
           assignedClass: classOptions?.[0] ?? 'No Class'
         }}
-        className='py-2'
-        size='large'
-        name='basic'
+        className="py-2"
+        size="large"
+        name="basic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete='off'
-      >
+        autoComplete="off">
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={7}>
-            <div className='font-bold py-2'>Assign to entire class</div>
+            <div className="font-bold py-2">Assign to entire class</div>
           </Col>
-          <Col xs={24} sm={10} className='flex items-center'>
-            <Form.Item className='w-full mb-0' name='assignedClass'>
-              <ADSelect className='w-32' onChange={(e) => onClassChangeHandler(e)} options={classOptions} />
+          <Col xs={24} sm={10} className="flex items-center">
+            <Form.Item className="w-full mb-0" name="assignedClass">
+              <ADSelect
+                className="w-32"
+                onChange={(e) => onClassChangeHandler(e)}
+                options={classOptions}
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={7}>
-            <Form.Item className='mb-0'>
-              <Button type='primary' htmlType='submit' className='w-full bg-blue-400 border border-solid border-blue-400'>
+            <Form.Item className="mb-0">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full bg-blue-400 border border-solid border-blue-400">
                 ASSIGN
               </Button>
             </Form.Item>
           </Col>
         </Row>
       </Form>
-      <ADTitle level={5} className='text-center'>
+      <ADTitle level={5} className="text-center">
         OR
       </ADTitle>
-      <Form className='py-2' size='large' name='basic' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
+      <Form
+        className="py-2"
+        size="large"
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off">
         <Row gutter={16}>
           <Col xs={24} sm={7}>
-            <div className='font-bold pt-2'>Select Students</div>
+            <div className="font-bold pt-2">Select Students</div>
           </Col>
-          <Col xs={24} sm={10} className='max-h-[300px] overflow-auto'>
-            <Checkbox.Group className='w-full' onChange={() => {}}>
+          <Col xs={24} sm={10} className="max-h-[300px] overflow-auto">
+            <Checkbox.Group className="w-full" onChange={() => {}}>
               <List
-                className='px-4 rounded-md'
+                className="px-4 rounded-md"
                 dataSource={students}
                 renderItem={(item) => (
                   <List.Item>
                     <Checkbox value={item._id}>
-                      <div className='flex items-center'>
-                        <Space size='middle' className='ml-2'>
-                          <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
-                          <div className='font-bold'>{item?.fullName}</div>
+                      <div className="flex items-center">
+                        <Space size="middle" className="ml-2">
+                          <ADImage
+                            src={item?.avatar ?? dummyImage}
+                            className="object-cover shadow w-12 h-12 rounded-full shadow"
+                          />
+                          <div className="font-bold">{item?.fullName}</div>
                         </Space>
                       </div>
                     </Checkbox>
@@ -119,18 +134,24 @@ export default function AssignStep2({ next, onCancel }) {
             </Checkbox.Group>
           </Col>
           <Col xs={24} sm={7}>
-            <Form.Item className='flex-none'>
-              <Button type='primary' htmlType='submit' className='w-full text-sm !px-0 text-center mt-28 bg-blue-400 border border-solid border-blue-400'>
+            <Form.Item className="flex-none">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full text-sm !px-0 text-center mt-28 bg-blue-400 border border-solid border-blue-400">
                 ASSIGN TO SELECTED
               </Button>
             </Form.Item>
           </Col>
         </Row>
-        <div className='flex justify-evenly pt-4'>
-          <ADButton type='danger' onClick={onCancel} className='w-40'>
+        <div className="flex justify-evenly pt-4">
+          <ADButton type="danger" onClick={onCancel} className="w-40">
             Cancel
           </ADButton>
-          <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400 w-40' onClick={next}>
+          <ADButton
+            type="primary"
+            className="bg-blue-400 border border-solid border-blue-400 w-40"
+            onClick={next}>
             Assign
           </ADButton>
         </div>

@@ -43,79 +43,76 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
 
   return (
     <ADModal forceRender centered footer={false} onCancel={onCancel} {...props}>
-      <ADTitle level={2} className='text-center'>
+      <ADTitle level={2} className="text-center">
         Edit Student
       </ADTitle>
-      <div className='py-4 text-dark text-lg text-center mb-6'>Update student details</div>
-      <Form name='edit-student' form={form} onFinish={onFinish}>
-        <Row gutter={[16, 0]} className='mb-2'>
+      <div className="py-4 text-dark text-lg text-center mb-6">Update student details</div>
+      <Form name="edit-student" form={form} onFinish={onFinish}>
+        <Row gutter={[16, 0]} className="mb-2">
           <Col xs={24} sm={12}>
-            <Space className='flex items-end pb-6'>
+            <Space className="flex items-end pb-6">
               <Avatar size={80} />
-              <FaPencilAlt className='text-gray-400 text-lg' />
+              <FaPencilAlt className="text-gray-400 text-lg" />
             </Space>
           </Col>
-          <Col xs={24} sm={12} className='flex items-end'>
-            <Form.Item name='nickName' className='w-full'>
-              <Input size='large' placeholder='Nickname' />
+          <Col xs={24} sm={12} className="flex items-end">
+            <Form.Item name="nickName" className="w-full">
+              <Input size="large" placeholder="Nickname" />
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16} className='pb-0 mb-2'>
+        <Row gutter={16} className="pb-0 mb-2">
           <Col xs={24} sm={12}>
             <Form.Item
-              name='firstName'
-              className='w-full'
+              name="firstName"
+              className="w-full"
               rules={[
                 {
                   required: true,
                   message: 'Please input your first name'
                 }
-              ]}
-            >
-              <Input size='large' placeholder='First Name' />
+              ]}>
+              <Input size="large" placeholder="First Name" />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} className='flex items-center'>
+          <Col xs={24} sm={12} className="flex items-center">
             <Form.Item
-              name='lastName'
-              className='w-full'
+              name="lastName"
+              className="w-full"
               rules={[
                 {
                   required: true,
                   message: 'Please input your last name'
                 }
-              ]}
-            >
-              <Input size='large' placeholder='Last Name' />
+              ]}>
+              <Input size="large" placeholder="Last Name" />
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16} className='pb-0 mb-2'>
-          <Col xs={24} sm={12} className='flex items-center'>
+        <Row gutter={16} className="pb-0 mb-2">
+          <Col xs={24} sm={12} className="flex items-center">
             <Form.Item
-              name='userName'
-              className='w-full'
+              name="userName"
+              className="w-full"
               rules={[
                 {
                   required: true,
                   message: 'Please input your username'
                 }
-              ]}
-            >
-              <Input size='large' placeholder='Username' />
+              ]}>
+              <Input size="large" placeholder="Username" />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} className='flex items-center'>
-            <Form.Item name='password' className='w-full'>
-              <Input size='large' type='password' placeholder='Password' />
+          <Col xs={24} sm={12} className="flex items-center">
+            <Form.Item name="password" className="w-full">
+              <Input size="large" type="password" placeholder="Password" />
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item name='parentEmail' className='mb-8'>
-          <Input size='large' className='mb-2' placeholder='Parent Email' />
+        <Form.Item name="parentEmail" className="mb-8">
+          <Input size="large" className="mb-2" placeholder="Parent Email" />
         </Form.Item>
-        <Row gutter={16} className='pb-0'>
+        <Row gutter={16} className="pb-0">
           <Col xs={24} sm={12}>
             <ADButton danger block onClick={onDeleteHandler}>
               DELETE
@@ -123,7 +120,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
           </Col>
           <Col xs={24} sm={12}>
             <Form.Item>
-              <ADButton block htmlType='submit' type='primary'>
+              <ADButton block htmlType="submit" type="primary">
                 SAVE
               </ADButton>
             </Form.Item>

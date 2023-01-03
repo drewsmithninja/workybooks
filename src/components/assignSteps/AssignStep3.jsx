@@ -3,7 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
-import { createAssignment, getAssignments, resetNewAssignment } from '../../app/features/assignment/assignmentSlice';
+import {
+  createAssignment,
+  getAssignments,
+  resetNewAssignment
+} from '../../app/features/assignment/assignmentSlice';
 import ADButton from '../antd/ADButton';
 
 export default function AssignStep3({ onOk, onCancel }) {
@@ -11,8 +15,8 @@ export default function AssignStep3({ onOk, onCancel }) {
   const options = [
     {
       label: (
-        <div className='w-auto'>
-          <div className='font-bold'>Optional Enrichment Activity</div>
+        <div className="w-auto">
+          <div className="font-bold">Optional Enrichment Activity</div>
           <p>An enrichment activity which is optional and not graded, has no due date</p>
         </div>
       ),
@@ -20,8 +24,8 @@ export default function AssignStep3({ onOk, onCancel }) {
     },
     {
       label: (
-        <div className='w-auto'>
-          <div className='font-bold'>Assignment</div>
+        <div className="w-auto">
+          <div className="font-bold">Assignment</div>
           <p>A graded activity with a due date</p>
         </div>
       ),
@@ -29,8 +33,8 @@ export default function AssignStep3({ onOk, onCancel }) {
     },
     {
       label: (
-        <div className='w-auto'>
-          <div className='font-bold'>Live Assignment</div>
+        <div className="w-auto">
+          <div className="font-bold">Live Assignment</div>
           <p>A timed, graded activity to be completed NOW</p>
         </div>
       ),
@@ -65,34 +69,31 @@ export default function AssignStep3({ onOk, onCancel }) {
     <div>
       <Form
         form={form}
-        layout='vertical'
+        layout="vertical"
         onFinish={onFinish}
         initialValues={{
           name: newAssignment?.title
-        }}
-      >
+        }}>
         <Form.Item
-          label='Assignment Name'
-          name='name'
+          label="Assignment Name"
+          name="name"
           rules={[
             {
               required: true,
               message: 'Please input your assignment name!'
             }
-          ]}
-        >
+          ]}>
           <Input />
         </Form.Item>
         <Form.Item
-          name='assignmentType'
-          label='Assignment Type'
+          name="assignmentType"
+          label="Assignment Type"
           rules={[
             {
               required: true,
               message: 'Please select assignment type!'
             }
-          ]}
-        >
+          ]}>
           <Radio.Group>
             <Row gutter={16}>
               {options.map((option) => (
@@ -106,69 +107,78 @@ export default function AssignStep3({ onOk, onCancel }) {
         <Row gutter={16}>
           <Col xs={24} sm={8}>
             <Form.Item
-              label='Start Date'
-              name='startDate'
+              label="Start Date"
+              name="startDate"
               rules={[
                 {
                   required: true,
                   message: 'Please select starting Date of assignment!'
                 }
-              ]}
-            >
+              ]}>
               <DatePicker
                 showTime={{
                   format: 'HH:mm'
                 }}
-                format='DD/MM/YYYY HH:mm'
+                format="DD/MM/YYYY HH:mm"
               />
             </Form.Item>
           </Col>
           <Col xs={24} sm={8}>
             <Form.Item
-              label='Due Date'
-              name='endDate'
+              label="Due Date"
+              name="endDate"
               rules={[
                 {
                   required: true,
                   message: 'Please select ending Date of assignment!'
                 }
-              ]}
-            >
+              ]}>
               <DatePicker
                 showTime={{
                   format: 'HH:mm'
                 }}
-                format='DD/MM/YYYY HH:mm'
+                format="DD/MM/YYYY HH:mm"
               />
             </Form.Item>
           </Col>
         </Row>
         <Form.Item
-          label='Points'
-          name='points'
+          label="Points"
+          name="points"
           rules={[
             {
               required: true,
               message: 'Please select points!'
             }
-          ]}
-        >
+          ]}>
           <InputNumber min={1} max={10} />
         </Form.Item>
         <Row gutter={24}>
           <Col xs={24} md={8}>
-            <ADButton type='danger' block onClick={onCancel}>
+            <ADButton type="danger" block onClick={onCancel}>
               Cancel
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
-            <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block>
+            <ADButton
+              type="primary"
+              className="bg-blue-400 border border-solid border-blue-400"
+              block>
               Add more items
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
             <Form.Item>
-              <ADButton type='primary' htmlType='submit' className='bg-blue-400 border border-solid border-blue-400' block onClick={onOk} disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+              <ADButton
+                type="primary"
+                htmlType="submit"
+                className="bg-blue-400 border border-solid border-blue-400"
+                block
+                onClick={onOk}
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  form.getFieldsError().filter(({ errors }) => errors.length).length > 0
+                }>
                 Assign
               </ADButton>
             </Form.Item>

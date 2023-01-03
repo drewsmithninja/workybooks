@@ -24,14 +24,20 @@ export default function CreateClassAddStudents({ next }) {
   };
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className="flex flex-col items-center">
       <ADTitle level={2}>Add Students</ADTitle>
-      <div className='py-4 text-dark text-lg text-center'>Please provide the classroom details</div>
-      <ADButton size='large'>Import</ADButton>
-      <div className='pt-4 text-dark text-xl text-center'>Or, enter student names manually.</div>
-      <div className='py-4 text-dark text-xs text-center'>Please enter student names as First name Last Name - one per line.</div>
-      <Form name='dynamic_form_nest_item' onFinish={onFinish} autoComplete='off' className='border border-solid border-success rounded-2xl pt-6 w-full flex flex-col items-center'>
-        <Form.List name='students'>
+      <div className="py-4 text-dark text-lg text-center">Please provide the classroom details</div>
+      <ADButton size="large">Import</ADButton>
+      <div className="pt-4 text-dark text-xl text-center">Or, enter student names manually.</div>
+      <div className="py-4 text-dark text-xs text-center">
+        Please enter student names as First name Last Name - one per line.
+      </div>
+      <Form
+        name="dynamic_form_nest_item"
+        onFinish={onFinish}
+        autoComplete="off"
+        className="border border-solid border-success rounded-2xl pt-6 w-full flex flex-col items-center">
+        <Form.List name="students">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
@@ -41,8 +47,7 @@ export default function CreateClassAddStudents({ next }) {
                     display: 'flex',
                     marginBottom: 8
                   }}
-                  align='baseline'
-                >
+                  align="baseline">
                   <Form.Item
                     {...restField}
                     name={[name, 'firstName']}
@@ -51,9 +56,8 @@ export default function CreateClassAddStudents({ next }) {
                         required: true,
                         message: 'Missing first name'
                       }
-                    ]}
-                  >
-                    <Input autoFocus placeholder='First Name' />
+                    ]}>
+                    <Input autoFocus placeholder="First Name" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
@@ -63,23 +67,26 @@ export default function CreateClassAddStudents({ next }) {
                         required: true,
                         message: 'Missing last name'
                       }
-                    ]}
-                  >
-                    <Input placeholder='Last Name' />
+                    ]}>
+                    <Input placeholder="Last Name" />
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
-              <Form.Item className='w-11/12'>
-                <ADButton className='w-full' type='dashed' onClick={() => add()} icon={<PlusOutlined />}>
+              <Form.Item className="w-11/12">
+                <ADButton
+                  className="w-full"
+                  type="dashed"
+                  onClick={() => add()}
+                  icon={<PlusOutlined />}>
                   Add Student
                 </ADButton>
               </Form.Item>
             </>
           )}
         </Form.List>
-        <Form.Item className='flex justify-center'>
-          <ADButton size='large' className='min-w-[140px]' type='primary' htmlType='submit'>
+        <Form.Item className="flex justify-center">
+          <ADButton size="large" className="min-w-[140px]" type="primary" htmlType="submit">
             ADD
           </ADButton>
         </Form.Item>

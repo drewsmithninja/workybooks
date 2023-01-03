@@ -47,9 +47,14 @@ function AssignModal({ onOk, ...props }) {
 
   return (
     <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <ADSteps items={items} current={current} showSteps={current !== 0} className='custom-assign-steps' />
-      <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content max-w-[600px]'>{items[current].content}</div>
+      <ADSteps
+        items={items}
+        current={current}
+        showSteps={current !== 0}
+        className="custom-assign-steps"
+      />
+      <div className="flex flex-col items-center justify-center">
+        <div className="steps-content max-w-[600px]">{items[current].content}</div>
       </div>
     </ADModal>
   );

@@ -4,7 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { Col, List, Row, Segmented, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getAssignments, getAssignmentsByStatus } from '../../../../app/features/assignment/assignmentSlice';
+import {
+  getAssignments,
+  getAssignmentsByStatus
+} from '../../../../app/features/assignment/assignmentSlice';
 import AssignmentItem from './AssignmentItem';
 
 const options = [
@@ -51,13 +54,13 @@ function AssignmentPage() {
   };
 
   return (
-    <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
-      <Space direction='vertical' size='large' className='flex'>
-        <div className='flex justify-center pt-2'>
+    <div className="xl:px-20 lg:px-16 md:px-10 px-0">
+      <Space direction="vertical" size="large" className="flex">
+        <div className="flex justify-center pt-2">
           <Segmented options={options} onChange={(e) => onSegmentChangeHandler(e)} />
         </div>
         <List
-          className='rounded-t-lg with-header'
+          className="rounded-t-lg with-header"
           pagination={{
             onChange: (page) => {},
             pageSize: 10
@@ -65,26 +68,26 @@ function AssignmentPage() {
           header={
             <Row>
               <Col xl={6} md={6} sm={8} xs={10}>
-                <div className='text-center inter-font font-medium text-xs'>ASSIGNMENT TITLE</div>
+                <div className="text-center inter-font font-medium text-xs">ASSIGNMENT TITLE</div>
               </Col>
               <Col xl={2} md={10} sm={10} xs={8}>
-                <div className='text-center inter-font font-medium text-xs'>STATUS</div>
+                <div className="text-center inter-font font-medium text-xs">STATUS</div>
               </Col>
               <Col xl={3} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>ASSIGNED TO</div>
+                <div className="text-center inter-font font-medium text-xs">ASSIGNED TO</div>
               </Col>
               <Col xl={3} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>DUE DATE</div>
+                <div className="text-center inter-font font-medium text-xs">DUE DATE</div>
               </Col>
               <Col xl={2} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>TURNOUT</div>
+                <div className="text-center inter-font font-medium text-xs">TURNOUT</div>
               </Col>
               <Col xl={3} md={4} sm={3} xs={3}>
-                <div className='text-center inter-font font-medium text-xs'>AVG. SCORE</div>
+                <div className="text-center inter-font font-medium text-xs">AVG. SCORE</div>
               </Col>
             </Row>
           }
-          itemLayout='horizontal'
+          itemLayout="horizontal"
           dataSource={assignments || []}
           bordered
           renderItem={(item) => <AssignmentItem item={item} classId={currentClass?._id} />}

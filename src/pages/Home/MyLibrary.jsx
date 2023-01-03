@@ -10,8 +10,12 @@ import ADButton from '../../components/antd/ADButton';
 import AssignStep1 from '../../components/assignSteps/AssignStep1';
 import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
-import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
-import { getCollections, getFavoriteCollections, updateCollectionLike } from '../../app/features/collection/collectionSlice';
+// import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
+import {
+  getCollections,
+  getFavoriteCollections,
+  updateCollectionLike
+} from '../../app/features/collection/collectionSlice';
 import ADImage from '../../components/antd/ADImage';
 import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
 
@@ -99,11 +103,18 @@ function MyLibrary() {
       {collections?.length ? (
         collections?.map((item) => (
           <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-            <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+            <ThumbnailCard
+              onFavChange={() => collectionFavHandler(item)}
+              favorite={item.favorite}
+              collection={item}
+              thumbnails={item.thumbnailList}
+              key={item._id}
+              id={item._id}
+            />
           </Col>
         ))
       ) : (
-        <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+        <ADTitle level={3} className="px-2 py-20 rounded-xl">
           No Collections here!
         </ADTitle>
       )}
@@ -112,28 +123,43 @@ function MyLibrary() {
 
   const favCollectionTab = (
     <>
-      <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-      <Row gutter={[16, 16]} className='py-4'>
+      <Typography.Text className="font-bold">COLLECTIONS</Typography.Text>
+      <Row gutter={[16, 16]} className="py-4">
         {collections?.length ? (
           collections
             ?.filter((item) => item.favorite)
             ?.map((item) => (
               <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-                <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                <ThumbnailCard
+                  onFavChange={() => collectionFavHandler(item)}
+                  favorite={item.favorite}
+                  collection={item}
+                  thumbnails={item.thumbnailList}
+                  key={item._id}
+                  id={item._id}
+                />
               </Col>
             ))
         ) : (
-          <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+          <ADTitle level={3} className="px-2 py-20 rounded-xl">
             No any favorites Collections
           </ADTitle>
         )}
       </Row>
-      <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-      <div className='flex flex-row flex-wrap'>
+      <Typography.Text className="font-bold">WORKSHEETS</Typography.Text>
+      <div className="flex flex-row flex-wrap">
         {favoriteCollections?.length ? (
-          favoriteCollections.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
+          favoriteCollections.map((item) => (
+            <CardComponent
+              setRerender={setRerender}
+              likeStatus={item?.likes?.isLike}
+              key={item._id}
+              item={item}
+              cardWidth={215}
+            />
+          ))
         ) : (
-          <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+          <ADTitle level={3} className="px-2 py-20 rounded-xl">
             No any favorites Worksheets
           </ADTitle>
         )}
@@ -142,11 +168,19 @@ function MyLibrary() {
   );
 
   const recentTab = (
-    <div className='flex flex-row flex-wrap'>
+    <div className="flex flex-row flex-wrap">
       {recentWorksheets?.length ? (
-        recentWorksheets?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
+        recentWorksheets?.map((item) => (
+          <CardComponent
+            setRerender={setRerender}
+            likeStatus={item?.likes?.isLike}
+            key={item._id}
+            item={item}
+            cardWidth={215}
+          />
+        ))
       ) : (
-        <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+        <ADTitle level={3} className="px-2 py-20 rounded-xl">
           No any recent Worksheets
         </ADTitle>
       )}
@@ -173,10 +207,10 @@ function MyLibrary() {
   const tabChangeHandler = (e) => {
     if (e === 'my collection') {
       setCurrentTab(e);
-      dispatch(collectionList());
+      // dispatch(collectionList());
     } else if (e === 'favorites') {
       setCurrentTab(e);
-      dispatch(favoriteData());
+      // dispatch(favoriteData());
     } else if (e === 'recent') {
       setCurrentTab(e);
       dispatch(getRecentWorksheets());
@@ -184,14 +218,26 @@ function MyLibrary() {
   };
   return (
     <MainLayout>
-      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
+      <Modal
+        className="rounded-xl"
+        centered
+        footer={false}
+        open={isAssignModalOpen}
+        onOk={handleAssignModalOk}
+        onCancel={handleAssignModalCancel}>
+        {/* <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} /> */}
       </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
+      <Modal
+        className="rounded-xl"
+        centered
+        footer={false}
+        open={isCollectionModalOpen}
+        onOk={handleCollectionModalOk}
+        onCancel={handleCollectionModalCancel}>
+        {/* <NewAssignmentOrCollection onCreate={onCollectionCreateClick} /> */}
       </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
-        <ADTitle level={3} className='text-center text-danger pb-8'>
+      <Modal className="rounded-xl" centered footer={false} open={isStepModalOpen}>
+        <ADTitle level={3} className="text-center text-danger pb-8">
           Create New Assign Activities
         </ADTitle>
         <Steps current={currentStep}>
@@ -199,62 +245,61 @@ function MyLibrary() {
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
-        <div className='steps-content'>{steps[currentStep].content}</div>
-        <div className='steps-action'>
+        <div className="steps-content">{steps[currentStep].content}</div>
+        <div className="steps-action">
           {currentStep === 0 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={nextStep}>
+              <ADButton size="large" type="primary" onClick={nextStep}>
                 ADD MORE ITEMS
               </ADButton>
-              <ADButton size='large' type='primary' onClick={nextStep}>
+              <ADButton size="large" type="primary" onClick={nextStep}>
                 ASSIGN
               </ADButton>
             </div>
           )}
           {currentStep === 1 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={prevStep}>
+              <ADButton size="large" type="primary" onClick={prevStep}>
                 BACK
               </ADButton>
             </div>
           )}
           {currentStep === 2 && (
-            <div className='flex justify-between'>
-              <ADButton size='large' type='danger' onClick={nextStep}>
+            <div className="flex justify-between">
+              <ADButton size="large" type="danger" onClick={nextStep}>
                 CANCEL
               </ADButton>
-              <ADButton size='large' type='primary' onClick={prevStep}>
+              <ADButton size="large" type="primary" onClick={prevStep}>
                 BACK
               </ADButton>
-              <ADButton size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
+              <ADButton size="large" type="primary" onClick={() => setIsStepModalOpen(false)}>
                 ASSIGN
               </ADButton>
             </div>
           )}
         </div>
       </Modal>
-      <div className='px-8 py-8 flex justify-between align-center'>
+      <div className="px-8 py-8 flex justify-between align-center">
         <ADTitle level={3}>{`My Library - ${currentTab}`}</ADTitle>
         <Space>
-          <ADImage src={sortIcon} alt='sort' />
+          <ADImage src={sortIcon} alt="sort" />
           <Select
-            placeholder='Sort By'
-            className='w-[150px] text-left'
+            placeholder="Sort By"
+            className="w-[150px] text-left"
             style={{
               borderRadius: 8
-            }}
-          >
-            <Select.Option value='Date Updated'>Date Updated</Select.Option>
+            }}>
+            <Select.Option value="Date Updated">Date Updated</Select.Option>
           </Select>
         </Space>
       </div>
-      <div className='px-8'>
+      <div className="px-8">
         <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
       </div>
     </MainLayout>
