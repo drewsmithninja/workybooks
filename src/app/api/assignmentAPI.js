@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -22,15 +23,11 @@ const getAssignments = async (classId) => {
 const getSubmittedAssignments = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(
-    `${API_URL}/submittedAssignment/getListBy/student`,
-    data,
-    {
-      headers: {
-        authorization: authToken
-      }
+  const response = await axios.post(`${API_URL}/submittedAssignment/getListBy/student`, data, {
+    headers: {
+      authorization: authToken
     }
-  );
+  });
   return response.data;
 };
 
