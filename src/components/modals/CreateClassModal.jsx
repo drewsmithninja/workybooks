@@ -8,7 +8,7 @@ import ManualClassCreated from '../steps/createClass/ManualClassCreated';
 import CreateClassStep1 from '../steps/CreateClassStep1';
 import ImportClass from '../steps/createClass/ImportClass';
 import ImportClassesCreated from '../steps/createClass/ImportClassesCreated';
-import { getGoogleClassRoomData } from '../../app/features/classRoom/classroomSlice';
+import { getGoogleClassRoomData } from '../../app/features/classroom/classroomSlice';
 import ExpiredGoogleToken from './ExpiredGoogleToken';
 
 function CreateClassModal({ onOk, ...props }) {

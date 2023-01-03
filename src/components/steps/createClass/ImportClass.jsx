@@ -6,7 +6,7 @@ import { forEach } from 'lodash';
 import { toast } from 'react-toastify';
 import ADTitle from '../../antd/ADTitle';
 import ADButton from '../../antd/ADButton';
-import { getGoogleClassRoomDataInsert } from '../../../app/features/classRoom/classroomSlice';
+import { getGoogleClassRoomDataInsert } from '../../../app/features/classroom/classroomSlice';
 
 export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
