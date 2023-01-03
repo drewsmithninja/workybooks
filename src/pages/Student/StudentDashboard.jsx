@@ -266,7 +266,7 @@ function StudentDashboard() {
                       {/* <Progress type='circle' width={50} percent={30} status='none' /> */}
                       {(item?.score) ?
                         <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> :
-                        null}
+                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
                     </Col>
                   </Row>
                 </Col>

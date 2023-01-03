@@ -96,13 +96,13 @@ export const worksheetSlice = createSlice({
       .addCase(getRecentWorksheets.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.recentData = action.payload;
+        state.recentWorksheets = action.payload;
       })
       .addCase(getRecentWorksheets.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.recentData = null;
+        state.recentWorksheets = null;
       });
   }
 });

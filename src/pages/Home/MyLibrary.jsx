@@ -18,7 +18,7 @@ import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
   const collections = useSelector((state) => state.collection.collections?.list);
-  const recentCollections = useSelector((state) => state.worksheet?.recentCollections?.list);
+  const recentWorksheets = useSelector((state) => state.worksheet?.recentWorksheets?.list);
   const user = localStorage.getItem('user');
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
@@ -28,7 +28,7 @@ function MyLibrary() {
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { Step } = Steps;
-
+  console.log('re', recentWorksheets);
   const collectionFavHandler = async (e) => {
     const data = {
       collectionId: await e._id,
@@ -143,8 +143,8 @@ function MyLibrary() {
 
   const recentTab = (
     <div className='flex flex-row flex-wrap'>
-      {recentCollections?.length ? (
-        recentCollections?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
+      {recentWorksheets?.length ? (
+        recentWorksheets?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
       ) : (
         <ADTitle level={3} className='px-2 py-20 rounded-xl'>
           No any recent Worksheets
