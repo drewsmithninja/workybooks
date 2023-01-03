@@ -7,7 +7,7 @@ import searchReducer from './features/search/searchpageSlice';
 import userReducer from './features/user/userSlice';
 import collectionReducer from './features/collection/collectionSlice';
 import studentsReducer from './features/students/studentsSlice';
-import classroomReducer from './features/classroom/classroomSlice';
+import classroomReducer from './features/classRoom/classRoomSlice';
 import assignmentReducer from './features/assignment/assignmentSlice';
 import gradesReducer from './features/grade/GradeSlice';
 import modalReducer from './features/modal/modalSlice';
@@ -38,11 +38,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
-  middleware: () =>
-    getDefaultMiddleware({
-      immutableCheck: {
-        ignoredPaths: ['items.data']
-      },
-      serializableCheck: false
-    })
+  middleware: () => getDefaultMiddleware({
+    immutableCheck: {
+      ignoredPaths: ['items.data']
+    },
+    serializableCheck: false
+  })
 });
