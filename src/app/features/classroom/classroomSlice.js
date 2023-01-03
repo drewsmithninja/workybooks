@@ -20,6 +20,24 @@ export const editClass = createAsyncThunk('classroom/editClass', async (data, th
     return thunkAPI.rejectWithValue(message);
   }
 });
+export const getGoogleClassRoomData = createAsyncThunk('classroom/getGoogleClassRooom', async (data, thunkAPI) => {
+  try {
+    const response = await classroomAPI.getGoogleClassRoomData(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+export const getGoogleClassRoomDataInsert = createAsyncThunk('classroom/getGoogleClassRooomInsert', async (data, thunkAPI) => {
+  try {
+    const response = await classroomAPI.getGoogleClassRoomDatainsert(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 // export const getClassRoomOptions = createAsyncThunk('classroom/getClassRoomOptions', async (thunkAPI) => {
 //   try {
@@ -89,6 +107,34 @@ export const classroomSlice = createSlice({
       })
       .addCase(editClass.pending, (state) => {
         state.isLoading = true;
+      })
+      .addCase(getGoogleClassRoomData.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getGoogleClassRoomData.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.googleClassRoom = action.payload;
+      })
+      .addCase(getGoogleClassRoomData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.googleClassRoom = null;
+      })
+      .addCase(getGoogleClassRoomDataInsert.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getGoogleClassRoomDataInsert.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.googleClassRoomInsertData = action.payload;
+      })
+      .addCase(getGoogleClassRoomDataInsert.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.googleClassRoomInsertData = null;
       })
       .addCase(editClass.fulfilled, (state, action) => {
         state.isLoading = false;

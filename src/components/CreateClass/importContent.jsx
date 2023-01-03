@@ -1,9 +1,15 @@
 import { Button, Col, Row, Table, Typography } from 'antd';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { popupModalComponent } from '../../lib/utils';
 import ADButton from '../antd/ADButton';
 
 function ImportContent({ rowSelection, setCreateClassPopup }) {
+  const { googleClassRoom } = useSelector((state) => state.classes);
+  const [classData, setClassData] = useState([]);
+  useEffect(() => {
+    console.log('test');
+    console.log(googleClassRoom);
+  }, [googleClassRoom]);
   const scroll = {
   };
   scroll.y = 200;
@@ -12,27 +18,27 @@ function ImportContent({ rowSelection, setCreateClassPopup }) {
     scroll
   };
   const columns = [
-    {
-      title: 'Class',
-      width: 100,
-      dataIndex: 'class',
-      key: 'class',
-      fixed: 'left',
-      sorter: (a, b) => a.class - b.class
-    },
-    {
-      title: 'Grade',
-      width: 100,
-      dataIndex: 'grade',
-      key: 'grade',
-      fixed: 'left'
-    },
-    {
-      title: 'Students',
-      dataIndex: 'students',
-      key: 'students',
-      width: 150
-    }
+    // {
+    //   title: 'Class',
+    //   width: 100,
+    //   dataIndex: 'class',
+    //   key: 'class',
+    //   fixed: 'left',
+    //   sorter: (a, b) => a.class - b.class
+    // },
+    // {
+    //   title: 'Grade',
+    //   width: 100,
+    //   dataIndex: 'grade',
+    //   key: 'grade',
+    //   fixed: 'left'
+    // },
+    // {
+    //   title: 'Students',
+    //   dataIndex: 'students',
+    //   key: 'students',
+    //   width: 150
+    // }
   ];
   const data = [];
   for (let i = 0; i < 100; i += 1) {
