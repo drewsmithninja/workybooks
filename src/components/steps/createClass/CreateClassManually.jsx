@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
 import { fetchGrades } from '../../../app/features/grade/GradeSlice';
-import { createClass, getClassrooms } from '../../../app/features/classRoom/classroomSlice';
+import { createClass, getClassrooms } from '../../../app/features/classRoom/classRoomSlice';
 import Spinner from '../../spinner/Spinner';
 
 export default function CreateClassManually({ next }) {

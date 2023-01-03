@@ -13,7 +13,7 @@ import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
 import EditClassModal from '../../components/modals/EditClassModal';
-import { getClassrooms, setClass } from '../../app/features/classRoom/classroomSlice';
+import { getClassrooms, setClass } from '../../app/features/classRoom/classRoomSlice';
 import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { getStudents } from '../../app/features/students/studentsSlice';
 
