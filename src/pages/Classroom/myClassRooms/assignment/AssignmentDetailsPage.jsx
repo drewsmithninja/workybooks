@@ -35,7 +35,8 @@ function AssignmentDetailsPage() {
   }));
   const getIndex = updatedAssignmentList.findIndex((item) => item.value === id);
 
-  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {});
+  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {
+  });
   useEffect(() => {
     onAssignmentApiCall(id);
   }, []);
@@ -109,7 +110,12 @@ function AssignmentDetailsPage() {
               })}
               {assignmentScore.length > 4 ? (
                 <div>
-                  <div className='font-bold text-xs'>+{assignmentScore.length - 3} MORE</div>
+                  <div className='font-bold text-xs'>
+                    +
+                    {assignmentScore.length - 3}
+                    {' '}
+                    MORE
+                  </div>
                 </div>
               ) : null}
             </Space>
@@ -158,7 +164,7 @@ function AssignmentDetailsPage() {
       <div className='xl:px-20 lg:px-16 md:px-10 px-0 py-6'>
         <List
           className='rounded-t-lg with-header'
-          header={
+          header={(
             <Row>
               <Col xl={7} lg={7} md={7} sm={8} xs={10}>
                 <div className='text-center inter-font font-medium text-xs'>NAME</div>
@@ -176,7 +182,7 @@ function AssignmentDetailsPage() {
                 <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
               </Col>
             </Row>
-          }
+          )}
           itemLayout='horizontal'
           dataSource={assignmentScore}
           bordered

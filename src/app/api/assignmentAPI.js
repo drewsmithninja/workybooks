@@ -19,14 +19,12 @@ const getAssignments = async (classId) => {
   return response.data;
 };
 
-const getSubmittedAssignments = async (studentId) => {
+const getSubmittedAssignments = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(
     `${API_URL}/submittedAssignment/getListBy/student`,
-    {
-      studentId
-    },
+    data,
     {
       headers: {
         authorization: authToken
