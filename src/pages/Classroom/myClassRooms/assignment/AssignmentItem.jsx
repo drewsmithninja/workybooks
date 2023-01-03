@@ -5,14 +5,23 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADButton from '../../../../components/antd/ADButton';
+import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
 
-function AssignmentItem({ item }) {
+function AssignmentItem({ item, classId }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onAssignMentClick = (e) => {
+    // dispatch(
+    //   getStudentAssignmentDetail({
+    //     assignmentId: e?._id,
+    //     classId
+    //   })
+    // );
     navigate(`assignment/${e?._id}`);
   };
 
@@ -41,11 +50,11 @@ function AssignmentItem({ item }) {
         </Col>
         <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
           <div className='whitespace-pre-wrap'>
-            {item?.assignedTo && item?.assignedTo === 'Classroom' ?
-              'Entire Class' :
-              item?.assignedStudents.length >= 3 ?
-                item?.assignedStudents?.slice(0, 3).map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.slice(0, 3)?.length - 1 ? ', ' : ''}`}</span>) :
-                item?.assignedStudents?.map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.length - 1 ? ', ' : ''}`}</span>)}
+            {item?.assignedTo && item?.assignedTo === 'Classroom'
+              ? 'Entire Class'
+              : item?.assignedStudents.length >= 3
+              ? item?.assignedStudents?.slice(0, 3).map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.slice(0, 3)?.length - 1 ? ', ' : ''}`}</span>)
+              : item?.assignedStudents?.map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.length - 1 ? ', ' : ''}`}</span>)}
             {item?.assignedStudents.length >= 3 && ` + ${item?.assignedStudents.length - 3}`}
           </div>
         </Col>

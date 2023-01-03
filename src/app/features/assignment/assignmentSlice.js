@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 import assignmentAPI from '../../api/assignmentAPI';
@@ -41,6 +42,15 @@ export const getAssignmentsByStudent = createAsyncThunk('assignment/getAssignmen
     return thunkAPI.rejectWithValue(message);
   }
 });
+export const getStudentAssignmentDetail = createAsyncThunk('assignment/getStudentAssignmentDetail', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.getStudentAssignmentDetail(data);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const updateAssignment = createAsyncThunk('assignment/updateAssignment', async (data, thunkAPI) => {
   try {
@@ -72,6 +82,8 @@ export const assignmentSlice = createSlice({
     assignments: [],
     assignmentsByStatus: [],
     assignmentsByStudents: [],
+    studentAssignmentDetail: [],
+    studentAssignmentReportJson: [],
     submittedAssignments: [],
     status: '',
     currentAssignment: null,
@@ -102,7 +114,7 @@ export const assignmentSlice = createSlice({
       .addCase(getAssignments.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.assignments = action.payload;
+        state.assignments = action.payload.list;
       })
       .addCase(getAssignments.rejected, (state, action) => {
         state.isLoading = false;
@@ -128,7 +140,7 @@ export const assignmentSlice = createSlice({
       .addCase(getAssignmentsByStatus.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.assignmentsByStatus = action.payload;
+        state.assignments = action.payload.assignment;
       })
       .addCase(getAssignmentsByStatus.rejected, (state, action) => {
         state.isLoading = false;
@@ -170,6 +182,37 @@ export const assignmentSlice = createSlice({
         state.currentAssignment = action.payload;
       })
       .addCase(updateAssignment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getStudentAssignmentDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getStudentAssignmentDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.studentAssignmentDetail = action.payload;
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        const { assignmentScore } = action?.payload?.studentsAssignmentData?.[0];
+        let newJsonData = [];
+        assignmentScore.forEach((data) => {
+          const newObject = {
+            studentName: data?.student_name,
+            submittedDate: moment(data?.submittedDate?.[0]).format('DD/MM/YYYY hh:mm a') || 'N/A',
+            time: moment(data?.time?.[0]).format('hh:mm') || 'N/A',
+            totalCorrectAnswer: data?.totalCorrectAnswer,
+            totalWrongAnswer: data?.totalWrongAnswer,
+            totalBlankAnswer: data?.totalBlankAnswer,
+            averagePercentage: data?.averagePercentage,
+            assignmentGrade: 'F',
+            assignmentGradeColor: 'red'
+          };
+          newJsonData = [...newJsonData, newObject];
+        });
+        state.studentAssignmentReportJson = newJsonData;
+      })
+      .addCase(getStudentAssignmentDetail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
