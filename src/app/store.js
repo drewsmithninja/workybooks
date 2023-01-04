@@ -38,11 +38,10 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
-  middleware: () =>
-    getDefaultMiddleware({
-      immutableCheck: {
-        ignoredPaths: ['items.data']
-      },
-      serializableCheck: false
-    })
+  middleware: () => getDefaultMiddleware({
+    immutableCheck: {
+      ignoredPaths: ['items.data']
+    },
+    serializableCheck: false
+  })
 });

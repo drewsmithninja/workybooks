@@ -1,20 +1,35 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "extends": ["plugin:react/recommended", "airbnb"],
+  "rules": {
+    "object-curly-newline": [
+      "error",
+      {
+        "ObjectExpression": "always",
+        "ObjectPattern": { "multiline": true },
+        "ImportDeclaration": "never",
+        "ExportDeclaration": { "multiline": true, "minProperties": 6 }
+      }
     ],
-//    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "jsx-quotes": [1, "prefer-single"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "operator-linebreak": ["error", "after"],
     "max-len": ["error", { "code": 600 }],
+    "linebreak-style": 0,
     "comma-dangle": ["error", "never"],
     "no-prototype-builtins": "off",
     "no-nested-ternary": "off",
@@ -26,7 +41,6 @@
     "react/jsx-boolean-value": "off",
     "no-var": "off",
     "react/no-array-index-key": "off",
-    "linebreak-style": 0,
     "no-underscore-dangle":  ["error", { "allow": ["_id"] }],
     "no-use-before-define": [
       "error",
@@ -38,4 +52,4 @@
       }
     ]
   }
-
+}

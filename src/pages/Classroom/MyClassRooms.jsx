@@ -97,18 +97,18 @@ function MyClassrooms() {
     }
   ];
 
-  const classOptions = classes?.list?.length
-    ? classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
-        value,
-        label,
-        ...rest
-      }))
-    : [
-        {
-          value: '',
-          label: 'No Class'
-        }
-      ];
+  const classOptions = classes?.list?.length ?
+    classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Class'
+      }
+    ];
 
   const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
   const editClassRoom = <EditClassModal closable={false} open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
