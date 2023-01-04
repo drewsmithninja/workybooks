@@ -77,7 +77,7 @@ function NewSignUp() {
   };
 
   const login = useGoogleLogin({
-    // scope: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.rosters',
+    scope: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.rosters',
     onSuccess: async (codeResponse) => {
       try {
         const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {

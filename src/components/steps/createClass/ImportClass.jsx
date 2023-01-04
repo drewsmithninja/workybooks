@@ -16,7 +16,7 @@ export default function ImportClass({ next }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (classState?.googleClassRoom?.classroom) {
+    if (classState?.googleClassRoom?.classroom.length > 0) {
       // const dataResult= classState?.googleClassRoom?.classroom?map((item)=>{
       //   return {
       //     key: '1',
