@@ -20,7 +20,6 @@ import dummyImage from '../../assets/images/dummyImage.png';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
-  const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
 

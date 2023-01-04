@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { resetNewAssignment } from '../../app/features/assignment/assignmentSlice';
+import { useDispatch } from 'react-redux';
+import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
@@ -18,9 +18,13 @@ function AssignModal({ onOk, ...props }) {
   };
 
   const afterClose = () => {
+    dispatch(getAssignments());
+  };
+
+  const onClose = () => {
     setCurrent(0);
-    dispatch(resetNewAssignment());
     dispatch(resetSelectedWorksheets());
+    onOk();
   };
 
   const items = [
@@ -36,18 +40,18 @@ function AssignModal({ onOk, ...props }) {
     {
       title: 'Select Students',
       icon: <>2</>,
-      content: <AssignStep2 next={next} />
+      content: <AssignStep2 next={next} {...props} />
     },
     {
       title: 'Set Assignment Details',
       icon: <>3</>,
-      content: <AssignStep3 onOk={onOk} {...props} />
+      content: <AssignStep3 onOk={onClose} {...props} />
     }
   ];
 
   return (
     <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <ADSteps items={items} current={current} showSteps={current !== 0} className='custom-assign-steps' />
+      <ADSteps items={items} current={current} onChange={(e) => setCurrent(e)} showSteps={current !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
         <div className='steps-content max-w-[600px]'>{items[current].content}</div>
       </div>

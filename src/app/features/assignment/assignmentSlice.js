@@ -59,6 +59,7 @@ export const updateAssignment = createAsyncThunk('assignment/updateAssignment', 
     return response;
   } catch (error) {
     const message = error?.response?.data?.message;
+    toast.error(message);
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -78,8 +79,7 @@ export const createAssignment = createAsyncThunk('assignment/createAssignment', 
 export const assignmentSlice = createSlice({
   name: 'assignment',
   initialState: {
-    newAssignment: null,
-    assignments: [],
+    assignments: null,
     assignmentsByStatus: [],
     assignmentsByStudents: [],
     studentAssignmentDetail: [],
@@ -93,12 +93,6 @@ export const assignmentSlice = createSlice({
     message: null
   },
   reducers: {
-    setNewAssignment(state, action) {
-      state.newAssignment = action.payload;
-    },
-    resetNewAssignment(state) {
-      state.newAssignment = null;
-    },
     setAssignment(state, action) {
       state.currentAssignment = action.payload;
     },
@@ -220,5 +214,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus, setNewAssignment, resetNewAssignment } = assignmentSlice.actions;
+export const { setAssignment, setStatus } = assignmentSlice.actions;
 export default assignmentSlice.reducer;

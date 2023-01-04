@@ -77,11 +77,8 @@ const updateAssignment = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.put(
-    `${API_URL}/assignment/${data.id}`,
-    {
-      title: data.title,
-      content: data.content
-    },
+    `${API_URL}/assignment/${data.id}`, // assignment id
+    data,
     {
       headers: {
         authorization: authToken

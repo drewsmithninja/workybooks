@@ -1,27 +1,30 @@
 /* eslint-disable no-return-assign */
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Input, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
 import ADImage from '../../antd/ADImage';
 import dummyImage from '../../../assets/images/dummyImage.png';
-import { getAssignments, setNewAssignment, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import { createAssignment, getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 
 export default function NewAssignment({ next, onOk }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
-  const assignments = useSelector((state) => state.assignment.assignments?.list);
-  const newAssignment = useSelector((state) => state.assignment.newAssignment);
+  const assignments = useSelector((state) => state.assignment.assignments);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+
+  const [assignmentTitle, setAssignmentTitle] = useState('');
 
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
+  const assignmentCreateHandler = async () => {
     dispatch(
-      setNewAssignment({
-        title: e.target.value
+      createAssignment({
+        title: assignmentTitle
       })
-    );
+    )
+      .unwrap()
+      .then(() => next());
   };
 
   const addToAssignmentHandler = (assignment) => {
@@ -58,10 +61,10 @@ export default function NewAssignment({ next, onOk }) {
             <ADTitle level={5}>Create new Assignment</ADTitle>
             <Row gutter={16} className='py-4' wrap={false}>
               <Col xs={24} flex='auto'>
-                <Input type='text' value={newAssignment?.title} className='w-full flex min-w-full' onChange={handleChange} name='collectionName' />
+                <Input type='text' value={assignmentTitle} className='w-full flex min-w-full' onChange={(e) => setAssignmentTitle(e.target.value)} name='collectionName' />
               </Col>
               <Col xs={24} flex='none'>
-                <ADButton type='primary' size='small' className='!rounded-full' onClick={next} disabled={!newAssignment?.title.trim()}>
+                <ADButton type='primary' size='small' className='!rounded-full' onClick={assignmentCreateHandler} disabled={!assignmentTitle.trim()}>
                   Create
                 </ADButton>
               </Col>

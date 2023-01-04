@@ -1,6 +1,6 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClass } from '../../app/features/classroom/classroomSlice';
@@ -10,27 +10,41 @@ import ADTitle from '../antd/ADTitle';
 import dummyImage from '../../assets/images/dummyImage.png';
 import ADImage from '../antd/ADImage';
 import ADButton from '../antd/ADButton';
-import { setNewAssignment } from '../../app/features/assignment/assignmentSlice';
+import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
 
 export default function AssignStep2({ next, onCancel }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
-  const newAssignment = useSelector((state) => state.assignment.newAssignment);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const students = useSelector((state) => state.students?.students?.list);
+
+  const [selectedStudents, setSelectedStudents] = useState([]);
 
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    console.log(values);
-    dispatch(
-      setNewAssignment({
-        ...newAssignment,
-        assignedClass: [values?.assignedClass?.classId],
-        assignedTo: 'Classroom'
-      })
-    );
-    next();
+    if (values?.assignedStudents?.length) {
+      dispatch(
+        updateAssignment({
+          id: currentAssignment?._id,
+          assignedClass: [values?.assignedClass?.classId],
+          assignedStudents: selectedStudents,
+          assignedTo: 'Student'
+        })
+      )
+        .unwrap()
+        .then(() => next());
+    } else {
+      dispatch(
+        updateAssignment({
+          id: currentAssignment?._id,
+          assignedClass: [values?.assignedClass?.classId],
+          assignedTo: 'Classroom'
+        })
+      )
+        .unwrap()
+        .then(() => next());
+    }
   };
-  const onFinishFailed = (errorInfo) => {};
 
   const classOptions = classes?.length
     ? classes?.map(({ _id: value, name: label, ...rest }) => ({
@@ -69,7 +83,6 @@ export default function AssignStep2({ next, onCancel }) {
         size='large'
         name='basic'
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete='off'
       >
         <Row gutter={[16, 16]}>
@@ -83,44 +96,44 @@ export default function AssignStep2({ next, onCancel }) {
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='mb-0'>
-              <Button type='primary' htmlType='submit' className='w-full bg-blue-400 border border-solid border-blue-400'>
+              <Button type='primary' htmlType='submit' className='w-full bg-blue-400 border border-solid border-blue-400' disabled={selectedStudents?.length}>
                 ASSIGN
               </Button>
             </Form.Item>
           </Col>
         </Row>
-      </Form>
-      <ADTitle level={5} className='text-center'>
-        OR
-      </ADTitle>
-      <Form className='py-2' size='large' name='basic' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
+        <ADTitle level={5} className='text-center'>
+          OR
+        </ADTitle>
         <Row gutter={16}>
           <Col xs={24} sm={7}>
             <div className='font-bold pt-2'>Select Students</div>
           </Col>
           <Col xs={24} sm={10} className='max-h-[300px] overflow-auto'>
-            <Checkbox.Group className='w-full' onChange={() => {}}>
-              <List
-                className='px-4 rounded-md'
-                dataSource={students}
-                renderItem={(item) => (
-                  <List.Item>
-                    <Checkbox value={item._id}>
-                      <div className='flex items-center'>
-                        <Space size='middle' className='ml-2'>
-                          <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
-                          <div className='font-bold'>{item?.fullName}</div>
-                        </Space>
-                      </div>
-                    </Checkbox>
-                  </List.Item>
-                )}
-              />
-            </Checkbox.Group>
+            <Form.Item name='assignedStudents'>
+              <Checkbox.Group className='w-full' onChange={(e) => setSelectedStudents(e)}>
+                <List
+                  className='px-4 rounded-md'
+                  dataSource={students}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <Checkbox value={item._id}>
+                        <div className='flex items-center'>
+                          <Space size='middle' className='ml-2'>
+                            <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
+                            <div className='font-bold'>{item?.fullName}</div>
+                          </Space>
+                        </div>
+                      </Checkbox>
+                    </List.Item>
+                  )}
+                />
+              </Checkbox.Group>
+            </Form.Item>
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='flex-none'>
-              <Button type='primary' htmlType='submit' className='w-full text-sm !px-0 text-center mt-28 bg-blue-400 border border-solid border-blue-400'>
+              <Button type='primary' htmlType='submit' className='w-full text-sm !px-0 text-center mt-28 bg-blue-400 border border-solid border-blue-400' disabled={!selectedStudents?.length}>
                 ASSIGN TO SELECTED
               </Button>
             </Form.Item>
@@ -128,9 +141,9 @@ export default function AssignStep2({ next, onCancel }) {
         </Row>
         <div className='flex justify-evenly pt-4'>
           <ADButton type='danger' onClick={onCancel} className='w-40'>
-            Cancel
+            Close
           </ADButton>
-          <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400 w-40' onClick={next}>
+          <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400 w-40' htmlType='submit'>
             Assign
           </ADButton>
         </div>
