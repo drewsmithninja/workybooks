@@ -13,7 +13,7 @@ import Spinner from '../../components/spinner/Spinner';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
 import EditClassModal from '../../components/modals/EditClassModal';
-import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
+import { getClassrooms, setClass } from '../../app/features/classRoom/classRoomSlice';
 import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { getStudents } from '../../app/features/students/studentsSlice';
 
@@ -97,18 +97,18 @@ function MyClassrooms() {
     }
   ];
 
-  const classOptions = classes?.list?.length
-    ? classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
-        value,
-        label,
-        ...rest
-      }))
-    : [
-        {
-          value: '',
-          label: 'No Class'
-        }
-      ];
+  const classOptions = classes?.list?.length ?
+    classes?.list?.map(({ _id: value, name: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Class'
+      }
+    ];
 
   const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
   const editClassRoom = <EditClassModal closable={false} open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
