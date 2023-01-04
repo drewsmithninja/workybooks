@@ -1,11 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import { forEach } from 'lodash';
+import { toast } from 'react-toastify';
 import ADTitle from '../../antd/ADTitle';
 import ADButton from '../../antd/ADButton';
+import { getGoogleClassRoomDataInsert } from '../../../app/features/classroom/classroomSlice';
 
 export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const classState = useSelector((state) => state?.classroom);
+  const [classData, setClassData] = useState([]);
+  const [buttonEnable, setButtonEnable] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (classState?.googleClassRoom?.classroom) {
+      // const dataResult= classState?.googleClassRoom?.classroom?map((item)=>{
+      //   return {
+      //     key: '1',
+      //     class: 'John',
+      //     grade: 'Brown',
+      //     students: 32
+      //   }
+      // })
+      setButtonEnable(true);
+      const arrData = [];
+      classState?.googleClassRoom?.classroom?.forEach((item, index) => {
+        arrData.push({
+          key: index + 1,
+          classId: item?.id,
+          name: item?.classGrade,
+          grade: item?.grade,
+          students: item?.studentLength
+        });
+      });
+      setClassData(arrData);
+    }
+  }, [classState]);
+  const getClassRoomdataAPIInsert = () => {
+    try {
+      dispatch(getGoogleClassRoomDataInsert({
+        importClass: classData
+      })).then((res) => {
+        next();
+      // setCurrent(4);
+      });
+    } catch (error) {
+      toast.error(error);
+    }
+  };
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -19,7 +64,7 @@ export default function ImportClass({ next }) {
       {
         key: 'odd',
         text: 'Select Odd Row',
-        onSelect: (changeableRowKeys) => {
+        onSelect: (changeableRowKeys, value) => {
           let newSelectedRowKeys = [];
           newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
             if (index % 2 !== 0) {
@@ -48,9 +93,13 @@ export default function ImportClass({ next }) {
   };
   const columns = [
     {
-      title: 'Class',
-      dataIndex: 'class'
+      title: 'Classid',
+      dataIndex: 'classId'
       //   render: (text) => <div>{text}</div>
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name'
     },
     {
       title: 'Grade',
@@ -61,37 +110,47 @@ export default function ImportClass({ next }) {
       dataIndex: 'students'
     }
   ];
-  const data = [
-    {
-      key: '1',
-      class: 'John',
-      grade: 'Brown',
-      students: 32,
-      checked: false
-    },
-    {
-      key: '2',
-      class: 'Max',
-      grade: 'Smith',
-      students: 18,
-      checked: false
-    },
-    {
-      key: '3',
-      class: 'Deny',
-      grade: 'Josh',
-      students: 20,
-      checked: false
-    }
-  ];
+  // const data = [
+  //   {
+  //     key: '1',
+  //     class: 'John',
+  //     grade: 'Brown',
+  //     students: 32
+
+  //   },
+  //   {
+  //     key: '2',
+  //     class: 'Max',
+  //     grade: 'Smith',
+  //     students: 18
+
+  //   },
+  //   {
+  //     key: '3',
+  //     class: 'Deny',
+  //     grade: 'Josh',
+  //     students: 20
+
+  //   }
+  // ];
   return (
     <div className='flex flex-col items-center'>
       <ADTitle level={2}>Import Classroom</ADTitle>
       <div className='py-4 text-dark text-lg'>Please select the classrooms you wish to import</div>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
-      <ADButton size='large' className='my-4' type='primary' onClick={next}>
+      <Table rowSelection={rowSelection} columns={columns} dataSource={classData} />
+      {buttonEnable && (
+      <ADButton
+        size='large'
+        className='my-4'
+        type='primary'
+        onClick={() => {
+          getClassRoomdataAPIInsert();
+        }}
+      >
         Continue
       </ADButton>
+      )}
+
     </div>
   );
 }

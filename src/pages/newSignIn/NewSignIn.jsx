@@ -63,6 +63,9 @@ function NewSignIn() {
           }
         });
         if (res) {
+          localStorage.setItem('gToken', JSON.stringify({
+            accessToken: codeResponse?.access_token
+          }));
           setGoogleData({
             email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
           });

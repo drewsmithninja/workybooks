@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
 import CreateClassAddStudents from '../steps/createClass/CreateClassAddStudents';
@@ -7,16 +8,33 @@ import ManualClassCreated from '../steps/createClass/ManualClassCreated';
 import CreateClassStep1 from '../steps/CreateClassStep1';
 import ImportClass from '../steps/createClass/ImportClass';
 import ImportClassesCreated from '../steps/createClass/ImportClassesCreated';
+import { getGoogleClassRoomData } from '../../app/features/classroom/classroomSlice';
+import ExpiredGoogleToken from './ExpiredGoogleToken';
 
 function CreateClassModal({ onOk, ...props }) {
   const [current, setCurrent] = useState(0);
-
+  const [shoModel, setShowModel] = useState(false);
+  const [showAddStudents, setShowAddStudents] = useState(false);
+  const dispatch = useDispatch();
   const next = () => setCurrent(current + 1);
-
+  const getClassRoomdataAPI = () => {
+    dispatch(getGoogleClassRoomData({
+    })).then((res) => {
+      // onOk();
+      // setShowAddStudents(true);
+      if (res?.error) {
+        onOk();
+        setShowAddStudents(true);
+        // toast.error(error);
+      } else {
+        setCurrent(4);
+      }
+    });
+  };
   const items = [
     {
       title: 'create class', // 0
-      content: <CreateClassStep1 onGoogleClick={() => setCurrent(4)} onManualClick={next} />
+      content: <CreateClassStep1 onGoogleClick={() => getClassRoomdataAPI()} onManualClick={next} />
     },
     {
       title: 'create manual', // 1
@@ -36,17 +54,31 @@ function CreateClassModal({ onOk, ...props }) {
     },
     {
       title: 'classes created', // 5
-      content: <ImportClassesCreated />
+      content: <ImportClassesCreated onOk={onOk} />
     }
   ];
 
   return (
-    <ADModal centered footer={false} onOk={onOk} afterClose={() => setCurrent(0)} {...props}>
-      <ADSteps items={items} current={1} />
-      <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content'>{items[current].content}</div>
-      </div>
-    </ADModal>
+    <>
+      <ExpiredGoogleToken
+        closable={false}
+        open={showAddStudents}
+        onOk={() => {
+          setShowAddStudents(false);
+          // setCurrent(1);
+        }}
+        onCancel={() => {
+          setShowAddStudents(false);
+        //  setCurrent(1);
+        }}
+      />
+      <ADModal centered footer={false} onOk={onOk} afterClose={() => setCurrent(0)} {...props}>
+        <ADSteps items={items} current={1} />
+        <div className='flex flex-col items-center justify-center'>
+          <div className='steps-content'>{items[current].content}</div>
+        </div>
+      </ADModal>
+    </>
   );
 }
 
