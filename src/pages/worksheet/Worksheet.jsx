@@ -2,11 +2,12 @@
 import { FaPrint, FaFolderPlus, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { Col, Image, Row, Space, Tag } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
 import { Link, useParams } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 import { worksheetDetails } from '../../app/features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
 import AssignModal from '../../components/modals/AssignModal';
@@ -15,6 +16,7 @@ import StepModal from '../../components/modals/StepModal';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 import { createCollection } from '../../app/features/collection/collectionSlice';
+import PrintImages from '../../components/common/PrintImages';
 
 let wDetail;
 function Worksheet() {
@@ -30,6 +32,7 @@ function Worksheet() {
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const { worksheetDetailsInfo } = useSelector((state) => state.home);
+  const componentRef = useRef();
 
   useEffect(() => {
     if (user && userId) {
@@ -122,6 +125,10 @@ function Worksheet() {
     setCurrentStep(currentStep - 1);
   };
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  });
+
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} onCreate={onAssignCreateClick} />;
   // const collectionModal = <CollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} onCreate={onCollectionCreateClick} cardData={worksheetDetail} />;
   const stepModal = <StepModal open={isStepModalOpen} onOk={handleStepModalOk} onCancel={handleStepModalCancel} nextStep={nextStep} prevStep={prevStep} />;
@@ -151,9 +158,10 @@ function Worksheet() {
                 <ADButton type='primary' block className='justify-center mt-3' onClick={() => window.open('https://www.google.com')}>
                   PLAY WORKSHEET
                 </ADButton>
+                <PrintImages ref={componentRef} src={[worksheetDetail?.thumbnail]} />
               </Space>
               <Row gutter={16} className='text-gray-400 pt-6 pb-5'>
-                <Col lg={8} className='flex items-center border-y-0 border-l-0 border-solid'>
+                <Col lg={8} className='flex items-center border-y-0 border-l-0 border-solid' onClick={handlePrint}>
                   <div className='text-2xl mr-2 flex'>
                     <FaPrint />
                   </div>
@@ -186,12 +194,22 @@ function Worksheet() {
                 <div className='flex items-center justify-between'>
                   <div className='flex mx-0'>SHARE</div>
                   <div className='text-2xl flex mx-2'>
-                    <EmailShareButton className='flex justify-center'>
+                    <EmailShareButton
+                      url="Url"
+                      subject="Subjec is here"
+                      body="body"
+                      className='flex justify-center'
+                    >
                       <EmailIcon size={28} round />
                     </EmailShareButton>
                   </div>
                   <div className='text-2xl flex mx-2'>
-                    <PinterestShareButton url={copyHandler} media title='Pinterest' className='flex justify-center'>
+                    <PinterestShareButton
+                      media={worksheetDetail?.thumbnail}
+                      title='Pinterest'
+                      url={String(window.location)}
+                      className='flex justify-center'
+                    >
                       <PinterestIcon size={28} round />
                     </PinterestShareButton>
                   </div>

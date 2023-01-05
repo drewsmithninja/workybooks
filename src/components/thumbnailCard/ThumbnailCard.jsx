@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Steps } from 'antd';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
@@ -15,9 +16,13 @@ import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
+import PrintImages from '../common/PrintImages';
+import ShareModal from '../modals/ShareModal';
 
 function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+  const componentRef = useRef();
   const [currentStep, setCurrentStep] = useState(0);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
@@ -56,11 +61,29 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
+
+  const handleShareModalOk = () => {
+    setIsShareModalOpen(false);
+  };
+
+  const handleShareModalCancel = () => {
+    setIsShareModalOpen(false);
+  };
+
+  const showShareModal = () => {
+    setIsShareModalOpen(true)
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  });
+
   const items = [
     {
       label: 'PRINT',
       key: '1',
-      icon: <ADImage src={printIcon} alt='print' />
+      icon: <ADImage src={printIcon} alt='print' />,
+      onClick: handlePrint
     },
     {
       label: 'ASSIGN',
@@ -77,7 +100,8 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
     {
       label: 'SHARE',
       key: '4',
-      icon: <ADImage src={shareIcon} alt='share' />
+      icon: <ADImage src={shareIcon} alt='share' />,
+      onClick: showShareModal
     }
   ];
 
@@ -95,11 +119,15 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
       content: <AssignStep3 />
     }
   ];
+
+  const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/collection/${id}`]} multiple />;
+
   return (
     <>
       <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
         <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
       </Modal>
+      {shareModal}
       <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
         <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
       </Modal>
@@ -152,6 +180,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
           )}
         </div>
       </Modal>
+      <PrintImages src={thumbnails} ref={componentRef} />
       <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
         <div className='w-full h-full aspect-[16/9]'>
           <Row gutter={[8, 8]}>
@@ -187,6 +216,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
           </Dropdown>
         </div>
         <div>{collection?.title}</div>
+        {console.log("title", collection?.title)}
         <div className='flex justify-between'>
           <div className='text-xs text-slate-400'>
             By

@@ -1,10 +1,12 @@
 import { CloseCircleFilled } from '@ant-design/icons';
-import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography, Space } from 'antd';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
+import ADImage from '../../components/antd/ADImage';
+import sortIcon from '../../assets/images/icons/sort.png';
 
 function SearchResult() {
   const { user } = useSelector((state) => state.auth);
@@ -17,10 +19,33 @@ function SearchResult() {
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
   const [ccsArr, setccsArr] = useState([]);
+  const [sortBy, setSortBy] = useState("");
   const grades = gradeData?.list;
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content ? searchData?.content : [];
+
+  const worksheetData = useMemo(() => {
+    if (sortBy == "title") {
+      const filtered = worksheets?.slice()?.filter(a => a?.[sortBy]);
+      const noData = worksheets?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData = filtered.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      sortedData = [...sortedData, ...noData];
+
+      return sortedData;
+    } else {
+
+      const filtered = worksheets?.slice()?.filter(a => a?.[sortBy]);
+      const noData = worksheets?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData = filtered.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      sortedData = [...sortedData, ...noData];
+
+      return sortedData;
+    }
+  }, [sortBy])
+
+  console.log("worksheetData", worksheetData)
+
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
   };
@@ -125,11 +150,26 @@ function SearchResult() {
                 </Tag>
               </Col>
             )}
-            <Col xs={12} md={24} className='!pl-[20px]'>
+            <Col xs={12} md={24} className='!pl-[20px]' style={{ justifyContent: "space-between", display: "flex" }} >
               <Typography.Text className='font-bold'>{`${worksheets?.length ?? 0} resources found`}</Typography.Text>
+              <Space>
+                <ADImage src={sortIcon} alt='sort' />
+                <Select
+                  placeholder='Sort By'
+                  className='w-[150px] text-left'
+                  onChange={(value) => setSortBy(value)}
+                  style={{
+                    borderRadius: 8
+                  }}
+                >
+                  <Select.Option value='title'>Title</Select.Option>
+                  <Select.Option value='dt_upd'>Date Updated</Select.Option>
+                  <Select.Option value='dt_added'>Date Created</Select.Option>
+                </Select>
+              </Space>
             </Col>
             <Col span={24} className='flex flex-wrap'>
-              {worksheets?.length ? worksheets.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+              {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
           </Row>
         </div>

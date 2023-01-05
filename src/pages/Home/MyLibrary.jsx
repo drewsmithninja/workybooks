@@ -20,7 +20,11 @@ function MyLibrary() {
   const collections = useSelector((state) => state.collection.collections?.list);
   const recentWorksheets = useSelector((state) => state.worksheet?.recentWorksheets?.list);
   const user = localStorage.getItem('user');
+  const [collectionData, setCollectionData] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [recentData, setRecentData] = useState([]);
   const [rerender, setRerender] = useState(0);
+  const [sortBy, setSortBy] = useState('dt_added');
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
@@ -28,7 +32,6 @@ function MyLibrary() {
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { Step } = Steps;
-  console.log('re', recentWorksheets);
   const collectionFavHandler = async (e) => {
     const data = {
       collectionId: await e._id,
@@ -37,6 +40,80 @@ function MyLibrary() {
     await dispatch(updateCollectionLike(data));
     await setRerender(Math.random());
   };
+
+  useEffect(() => {
+    setCollectionData(collections);
+  }, [collections])
+
+  useEffect(() => {
+    setRecentData(recentWorksheets)
+  }, [recentWorksheets])
+
+  useEffect(() => {
+    setFavorites(favoriteCollections)
+  }, [favoriteCollections])
+
+
+  useEffect(() => {
+    if (sortBy == 'title') {
+      //Filter Data sort
+
+      const filtered1 = favorites?.slice()?.filter(a => a?.[sortBy]);
+      const noData1 = favorites?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData1 = filtered1.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      sortedData1 = [...sortedData1, ...noData1];
+
+      setFavorites(sortedData1);
+
+      //Recent Data sort
+
+      const filtered2 = recentData?.slice()?.filter(a => a?.[sortBy]);
+      const noData2 = recentData?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData2 = filtered2.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      sortedData2 = [...sortedData2, ...noData2];
+
+      setRecentData(sortedData2)
+
+      //Collection Data sort
+
+      const filtered3 = collectionData?.slice()?.filter(a => a?.[sortBy]);
+      const noData3 = collectionData?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData3 = filtered3.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      sortedData3 = [...sortedData2, ...noData2];
+
+      const sortedCollection = collectionData?.slice()?.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      setCollectionData(sortedData3)
+
+    } else {
+
+      const filtered1 = favorites?.slice()?.filter(a => a?.[sortBy]);
+      const noData1 = favorites?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData1 = filtered1.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      sortedData1 = [...sortedData1, ...noData1];
+
+      setFavorites(sortedData1);
+
+      //Recent Data sort
+
+      const filtered2 = recentData?.slice()?.filter(a => a?.[sortBy]);
+      const noData2 = recentData?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData2 = filtered2.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      sortedData2 = [...sortedData2, ...noData2];
+
+      setRecentData(sortedData2)
+
+      //Collection Data sort
+
+      const filtered3 = collectionData?.slice()?.filter(a => a?.[sortBy]);
+      const noData3 = collectionData?.slice()?.filter(a => !a?.[sortBy]);
+      let sortedData3 = filtered3.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      sortedData3 = [...sortedData2, ...noData2];
+
+      const sortedCollection = collectionData?.slice()?.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      setCollectionData(sortedData3)
+    }
+
+  }, [sortBy])
 
   useEffect(() => {
     if (user) {
@@ -94,10 +171,11 @@ function MyLibrary() {
       content: <AssignStep3 />
     }
   ];
+
   const collectionTab = (
     <Row gutter={[16, 16]}>
-      {collections?.length ? (
-        collections?.map((item) => (
+      {collectionData?.length ? (
+        collectionData?.map((item) => (
           <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
             <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
           </Col>
@@ -114,8 +192,8 @@ function MyLibrary() {
     <>
       <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
       <Row gutter={[16, 16]} className='py-4'>
-        {collections?.length ? (
-          collections
+        {collectionData?.length ? (
+          collectionData
             ?.filter((item) => item.favorite)
             ?.map((item) => (
               <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
@@ -130,8 +208,8 @@ function MyLibrary() {
       </Row>
       <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
       <div className='flex flex-row flex-wrap'>
-        {favoriteCollections?.length ? (
-          favoriteCollections.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
+        {favorites?.length ? (
+          favorites.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
         ) : (
           <ADTitle level={3} className='px-2 py-20 rounded-xl'>
             No any favorites Worksheets
@@ -143,8 +221,8 @@ function MyLibrary() {
 
   const recentTab = (
     <div className='flex flex-row flex-wrap'>
-      {recentWorksheets?.length ? (
-        recentWorksheets?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
+      {recentData?.length ? (
+        recentData?.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
       ) : (
         <ADTitle level={3} className='px-2 py-20 rounded-xl'>
           No any recent Worksheets
@@ -239,6 +317,7 @@ function MyLibrary() {
           )}
         </div>
       </Modal>
+      {console.log('sortBy', sortBy)}
       <div className='px-8 py-8 flex justify-between align-center'>
         <ADTitle level={3}>{`My Library - ${currentTab}`}</ADTitle>
         <Space>
@@ -246,11 +325,14 @@ function MyLibrary() {
           <Select
             placeholder='Sort By'
             className='w-[150px] text-left'
+            onChange={(value) => setSortBy(value)}
             style={{
               borderRadius: 8
             }}
           >
-            <Select.Option value='Date Updated'>Date Updated</Select.Option>
+            <Select.Option value='title'>Title</Select.Option>
+            <Select.Option value='dt_upd'>Date Updated</Select.Option>
+            <Select.Option value='dt_added'>Date Created</Select.Option>
           </Select>
         </Space>
       </div>

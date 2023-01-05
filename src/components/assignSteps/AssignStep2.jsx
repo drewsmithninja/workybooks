@@ -45,19 +45,20 @@ export default function AssignStep2({ next, onCancel }) {
         .then(() => next());
     }
   };
+  const onFinishFailed = (errorInfo) => { };
 
   const classOptions = classes?.length
     ? classes?.map(({ _id: value, name: label, ...rest }) => ({
-        value,
-        label,
-        ...rest
-      }))
+      value,
+      label,
+      ...rest
+    }))
     : [
-        {
-          value: '',
-          label: 'No Class'
-        }
-      ];
+      {
+        value: '',
+        label: 'No Class'
+      }
+    ];
 
   useEffect(() => {
     const getData = async () => {
@@ -110,26 +111,24 @@ export default function AssignStep2({ next, onCancel }) {
             <div className='font-bold pt-2'>Select Students</div>
           </Col>
           <Col xs={24} sm={10} className='max-h-[300px] overflow-auto'>
-            <Form.Item name='assignedStudents'>
-              <Checkbox.Group className='w-full' onChange={(e) => setSelectedStudents(e)}>
-                <List
-                  className='px-4 rounded-md'
-                  dataSource={students}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <Checkbox value={item._id}>
-                        <div className='flex items-center'>
-                          <Space size='middle' className='ml-2'>
-                            <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
-                            <div className='font-bold'>{item?.fullName}</div>
-                          </Space>
-                        </div>
-                      </Checkbox>
-                    </List.Item>
-                  )}
-                />
-              </Checkbox.Group>
-            </Form.Item>
+            <Checkbox.Group className='w-full' onChange={() => { }}>
+              <List
+                className='px-4 rounded-md'
+                dataSource={students}
+                renderItem={(item) => (
+                  <List.Item>
+                    <Checkbox value={item._id}>
+                      <div className='flex items-center'>
+                        <Space size='middle' className='ml-2'>
+                          <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
+                          <div className='font-bold'>{item?.fullName}</div>
+                        </Space>
+                      </div>
+                    </Checkbox>
+                  </List.Item>
+                )}
+              />
+            </Checkbox.Group>
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='flex-none'>
