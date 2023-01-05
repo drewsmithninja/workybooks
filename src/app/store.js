@@ -12,6 +12,7 @@ import assignmentReducer from './features/assignment/assignmentSlice';
 import gradesReducer from './features/grade/GradeSlice';
 import modalReducer from './features/modal/modalSlice';
 import worksheetsReducer from './features/worksheet/worksheetSlice';
+import notificationReducer from './features/notification/notificationSlice';
 
 const persistConfig = {
   key: 'root',
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   assignment: assignmentReducer,
   grades: gradesReducer,
   modal: modalReducer,
-  worksheet: worksheetsReducer
+  worksheet: worksheetsReducer,
+  notification: notificationReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
