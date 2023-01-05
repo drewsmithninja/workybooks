@@ -11,6 +11,7 @@ import { createCollection, getCollections, updateCollection } from '../../app/fe
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
 import ShareModal from '../modals/ShareModal';
+import { setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 
 function FileUtils({ show = false }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
@@ -60,6 +61,7 @@ function FileUtils({ show = false }) {
 
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
 
   const handleAssignModalCancel = () => {

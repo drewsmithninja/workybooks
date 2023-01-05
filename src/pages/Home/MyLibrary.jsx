@@ -10,10 +10,11 @@ import ADButton from '../../components/antd/ADButton';
 import AssignStep1 from '../../components/assignSteps/AssignStep1';
 import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
-import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
 import { getCollections, getFavoriteCollections, updateCollectionLike } from '../../app/features/collection/collectionSlice';
 import ADImage from '../../components/antd/ADImage';
 import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
+import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
+import AssignModal from '../../components/modals/AssignModal';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
@@ -108,6 +109,7 @@ function MyLibrary() {
   };
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
@@ -239,14 +241,14 @@ function MyLibrary() {
       dispatch(getRecentWorksheets());
     }
   };
+
+  const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
   return (
     <MainLayout>
-      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
-      </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
-      </Modal>
+      {addToCollectionModal}
+      {assignModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities

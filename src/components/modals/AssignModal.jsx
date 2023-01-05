@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getAssignments } from '../../app/features/assignment/assignmentSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
@@ -9,12 +9,12 @@ import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
 
-function AssignModal({ onOk, ...props }) {
-  const [current, setCurrent] = useState(0);
+function AssignModal({ onOk, onCancel, ...props }) {
+  const currentStep = useSelector((state) => state.assignment.currentStep);
   const dispatch = useDispatch();
 
   const next = () => {
-    setCurrent(current + 1);
+    dispatch(setCurrentStep(currentStep + 1));
   };
 
   const afterClose = () => {
@@ -22,7 +22,7 @@ function AssignModal({ onOk, ...props }) {
   };
 
   const onClose = () => {
-    setCurrent(0);
+    dispatch(setCurrentStep(0));
     dispatch(resetSelectedWorksheets());
     onOk();
   };
@@ -35,25 +35,25 @@ function AssignModal({ onOk, ...props }) {
     {
       title: 'Select Items',
       icon: <>1</>,
-      content: <AssignStep1 next={next} {...props} />
+      content: <AssignStep1 next={next} onClose={onClose} onCancel={onCancel} />
     },
     {
       title: 'Select Students',
       icon: <>2</>,
-      content: <AssignStep2 next={next} {...props} />
+      content: <AssignStep2 next={next} onClose={onClose} />
     },
     {
       title: 'Set Assignment Details',
       icon: <>3</>,
-      content: <AssignStep3 onOk={onClose} {...props} />
+      content: <AssignStep3 onOk={onOk} onClose={onClose} onCancel={onCancel} {...props} />
     }
   ];
 
   return (
     <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <ADSteps items={items} current={current} onChange={(e) => setCurrent(e)} showSteps={current !== 0} className='custom-assign-steps' />
+      <ADSteps items={items} current={currentStep} onChange={(e) => dispatch(setCurrentStep(e))} showSteps={currentStep !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content max-w-[600px]'>{items[current].content}</div>
+        <div className='steps-content max-w-[600px]'>{items[currentStep].content}</div>
       </div>
     </ADModal>
   );

@@ -12,7 +12,7 @@ import ADImage from '../antd/ADImage';
 import ADButton from '../antd/ADButton';
 import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
 
-export default function AssignStep2({ next, onCancel }) {
+export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const students = useSelector((state) => state.students?.students?.list);
@@ -139,7 +139,7 @@ export default function AssignStep2({ next, onCancel }) {
           </Col>
         </Row>
         <div className='flex justify-evenly pt-4'>
-          <ADButton type='danger' onClick={onCancel} className='w-40'>
+          <ADButton type='danger' onClick={onClose} className='w-40'>
             Close
           </ADButton>
           <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400 w-40' htmlType='submit'>
