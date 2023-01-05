@@ -10,7 +10,7 @@ import ADButton from '../antd/ADButton';
 import { unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
 import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
 
-export default function AssignStep1({ next, onCancel }) {
+export default function AssignStep1({ next, onClose, onCancel }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
@@ -75,7 +75,7 @@ export default function AssignStep1({ next, onCancel }) {
         <p className='text-xs text-center pb-4'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>
         <Row gutter={24}>
           <Col xs={24} md={8}>
-            <ADButton type='danger' block onClick={onCancel}>
+            <ADButton type='danger' block onClick={onClose}>
               Close
             </ADButton>
           </Col>

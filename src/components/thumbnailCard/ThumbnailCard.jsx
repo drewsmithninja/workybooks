@@ -12,9 +12,10 @@ import sampleImage from '../../assets/images/dummyImage.png';
 import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
-import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
+import AddToCollectionModal from '../modals/AddToCollectionModal';
+import AssignModal from '../modals/AssignModal';
 
 function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -29,6 +30,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   };
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
@@ -95,14 +97,14 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
       content: <AssignStep3 />
     }
   ];
+
+  const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
   return (
     <>
-      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
-      </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
-      </Modal>
+      {addToCollectionModal}
+      {assignModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities

@@ -86,6 +86,7 @@ export const assignmentSlice = createSlice({
     studentAssignmentReportJson: [],
     submittedAssignments: [],
     status: '',
+    currentStep: 0,
     currentAssignment: null,
     isLoading: false,
     isError: false,
@@ -93,6 +94,9 @@ export const assignmentSlice = createSlice({
     message: null
   },
   reducers: {
+    setCurrentStep: (state, action) => {
+      state.currentStep = action.payload;
+    },
     setAssignment(state, action) {
       state.currentAssignment = action.payload;
     },
@@ -214,5 +218,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setCurrentStep } = assignmentSlice.actions;
 export default assignmentSlice.reducer;

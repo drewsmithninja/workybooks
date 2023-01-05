@@ -10,6 +10,7 @@ import ADButton from '../antd/ADButton';
 import { createCollection, getCollections, updateCollection } from '../../app/features/collection/collectionSlice';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
+import { setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 
 function FileUtils({ show = false }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
@@ -53,6 +54,7 @@ function FileUtils({ show = false }) {
 
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
 
   const handleAssignModalCancel = () => {
