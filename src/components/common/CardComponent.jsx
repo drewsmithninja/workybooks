@@ -1,22 +1,17 @@
 /* eslint-disable no-return-assign */
-import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Dropdown, Modal, Steps } from 'antd';
+import React, { useState } from 'react';
+import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CloseOutlined, EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
-import ADTitle from '../antd/ADTitle';
+import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
-import AssignStep1 from '../assignSteps/AssignStep1';
-import AssignStep2 from '../assignSteps/AssignStep2';
-import NewAssignmentOrCollection from '../modalSteps/NewAssignmentOrCollection';
-import { createCollection, getCollection, getCollections, updateCollection } from '../../app/features/collection/collectionSlice';
+import { getCollections } from '../../app/features/collection/collectionSlice';
 import { likeWorksheet } from '../../app/features/home/homepageSlice';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
-import AssignStep3 from '../assignSteps/AssignStep3';
 import { selectWorksheet, setCurrentWorksheet, unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
@@ -25,18 +20,10 @@ import dummyImage from '../../assets/images/dummyImage.png';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
-  const worksheets = useSelector((state) => state.worksheet.selectedWorksheets);
-  const { collections } = useSelector((state) => state);
-  const [checked, setChecked] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
-  // const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem('user'));
-
   const dispatch = useDispatch();
-  const { Step } = Steps;
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
@@ -48,38 +35,16 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
   };
-  const onAssignCreateClick = () => {
-    setCurrentStep(0);
-    setIsAssignModalOpen(false);
-    setIsStepModalOpen(true);
-  };
   const showCollectionModal = () => {
     dispatch(getCollections());
     dispatch(setCurrentWorksheet(item));
     setIsCollectionModalOpen(true);
   };
   const handleCollectionModalOk = (val) => {
-    // if (val) {
-    //   const data = {
-    //     title: val,
-    //     favorite: false,
-    //     content: [item?._id],
-    //     added_by: user?.data?.user?._id
-    //   };
-    //   dispatch(createCollection(data));
-    //   // dispatch(updateCollection());
-    //   setIsCollectionModalOpen(false);
-    //   setRerender(Math.random());
-    // }
     setIsAssignModalOpen(false);
-    // setChecked(false);
   };
   const handleCollectionModalCancel = () => {
     setIsCollectionModalOpen(false);
-  };
-
-  const nextStep = () => {
-    setCurrentStep(currentStep + 1);
   };
 
   const setLike = async () => {
@@ -91,21 +56,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     };
     await dispatch(likeWorksheet(data)).then(setRerender(Math.random()));
   };
-
-  const steps = [
-    {
-      title: 'Select Items',
-      content: <AssignStep1 />
-    },
-    {
-      title: 'Select Students',
-      content: <AssignStep2 onAssignClass={nextStep} onAssignSelected={nextStep} />
-    },
-    {
-      title: 'Select Assignment Details',
-      content: <AssignStep3 />
-    }
-  ];
 
   const items = [
     {
@@ -132,8 +82,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     }
   ];
 
-  const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onShow={showCollectionModal} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const assignModal = <AssignModal closable={false} open={isAssignModalOpen} onShow={showAssignModal} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
@@ -153,16 +103,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
           }}
         >
           <Link to={item._id ? `/worksheet/${item._id}` : ''}>
-            <ADImage
-              src={item?.thumbnail}
-              // onError={({ currentTarget }) => {
-              //   currentTarget.onerror = null; // prevents looping
-              //   currentTarget.src = 'https://via.placeholder.com/215x278';
-              // }}
-              onError={(e) => (e.target.src = dummyImage)}
-              alt='cardImage'
-              className='rounded-2xl w-full object-cover'
-            />
+            <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />
           </Link>
         </div>
 
@@ -173,18 +114,14 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
               checked={selectedWorksheets?.includes(item?._id)}
               className='w-[25px] scale-125 cardCheckbox'
               onChange={(e) => {
-                console.log(item?._id, 'itemId');
                 if (e.target.checked) {
                   dispatch(selectWorksheet(item?._id));
-                  // setChecked(true);
                 } else {
                   dispatch(unSelectWorksheet(item?._id));
-                  // setChecked(false);
                 }
               }}
               id={`collection_id_${item.worky_id}`}
               name={`collection_id_${item.worky_id}`}
-              // checked={checked}
             />
           </div>
           <ADButton className='flex flex-1 items-center justify-center' onClick={setLike} type='text'>
@@ -192,6 +129,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
           </ADButton>
           <div className='flex flex-1 items-center justify-end'>
             <Dropdown
+              onClick={() => dispatch(setCurrentWorksheet(item))}
               menu={{
                 items
               }}
@@ -204,61 +142,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
                 <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
               </div>
             </Dropdown>
-            {/* <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-              <NewAssignmentOrCollection assign onOk={onAssignCreateClick} cardData={item} closeModal={handleAssignModalCancel} />
-            </Modal> */}
-            {/* <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-              <NewAssignmentOrCollection onOk={onCollectionCreateClick} cardData={item} />
-            </Modal> */}
-            {/* <Modal className='rounded-xl' closeIcon={<CloseOutlined className='!text-danger font-bold' onClick={() => setIsStepModalOpen(false)} />} centered footer={false} open={isStepModalOpen}>
-              <ADTitle level={3} className='text-center text-danger pb-8'>
-                Create New Assign Activities
-              </ADTitle>
-              <Steps current={currentStep}>
-                {steps.map((step) => (
-                  <Step key={step.title} title={step.title} />
-                ))}
-              </Steps>
-              <div className='steps-content'>{steps[currentStep].content}</div>
-              <div className='steps-action'>
-                {currentStep === 0 && (
-                  <div className='flex justify-between'>
-                    <Button size='large' type='danger' onClick={nextStep}>
-                      CANCEL
-                    </Button>
-                    <Button size='large' type='primary' onClick={nextStep}>
-                      ADD MORE ITEMS
-                    </Button>
-                    <Button size='large' type='primary' onClick={nextStep}>
-                      ASSIGN
-                    </Button>
-                  </div>
-                )}
-                {currentStep === 1 && (
-                  <div className='flex justify-between'>
-                    <Button size='large' type='danger' onClick={nextStep}>
-                      CANCEL
-                    </Button>
-                    <Button size='large' type='primary' onClick={prevStep}>
-                      BACK
-                    </Button>
-                  </div>
-                )}
-                {currentStep === 2 && (
-                  <div className='flex justify-between'>
-                    <Button size='large' type='danger' onClick={nextStep}>
-                      CANCEL
-                    </Button>
-                    <Button size='large' type='primary' onClick={prevStep}>
-                      BACK
-                    </Button>
-                    <Button size='large' type='primary' onClick={() => setIsStepModalOpen(false)}>
-                      ASSIGN
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </Modal> */}
           </div>
         </div>
 

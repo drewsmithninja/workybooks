@@ -1,101 +1,96 @@
-/* eslint-disable implicit-arrow-linebreak */
-import { useState } from 'react';
-import { Modal, Upload, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+/* eslint-disable no-return-assign */
+import { Row, Col, Empty } from 'antd';
+import { BsDashCircle } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import ADTitle from '../antd/ADTitle';
 import ADImage from '../antd/ADImage';
+import dummyImage from '../../assets/images/dummyImage.png';
+import ADButton from '../antd/ADButton';
+import { unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
+import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
 
-export default function AssignStep1({ next }) {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-xxx',
-      percent: 50,
-      name: 'image.png',
-      status: 'uploading',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-5',
-      name: 'image.png',
-      status: 'error'
+export default function AssignStep1({ next, onCancel }) {
+  const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+  const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const worksheets = useSelector((state) => state.worksheet.worksheets?.list);
+  const data = worksheets.filter((w) => selectedWorksheets.includes(w?._id));
+
+  const [modifiedWorksheets, setModifiedWorksheets] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (selectedWorksheets?.length) {
+      const result = worksheets.filter((w) => selectedWorksheets.includes(w?._id));
+      setModifiedWorksheets(result);
+    } else {
+      setModifiedWorksheets([currentWorksheet]);
     }
-  ]);
-  const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  const handleCancel = () => setPreviewOpen(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
+  }, [selectedWorksheets]);
+
+  const unSelectHandler = (e) => {
+    if (selectedWorksheets.includes(e?._id)) {
+      dispatch(unSelectWorksheet(e?._id));
+    } else {
+      setModifiedWorksheets([]);
     }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
   };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
+
+  const onAssignHandler = () => {
+    const result = modifiedWorksheets.map((w) => w?._id);
+    dispatch(
+      updateAssignment({
+        id: currentAssignment?._id,
+        content: result
+      })
+    )
+      .unwrap()
+      .then(() => next());
   };
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState();
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
 
   return (
     <div className='mt-1'>
-      <div
-        style={{
-          minHeight: '300px'
-        }}
-      >
-        <ADTitle level={5} className='text-center pb-2'>
-          3 Items selected
+      <div>
+        <ADTitle level={5} className='text-center pb-3'>
+          {`${modifiedWorksheets?.length} Items selected`}
         </ADTitle>
-        <Upload action='https://www.mocky.io/v2/5cc8019d300000980a055e76' listType='picture-card' fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
-          {fileList?.length >= 8 ? null : uploadButton}
-        </Upload>
-        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-          <ADImage
-            alt='example'
-            style={{
-              width: '100%'
-            }}
-            src={previewImage}
-          />
-        </Modal>
+        <div className='min-h-[260px]'>
+          {modifiedWorksheets?.length ? (
+            <div className='grid grid-cols-5 gap-5'>
+              {modifiedWorksheets?.map((w) => (
+                <div key={w?._id}>
+                  <ADButton type='danger' className='worksheet-delete-button border-0' onClick={() => unSelectHandler(w)}>
+                    <BsDashCircle className='text-danger' />
+                  </ADButton>
+                  <ADImage key={w?._id} className='aspect-square object-cover rounded-lg border border-solid border-slate-300' src={w?.thumbnail} onError={(e) => (e.target.src = dummyImage)} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <Empty className='min-h-[260px] flex flex-col justify-center items-center' />
+          )}
+        </div>
+        <p className='text-xs text-center pb-4'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>
+        <Row gutter={24}>
+          <Col xs={24} md={8}>
+            <ADButton type='danger' block onClick={onCancel}>
+              Close
+            </ADButton>
+          </Col>
+          <Col xs={24} md={8}>
+            <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
+              Add more items
+            </ADButton>
+          </Col>
+          <Col xs={24} md={8}>
+            <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onAssignHandler}>
+              Assign
+            </ADButton>
+          </Col>
+        </Row>
       </div>
-      <p className='text-xs text-center'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>
     </div>
   );
 }

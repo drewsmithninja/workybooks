@@ -1,108 +1,152 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Checkbox, Col, Form, Input, List, Row, Select, Space } from 'antd';
-import React from 'react';
+/* eslint-disable operator-linebreak */
+/* eslint-disable indent */
+import React, { useEffect, useState } from 'react';
+import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClass } from '../../app/features/classroom/classroomSlice';
+import { getStudents } from '../../app/features/students/studentsSlice';
+import ADSelect from '../antd/ADSelect';
 import ADTitle from '../antd/ADTitle';
+import dummyImage from '../../assets/images/dummyImage.png';
+import ADImage from '../antd/ADImage';
+import ADButton from '../antd/ADButton';
+import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
 
-export default function AssignStep2({ onAssignSelected, onAssignClass }) {
-  const { Option } = Select;
-  const onFinish = (values) => {};
-  const onFinishFailed = (errorInfo) => {};
-  const handleChange = (value) => {};
-  const data = [
-    {
-      checked: false,
-      avatar: <UserOutlined />,
-      title: 'checkbox item 1'
-    },
-    {
-      checked: false,
-      avatar: <UserOutlined />,
-      title: 'checkbox item 2'
-    },
-    {
-      checked: false,
-      avatar: <UserOutlined />,
-      title: 'checkbox item 3'
-    },
-    {
-      checked: false,
-      avatar: <UserOutlined />,
-      title: 'checkbox item 4'
-    },
-    {
-      checked: false,
-      avatar: <UserOutlined />,
-      title: 'checkbox item 5'
+export default function AssignStep2({ next, onCancel }) {
+  const classes = useSelector((state) => state.classroom.classes?.list);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const students = useSelector((state) => state.students?.students?.list);
+
+  const [selectedStudents, setSelectedStudents] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const onFinish = (values) => {
+    if (values?.assignedStudents?.length) {
+      dispatch(
+        updateAssignment({
+          id: currentAssignment?._id,
+          assignedClass: [values?.assignedClass?.classId],
+          assignedStudents: selectedStudents,
+          assignedTo: 'Student'
+        })
+      )
+        .unwrap()
+        .then(() => next());
+    } else {
+      dispatch(
+        updateAssignment({
+          id: currentAssignment?._id,
+          assignedClass: [values?.assignedClass?.classId],
+          assignedTo: 'Classroom'
+        })
+      )
+        .unwrap()
+        .then(() => next());
     }
-  ];
+  };
+
+  const classOptions = classes?.length
+    ? classes?.map(({ _id: value, name: label, ...rest }) => ({
+        value,
+        label,
+        ...rest
+      }))
+    : [
+        {
+          value: '',
+          label: 'No Class'
+        }
+      ];
+
+  useEffect(() => {
+    const getData = async () => {
+      await dispatch(setClass(classes?.[0]?._id));
+      await dispatch(getStudents(classes?.[0]?._id));
+    };
+    getData();
+  }, []);
+
+  const onClassChangeHandler = async (e) => {
+    const sc = await classes?.find((item) => item?._id === e);
+    await dispatch(setClass(sc));
+    await dispatch(getStudents(e));
+  };
 
   return (
     <div>
-      <Form className='py-2' size='large' name='basic' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
+      <Form
+        initialValues={{
+          assignedClass: classOptions?.[0] ?? 'No Class'
+        }}
+        className='py-2'
+        size='large'
+        name='basic'
+        onFinish={onFinish}
+        autoComplete='off'
+      >
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={7}>
             <div className='font-bold py-2'>Assign to entire class</div>
           </Col>
           <Col xs={24} sm={10} className='flex items-center'>
-            <Form.Item className='w-full mb-0' name='classAssign'>
-              <Select defaultValue='lucy' onChange={handleChange}>
-                <Option value='jack'>Jack</Option>
-                <Option value='lucy'>Lucy</Option>
-                <Option value='disabled' disabled>
-                  Disabled
-                </Option>
-                <Option value='Yiminghe'>yiminghe</Option>
-              </Select>
+            <Form.Item className='w-full mb-0' name='assignedClass'>
+              <ADSelect className='w-32' onChange={(e) => onClassChangeHandler(e)} options={classOptions} />
             </Form.Item>
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='mb-0'>
-              <Button type='primary' htmlType='submit' className='w-full' onClick={onAssignClass}>
+              <Button type='primary' htmlType='submit' className='w-full bg-blue-400 border border-solid border-blue-400' disabled={selectedStudents?.length}>
                 ASSIGN
               </Button>
             </Form.Item>
           </Col>
         </Row>
-      </Form>
-      <ADTitle level={5} className='text-center'>
-        OR
-      </ADTitle>
-      <Form className='py-2' size='large' name='basic' onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
+        <ADTitle level={5} className='text-center'>
+          OR
+        </ADTitle>
         <Row gutter={16}>
           <Col xs={24} sm={7}>
             <div className='font-bold pt-2'>Select Students</div>
           </Col>
-          <Col xs={24} sm={10}>
-            <Checkbox.Group className='w-full' onChange={() => {}}>
-              <List
-                style={{
-                  background: '#F6F9FC'
-                }}
-                className='px-4 rounded-md'
-                dataSource={data}
-                renderItem={(item) => (
-                  <List.Item>
-                    <Checkbox value={item.title}>
-                      <div className='flex items-center'>
-                        <Space size='middle' className='ml-2'>
-                          <Avatar size='large' icon={item.checked} />
-                          <div className='font-bold'>{item.title}</div>
-                        </Space>
-                      </div>
-                    </Checkbox>
-                  </List.Item>
-                )}
-              />
-            </Checkbox.Group>
+          <Col xs={24} sm={10} className='max-h-[300px] overflow-auto'>
+            <Form.Item name='assignedStudents'>
+              <Checkbox.Group className='w-full' onChange={(e) => setSelectedStudents(e)}>
+                <List
+                  className='px-4 rounded-md'
+                  dataSource={students}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <Checkbox value={item._id}>
+                        <div className='flex items-center'>
+                          <Space size='middle' className='ml-2'>
+                            <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
+                            <div className='font-bold'>{item?.fullName}</div>
+                          </Space>
+                        </div>
+                      </Checkbox>
+                    </List.Item>
+                  )}
+                />
+              </Checkbox.Group>
+            </Form.Item>
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='flex-none'>
-              <Button onClick={onAssignSelected} type='primary' htmlType='submit' className='w-full text-sm'>
+              <Button type='primary' htmlType='submit' className='w-full text-sm !px-0 text-center mt-28 bg-blue-400 border border-solid border-blue-400' disabled={!selectedStudents?.length}>
                 ASSIGN TO SELECTED
               </Button>
             </Form.Item>
           </Col>
         </Row>
+        <div className='flex justify-evenly pt-4'>
+          <ADButton type='danger' onClick={onCancel} className='w-40'>
+            Close
+          </ADButton>
+          <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400 w-40' htmlType='submit'>
+            Assign
+          </ADButton>
+        </div>
       </Form>
     </div>
   );

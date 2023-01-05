@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
@@ -8,46 +9,8 @@ import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
 
-function StepOne({ next }) {
-  return <NewAssignment next={next} />;
-}
-
-function StepTwo() {
+function AssignModal({ onOk, ...props }) {
   const [current, setCurrent] = useState(0);
-  const next = () => {
-    setCurrent(current + 1);
-  };
-  const items = [
-    {
-      title: 'create assignment',
-      content: <NewAssignment next={next} />
-    },
-    {
-      title: 'Select Items',
-      content: <AssignStep1 next={next} />
-    },
-    {
-      title: 'Select Students',
-      content: <AssignStep2 next={next} />
-    },
-    {
-      title: 'Select Assignment Details',
-      content: <AssignStep3 next={next} />
-    }
-  ];
-  return (
-    <>
-      <ADSteps items={items} current={1} />
-      <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content'>{items[current].content}</div>
-      </div>
-    </>
-  );
-}
-
-export default function AssignModal({ onOk, ...props }) {
-  const [current, setCurrent] = useState(0);
-
   const dispatch = useDispatch();
 
   const next = () => {
@@ -55,24 +18,45 @@ export default function AssignModal({ onOk, ...props }) {
   };
 
   const afterClose = () => {
-    setCurrent(0);
-    dispatch(resetSelectedWorksheets());
+    dispatch(getAssignments());
   };
 
-  const steps = [
+  const onClose = () => {
+    setCurrent(0);
+    dispatch(resetSelectedWorksheets());
+    onOk();
+  };
+
+  const items = [
     {
-      title: 'step 1',
-      content: <StepOne next={next} />
+      title: 'Create New',
+      content: <NewAssignment next={next} onOk={onOk} />
     },
     {
-      title: 'step 2',
-      content: <StepTwo next={next} />
+      title: 'Select Items',
+      icon: <>1</>,
+      content: <AssignStep1 next={next} {...props} />
+    },
+    {
+      title: 'Select Students',
+      icon: <>2</>,
+      content: <AssignStep2 next={next} {...props} />
+    },
+    {
+      title: 'Set Assignment Details',
+      icon: <>3</>,
+      content: <AssignStep3 onOk={onClose} {...props} />
     }
   ];
 
   return (
-    <ADModal centered afterClose={afterClose} width={1000} footer={false} {...props}>
-      <StepTwo />
+    <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
+      <ADSteps items={items} current={current} onChange={(e) => setCurrent(e)} showSteps={current !== 0} className='custom-assign-steps' />
+      <div className='flex flex-col items-center justify-center'>
+        <div className='steps-content max-w-[600px]'>{items[current].content}</div>
+      </div>
     </ADModal>
   );
 }
+
+export default AssignModal;

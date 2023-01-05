@@ -28,7 +28,12 @@ function MainLayout({ children, className }) {
       <Headers />
       {user && <SearchBar />}
       <Content className='bg-white'>{children}</Content>
-      {showMultiple > 0 && <FileUtils show={showMultiple > 0} />}
+      <FileUtils
+        show={showMultiple > 0}
+        style={{
+          display: `${showMultiple ? 'static' : 'none'}`
+        }}
+      />
     </Layout>
   );
 }

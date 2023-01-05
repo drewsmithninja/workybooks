@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, MenuOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { logout, reset } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
+import Notification from './Notification';
 
 const { Header } = Layout;
 
@@ -16,6 +17,7 @@ function Headers() {
   const dispatch = useDispatch();
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const [Notify, setNotify] = useState(false);
   const user = localStorage.getItem('user');
   const handleToggleNavbar = () => {
     navbarRef.current.classList.toggle('flex');
@@ -45,19 +47,20 @@ function Headers() {
   ];
 
   return (
-    <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
-      <Link to='/'>
-        <ADImage
-          src={logo}
-          alt='logo'
-          style={{
-            width: 100
-          }}
-        />
-      </Link>
+    <>
+      <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
+        <Link to='/'>
+          <ADImage
+            src={logo}
+            alt='logo'
+            style={{
+              width: 100
+            }}
+          />
+        </Link>
 
-      {/* navbar menu */}
-      {user && (
+        {/* navbar menu */}
+        {user && (
         <div className='hidden space-x-4 md:flex'>
           <Link to='/' className='hover:text-[#243E8F]'>
             {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
@@ -67,59 +70,63 @@ function Headers() {
             <span className='navbar-menu-item'>My Classrooms</span>
           </Link>
         </div>
-      )}
+        )}
 
-      {/* login/register button */}
-      {!user ? (
-        <Space size='large'>
-          <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[100px]'>
-            Sign In
-          </ADButton>
-          <ADButton onClick={() => navigate('/sign-up')} type='primary' className='w-[100px]'>
-            Sign Up
-          </ADButton>
-        </Space>
-      ) : (
-        <Space>
-          <BellFilled className='text-2xl text-gray-400 mr-5 mt-6' />
-          <div className='flex'>
-            <FaUserCircle className='text-4xl text-success' />
-          </div>
-          <Dropdown
-            menu={{
-              items
-            }}
-          >
-            <Space>
-              <DownOutlined className='mr-5' />
-            </Space>
-          </Dropdown>
-          <QuestionCircleFilled className='text-2xl text-gray-400 mt-6' />
-        </Space>
-      )}
+        {/* login/register button */}
+        {!user ? (
+          <Space size='large'>
+            <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[100px]'>
+              Sign In
+            </ADButton>
+            <ADButton onClick={() => navigate('/sign-up')} type='primary' className='w-[100px]'>
+              Sign Up
+            </ADButton>
+          </Space>
+        ) : (
+          <Space>
 
-      {/* hamburger icon */}
-      {user && (
+            <BellFilled onClick={() => setNotify(!Notify)} className='text-2xl text-gray-400 mr-5 mt-6' />
+
+            <div className='flex'>
+              <FaUserCircle className='text-4xl text-success' />
+            </div>
+            <Dropdown
+              menu={{
+                items
+              }}
+            >
+              <Space>
+                <DownOutlined className='mr-5' />
+              </Space>
+            </Dropdown>
+            <QuestionCircleFilled className='text-2xl text-gray-400 mt-6' />
+          </Space>
+        )}
+
+        {/* hamburger icon */}
+        {user && (
         <ADButton className='hamburger md:hidden focus:outline-none bg-white' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
           <MenuOutlined />
         </ADButton>
-      )}
+        )}
 
-      {/* mobile menu */}
-      <div className='md:hidden z-10'>
-        <div id='menu' ref={navbarRef} className='bg-white border border-solid border-primary absolute flex-col items-center hidden self-end font-bold mt-6 left-0 rounded-md border-t-0 right-0 sm:w-auto sm:self-center'>
-          <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
-            <span className='navbar-menu-item'>Explore</span>
-          </Link>
-          <Link to='/my-library' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
-            <span className='navbar-menu-item'>My Library </span>
-          </Link>
-          <Link to='/my-classrooms' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
-            <span className='navbar-menu-item'>My Classrooms</span>
-          </Link>
+        {/* mobile menu */}
+        <div className='md:hidden z-10'>
+          <div id='menu' ref={navbarRef} className='bg-white border border-solid border-primary absolute flex-col items-center hidden self-end font-bold mt-6 left-0 rounded-md border-t-0 right-0 sm:w-auto sm:self-center'>
+            <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+              <span className='navbar-menu-item'>Explore</span>
+            </Link>
+            <Link to='/my-library' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+              <span className='navbar-menu-item'>My Library </span>
+            </Link>
+            <Link to='/my-classrooms' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+              <span className='navbar-menu-item'>My Classrooms</span>
+            </Link>
+          </div>
         </div>
-      </div>
-    </Header>
+      </Header>
+      {Notify ? <Notification /> : ''}
+    </>
   );
 }
 

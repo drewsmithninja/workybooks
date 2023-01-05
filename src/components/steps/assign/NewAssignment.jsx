@@ -6,17 +6,43 @@ import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
 import ADImage from '../../antd/ADImage';
 import dummyImage from '../../../assets/images/dummyImage.png';
+import { createAssignment, getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 
-export default function NewAssignment({ next }) {
+export default function NewAssignment({ next, onOk }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
-  const assignments = useSelector((state) => state.assignment.assignments?.list);
+  const assignments = useSelector((state) => state.assignment.assignments);
+  const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
 
-  const handleChange = (e) => {
-    setInputVal(e.target.value);
+  const [assignmentTitle, setAssignmentTitle] = useState('');
+
+  const dispatch = useDispatch();
+
+  const assignmentCreateHandler = async () => {
+    dispatch(
+      createAssignment({
+        title: assignmentTitle
+      })
+    )
+      .unwrap()
+      .then(() => next());
   };
 
-  const onCreateAssignment = () => {
-    next();
+  const addToAssignmentHandler = (assignment) => {
+    if (selectedWorksheets.length) {
+      const data = {
+        id: assignment?._id,
+        content: selectedWorksheets
+      };
+      dispatch(updateAssignment(data));
+    } else {
+      const data = {
+        id: assignment?._id,
+        content: [currentWorksheet?._id]
+      };
+      dispatch(updateAssignment(data));
+    }
+    dispatch(getAssignments());
+    onOk();
   };
 
   return (
@@ -35,10 +61,10 @@ export default function NewAssignment({ next }) {
             <ADTitle level={5}>Create new Assignment</ADTitle>
             <Row gutter={16} className='py-4' wrap={false}>
               <Col xs={24} flex='auto'>
-                <Input type='text' className='w-full flex min-w-full' onChange={handleChange} name='collectionName' />
+                <Input type='text' value={assignmentTitle} className='w-full flex min-w-full' onChange={(e) => setAssignmentTitle(e.target.value)} name='collectionName' />
               </Col>
               <Col xs={24} flex='none'>
-                <ADButton type='primary' size='small' className='!rounded-full' onClick={onCreateAssignment}>
+                <ADButton type='primary' size='small' className='!rounded-full' onClick={assignmentCreateHandler} disabled={!assignmentTitle.trim()}>
                   Create
                 </ADButton>
               </Col>
@@ -50,7 +76,7 @@ export default function NewAssignment({ next }) {
             <div className='max-h-56 overflow-y-auto'>
               {assignments?.length &&
                 assignments.map((assignment) => (
-                  <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addCollectionHandler(assignment._id)}>
+                  <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addToAssignmentHandler(assignment)}>
                     <Col flex='none'>
                       <ADImage src={assignment.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
                     </Col>

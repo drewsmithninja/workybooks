@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'antd/es/form/Form';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
-import { editClass, getClassroom, getClassrooms } from '../../../app/features/classRoom/classroomSlice';
+import { editClass, getClassroom, getClassrooms } from '../../../app/features/classroom/classroomSlice';
 
 export default function EditClass({ next }) {
   const { currentClass } = useSelector((state) => state.classroom);

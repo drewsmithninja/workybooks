@@ -77,6 +77,7 @@ function NewSignUp() {
   };
 
   const login = useGoogleLogin({
+    scope: 'https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.rosters',
     onSuccess: async (codeResponse) => {
       try {
         const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -85,6 +86,10 @@ function NewSignUp() {
           }
         });
         if (res) {
+          localStorage.setItem('gToken', JSON.stringify({
+            accessToken: codeResponse?.access_token
+          }));
+          // console.log(codeResponse);
           setGoogleData({
             email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
           });

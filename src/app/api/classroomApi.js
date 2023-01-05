@@ -24,6 +24,36 @@ const editClass = async (data) => {
   return response.data;
 };
 
+const getGoogleClassRoomData = async (data) => {
+  const user = localStorage.getItem('user');
+  const gTOkenParse = localStorage.getItem('gToken');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const gToken = JSON.parse(gTOkenParse)?.accessToken;
+
+  const response = await axios.post(`${API_URL}/classroom/googleClassroom`, data, {
+    headers: {
+      authorization: authToken,
+      access_token: gToken
+    }
+  });
+  return response.data;
+};
+const getGoogleClassRoomDatainsert = async (data) => {
+  // console.log('data', data);
+  const user = localStorage.getItem('user');
+  const gTOkenParse = localStorage.getItem('gToken');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const gToken = JSON.parse(gTOkenParse)?.accessToken;
+
+  const response = await axios.post(`${API_URL}/classroom/importGoogleClassroom`, data, {
+    headers: {
+      authorization: authToken,
+      access_token: gToken
+    }
+  });
+  return response.data;
+};
+
 // const getClassRoomOptions = async () => {
 // const user = localStorage.getItem('user');
 // const authToken = JSON.parse(user)?.payload?.verification?.token;
@@ -68,7 +98,9 @@ const classroomAPI = {
   editClass,
   // getClassRoomOptions
   getClassrooms,
-  getClassroom
+  getClassroom,
+  getGoogleClassRoomData,
+  getGoogleClassRoomDatainsert
 };
 
 export default classroomAPI;

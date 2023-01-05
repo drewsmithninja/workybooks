@@ -50,6 +50,9 @@ export const worksheetSlice = createSlice({
     setCurrentWorksheet(state, action) {
       state.currentWorksheet = action.payload;
     },
+    resetCurrentWorksheet(state, action) {
+      state.currentWorksheet = null;
+    },
     selectWorksheet(state, action) {
       state.selectedWorksheets = [...state.selectedWorksheets, action.payload];
     },
@@ -96,16 +99,16 @@ export const worksheetSlice = createSlice({
       .addCase(getRecentWorksheets.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.recentData = action.payload;
+        state.recentWorksheets = action.payload;
       })
       .addCase(getRecentWorksheets.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.recentData = null;
+        state.recentWorksheets = null;
       });
   }
 });
 
-export const { selectWorksheet, unSelectWorksheet, resetSelectedWorksheets, setCurrentWorksheet } = worksheetSlice.actions;
+export const { selectWorksheet, unSelectWorksheet, resetSelectedWorksheets, setCurrentWorksheet, resetCurrentWorksheet } = worksheetSlice.actions;
 export default worksheetSlice.reducer;
