@@ -135,16 +135,17 @@ export const assignmentSlice = createSlice({
       .addCase(getStudentAssignmentDetail.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.studentAssignmentDetail = action.payload;
-
+        console.log('isLoading - false');
         // eslint-disable-next-line no-unsafe-optional-chaining
-        const { assignmentScore } = action?.payload?.studentsAssignmentData?.[0];
+        const { assignmentScore } = action?.payload?.studentsAssignmentData;
         let newJsonData = [];
         assignmentScore.forEach((data) => {
           const newObject = {
             studentName: data?.student_name,
-            submittedDate: moment(data?.submittedDate?.[0]).format('DD/MM/YYYY hh:mm a') || 'N/A',
-            time: moment(data?.time?.[0]).format('hh:mm') || 'N/A',
+            submittedDate: moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') || 'N/A',
+            time: moment(data?.time).format('hh:mm') || 'N/A',
             totalCorrectAnswer: data?.totalCorrectAnswer,
             totalWrongAnswer: data?.totalWrongAnswer,
             totalBlankAnswer: data?.totalBlankAnswer,
@@ -160,6 +161,8 @@ export const assignmentSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
+        state.studentAssignmentDetail = [];
+        state.studentAssignmentReportJson = [];
       });
   }
 });
