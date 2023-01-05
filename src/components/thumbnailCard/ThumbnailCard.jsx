@@ -26,6 +26,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
+  const [display, setDisplay] = useState(false);
   const { Step } = Steps;
   const navigate = useNavigate();
 
@@ -71,7 +72,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   };
 
   const showShareModal = () => {
-    setIsShareModalOpen(true)
+    setIsShareModalOpen(true);
   };
 
   const handlePrint = useReactToPrint({
@@ -180,7 +181,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
           )}
         </div>
       </Modal>
-      <PrintImages src={thumbnails} ref={componentRef} />
+      <PrintImages src={thumbnails} ref={componentRef} display={display} />
       <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
         <div className='w-full h-full aspect-[16/9]'>
           <Row gutter={[8, 8]}>
@@ -216,7 +217,6 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
           </Dropdown>
         </div>
         <div>{collection?.title}</div>
-        {console.log("title", collection?.title)}
         <div className='flex justify-between'>
           <div className='text-xs text-slate-400'>
             By

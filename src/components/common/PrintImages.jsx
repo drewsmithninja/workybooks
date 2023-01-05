@@ -7,15 +7,28 @@ const mainContainer = {
 };
 
 const PrintImages = React.forwardRef((props, ref) => {
-    const { src } = props;
+    const { src, display = false } = props;
     return (
-        <div style={mainContainer}>
-            <div ref={ref}>
-                {
-                    src.map((item, index) => (<ADImage width='100%' src={item} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />))
-                }
-            </div>
+      <div style={{
+          ...mainContainer, display: display ? 'block' : 'none'
+        }}
+      >
+        <div ref={ref}>
+          {
+                    src.map((item, index) => (
+                      <ADImage
+                        width='100%'
+                        src={item}
+                        onError={(e) => {
+                            e.target.src = dummyImage;
+                        }}
+                        alt='cardImage'
+                        className='rounded-2xl w-full object-cover'
+                      />
+                    ))
+          }
         </div>
+      </div>
     );
 });
 

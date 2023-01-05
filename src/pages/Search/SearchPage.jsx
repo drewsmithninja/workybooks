@@ -14,7 +14,7 @@ function SearchResult() {
   const dispatch = useDispatch();
   const [rerender, setRerender] = useState(0);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
-  const { searchData, isError, isSucess, message } = useSelector((state) => state.search);
+  const { searchData } = useSelector((state) => state.search);
   const { subjectData, ccsData, gradeData } = useSelector((state) => state.home);
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
@@ -24,6 +24,8 @@ function SearchResult() {
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content ? searchData?.content : [];
+
+  console.log("searchData", searchData)
 
   const worksheetData = useMemo(() => {
     if (sortBy == "title") {
@@ -43,8 +45,6 @@ function SearchResult() {
       return sortedData;
     }
   }, [sortBy])
-
-  console.log("worksheetData", worksheetData)
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);

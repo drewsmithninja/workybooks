@@ -43,77 +43,56 @@ function MyLibrary() {
 
   useEffect(() => {
     setCollectionData(collections);
-  }, [collections])
+  }, [collections]);
 
   useEffect(() => {
-    setRecentData(recentWorksheets)
-  }, [recentWorksheets])
+    setRecentData(recentWorksheets);
+  }, [recentWorksheets]);
 
   useEffect(() => {
-    setFavorites(favoriteCollections)
-  }, [favoriteCollections])
-
+    setFavorites(favoriteCollections);
+  }, [favoriteCollections]);
 
   useEffect(() => {
-    if (sortBy == 'title') {
-      //Filter Data sort
-
-      const filtered1 = favorites?.slice()?.filter(a => a?.[sortBy]);
-      const noData1 = favorites?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData1 = filtered1.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+    if (sortBy === 'title') {
+      const filtered1 = favorites?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData1 = favorites?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData1 = filtered1.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData1 = [...sortedData1, ...noData1];
-
       setFavorites(sortedData1);
 
-      //Recent Data sort
-
-      const filtered2 = recentData?.slice()?.filter(a => a?.[sortBy]);
-      const noData2 = recentData?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData2 = filtered2.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      const filtered2 = recentData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData2 = recentData?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData2 = filtered2.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData2 = [...sortedData2, ...noData2];
+      setRecentData(sortedData2);
 
-      setRecentData(sortedData2)
-
-      //Collection Data sort
-
-      const filtered3 = collectionData?.slice()?.filter(a => a?.[sortBy]);
-      const noData3 = collectionData?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData3 = filtered3.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData3 = [...sortedData2, ...noData2];
-
-      const sortedCollection = collectionData?.slice()?.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
-      setCollectionData(sortedData3)
-
+      setCollectionData(sortedData3);
     } else {
-
-      const filtered1 = favorites?.slice()?.filter(a => a?.[sortBy]);
-      const noData1 = favorites?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData1 = filtered1.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      const filtered1 = favorites?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData1 = favorites?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData1 = filtered1.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData1 = [...sortedData1, ...noData1];
-
       setFavorites(sortedData1);
 
-      //Recent Data sort
-
-      const filtered2 = recentData?.slice()?.filter(a => a?.[sortBy]);
-      const noData2 = recentData?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData2 = filtered2.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      const filtered2 = recentData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData2 = recentData?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData2 = filtered2.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData2 = [...sortedData2, ...noData2];
+      setRecentData(sortedData2);
 
-      setRecentData(sortedData2)
-
-      //Collection Data sort
-
-      const filtered3 = collectionData?.slice()?.filter(a => a?.[sortBy]);
-      const noData3 = collectionData?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData3 = filtered3.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData3 = [...sortedData2, ...noData2];
-
-      const sortedCollection = collectionData?.slice()?.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
-      setCollectionData(sortedData3)
+      const sortedCollection = collectionData?.slice()?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+      setCollectionData(sortedData3);
     }
-
-  }, [sortBy])
+  }, [sortBy]);
 
   useEffect(() => {
     if (user) {

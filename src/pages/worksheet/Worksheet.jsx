@@ -161,7 +161,14 @@ function Worksheet() {
                 <PrintImages ref={componentRef} src={[worksheetDetail?.thumbnail]} />
               </Space>
               <Row gutter={16} className='text-gray-400 pt-6 pb-5'>
-                <Col lg={8} className='flex items-center border-y-0 border-l-0 border-solid' onClick={handlePrint}>
+                <Col
+                  lg={8}
+                  className='flex items-center border-y-0 border-l-0 border-solid'
+                  onClick={handlePrint}
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
                   <div className='text-2xl mr-2 flex'>
                     <FaPrint />
                   </div>

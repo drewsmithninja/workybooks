@@ -75,7 +75,15 @@ function MyCollection() {
           <Col xs={24} md={12} className='flex justify-end items-end'>
             <Space>
               <Row gutter={16} className='text-gray-400'>
-                <Col xs={24} lg={8} className='flex items-center border-y-0 border-l-0 border-solid' onClick={handlePrint}>
+                <Col
+                  xs={24}
+                  lg={8}
+                  className='flex items-center border-y-0 border-l-0 border-solid'
+                  onClick={handlePrint}
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
                   <div className='text-2xl mr-2 flex'>
                     <FaPrint />
                   </div>
