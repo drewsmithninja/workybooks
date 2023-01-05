@@ -86,16 +86,23 @@ function NewSignUp() {
           }
         });
         if (res) {
-          localStorage.setItem('gToken', JSON.stringify({
-            accessToken: codeResponse?.access_token
-          }));
-          // console.log(codeResponse);
+          localStorage.setItem(
+            'gToken',
+            JSON.stringify({
+              accessToken: codeResponse?.access_token
+            })
+          );
           setGoogleData({
-            email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
+            email: res?.data?.email,
+            firstName: res?.data?.given_name,
+            lastName: res?.data?.family_name,
+            accessToken: codeResponse?.access_token
           });
-          dispatch(googleLogin({
-            email: res?.data?.email
-          }));
+          dispatch(
+            googleLogin({
+              email: res?.data?.email
+            })
+          );
           // nevigate('/sign-up-google', {
           //   state: {
           //     email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
@@ -139,7 +146,12 @@ function NewSignUp() {
         {!isVerified ? (
           <>
             <div className='flex flex-col gap-[14px] pb-[37px]'>
-              <ADButton onClick={() => { login(); }} className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>
+              <ADButton
+                onClick={() => {
+                  login();
+                }}
+                className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'
+              >
                 <img src={googleIcon} width='24' alt='googleIcon' className='mr-[8px]' />
                 Sign up with Google Classroom
               </ADButton>

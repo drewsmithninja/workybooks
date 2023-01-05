@@ -6,10 +6,7 @@ import ADButton from '../antd/ADButton';
 function ImportContent({ rowSelection, setCreateClassPopup }) {
   const { googleClassRoom } = useSelector((state) => state.classes);
   const [classData, setClassData] = useState([]);
-  useEffect(() => {
-    console.log('test');
-    console.log(googleClassRoom);
-  }, [googleClassRoom]);
+  useEffect(() => {}, [googleClassRoom]);
   const scroll = {
   };
   scroll.y = 200;

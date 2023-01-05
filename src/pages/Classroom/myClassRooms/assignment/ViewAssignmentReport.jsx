@@ -16,7 +16,6 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
       label: 'No Student'
     }
   ];
-  console.log(window.innerWidth);
 
   return (
     // <Modal forceRender centered width={window.innerWidth - 300} footer={false} onCancel={onCancel} {...props} className='layout'>

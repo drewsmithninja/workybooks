@@ -20,7 +20,6 @@ function MyCollection() {
   const { currentCollection } = useSelector((state) => state.collection);
   const collectionInfo = currentCollection;
   const worksheetList = collectionInfo?.content || [];
-  console.log('list', collectionInfo);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {

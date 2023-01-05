@@ -1,5 +1,5 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import React from 'react';
+import React, { useState } from 'react';
 import { Col, Image, List, Progress, Row, Space, Tag } from 'antd';
 import { FaPencilAlt } from 'react-icons/fa';
 import { BsArrowRightCircle } from 'react-icons/bs';
@@ -9,9 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADButton from '../../../../components/antd/ADButton';
-import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
+import EditAssignModal from '../../../../components/modals/EditAssignModal';
+import AssignModal from '../../../../components/modals/AssignModal';
 
 function AssignmentItem({ item, classId }) {
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,8 +28,23 @@ function AssignmentItem({ item, classId }) {
     navigate(`assignment/${e?._id}`);
   };
 
+  const showEditAssignModal = () => {
+    setIsAssignModalOpen(true);
+  };
+
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const editAssignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
   return (
     <List.Item>
+      {editAssignModal}
       <Row gutter={16} className='w-full'>
         <Col xl={6} md={6} sm={8} xs={10} className='flex items-center'>
           <ADButton type='text' onClick={() => onAssignMentClick(item)}>
@@ -50,11 +68,11 @@ function AssignmentItem({ item, classId }) {
         </Col>
         <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
           <div className='whitespace-pre-wrap'>
-            {item?.assignedTo && item?.assignedTo === 'Classroom'
-              ? 'Entire Class'
-              : item?.assignedStudents.length >= 3
-              ? item?.assignedStudents?.slice(0, 3).map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.slice(0, 3)?.length - 1 ? ', ' : ''}`}</span>)
-              : item?.assignedStudents?.map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.length - 1 ? ', ' : ''}`}</span>)}
+            {item?.assignedTo && item?.assignedTo === 'Classroom' ?
+              'Entire Class' :
+              item?.assignedStudents.length >= 3 ?
+                item?.assignedStudents?.slice(0, 3).map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.slice(0, 3)?.length - 1 ? ', ' : ''}`}</span>) :
+                item?.assignedStudents?.map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.length - 1 ? ', ' : ''}`}</span>)}
             {item?.assignedStudents.length >= 3 && ` + ${item?.assignedStudents.length - 3}`}
           </div>
         </Col>
@@ -69,8 +87,10 @@ function AssignmentItem({ item, classId }) {
           <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.avg_score} />
         </Col>
         <Col xl={2} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-          <div className='flex text-xl text-slate-400'>
-            <FaPencilAlt />
+          <div className='flex'>
+            <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={showEditAssignModal}>
+              <FaPencilAlt />
+            </ADButton>
           </div>
         </Col>
         <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>

@@ -39,7 +39,6 @@ const getGoogleClassRoomData = async (data) => {
   return response.data;
 };
 const getGoogleClassRoomDatainsert = async (data) => {
-  // console.log('data', data);
   const user = localStorage.getItem('user');
   const gTOkenParse = localStorage.getItem('gToken');
   const authToken = JSON.parse(user)?.payload?.verification?.token;

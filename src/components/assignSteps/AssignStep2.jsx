@@ -22,6 +22,7 @@ export default function AssignStep2({ next, onClose }) {
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
+    console.log(values);
     if (values?.assignedStudents?.length) {
       dispatch(
         updateAssignment({
@@ -30,9 +31,9 @@ export default function AssignStep2({ next, onClose }) {
           assignedStudents: selectedStudents,
           assignedTo: 'Student'
         })
-      )
-        .unwrap()
-        .then(() => next());
+      );
+      // .unwrap()
+      // .then(() => next());
     } else {
       dispatch(
         updateAssignment({

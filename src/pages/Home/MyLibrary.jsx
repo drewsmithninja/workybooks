@@ -29,7 +29,6 @@ function MyLibrary() {
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { Step } = Steps;
-  console.log('re', recentWorksheets);
   const collectionFavHandler = async (e) => {
     const data = {
       collectionId: await e._id,
