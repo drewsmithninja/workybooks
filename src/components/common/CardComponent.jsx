@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import React, { useState } from 'react';
+import React, { useCallback, useState, memo } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -15,7 +15,7 @@ import shareIcon from '../../assets/images/icons/share_gray.png';
 import { selectWorksheet, setCurrentWorksheet, unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
-import { getAssignments } from '../../app/features/assignment/assignmentSlice';
+import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 import dummyImage from '../../assets/images/dummyImage.png';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
@@ -31,6 +31,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   };
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
@@ -113,13 +114,23 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
             <Checkbox
               checked={selectedWorksheets?.includes(item?._id)}
               className='w-[25px] scale-125 cardCheckbox'
-              onChange={(e) => {
-                if (e.target.checked) {
-                  dispatch(selectWorksheet(item?._id));
-                } else {
-                  dispatch(unSelectWorksheet(item?._id));
-                }
-              }}
+              onChange={useCallback(
+                (e) => {
+                  if (e.target.checked) {
+                    dispatch(selectWorksheet(item?._id));
+                  } else {
+                    dispatch(unSelectWorksheet(item?._id));
+                  }
+                },
+                [item?._id]
+              )}
+              // onChange={(e) => {
+              //   if (e.target.checked) {
+              //     dispatch(selectWorksheet(item?._id));
+              //   } else {
+              //     dispatch(unSelectWorksheet(item?._id));
+              //   }
+              // }}
               id={`collection_id_${item.worky_id}`}
               name={`collection_id_${item.worky_id}`}
             />
@@ -165,4 +176,4 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   );
 }
 
-export default CardComponent;
+export default memo(CardComponent);

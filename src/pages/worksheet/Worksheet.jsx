@@ -10,11 +10,11 @@ import { Link, useParams } from 'react-router-dom';
 import { worksheetDetails } from '../../app/features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
 import AssignModal from '../../components/modals/AssignModal';
-import CollectionModal from '../../components/modals/CollectionModal';
 import StepModal from '../../components/modals/StepModal';
 import ADTitle from '../../components/antd/ADTitle';
 import MainLayout from '../../components/layout/MainLayout';
 import { createCollection } from '../../app/features/collection/collectionSlice';
+import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
 
 let wDetail;
 function Worksheet() {
@@ -109,6 +109,7 @@ function Worksheet() {
   // step modal's functions
   const handleStepModalOk = () => {
     setIsStepModalOpen(false);
+    dispatch(setCurrentStep(0));
   };
 
   const handleStepModalCancel = () => {
@@ -123,12 +124,12 @@ function Worksheet() {
   };
 
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} onCreate={onAssignCreateClick} />;
-  // const collectionModal = <CollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} onCreate={onCollectionCreateClick} cardData={worksheetDetail} />;
+  const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
   const stepModal = <StepModal open={isStepModalOpen} onOk={handleStepModalOk} onCancel={handleStepModalCancel} nextStep={nextStep} prevStep={prevStep} />;
 
   return (
     <MainLayout>
-      {/* {collectionModal} */}
+      {addToCollectionModal}
       {assignModal}
       {stepModal}
       <div className='container pt-16 my-0 mx-auto ml- md:px-4'>
