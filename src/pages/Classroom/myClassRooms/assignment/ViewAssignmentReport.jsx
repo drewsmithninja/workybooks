@@ -7,6 +7,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import ADTitle from '../../../../components/antd/ADTitle';
 import ADSelect from '../../../../components/antd/ADSelect';
 import ADButton from '../../../../components/antd/ADButton';
+import dummy from '../../../../assets/images/worksheet.png';
 
 function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
   const studentsOptions = [
@@ -183,7 +184,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
           }}
         >
           <Col xl={24} md={24} sm={24} xs={24}>
-            <img src={require('../../../../assets/images/worksheet.png')} width='550px' height='650px' />
+            <img src={dummy} width='550px' height='650px' alt='worksheet' />
           </Col>
         </Row>
       </div>

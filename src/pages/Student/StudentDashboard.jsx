@@ -16,14 +16,12 @@ import Spinner from '../../components/spinner/Spinner';
 import { setStudent } from '../../app/features/students/studentsSlice';
 import { getSubmittedAssignments } from '../../app/features/assignment/assignmentSlice';
 import EditStudentModal from '../../components/modals/EditStudentModal';
-import ViewAssignmentReport from '../Classroom/myClassRooms/assignment/ViewAssignmentReport';
 
 function StudentDashboard() {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent, students } = useSelector((state) => state.students);
   const { submittedAssignments, isLoading } = useSelector((state) => state.assignment);
   const [showEditStudent, setShowEditStudent] = useState(false);
-  const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -64,12 +62,7 @@ function StudentDashboard() {
     setShowEditStudent(false);
   };
 
-  const openWork = () => {
-    setModal(true);
-  };
-
   const editStudentModal = <EditStudentModal closable={false} open={showEditStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
-  const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
@@ -109,7 +102,6 @@ function StudentDashboard() {
   ) : (
     <MainLayout>
       {editStudentModal}
-      {ViewAssignmentReportModal}
       <div className='px-4 py-8 w-full flex justify-between'>
         <Space size='large'>
           <div className='flex flex-col'>
@@ -295,7 +287,7 @@ function StudentDashboard() {
                   )}
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <ADButton type='text' onClick={() => openWork()}>
+                  <ADButton type='text' onClick={() => navigate('/my-classrooms/assignment/view-work')}>
                     <div className='flex'>
                       <FaChartLine className='text-gray-400 text-2xl' />
                     </div>

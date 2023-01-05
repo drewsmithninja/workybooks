@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from 'react';
 import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image, Input } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
@@ -37,7 +38,8 @@ function AssignmentDetailsPage() {
   }));
   const getIndex = updatedAssignmentList.findIndex((item) => item.value === id);
 
-  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {});
+  const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {
+  });
   useEffect(() => {
     onAssignmentApiCall(id);
   }, []);
@@ -50,7 +52,8 @@ function AssignmentDetailsPage() {
       })
     );
   };
-  const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {};
+  const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
+  };
 
   // const viewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
@@ -118,11 +121,12 @@ function AssignmentDetailsPage() {
                 <Space>
                   {assignmentItems?.map((item, index) => {
                     if (index > 4) return null;
-                    return <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
+                    return <ADImage src={item?.thumbnail} onError={dummyImage} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
                   })}
                   {assignmentItems?.length > 4 ? (
                     <div className='font-bold text-xs px-4 pt-3 items-center'>
-                      +{assignmentItems?.length - 4}
+                      +
+                      {assignmentItems?.length - 4}
                       MORE
                     </div>
                   ) : null}
@@ -140,7 +144,8 @@ function AssignmentDetailsPage() {
                   {assignmentScore?.length > 4 ? (
                     <div>
                       <div className='font-bold text-xs'>
-                        +{assignmentScore?.length - 3}
+                        +
+                        {assignmentScore ? assignmentScore?.length - 3 : 0}
                         MORE
                       </div>
                     </div>
@@ -191,7 +196,7 @@ function AssignmentDetailsPage() {
                 pageSize: 10
               }}
               className='rounded-t-lg with-header'
-              header={
+              header={(
                 <Row>
                   <Col xl={7} lg={7} md={7} sm={8} xs={10}>
                     <div className='text-center inter-font font-medium text-xs'>NAME</div>
@@ -209,7 +214,7 @@ function AssignmentDetailsPage() {
                     <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
                   </Col>
                 </Row>
-              }
+              )}
               itemLayout='horizontal'
               dataSource={assignmentScore || []}
               bordered
