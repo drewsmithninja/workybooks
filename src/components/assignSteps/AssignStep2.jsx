@@ -79,7 +79,8 @@ export default function AssignStep2({ next, onClose }) {
     <div>
       <Form
         initialValues={{
-          assignedClass: currentClass?.classId
+          assignedClass: currentClass?.classId,
+          assignedStudents: currentAssignment?.assignedStudents
         }}
         className='py-2'
         size='large'

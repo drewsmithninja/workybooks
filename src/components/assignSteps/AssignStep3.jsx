@@ -57,7 +57,6 @@ export default function AssignStep3({ onOk, onClose, onCancel }) {
     )
       .unwrap()
       .then(() => onOk());
-    console.log('run');
     dispatch(resetAssignment());
   };
 
