@@ -9,7 +9,7 @@ import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
 
-function AssignModal({ onOk, onCancel, ...props }) {
+function AssignModal({ onOk, ...props }) {
   const currentStep = useSelector((state) => state.assignment.currentStep);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function AssignModal({ onOk, onCancel, ...props }) {
     {
       title: 'Select Items',
       icon: <>1</>,
-      content: <AssignStep1 next={next} onClose={onClose} onOk={onOk} onCancel={onCancel} {...props} />
+      content: <AssignStep1 next={next} onClose={onClose} onOk={onOk} {...props} />
     },
     {
       title: 'Select Students',
@@ -46,7 +46,7 @@ function AssignModal({ onOk, onCancel, ...props }) {
     {
       title: 'Set Assignment Details',
       icon: <>3</>,
-      content: <AssignStep3 onOk={onOk} onClose={onClose} onCancel={onCancel} {...props} />
+      content: <AssignStep3 onOk={onOk} onClose={onClose} {...props} />
     }
   ];
 
