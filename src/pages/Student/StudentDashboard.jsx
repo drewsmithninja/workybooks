@@ -16,28 +16,27 @@ import Spinner from '../../components/spinner/Spinner';
 import { setStudent } from '../../app/features/students/studentsSlice';
 import { getSubmittedAssignments } from '../../app/features/assignment/assignmentSlice';
 import EditStudentModal from '../../components/modals/EditStudentModal';
-import ViewAssignmentReport from '../Classroom/myClassRooms/assignment/ViewAssignmentReport';
 
 function StudentDashboard() {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent, students } = useSelector((state) => state.students);
   const { submittedAssignments, isLoading } = useSelector((state) => state.assignment);
   const [showEditStudent, setShowEditStudent] = useState(false);
-  const [modal, setModal] = useState(false);
 
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log('state', currentStudent, currentClass);
 
   useEffect(() => {
     if (id) {
       const cs = students?.list.find((item) => item._id === id);
       dispatch(setStudent(cs));
-      dispatch(getSubmittedAssignments({
-        studentId: id,
-        classId: currentClass?._id
-      }));
+      dispatch(
+        getSubmittedAssignments({
+          studentId: id,
+          classId: currentClass?._id
+        })
+      );
     }
   }, []);
 
@@ -45,10 +44,14 @@ function StudentDashboard() {
     const cs = await students?.list.find((item) => item._id === e);
     await dispatch(setStudent(await cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    await dispatch(getSubmittedAssignments(await {
-      studentId: e,
-      classId: currentClass?._id
-    }));
+    await dispatch(
+      getSubmittedAssignments(
+        await {
+          studentId: e,
+          classId: currentClass?._id
+        }
+      )
+    );
   };
 
   const showEditStudentModal = async (data) => {
@@ -64,12 +67,7 @@ function StudentDashboard() {
     setShowEditStudent(false);
   };
 
-  const openWork = () => {
-    setModal(true);
-  };
-
   const editStudentModal = <EditStudentModal closable={false} open={showEditStudent} onOk={handleEditStudentOk} onCancel={handleEditStudentCancel} />;
-  const ViewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
@@ -109,7 +107,6 @@ function StudentDashboard() {
   ) : (
     <MainLayout>
       {editStudentModal}
-      {ViewAssignmentReportModal}
       <div className='px-4 py-8 w-full flex justify-between'>
         <Space size='large'>
           <div className='flex flex-col'>
@@ -264,9 +261,7 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       {/* <Progress type='circle' width={50} percent={30} status='none' /> */}
-                      {(item?.score) ?
-                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> :
-                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                      {item?.score ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
                     </Col>
                   </Row>
                 </Col>
@@ -286,16 +281,17 @@ function StudentDashboard() {
                       <div>{moment(item?.submittedDate).format('hh:mm a')}</div>
                     </>
                   ) : (
-                    <span style={{
-                      color: 'red'
-                    }}
+                    <span
+                      style={{
+                        color: 'red'
+                      }}
                     >
                       NOT SUBMITED
                     </span>
                   )}
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <ADButton type='text' onClick={() => openWork()}>
+                  <ADButton type='text' disabled={!item?.submittedDate} onClick={() => navigate(`/my-classrooms/assignment/view-work/${item?._id}`)}>
                     <div className='flex'>
                       <FaChartLine className='text-gray-400 text-2xl' />
                     </div>

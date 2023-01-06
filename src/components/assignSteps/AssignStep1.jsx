@@ -9,8 +9,9 @@ import dummyImage from '../../assets/images/dummyImage.png';
 import ADButton from '../antd/ADButton';
 import { unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
 import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
+import { getClassrooms } from '../../app/features/classroom/classroomSlice';
 
-export default function AssignStep1({ next, onCancel }) {
+export default function AssignStep1({ next, onClose, onCancel }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
@@ -38,14 +39,15 @@ export default function AssignStep1({ next, onCancel }) {
     }
   };
 
-  const onAssignHandler = () => {
-    const result = modifiedWorksheets.map((w) => w?._id);
-    dispatch(
+  const onAssignHandler = async () => {
+    const result = await modifiedWorksheets.map((w) => w?._id);
+    await dispatch(
       updateAssignment({
         id: currentAssignment?._id,
         content: result
       })
-    )
+    );
+    dispatch(getClassrooms())
       .unwrap()
       .then(() => next());
   };
@@ -75,7 +77,7 @@ export default function AssignStep1({ next, onCancel }) {
         <p className='text-xs text-center pb-4'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>
         <Row gutter={24}>
           <Col xs={24} md={8}>
-            <ADButton type='danger' block onClick={onCancel}>
+            <ADButton type='danger' block onClick={onClose}>
               Close
             </ADButton>
           </Col>

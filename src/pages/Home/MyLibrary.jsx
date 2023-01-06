@@ -10,10 +10,10 @@ import ADButton from '../../components/antd/ADButton';
 import AssignStep1 from '../../components/assignSteps/AssignStep1';
 import AssignStep2 from '../../components/assignSteps/AssignStep2';
 import AssignStep3 from '../../components/assignSteps/AssignStep3';
-import NewAssignmentOrCollection from '../../components/modalSteps/NewAssignmentOrCollection';
 import { getCollections, getFavoriteCollections, updateCollectionLike } from '../../app/features/collection/collectionSlice';
 import ADImage from '../../components/antd/ADImage';
 import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
+import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
@@ -23,12 +23,10 @@ function MyLibrary() {
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
-  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { Step } = Steps;
-  console.log('re', recentWorksheets);
   const collectionFavHandler = async (e) => {
     const data = {
       collectionId: await e._id,
@@ -47,30 +45,10 @@ function MyLibrary() {
     }
   }, [rerender]);
 
-  const showAssignModal = () => {
-    setIsAssignModalOpen(true);
-  };
-  const handleAssignModalOk = () => {
-    setIsAssignModalOpen(false);
-  };
-  const handleAssignModalCancel = () => {
-    setIsAssignModalOpen(false);
-  };
-  const onAssignCreateClick = () => {
-    setCurrentStep(0);
-    setIsAssignModalOpen(false);
-    setIsStepModalOpen(true);
-  };
-  const showCollectionModal = () => {
-    setIsCollectionModalOpen(true);
-  };
   const handleCollectionModalOk = () => {
     setIsCollectionModalOpen(false);
   };
   const handleCollectionModalCancel = () => {
-    setIsCollectionModalOpen(false);
-  };
-  const onCollectionCreateClick = () => {
     setIsCollectionModalOpen(false);
   };
   const nextStep = () => {
@@ -182,14 +160,12 @@ function MyLibrary() {
       dispatch(getRecentWorksheets());
     }
   };
+
+  const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+
   return (
     <MainLayout>
-      <Modal className='rounded-xl' centered footer={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel}>
-        <NewAssignmentOrCollection assign onCreate={onAssignCreateClick} />
-      </Modal>
-      <Modal className='rounded-xl' centered footer={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel}>
-        <NewAssignmentOrCollection onCreate={onCollectionCreateClick} />
-      </Modal>
+      {addToCollectionModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities

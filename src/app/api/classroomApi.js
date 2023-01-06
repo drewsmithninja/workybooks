@@ -39,7 +39,6 @@ const getGoogleClassRoomData = async (data) => {
   return response.data;
 };
 const getGoogleClassRoomDatainsert = async (data) => {
-  // console.log('data', data);
   const user = localStorage.getItem('user');
   const gTOkenParse = localStorage.getItem('gToken');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
@@ -49,6 +48,18 @@ const getGoogleClassRoomDatainsert = async (data) => {
     headers: {
       authorization: authToken,
       access_token: gToken
+    }
+  });
+  return response.data;
+};
+
+const classRoomExcelDataImport = async (data) => {
+  // console.log('data', data);
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/classroom/importClassroom`, data, {
+    headers: {
+      authorization: authToken
     }
   });
   return response.data;
@@ -100,7 +111,8 @@ const classroomAPI = {
   getClassrooms,
   getClassroom,
   getGoogleClassRoomData,
-  getGoogleClassRoomDatainsert
+  getGoogleClassRoomDatainsert,
+  classRoomExcelDataImport
 };
 
 export default classroomAPI;

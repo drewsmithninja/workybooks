@@ -13,6 +13,16 @@ export const getAssignments = createAsyncThunk('assignment/getAssignments', asyn
   }
 });
 
+export const getSubmittedAssignmentDetail = createAsyncThunk('assignment/getSubmittedAssignmentDetail', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.getSubmittedAssignmentDetail(data);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const getSubmittedAssignments = createAsyncThunk('assignment/getSubmittedAssignments', async (data, thunkAPI) => {
   try {
     const response = await assignmentAPI.getSubmittedAssignments(data);
@@ -85,7 +95,9 @@ export const assignmentSlice = createSlice({
     studentAssignmentDetail: [],
     studentAssignmentReportJson: [],
     submittedAssignments: [],
+    submittedAssignmentDetail: [],
     status: '',
+    currentStep: 0,
     currentAssignment: null,
     isLoading: false,
     isError: false,
@@ -93,8 +105,14 @@ export const assignmentSlice = createSlice({
     message: null
   },
   reducers: {
+    setCurrentStep: (state, action) => {
+      state.currentStep = action.payload;
+    },
     setAssignment(state, action) {
       state.currentAssignment = action.payload;
+    },
+    resetAssignment(state) {
+      state.currentAssignment = null;
     },
     setStatus(state, action) {
       state.status = action.payload;
@@ -180,6 +198,19 @@ export const assignmentSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      .addCase(getSubmittedAssignmentDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSubmittedAssignmentDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.submittedAssignmentDetail = action.payload;
+      })
+      .addCase(getSubmittedAssignmentDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(getStudentAssignmentDetail.pending, (state) => {
         state.isLoading = true;
       })
@@ -219,5 +250,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setCurrentStep, resetAssignment } = assignmentSlice.actions;
 export default assignmentSlice.reducer;

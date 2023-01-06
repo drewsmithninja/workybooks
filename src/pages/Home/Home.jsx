@@ -70,5 +70,4 @@ function Home() {
     </MainLayout>
   );
 }
-
 export default Home;
