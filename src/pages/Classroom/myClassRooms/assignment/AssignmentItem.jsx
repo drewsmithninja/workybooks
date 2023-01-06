@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADButton from '../../../../components/antd/ADButton';
 import EditAssignModal from '../../../../components/modals/EditAssignModal';
-import AssignModal from '../../../../components/modals/AssignModal';
 
 function AssignmentItem({ item, classId }) {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
@@ -40,7 +39,7 @@ function AssignmentItem({ item, classId }) {
     setIsAssignModalOpen(false);
   };
 
-  const editAssignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <List.Item>

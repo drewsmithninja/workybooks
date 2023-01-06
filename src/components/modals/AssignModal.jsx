@@ -36,12 +36,12 @@ function AssignModal({ onOk, onCancel, ...props }) {
     {
       title: 'Select Items',
       icon: <>1</>,
-      content: <AssignStep1 next={next} onClose={onClose} onCancel={onCancel} {...props} />
+      content: <AssignStep1 next={next} onClose={onClose} onOk={onOk} onCancel={onCancel} {...props} />
     },
     {
       title: 'Select Students',
       icon: <>2</>,
-      content: <AssignStep2 next={next} onClose={onClose} {...props} />
+      content: <AssignStep2 next={next} onClose={onClose} onOk={onOk} {...props} />
     },
     {
       title: 'Set Assignment Details',
@@ -52,7 +52,6 @@ function AssignModal({ onOk, onCancel, ...props }) {
 
   return (
     <ADModal centered afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <pre>{JSON.stringify(currentAssignment, null, 2)}</pre>
       <ADSteps items={items} current={currentStep} onChange={(e) => dispatch(setCurrentStep(e))} showSteps={currentStep !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
         <div className='steps-content max-w-[600px]'>{items[currentStep]?.content}</div>

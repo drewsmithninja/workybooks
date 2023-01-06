@@ -1,62 +1,39 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
-import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import AssignStep1 from '../assignSteps/AssignStep1';
 import AssignStep2 from '../assignSteps/AssignStep2';
 import AssignStep3 from '../assignSteps/AssignStep3';
-import NewAssignment from '../steps/assign/NewAssignment';
 
-function EditAssignModal({ onOk, onCancel, ...props }) {
-  const currentStep = useSelector((state) => state.assignment.currentStep);
-  const dispatch = useDispatch();
+export default function EditAssignModal({ onOk, ...props }) {
+  const [current, setCurrent] = useState(0);
 
   const next = () => {
-    dispatch(setCurrentStep(currentStep + 1));
+    setCurrent(current + 1);
   };
 
   const afterClose = () => {
-    dispatch(getAssignments());
-  };
-
-  const onClose = () => {
-    dispatch(setCurrentStep(0));
-    dispatch(resetSelectedWorksheets());
-    onOk();
+    setCurrent(0);
   };
 
   const items = [
-    // {
-    //   title: 'Create New',
-    //   content: <NewAssignment next={next} onOk={onOk} />
-    // },
-    // {
-    //   title: 'Select Items',
-    //   icon: <>1</>,
-    //   content: <AssignStep1 next={next} onClose={onClose} onCancel={onCancel} />
-    // },
     {
       title: 'Select Students',
-      //   icon: <>2</>,
-      content: <AssignStep2 next={next} onClose={onClose} />
+      status: `${current === 0 ? 'process' : 'wait'}`,
+      content: <AssignStep2 next={next} {...props} />
     },
     {
       title: 'Set Assignment Details',
-      //   icon: <>3</>,
-      content: <AssignStep3 onOk={onOk} onClose={onClose} onCancel={onCancel} {...props} />
+      status: `${current === 1 ? 'process' : 'wait'}`,
+      content: <AssignStep3 edit onOk={onOk} onClose={onOk} {...props} />
     }
   ];
 
   return (
-    <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <ADSteps items={items} current={currentStep} onChange={(e) => dispatch(setCurrentStep(e))} showSteps />
+    <ADModal centered afterClose={afterClose} footer={false} width={680} closable={false} {...props}>
+      <ADSteps items={items} current={1} showSteps />
       <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content max-w-[600px]'>{items[currentStep].content}</div>
+        <div className='steps-content'>{items[current].content}</div>
       </div>
     </ADModal>
   );
 }
-
-export default EditAssignModal;

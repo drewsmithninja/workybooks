@@ -6,7 +6,7 @@ import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
 import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../app/features/assignment/assignmentSlice';
 import ADButton from '../antd/ADButton';
 
-export default function AssignStep3({ onOk, onClose, onCancel }) {
+export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
 
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
@@ -125,9 +125,11 @@ export default function AssignStep3({ onOk, onClose, onCancel }) {
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
-            <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
-              Add more items
-            </ADButton>
+            {!edit && (
+              <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
+                Add more items
+              </ADButton>
+            )}
           </Col>
           <Col xs={24} md={8}>
             <Form.Item>
