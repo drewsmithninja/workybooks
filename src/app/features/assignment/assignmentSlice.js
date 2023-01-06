@@ -192,16 +192,18 @@ export const assignmentSlice = createSlice({
         const { assignmentScore } = action?.payload?.studentsAssignmentData;
         let newJsonData = [];
         assignmentScore.forEach((data) => {
+          const totalQuestions = (data?.totalCorrectAnswer || 0) + (data?.totalWrongAnswer || 0) + (data?.totalBlankAnswer || 0);
           const newObject = {
             studentName: data?.student_name,
-            submittedDate: moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') || 'N/A',
-            time: moment(data?.time).format('hh:mm') || 'N/A',
+            submittedDate: data?.submittedDate ? moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') : 'N/A',
+            time: data?.time || 'N/A',
             totalCorrectAnswer: data?.totalCorrectAnswer,
             totalWrongAnswer: data?.totalWrongAnswer,
             totalBlankAnswer: data?.totalBlankAnswer,
             averagePercentage: data?.averagePercentage,
             assignmentGrade: 'F',
-            assignmentGradeColor: 'red'
+            assignmentGradeColor: 'red',
+            totalQuestions
           };
           newJsonData = [...newJsonData, newObject];
         });
