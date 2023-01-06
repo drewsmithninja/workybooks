@@ -17,7 +17,7 @@ import MainLayout from '../../../../components/layout/MainLayout';
 import ADImage from '../../../../components/antd/ADImage';
 import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
 import ADModal from '../../../../components/antd/ADModal';
-import ViewAssignmentReport from './ViewAssignmentReport';
+import ExportAssignmentReport from './ExportAssignmentReport';
 import ADInput from '../../../../components/antd/ADInput';
 
 function AssignmentDetailsPage() {
@@ -57,6 +57,8 @@ function AssignmentDetailsPage() {
 
   // const viewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
+  const exportAssignmentReportModal = <ExportAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
+
   const onChangeAssignment = (value) => {
     setCurrentSelectedAssignment(value);
     navigate(`/my-classrooms/assignment/${value}`);
@@ -93,6 +95,7 @@ function AssignmentDetailsPage() {
         </div>
       ) : (
         <div>
+          {exportAssignmentReportModal}
           {/* {viewAssignmentReportModal} */}
           <div className='px-4 py-5 w-full flex justify-between'>
             <Space size='large'>
@@ -120,7 +123,7 @@ function AssignmentDetailsPage() {
                 <Space>
                   {assignmentItems?.map((item, index) => {
                     if (index > 4) return null;
-                    return <ADImage src={item?.thumbnail} onError={dummyImage} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
+                    return <ADImage key={`image_${index}`} src={item?.thumbnail} onError={dummyImage} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
                   })}
                   {assignmentItems?.length > 4 ? (
                     <div className='font-bold text-xs px-4 pt-3 items-center'>
@@ -138,7 +141,7 @@ function AssignmentDetailsPage() {
                 <Space>
                   {assignmentScore?.map((item, index) => {
                     if (index >= 3) return null;
-                    return <Avatar src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
+                    return <Avatar key={`avtar_${index}`} src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
                   })}
                   {assignmentScore?.length > 4 ? (
                     <div>
@@ -181,9 +184,12 @@ function AssignmentDetailsPage() {
                 {isEditableInput ? 'Done' : 'Edit Grades'}
               </ADButton>
 
-              <CsvDownloadButton data={studentAssignmentReportJson} filename='student_report.csv' style={csvButton}>
+              {/* <CsvDownloadButton data={studentAssignmentReportJson} filename='student_report.csv' style={csvButton}>
                 Export Grades Reports
-              </CsvDownloadButton>
+              </CsvDownloadButton> */}
+              <ADButton type='primary' onClick={() => setModal(true)}>
+                Export Grades Reports
+              </ADButton>
               <ADButton type='primary'>Assignment Report</ADButton>
             </Space>
           </div>
@@ -399,20 +405,5 @@ function AssignmentDetailsPage() {
     </MainLayout>
   );
 }
-const csvButton = {
-  // pass other props, like styles
-  boxShadow: '0 2px 0 rgb(0 0 0 / 5%)',
-  background: '#5470FF',
-  borderColor: '#5470FF',
-  borderRadius: '6px',
-  border: '1px solid #5470FF',
-  display: 'inline-block',
-  cursor: 'pointer',
-  color: '#ffffff',
-  fontSize: '14px',
-  padding: '6px 24px',
-  textDecoration: 'none',
-  textShadow: '0 -1px 0 rgb(0 0 0 / 12%)'
-};
 
 export default AssignmentDetailsPage;
