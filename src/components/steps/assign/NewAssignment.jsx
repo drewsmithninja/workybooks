@@ -8,6 +8,7 @@ import ADImage from '../../antd/ADImage';
 import dummyImage from '../../../assets/images/dummyImage.png';
 import { createAssignment, getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 import Spinner from '../../spinner/Spinner';
+import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
 
 export default function NewAssignment({ next, onOk }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
@@ -30,6 +31,7 @@ export default function NewAssignment({ next, onOk }) {
   };
 
   const addToAssignmentHandler = (assignment) => {
+    dispatch(resetSelectedWorksheets());
     if (selectedWorksheets.length) {
       const data = {
         id: assignment?._id,

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
 import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../app/features/assignment/assignmentSlice';
 import ADButton from '../antd/ADButton';
+import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 
 export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
@@ -58,6 +59,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
       .unwrap()
       .then(() => onOk());
     dispatch(resetAssignment());
+    dispatch(resetSelectedWorksheets());
   };
 
   return (
