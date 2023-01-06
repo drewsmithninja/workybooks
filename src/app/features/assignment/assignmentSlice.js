@@ -13,6 +13,16 @@ export const getAssignments = createAsyncThunk('assignment/getAssignments', asyn
   }
 });
 
+export const getSubmittedAssignmentDetail = createAsyncThunk('assignment/getSubmittedAssignmentDetail', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.getSubmittedAssignmentDetail(data);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const getSubmittedAssignments = createAsyncThunk('assignment/getSubmittedAssignments', async (data, thunkAPI) => {
   try {
     const response = await assignmentAPI.getSubmittedAssignments(data);
@@ -85,6 +95,7 @@ export const assignmentSlice = createSlice({
     studentAssignmentDetail: [],
     studentAssignmentReportJson: [],
     submittedAssignments: [],
+    submittedAssignmentDetail: [],
     status: '',
     currentStep: 0,
     currentAssignment: null,
@@ -187,6 +198,19 @@ export const assignmentSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      .addCase(getSubmittedAssignmentDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSubmittedAssignmentDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.submittedAssignmentDetail = action.payload;
+      })
+      .addCase(getSubmittedAssignmentDetail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(getStudentAssignmentDetail.pending, (state) => {
         state.isLoading = true;
       })
@@ -199,16 +223,18 @@ export const assignmentSlice = createSlice({
         const { assignmentScore } = action?.payload?.studentsAssignmentData;
         let newJsonData = [];
         assignmentScore.forEach((data) => {
+          const totalQuestions = (data?.totalCorrectAnswer || 0) + (data?.totalWrongAnswer || 0) + (data?.totalBlankAnswer || 0);
           const newObject = {
             studentName: data?.student_name,
-            submittedDate: moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') || 'N/A',
-            time: moment(data?.time).format('hh:mm') || 'N/A',
+            submittedDate: data?.submittedDate ? moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') : 'N/A',
+            time: data?.time || 'N/A',
             totalCorrectAnswer: data?.totalCorrectAnswer,
             totalWrongAnswer: data?.totalWrongAnswer,
             totalBlankAnswer: data?.totalBlankAnswer,
             averagePercentage: data?.averagePercentage,
             assignmentGrade: 'F',
-            assignmentGradeColor: 'red'
+            assignmentGradeColor: 'red',
+            totalQuestions
           };
           newJsonData = [...newJsonData, newObject];
         });

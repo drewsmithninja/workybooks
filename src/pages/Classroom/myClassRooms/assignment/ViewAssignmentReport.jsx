@@ -1,29 +1,93 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, Badge, Col, List, Progress, Row, Form, Input, Modal } from 'antd';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { FaChartLine, FaCheck, FaClosedCaptioning, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
+import moment from 'moment';
 import ADTitle from '../../../../components/antd/ADTitle';
 import ADSelect from '../../../../components/antd/ADSelect';
 import ADButton from '../../../../components/antd/ADButton';
 import dummy from '../../../../assets/images/worksheet.png';
+import { setStudent } from '../../../../app/features/students/studentsSlice';
+import { getSubmittedAssignmentDetail, getSubmittedAssignments } from '../../../../app/features/assignment/assignmentSlice';
 
-function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
-  const studentsOptions = [
-    {
-      value: '',
-      label: 'No Student'
+function ViewAssignmentReport() {
+  const { currentClass } = useSelector((state) => state.classroom);
+  const { currentStudent, students } = useSelector((state) => state.students);
+  const { submittedAssignmentDetail, submittedAssignments } = useSelector((state) => state.assignment);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  console.log('ccs', currentClass, currentStudent, submittedAssignmentDetail, submittedAssignments);
+  const studentsOptions = students?.list?.length ?
+    students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Student'
+      }
+    ];
+
+  const assignmentOptions = submittedAssignments?.list?.length ?
+    submittedAssignments?.list?.map(({ _id: value, title: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Assignment'
+      }
+    ];
+
+  useEffect(() => {
+    if (id) {
+      dispatch(
+        getSubmittedAssignmentDetail({
+          assignmentId: id,
+          studentId: currentStudent?._id
+        })
+      );
+      dispatch(getSubmittedAssignments({
+        studentId: currentStudent?._id,
+        classId: currentClass?._id
+      }));
     }
-  ];
+  }, [id]);
+
+  const onStudentChangeHandler = async (e) => {
+    const cs = await students?.list.find((item) => item._id === e);
+    await dispatch(setStudent(await cs));
+    await dispatch(getSubmittedAssignments(await {
+      studentId: e,
+      classId: currentClass?._id
+    }));
+    await dispatch(getSubmittedAssignments(await {
+      studentId: e,
+      classId: currentClass?._id
+    }));
+  };
+
+  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
 
   return (
-    // <Modal forceRender centered width={window.innerWidth - 300} footer={false} onCancel={onCancel} {...props} className='layout'>
     <div>
-      <div className='border-bottom'>
+      <div
+        className='border-bottom'
+        style={{
+          borderBottom: '2px solid black', padding: '10px'
+        }}
+      >
         <Row gutter={[16, 0]}>
           <Col xl={22} md={22} sm={22} xs={22}>
-            <ADTitle level={5}>Class 3B</ADTitle>
+            <ADTitle level={5}>{currentClass?.name || ''}</ADTitle>
           </Col>
 
           <Col xl={2} md={2} sm={2} xs={2} className='md:text-right'>
@@ -32,24 +96,24 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
               style={{
                 fontSize: '26px'
               }}
-              onClick={() => onCancel(false)}
+              onClick={() => navigate(-1)}
             />
           </Col>
         </Row>
         <Row gutter={[16, 0]}>
-          <Col xl={4} md={4} sm={4} xs={6}>
+          <Col xl={4} md={4} sm={4} xs={6} className='items-center ml-10'>
             <ADTitle level={3}>Student work</ADTitle>
           </Col>
           <Col xl={8} md={8} sm={8} xs={6}>
-            <ADSelect className='w-40' defaultValue='Jane Cooper' options={studentsOptions} />
+            <ADSelect className='w-40' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           </Col>
         </Row>
         <Row gutter={[20, 0]} className='center items-center'>
           <Col xl={4} md={4} sm={8} xs={10}>
-            <ADTitle level={4}>Assignment</ADTitle>
+            <ADTitle className='text-center' level={4}>Assignment</ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
-            <ADSelect className='w-60' defaultValue='Jane Cooper' options={studentsOptions} />
+            <ADSelect className='w-60' defaultValue={submittedAssignmentDetail?.submittedAssignment[0]?.name} options={assignmentOptions} />
           </Col>
           <Col xl={7} md={7} sm={8} xs={10}>
             <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
@@ -67,7 +131,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 className='flex flex-col justify-center items-center'
               >
                 <div>TIME</div>
-                <div>03:21</div>
+                <div>{moment(assigmentDetails?.time).format('hh:mm a')}</div>
               </Col>
               <Col
                 xs={12}
@@ -85,7 +149,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 <div className='flex pb-1'>
                   <FaCheck className='text-slate-400' />
                 </div>
-                <div className='font-bold'>8</div>
+                <div className='font-bold'>{assigmentDetails?.currectAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -103,7 +167,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 <div className='flex pb-1'>
                   <FaTimes className='text-slate-400' />
                 </div>
-                <div className='font-bold'>8</div>
+                <div className='font-bold'>{assigmentDetails?.wrongAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -121,7 +185,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 <div className='flex pb-1'>
                   <BsThreeDots className='text-slate-400' />
                 </div>
-                <div className='font-bold'>8</div>
+                <div className='font-bold'>{assigmentDetails?.blankAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -137,7 +201,7 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 className='flex flex-col justify-center items-center'
               >
                 <div className=''>SCORE</div>
-                <div className='font-bold'>75%</div>
+                <div className='font-bold'>{assigmentDetails?.score || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -152,7 +216,9 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
                 }}
                 className='flex flex-col justify-center items-center'
               >
-                <Progress type='circle' width={50} percent={30} status='none' />
+                {(assigmentDetails?.score) ?
+                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.score} /> :
+                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
               </Col>
             </Row>
           </Col>
@@ -188,7 +254,6 @@ function ViewAssignmentReport({ onShow, onOk, onCancel, ...props }) {
         </Row>
       </div>
     </div>
-    // </Modal>
   );
 }
 
