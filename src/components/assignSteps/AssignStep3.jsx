@@ -9,7 +9,7 @@ import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetS
 
 export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
-
+  const currentClass = useSelector((state) => state.classroom.currentClass);
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
 
   const options = [
@@ -60,6 +60,8 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
       .then(() => onOk());
     dispatch(resetAssignment());
     dispatch(resetSelectedWorksheets());
+    dispatch(getAssignments());
+    dispatch(getAssignments(currentClass?._id));
   };
 
   return (

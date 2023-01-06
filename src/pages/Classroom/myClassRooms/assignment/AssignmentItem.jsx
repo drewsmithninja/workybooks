@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADButton from '../../../../components/antd/ADButton';
 import EditAssignModal from '../../../../components/modals/EditAssignModal';
+import { setAssignment } from '../../../../app/features/assignment/assignmentSlice';
 
 function AssignmentItem({ item, classId }) {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
@@ -27,7 +28,9 @@ function AssignmentItem({ item, classId }) {
     navigate(`assignment/${e?._id}`);
   };
 
-  const showEditAssignModal = () => {
+  const showEditAssignModal = (e) => {
+    console.log(e);
+    dispatch(setAssignment(e));
     setIsAssignModalOpen(true);
   };
 
@@ -87,7 +90,7 @@ function AssignmentItem({ item, classId }) {
         </Col>
         <Col xl={2} md={4} sm={3} xs={3} className='flex justify-center items-center'>
           <div className='flex'>
-            <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={showEditAssignModal}>
+            <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={() => showEditAssignModal(item)}>
               <FaPencilAlt />
             </ADButton>
           </div>

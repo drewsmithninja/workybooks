@@ -12,7 +12,7 @@ import { updateAssignment } from '../../app/features/assignment/assignmentSlice'
 
 export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
-  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const students = useSelector((state) => state.students?.students?.list);
   const [selectedStudents, setSelectedStudents] = useState([]);
@@ -20,8 +20,16 @@ export default function AssignStep2({ next, onClose }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getStudents(currentClass?._id));
+    const getData = async () => {
+      dispatch(getStudents(await currentClass?._id));
+    };
+    getData();
   }, [currentClass]);
+
+  useEffect(() => {
+    const ss = currentAssignment?.assignedStudents;
+    console.log(ss, 'ss');
+  }, [selectedStudents]);
 
   const onFinish = async (values) => {
     if (values?.assignedStudents?.length) {
@@ -32,9 +40,9 @@ export default function AssignStep2({ next, onClose }) {
           assignedStudents: selectedStudents,
           assignedTo: 'Student'
         })
-      )
-        .unwrap()
-        .then(() => next());
+      );
+      // .unwrap()
+      // .then(() => next());
     } else {
       dispatch(
         updateAssignment({
@@ -42,9 +50,9 @@ export default function AssignStep2({ next, onClose }) {
           assignedClass: [currentClass?.classId],
           assignedTo: 'Classroom'
         })
-      )
-        .unwrap()
-        .then(() => next());
+      );
+      // .unwrap()
+      // .then(() => next());
     }
   };
 

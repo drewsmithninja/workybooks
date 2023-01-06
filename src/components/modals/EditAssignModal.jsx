@@ -19,7 +19,7 @@ export default function EditAssignModal({ onOk, ...props }) {
     {
       title: 'Select Students',
       status: `${current === 0 ? 'process' : 'wait'}`,
-      content: <AssignStep2 next={next} {...props} />
+      content: <AssignStep2 next={next} onClose={onOk} {...props} />
     },
     {
       title: 'Set Assignment Details',
