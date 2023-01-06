@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
-import { createAssignment, getAssignments, updateAssignment } from '../../app/features/assignment/assignmentSlice';
+import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../app/features/assignment/assignmentSlice';
 import ADButton from '../antd/ADButton';
 
 export default function AssignStep3({ onOk, onClose, onCancel }) {
@@ -57,6 +57,8 @@ export default function AssignStep3({ onOk, onClose, onCancel }) {
     )
       .unwrap()
       .then(() => onOk());
+    console.log('run');
+    dispatch(resetAssignment());
   };
 
   return (

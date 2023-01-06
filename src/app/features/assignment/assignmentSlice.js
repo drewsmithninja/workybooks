@@ -100,6 +100,9 @@ export const assignmentSlice = createSlice({
     setAssignment(state, action) {
       state.currentAssignment = action.payload;
     },
+    resetAssignment(state) {
+      state.currentAssignment = null;
+    },
     setStatus(state, action) {
       state.status = action.payload;
     }
@@ -221,5 +224,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus, setCurrentStep } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setCurrentStep, resetAssignment } = assignmentSlice.actions;
 export default assignmentSlice.reducer;
