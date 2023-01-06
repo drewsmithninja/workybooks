@@ -22,6 +22,16 @@ export const getStudents = createAsyncThunk('students/getStudents', async (class
   }
 });
 
+export const importStudentCsv = createAsyncThunk('students/importStudentCsv', async (classId, thunkAPI) => {
+  try {
+    const response = await studentsAPI.importStudentCsv(classId);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const getStudent = createAsyncThunk('students/getStudent', async (studentId, thunkAPI) => {
   try {
     const response = await studentsAPI.getStudent(studentId);
@@ -77,6 +87,19 @@ export const studentsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(importStudentCsv.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(importStudentCsv.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.newStudents = action.payload;
+      })
+      .addCase(importStudentCsv.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(createStudents.pending, (state) => {
         state.isLoading = true;
       })

@@ -13,6 +13,17 @@ const createStudents = async (data) => {
   return res.data;
 };
 
+const importStudentCsv = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const res = await axios.post(`${API_URL}/classroom/importStudent`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return res.data;
+};
+
 const getStudents = async (classId) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
@@ -75,7 +86,8 @@ const studentAPI = {
   getStudents,
   getStudent,
   editStudent,
-  deleteStudent
+  deleteStudent,
+  importStudentCsv
 };
 
 export default studentAPI;
