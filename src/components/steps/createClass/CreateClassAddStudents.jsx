@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
-import { createStudents, getStudents } from '../../../app/features/students/studentsSlice';
+import { createStudents, getStudents, importStudentCsv } from '../../../app/features/students/studentsSlice';
 
 export default function CreateClassAddStudents({ next }) {
   const { isSuccess } = useSelector((state) => state.students);
-  const { currentClass } = useSelector((state) => state.classroom);
+  const fileInputRef = useRef();
+  const { currentClass, currentCreateClass } = useSelector((state) => state.classroom);
   const dispatch = useDispatch();
-
+  const uplaodCsv = async (e) => {
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    formData.append('classId', currentCreateClass.classroom._id);
+    await dispatch(importStudentCsv(formData));
+    if (await isSuccess) {
+      await next();
+    }
+  };
   const onFinish = async (values) => {
     const data = {
-      classroom: currentClass?._id,
+      classroom: currentCreateClass.classroom._id,
       ...values
     };
     await dispatch(createStudents(data));
-    await dispatch(getStudents(currentClass?._id));
+    await dispatch(getStudents(currentCreateClass.classroom._id));
     if (await isSuccess) {
       await next();
     }
@@ -27,7 +36,19 @@ export default function CreateClassAddStudents({ next }) {
     <div className='flex flex-col items-center'>
       <ADTitle level={2}>Add Students</ADTitle>
       <div className='py-4 text-dark text-lg text-center'>Please provide the classroom details</div>
-      <ADButton size='large'>Import</ADButton>
+      <input
+        type='file'
+        ref={fileInputRef}
+        style={{
+          display: 'none'
+        }}
+        id='input'
+        onChange={uplaodCsv}
+      />
+      {/* <ADButton size='large' className='w-[168px] h-[40px] m-auto !mb-[20px] !mt-[20px]' onClick={() => fileInputRef.current.click()}>
+        Upload Excel File
+      </ADButton> */}
+      <ADButton size='large' onClick={() => fileInputRef.current.click()}>Import</ADButton>
       <div className='pt-4 text-dark text-xl text-center'>Or, enter student names manually.</div>
       <div className='py-4 text-dark text-xs text-center'>Please enter student names as First name Last Name - one per line.</div>
       <Form name='dynamic_form_nest_item' onFinish={onFinish} autoComplete='off' className='border border-solid border-success rounded-2xl pt-6 w-full flex flex-col items-center'>

@@ -7,7 +7,7 @@ export default function ListAndSaveData({ onOk }) {
   const classState = useSelector((state) => state?.classroom);
   return (
     <div className='flex flex-col items-center'>
-      <ADTitle level={2}>Students Added</ADTitle>
+      <ADTitle level={2}>Classrooms Added</ADTitle>
       <div className='py-4 text-dark text-lg my-16 text-center'>
         All classrooms have been imported to Workybooks
       </div>
