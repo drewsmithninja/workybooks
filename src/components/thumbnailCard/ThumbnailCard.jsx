@@ -35,21 +35,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
   };
-  const onAssignCreateClick = () => {
-    setCurrentStep(0);
-    setIsAssignModalOpen(false);
-    setIsStepModalOpen(true);
-  };
-  const showCollectionModal = () => {
-    setIsCollectionModalOpen(true);
-  };
   const handleCollectionModalOk = () => {
     setIsCollectionModalOpen(false);
   };
   const handleCollectionModalCancel = () => {
-    setIsCollectionModalOpen(false);
-  };
-  const onCollectionCreateClick = () => {
     setIsCollectionModalOpen(false);
   };
   const nextStep = () => {
@@ -98,7 +87,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
     }
   ];
 
-  const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (

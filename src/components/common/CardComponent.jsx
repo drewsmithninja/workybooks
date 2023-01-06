@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import React, { useCallback, useState, memo } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -41,8 +41,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     dispatch(setCurrentWorksheet(item));
     setIsCollectionModalOpen(true);
   };
-  const handleCollectionModalOk = (val) => {
-    setIsAssignModalOpen(false);
+  const handleCollectionModalOk = () => {
+    setIsCollectionModalOpen(false);
   };
   const handleCollectionModalCancel = () => {
     setIsCollectionModalOpen(false);
@@ -84,7 +84,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   ];
 
   const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const assignModal = <AssignModal closable={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
@@ -176,4 +176,4 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   );
 }
 
-export default memo(CardComponent);
+export default CardComponent;

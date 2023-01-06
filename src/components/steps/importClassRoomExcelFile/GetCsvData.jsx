@@ -78,14 +78,16 @@ export default function GetCsvData({ onFileData }) {
     readXlsxFile(e.target.files[0], {
       schema
     }).then((rows) => {
-    //  console.log(rows);
+      //  console.log(rows);
       setClassData(rows.rows);
     });
   };
   const submitClassData = () => {
-    dispatch(classImportWithExcel({
-      classrooms: classData
-    })).then((res) => {
+    dispatch(
+      classImportWithExcel({
+        classrooms: classData
+      })
+    ).then((res) => {
       if (res?.error) {
         toast.error(error);
       } else {
@@ -97,7 +99,7 @@ export default function GetCsvData({ onFileData }) {
   return (
     <div className='flex flex-col items-center'>
       {/* <ADTitle level={2}>Students Added</ADTitle>
-      */}
+       */}
       {/* <div className='py-4 text-dark text-lg my-16 text-center'>students has been added to Workybooks</div> */}
       {/* <ADButton size='large' type='primary' className='w-1/3' onClick={onFileData}>
         Close
@@ -120,16 +122,16 @@ export default function GetCsvData({ onFileData }) {
         rowSelection={rowSelection}
         columns={columns}
         pagination={{
-          defaultPageSize: 3, showSizeChanger: false
+          defaultPageSize: 3,
+          showSizeChanger: false
         }}
         dataSource={classData}
       />
       {classData?.length > 0 && (
-      <ADButton size='large' type='primary' onClick={submitClassData} className='w-1/3'>
-        Submit
-      </ADButton>
+        <ADButton size='large' type='primary' onClick={submitClassData} className='w-1/3'>
+          Submit
+        </ADButton>
       )}
-
     </div>
   );
 }

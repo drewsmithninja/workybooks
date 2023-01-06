@@ -31,10 +31,12 @@ function StudentDashboard() {
     if (id) {
       const cs = students?.list.find((item) => item._id === id);
       dispatch(setStudent(cs));
-      dispatch(getSubmittedAssignments({
-        studentId: id,
-        classId: currentClass?._id
-      }));
+      dispatch(
+        getSubmittedAssignments({
+          studentId: id,
+          classId: currentClass?._id
+        })
+      );
     }
   }, []);
 
@@ -42,10 +44,14 @@ function StudentDashboard() {
     const cs = await students?.list.find((item) => item._id === e);
     await dispatch(setStudent(await cs));
     navigate(`/my-classrooms/student-dashboard/${e}`);
-    await dispatch(getSubmittedAssignments(await {
-      studentId: e,
-      classId: currentClass?._id
-    }));
+    await dispatch(
+      getSubmittedAssignments(
+        await {
+          studentId: e,
+          classId: currentClass?._id
+        }
+      )
+    );
   };
 
   const showEditStudentModal = async (data) => {
@@ -255,9 +261,7 @@ function StudentDashboard() {
                       className='flex flex-col justify-center items-center'
                     >
                       {/* <Progress type='circle' width={50} percent={30} status='none' /> */}
-                      {(item?.score) ?
-                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> :
-                        <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                      {item?.score ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={item?.score} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
                     </Col>
                   </Row>
                 </Col>
@@ -277,9 +281,10 @@ function StudentDashboard() {
                       <div>{moment(item?.submittedDate).format('hh:mm a')}</div>
                     </>
                   ) : (
-                    <span style={{
-                      color: 'red'
-                    }}
+                    <span
+                      style={{
+                        color: 'red'
+                      }}
                     >
                       NOT SUBMITED
                     </span>
