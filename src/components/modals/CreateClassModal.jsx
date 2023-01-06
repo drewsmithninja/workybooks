@@ -8,6 +8,8 @@ import ManualClassCreated from '../steps/createClass/ManualClassCreated';
 import CreateClassStep1 from '../steps/CreateClassStep1';
 import ImportClass from '../steps/createClass/ImportClass';
 import ImportClassesCreated from '../steps/createClass/ImportClassesCreated';
+import GetCsvData from '../steps/importClassRoomExcelFile/GetCsvData';
+import ListAndSaveData from '../steps/importClassRoomExcelFile/ListAndSaveData';
 import { getGoogleClassRoomData } from '../../app/features/classroom/classroomSlice';
 import ExpiredGoogleToken from './ExpiredGoogleToken';
 
@@ -34,7 +36,7 @@ function CreateClassModal({ onOk, ...props }) {
   const items = [
     {
       title: 'create class', // 0
-      content: <CreateClassStep1 onGoogleClick={() => getClassRoomdataAPI()} onManualClick={next} />
+      content: <CreateClassStep1 onGoogleClick={() => getClassRoomdataAPI()} onManualClick={next} onExcelClick={() => { setCurrent(6); }} />
     },
     {
       title: 'create manual', // 1
@@ -55,6 +57,14 @@ function CreateClassModal({ onOk, ...props }) {
     {
       title: 'classes created', // 5
       content: <ImportClassesCreated onOk={onOk} />
+    },
+    {
+      title: 'classes created', // 5
+      content: <GetCsvData onFileData={() => { setCurrent(7); }} />
+    },
+    {
+      title: 'classes created', // 5
+      content: <ListAndSaveData onOk={onOk} />
     }
   ];
 
