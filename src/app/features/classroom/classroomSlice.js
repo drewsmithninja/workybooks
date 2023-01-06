@@ -108,12 +108,14 @@ export const classroomSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         // state.currentClass = action.payload;
+        state.currentCreateClass = action.payload;
       })
       .addCase(createClass.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
+
       .addCase(editClass.pending, (state) => {
         state.isLoading = true;
       })
