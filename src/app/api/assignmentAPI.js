@@ -19,6 +19,21 @@ const getAssignments = async (classId) => {
   return response.data;
 };
 
+const getSubmittedAssignmentDetail = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(
+    `${API_URL}/submittedAssignment/getBy/student/assignment`,
+    data,
+    {
+      headers: {
+        authorization: authToken
+      }
+    }
+  );
+  return response.data;
+};
+
 const getSubmittedAssignments = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
@@ -102,6 +117,7 @@ const getStudentAssignmentDetail = async (data) => {
 
 const assignmentAPI = {
   getAssignments,
+  getSubmittedAssignmentDetail,
   getAssignmentsByStatus,
   getAssignmentsByStudent,
   getSubmittedAssignments,

@@ -13,6 +13,16 @@ export const getAssignments = createAsyncThunk('assignment/getAssignments', asyn
   }
 });
 
+export const getSubmittedAssignmentDetail = createAsyncThunk('assignment/getSubmittedAssignmentDetail', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.getSubmittedAssignmentDetail(data);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const getSubmittedAssignments = createAsyncThunk('assignment/getSubmittedAssignments', async (data, thunkAPI) => {
   try {
     const response = await assignmentAPI.getSubmittedAssignments(data);
@@ -85,6 +95,7 @@ export const assignmentSlice = createSlice({
     studentAssignmentDetail: [],
     studentAssignmentReportJson: [],
     submittedAssignments: [],
+    submittedAssignmentDetail: [],
     status: '',
     currentStep: 0,
     currentAssignment: null,
@@ -180,6 +191,19 @@ export const assignmentSlice = createSlice({
         state.currentAssignment = action.payload;
       })
       .addCase(updateAssignment.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getSubmittedAssignmentDetail.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSubmittedAssignmentDetail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.submittedAssignmentDetail = action.payload;
+      })
+      .addCase(getSubmittedAssignmentDetail.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

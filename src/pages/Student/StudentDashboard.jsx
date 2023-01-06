@@ -26,7 +26,6 @@ function StudentDashboard() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log('state', currentStudent, currentClass);
 
   useEffect(() => {
     if (id) {
@@ -287,7 +286,7 @@ function StudentDashboard() {
                   )}
                 </Col>
                 <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                  <ADButton type='text' onClick={() => navigate('/my-classrooms/assignment/view-work')}>
+                  <ADButton type='text' disabled={!item?.submittedDate} onClick={() => navigate(`/my-classrooms/assignment/view-work/${item?._id}`)}>
                     <div className='flex'>
                       <FaChartLine className='text-gray-400 text-2xl' />
                     </div>
