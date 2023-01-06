@@ -73,7 +73,7 @@ export const classroomSlice = createSlice({
   name: 'classroom',
   initialState: {
     classes: [],
-    currentClass: [],
+    currentClass: null,
     isLoading: false,
     isError: false,
     isSuccess: false,

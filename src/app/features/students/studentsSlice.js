@@ -68,6 +68,9 @@ export const studentsSlice = createSlice({
     setStudent(state, action) {
       state.currentStudent = action.payload;
     },
+    setStudents(state, action) {
+      state.students = action.payload;
+    },
     resetNewStudents(state) {
       state.newStudents = [];
       state.isLoading = false;
@@ -145,5 +148,5 @@ export const studentsSlice = createSlice({
   }
 });
 
-export const { setStudent, resetNewStudents } = studentsSlice.actions;
+export const { setStudent, resetNewStudents, setStudents } = studentsSlice.actions;
 export default studentsSlice.reducer;

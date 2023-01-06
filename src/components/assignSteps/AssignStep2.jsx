@@ -1,10 +1,8 @@
-/* eslint-disable operator-linebreak */
-/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setClass } from '../../app/features/classroom/classroomSlice';
-import { getStudents } from '../../app/features/students/studentsSlice';
+import { getStudents, setStudents } from '../../app/features/students/studentsSlice';
 import ADSelect from '../antd/ADSelect';
 import ADTitle from '../antd/ADTitle';
 import dummyImage from '../../assets/images/dummyImage.png';
@@ -15,30 +13,33 @@ import { updateAssignment } from '../../app/features/assignment/assignmentSlice'
 export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const currentClass = useSelector((state) => state.classroom.currentClass);
   const students = useSelector((state) => state.students?.students?.list);
-
   const [selectedStudents, setSelectedStudents] = useState([]);
 
   const dispatch = useDispatch();
 
-  const onFinish = (values) => {
-    console.log(values);
+  useEffect(() => {
+    dispatch(getStudents(currentClass?._id));
+  }, [currentClass]);
+
+  const onFinish = async (values) => {
     if (values?.assignedStudents?.length) {
       dispatch(
         updateAssignment({
           id: currentAssignment?._id,
-          assignedClass: [values?.assignedClass?.classId],
+          assignedClass: [currentClass?.classId],
           assignedStudents: selectedStudents,
           assignedTo: 'Student'
         })
-      );
-      // .unwrap()
-      // .then(() => next());
+      )
+        .unwrap()
+        .then(() => next());
     } else {
       dispatch(
         updateAssignment({
           id: currentAssignment?._id,
-          assignedClass: [values?.assignedClass?.classId],
+          assignedClass: [currentClass?.classId],
           assignedTo: 'Classroom'
         })
       )
@@ -47,22 +48,22 @@ export default function AssignStep2({ next, onClose }) {
     }
   };
 
-  const classOptions = classes?.length
-    ? classes?.map(({ _id: value, name: label, ...rest }) => ({
-        value,
-        label,
-        ...rest
-      }))
-    : [
-        {
-          value: '',
-          label: 'No Class'
-        }
-      ];
+  const classOptions = classes?.length ?
+    classes?.map(({ _id: value, name: label, ...rest }) => ({
+      value,
+      label,
+      ...rest
+    })) :
+    [
+      {
+        value: '',
+        label: 'No Class'
+      }
+    ];
 
   useEffect(() => {
     const getData = async () => {
-      await dispatch(setClass(classes?.[0]?._id));
+      await dispatch(setClass(classes?.[0]));
       await dispatch(getStudents(classes?.[0]?._id));
     };
     getData();
@@ -78,7 +79,7 @@ export default function AssignStep2({ next, onClose }) {
     <div>
       <Form
         initialValues={{
-          assignedClass: classOptions?.[0] ?? 'No Class'
+          assignedClass: currentClass?.classId
         }}
         className='py-2'
         size='large'
@@ -103,7 +104,7 @@ export default function AssignStep2({ next, onClose }) {
             </Form.Item>
           </Col>
         </Row>
-        <ADTitle level={5} className='text-center'>
+        <ADTitle level={5} className='text-center pt-2'>
           OR
         </ADTitle>
         <Row gutter={16}>

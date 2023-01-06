@@ -11,6 +11,7 @@ import NewAssignment from '../steps/assign/NewAssignment';
 
 function AssignModal({ onOk, onCancel, ...props }) {
   const currentStep = useSelector((state) => state.assignment.currentStep);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const dispatch = useDispatch();
 
   const next = () => {
@@ -30,17 +31,17 @@ function AssignModal({ onOk, onCancel, ...props }) {
   const items = [
     {
       title: 'Create New',
-      content: <NewAssignment next={next} onOk={onOk} />
+      content: <NewAssignment next={next} onOk={onOk} {...props} />
     },
     {
       title: 'Select Items',
       icon: <>1</>,
-      content: <AssignStep1 next={next} onClose={onClose} onCancel={onCancel} />
+      content: <AssignStep1 next={next} onClose={onClose} onCancel={onCancel} {...props} />
     },
     {
       title: 'Select Students',
       icon: <>2</>,
-      content: <AssignStep2 next={next} onClose={onClose} />
+      content: <AssignStep2 next={next} onClose={onClose} {...props} />
     },
     {
       title: 'Set Assignment Details',
@@ -50,7 +51,8 @@ function AssignModal({ onOk, onCancel, ...props }) {
   ];
 
   return (
-    <ADModal afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
+    <ADModal centered afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
+      <pre>{JSON.stringify(currentAssignment, null, 2)}</pre>
       <ADSteps items={items} current={currentStep} onChange={(e) => dispatch(setCurrentStep(e))} showSteps={currentStep !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
         <div className='steps-content max-w-[600px]'>{items[currentStep].content}</div>

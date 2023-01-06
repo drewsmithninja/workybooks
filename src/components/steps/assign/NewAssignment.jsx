@@ -7,10 +7,12 @@ import ADTitle from '../../antd/ADTitle';
 import ADImage from '../../antd/ADImage';
 import dummyImage from '../../../assets/images/dummyImage.png';
 import { createAssignment, getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import Spinner from '../../spinner/Spinner';
 
 export default function NewAssignment({ next, onOk }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
   const assignments = useSelector((state) => state.assignment.assignments);
+  const assignmentLoading = useSelector((state) => state.assignment.isLoading);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
 
   const [assignmentTitle, setAssignmentTitle] = useState('');
@@ -73,19 +75,25 @@ export default function NewAssignment({ next, onOk }) {
             <ADTitle level={5} className='py-4'>
               Add to existing Assignment
             </ADTitle>
-            <div className='max-h-56 overflow-y-auto'>
-              {assignments?.length &&
-                assignments.map((assignment) => (
-                  <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addToAssignmentHandler(assignment)}>
-                    <Col flex='none'>
-                      <ADImage src={assignment.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
-                    </Col>
-                    <Col xs={24} flex='auto' className='flex items-center'>
-                      {assignment.title}
-                    </Col>
-                  </Row>
-                ))}
-            </div>
+            {!assignmentLoading ? (
+              <div className='max-h-56 overflow-y-auto'>
+                {assignments?.length &&
+                  assignments.map((assignment) => (
+                    <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addToAssignmentHandler(assignment)}>
+                      <Col flex='none'>
+                        <ADImage src={assignment.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
+                      </Col>
+                      <Col xs={24} flex='auto' className='flex items-center'>
+                        {assignment.title}
+                      </Col>
+                    </Row>
+                  ))}
+              </div>
+            ) : (
+              <div className='min-h-[200px] flex justify-center items-center'>
+                <Spinner />
+              </div>
+            )}
           </div>
         </Col>
       </Row>

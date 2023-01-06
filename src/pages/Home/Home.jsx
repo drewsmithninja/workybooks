@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { listSubject, listCCL } from '../../app/features/home/homepageSlice';
@@ -70,4 +70,4 @@ function Home() {
     </MainLayout>
   );
 }
-export default memo(Home);
+export default Home;
