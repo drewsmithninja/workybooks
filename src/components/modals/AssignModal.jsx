@@ -55,7 +55,7 @@ function AssignModal({ onOk, onCancel, ...props }) {
       <pre>{JSON.stringify(currentAssignment, null, 2)}</pre>
       <ADSteps items={items} current={currentStep} onChange={(e) => dispatch(setCurrentStep(e))} showSteps={currentStep !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
-        <div className='steps-content max-w-[600px]'>{items[currentStep].content}</div>
+        <div className='steps-content max-w-[600px]'>{items[currentStep]?.content}</div>
       </div>
     </ADModal>
   );
