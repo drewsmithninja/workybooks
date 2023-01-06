@@ -20,7 +20,7 @@ import { getStudents } from '../../app/features/students/studentsSlice';
 function MyClassrooms() {
   const { classes, isLoading, currentClass } = useSelector((state) => state.classroom);
 
-  const [currentTab, setCurrentTab] = useState('students');
+  const [currentTab, setCurrentTab] = useState('assignment');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
 
@@ -125,7 +125,7 @@ function MyClassrooms() {
             <Space size='large'>
               <ADTitle level={3}>Class</ADTitle>
               <ADSelect className='w-32' defaultValue={classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
-              {(classes?.list?.length > 0) ? (
+              {classes?.list?.length > 0 ? (
                 <div className='flex'>
                   <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
                     <FaPencilAlt className='text-gray-400 text-lg' />

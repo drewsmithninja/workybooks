@@ -14,7 +14,6 @@ import { getCollections, getFavoriteCollections, updateCollectionLike } from '..
 import ADImage from '../../components/antd/ADImage';
 import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
-import AssignModal from '../../components/modals/AssignModal';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
@@ -24,12 +23,10 @@ function MyLibrary() {
   const [rerender, setRerender] = useState(0);
   const [currentTab, setCurrentTab] = useState('my collection');
   const [currentStep, setCurrentStep] = useState(0);
-  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
   const dispatch = useDispatch();
   const { Step } = Steps;
-  console.log('re', recentWorksheets);
   const collectionFavHandler = async (e) => {
     const data = {
       collectionId: await e._id,
@@ -48,31 +45,10 @@ function MyLibrary() {
     }
   }, [rerender]);
 
-  const showAssignModal = () => {
-    setIsAssignModalOpen(true);
-  };
-  const handleAssignModalOk = () => {
-    setIsAssignModalOpen(false);
-    dispatch(setCurrentStep(0));
-  };
-  const handleAssignModalCancel = () => {
-    setIsAssignModalOpen(false);
-  };
-  const onAssignCreateClick = () => {
-    setCurrentStep(0);
-    setIsAssignModalOpen(false);
-    setIsStepModalOpen(true);
-  };
-  const showCollectionModal = () => {
-    setIsCollectionModalOpen(true);
-  };
   const handleCollectionModalOk = () => {
     setIsCollectionModalOpen(false);
   };
   const handleCollectionModalCancel = () => {
-    setIsCollectionModalOpen(false);
-  };
-  const onCollectionCreateClick = () => {
     setIsCollectionModalOpen(false);
   };
   const nextStep = () => {
@@ -186,12 +162,10 @@ function MyLibrary() {
   };
 
   const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <MainLayout>
       {addToCollectionModal}
-      {assignModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities

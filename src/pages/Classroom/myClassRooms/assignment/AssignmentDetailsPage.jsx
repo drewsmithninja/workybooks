@@ -70,7 +70,6 @@ function AssignmentDetailsPage() {
     }
   };
   const onBlurGradeInput = (item) => {
-    console.log(`called on blur-->${item}`);
     // const newArr = {
     //   assignmentId: ,
     //   studentId: ,
@@ -350,14 +349,8 @@ function AssignmentDetailsPage() {
                               margin: 'auto 30px'
                             }}
                             onBlur={(e) => {
-                              console.log('----blur---->', {
-                                assignmentId: item.assignment,
-                                studentId: item?.student,
-                                assignmentGrade: e.target.value
-                              });
                               onBlurGradeInput();
                             }}
-                            // onChange={(e) => console.log('----value---->', e.target.value)}
                           />
                         ) : (
                           <Badge
