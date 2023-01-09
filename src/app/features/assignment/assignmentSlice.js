@@ -86,6 +86,26 @@ export const createAssignment = createAsyncThunk('assignment/createAssignment', 
   }
 });
 
+export const getAssignmentGradeList = createAsyncThunk('assignment/getAssignmentGradeList', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.getAssignmentGradeList();
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateGradeList = createAsyncThunk('assignment/updateGradeList', async (data, thunkAPI) => {
+  try {
+    const response = await assignmentAPI.updateGradeList(data);
+    return response;
+  } catch (error) {
+    const message = error?.response?.data?.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const assignmentSlice = createSlice({
   name: 'assignment',
   initialState: {
@@ -96,6 +116,7 @@ export const assignmentSlice = createSlice({
     studentAssignmentReportJson: [],
     submittedAssignments: [],
     submittedAssignmentDetail: [],
+    assignmentGradeList: [],
     status: '',
     currentStep: 0,
     currentAssignment: null,
@@ -246,6 +267,31 @@ export const assignmentSlice = createSlice({
         state.message = action.payload;
         state.studentAssignmentDetail = [];
         state.studentAssignmentReportJson = [];
+      })
+      .addCase(getAssignmentGradeList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAssignmentGradeList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.assignmentGradeList = action.payload;
+      })
+      .addCase(getAssignmentGradeList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateGradeList.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateGradeList.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+      })
+      .addCase(updateGradeList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   }
 });
