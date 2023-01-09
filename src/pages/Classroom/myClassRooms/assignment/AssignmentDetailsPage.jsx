@@ -177,11 +177,11 @@ function AssignmentDetailsPage() {
                   </Col>
                   <Col xl={8}>
                     <div className='font-bold text-xs'>TYPE</div>
-                    <div className='text-slate-400 pt-3'>{assignmentDetails?.assignmentType}</div>
+                    <div className='text-slate-400 pt-3'>{assignmentDetails?.assignmentType || '-'}</div>
                   </Col>
                   <Col xl={8}>
                     <div className='font-bold text-xs'>POINTS</div>
-                    <div className='text-slate-400 pt-3'>{assignmentDetails?.points}</div>
+                    <div className='text-slate-400 pt-3'>{assignmentDetails?.points || '-'}</div>
                   </Col>
                 </Row>
               </Col>
