@@ -9,6 +9,7 @@ import dummyImage from '../../assets/images/dummyImage.png';
 import ADButton from '../antd/ADButton';
 import { unSelectWorksheet } from '../../app/features/worksheet/worksheetSlice';
 import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
+import { getClassrooms } from '../../app/features/classroom/classroomSlice';
 
 export default function AssignStep1({ next, onClose, onCancel }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
@@ -38,14 +39,15 @@ export default function AssignStep1({ next, onClose, onCancel }) {
     }
   };
 
-  const onAssignHandler = () => {
-    const result = modifiedWorksheets.map((w) => w?._id);
-    dispatch(
+  const onAssignHandler = async () => {
+    const result = await modifiedWorksheets.map((w) => w?._id);
+    await dispatch(
       updateAssignment({
         id: currentAssignment?._id,
         content: result
       })
-    )
+    );
+    dispatch(getClassrooms())
       .unwrap()
       .then(() => next());
   };

@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import React, { useCallback, useState, memo } from 'react';
+import React, { useCallback, useState, memo, useRef } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ import ShareModal from '../modals/ShareModal';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
-  const [currentStep, setCurrentStep] = useState(0);
+  // const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -53,8 +53,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     dispatch(setCurrentWorksheet(item));
     setIsCollectionModalOpen(true);
   };
-  const handleCollectionModalOk = (val) => {
-    setIsAssignModalOpen(false);
+  const handleCollectionModalOk = () => {
+    setIsCollectionModalOpen(false);
   };
   const handleCollectionModalCancel = () => {
     setIsCollectionModalOpen(false);
@@ -105,8 +105,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   ];
 
   const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/worksheet/${item._id}`]} item={item} />;
+  const assignModal = <AssignModal closable={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
@@ -202,4 +202,4 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   );
 }
 
-export default memo(CardComponent);
+export default CardComponent;

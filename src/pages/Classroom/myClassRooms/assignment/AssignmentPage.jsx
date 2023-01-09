@@ -1,9 +1,6 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Col, List, Row, Segmented, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getAssignments, getAssignmentsByStatus } from '../../../../app/features/assignment/assignmentSlice';
 import AssignmentItem from './AssignmentItem';
 
@@ -31,7 +28,7 @@ const options = [
 ];
 
 function AssignmentPage() {
-  const { assignments, status } = useSelector((state) => state.assignment);
+  const { assignments } = useSelector((state) => state.assignment);
   const { currentClass } = useSelector((state) => state.classroom);
 
   const dispatch = useDispatch();
@@ -62,7 +59,7 @@ function AssignmentPage() {
             onChange: (page) => {},
             pageSize: 10
           }}
-          header={
+          header={(
             <Row>
               <Col xl={6} md={6} sm={8} xs={10}>
                 <div className='text-center inter-font font-medium text-xs'>ASSIGNMENT TITLE</div>
@@ -83,7 +80,7 @@ function AssignmentPage() {
                 <div className='text-center inter-font font-medium text-xs'>AVG. SCORE</div>
               </Col>
             </Row>
-          }
+          )}
           itemLayout='horizontal'
           dataSource={assignments || []}
           bordered

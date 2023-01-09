@@ -47,7 +47,7 @@ function App() {
           <Route path='/my-classrooms' element={<MyClassrooms />} />
           <Route path='/my-classrooms/student-dashboard/:id' element={<StudentDashboard />} />
           <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />
-          <Route path='/my-classrooms/assignment/view-work' element={<ViewAssignmentReport />} />
+          <Route path='/my-classrooms/assignment/view-work/:id' element={<ViewAssignmentReport />} />
           <Route path='/search-result' element={<SearchResult />} />
           <Route path='/worksheet/:userId' element={<Worksheet />} />
           <Route path='/collection/:id' element={<MyCollection />} />

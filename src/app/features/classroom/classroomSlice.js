@@ -20,6 +20,15 @@ export const editClass = createAsyncThunk('classroom/editClass', async (data, th
     return thunkAPI.rejectWithValue(message);
   }
 });
+export const classImportWithExcel = createAsyncThunk('classroom/importExcelClassRoom', async (data, thunkAPI) => {
+  try {
+    const response = await classroomAPI.classRoomExcelDataImport(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 export const getGoogleClassRoomData = createAsyncThunk('classroom/getGoogleClassRooom', async (data, thunkAPI) => {
   try {
     const response = await classroomAPI.getGoogleClassRoomData(data);
@@ -73,7 +82,7 @@ export const classroomSlice = createSlice({
   name: 'classroom',
   initialState: {
     classes: [],
-    currentClass: [],
+    currentClass: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -99,12 +108,14 @@ export const classroomSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         // state.currentClass = action.payload;
+        state.currentCreateClass = action.payload;
       })
       .addCase(createClass.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
+
       .addCase(editClass.pending, (state) => {
         state.isLoading = true;
       })
@@ -121,6 +132,20 @@ export const classroomSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.googleClassRoom = null;
+      })
+      .addCase(classImportWithExcel.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(classImportWithExcel.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.classImportWithExcel = action.payload;
+      })
+      .addCase(classImportWithExcel.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.classImportWithExcel = null;
       })
       .addCase(getGoogleClassRoomDataInsert.pending, (state) => {
         state.isLoading = true;

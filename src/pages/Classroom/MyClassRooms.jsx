@@ -20,12 +20,15 @@ import { getStudents } from '../../app/features/students/studentsSlice';
 function MyClassrooms() {
   const { classes, isLoading, currentClass } = useSelector((state) => state.classroom);
 
-  const [currentTab, setCurrentTab] = useState('students');
+  const [currentTab, setCurrentTab] = useState('assignment');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const searchParams = new URLSearchParams(document.location.search);
+  const initialTab = searchParams.get('tab') || 'students';
 
   useEffect(() => {
     dispatch(getClassrooms());
@@ -33,11 +36,11 @@ function MyClassrooms() {
 
   const onClassChangeHandler = async (e) => {
     const sc = await classes?.list?.find((item) => item?._id === e);
-    await dispatch(setClass(await sc));
-    if ((await currentTab) === 'students') {
+    dispatch(setClass(await sc));
+    if (currentTab === 'students') {
       dispatch(getStudents(sc?._id));
     }
-    if ((await currentTab) === 'assignment') {
+    if (currentTab === 'assignment') {
       dispatch(getAssignments(sc?._id));
     }
   };
@@ -67,15 +70,12 @@ function MyClassrooms() {
   };
 
   const tabChangeHandler = async (e) => {
+    navigate(`/my-classrooms?tab=${e}`);
+    setCurrentTab(e);
     if (e === 'students') {
-      setCurrentTab(e);
-      await dispatch(getStudents(await currentClass?._id));
+      dispatch(getStudents(await currentClass?._id));
     } else if (e === 'assignment') {
-      setCurrentTab(e);
-      await dispatch(getAssignments(await currentClass?._id));
-    } else if (e === 'reports') {
-      setCurrentTab(e);
-      // dispatch(getReports());
+      dispatch(getAssignments(await currentClass?._id));
     }
   };
 
@@ -125,7 +125,7 @@ function MyClassrooms() {
             <Space size='large'>
               <ADTitle level={3}>Class</ADTitle>
               <ADSelect className='w-32' defaultValue={classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
-              {(classes?.list?.length > 0) ? (
+              {classes?.list?.length > 0 ? (
                 <div className='flex'>
                   <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
                     <FaPencilAlt className='text-gray-400 text-lg' />
@@ -139,7 +139,7 @@ function MyClassrooms() {
               </div>
             </Space>
           </div>
-          <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
+          <Tabs onChange={tabChangeHandler} activeKey={initialTab} items={tabItems} />
         </div>
       )}
     </MainLayout>

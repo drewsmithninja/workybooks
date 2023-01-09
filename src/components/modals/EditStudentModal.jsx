@@ -8,7 +8,7 @@ import ADModal from '../antd/ADModal';
 import ADTitle from '../antd/ADTitle';
 import ADButton from '../antd/ADButton';
 import { deleteStudent, editStudent, getStudents } from '../../app/features/students/studentsSlice';
-import getBase64 from "../../utils/getBase64";
+import getBase64 from '../../utils/getBase64';
 
 export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   const { currentClass } = useSelector((state) => state.classroom);
@@ -66,7 +66,6 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
-    console.log("file in handlkepreview", file)
     setPreviewImage(file.url || file.preview);
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
@@ -75,7 +74,13 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   return (
     <ADModal forceRender centered footer={false} onCancel={onCancel} {...props}>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        <img
+          alt="example"
+          style={{
+            width: '100%'
+          }}
+          src={previewImage}
+        />
       </Modal>
       <ADTitle level={2} className='text-center'>
         Edit Student

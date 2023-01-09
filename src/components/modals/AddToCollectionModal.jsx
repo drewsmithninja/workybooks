@@ -23,7 +23,7 @@ export default function AddToCollectionModal({ onOk, ...props }) {
   ];
 
   return (
-    <ADModal centered afterClose={afterClose} footer={false} {...props}>
+    <ADModal centered afterClose={afterClose} footer={false} width={680} {...props}>
       <ADSteps items={items} current={1} />
       <div className='flex flex-col items-center justify-center'>
         <div className='steps-content'>{items[current].content}</div>

@@ -7,6 +7,9 @@ import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
 import ADImage from '../../components/antd/ADImage';
 import sortIcon from '../../assets/images/icons/sort.png';
+import ThumbnailCard from '../../components/thumbnailCard/ThumbnailCard';
+import { updateCollectionLike } from '../../app/features/collection/collectionSlice';
+import ADTitle from '../../components/antd/ADTitle';
 
 function SearchResult() {
   const { user } = useSelector((state) => state.auth);
@@ -19,32 +22,53 @@ function SearchResult() {
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
   const [ccsArr, setccsArr] = useState([]);
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState('');
   const grades = gradeData?.list;
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content ? searchData?.content : [];
-
-  console.log("searchData", searchData)
+  const collections = searchData?.collection ? searchData?.collection : [];
 
   const worksheetData = useMemo(() => {
-    if (sortBy == "title") {
-      const filtered = worksheets?.slice()?.filter(a => a?.[sortBy]);
-      const noData = worksheets?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData = filtered.sort((a, b) => a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1)
+    if (sortBy === 'title') {
+      const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
       sortedData = [...sortedData, ...noData];
-
       return sortedData;
     } else {
-
-      const filtered = worksheets?.slice()?.filter(a => a?.[sortBy]);
-      const noData = worksheets?.slice()?.filter(a => !a?.[sortBy]);
-      let sortedData = filtered.sort((a, b) => a?.[sortBy] > b?.[sortBy] ? 1 : -1)
+      const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData = [...sortedData, ...noData];
-
       return sortedData;
     }
-  }, [sortBy])
+  }, [sortBy]);
+
+  const collectionData = useMemo(() => {
+    if (sortBy === 'title') {
+      const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
+      sortedData = [...sortedData, ...noData];
+      return sortedData;
+    } else {
+      const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+      sortedData = [...sortedData, ...noData];
+      return sortedData;
+    }
+  }, [sortBy]);
+
+  const collectionFavHandler = async (e) => {
+    const data = {
+      collectionId: await e._id,
+      favorite: !e.favorite
+    };
+    await dispatch(updateCollectionLike(data));
+    await setRerender(Math.random());
+  };
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
@@ -150,8 +174,15 @@ function SearchResult() {
                 </Tag>
               </Col>
             )}
-            <Col xs={12} md={24} className='!pl-[20px]' style={{ justifyContent: "space-between", display: "flex" }} >
-              <Typography.Text className='font-bold'>{`${worksheets?.length ?? 0} resources found`}</Typography.Text>
+            <Col
+              xs={12}
+              md={24}
+              className='!pl-[20px]'
+              style={{
+                justifyContent: 'space-between', display: 'flex'
+              }}
+            >
+              <Typography.Text className='font-bold'>{`${worksheets?.length + collections.length ?? 0} resources found`}</Typography.Text>
               <Space>
                 <ADImage src={sortIcon} alt='sort' />
                 <Select
@@ -168,6 +199,24 @@ function SearchResult() {
                 </Select>
               </Space>
             </Col>
+
+            {/* Collection  */}
+            <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
+            <Row gutter={[16, 16]}>
+              {collectionData?.length ? (
+                collectionData?.map((item) => (
+                  <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+                    <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                  </Col>
+                ))
+              ) : (
+                <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+                  No Collections here!
+                </ADTitle>
+              )}
+            </Row>
+
+            <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
             <Col span={24} className='flex flex-wrap'>
               {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
             </Col>
