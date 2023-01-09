@@ -201,8 +201,9 @@ function SearchResult() {
             </Col>
 
             {/* Collection  */}
+            <div>
             <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-            <Row gutter={[16, 16]}>
+            <Row gutter={[16, 16]} style={{marginTop:10}}>
               {collectionData?.length ? (
                 collectionData?.map((item) => (
                   <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
@@ -215,11 +216,15 @@ function SearchResult() {
                 </ADTitle>
               )}
             </Row>
+            </div>
 
-            <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-            <Col span={24} className='flex flex-wrap'>
-              {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
-            </Col>
+            <div>
+              <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
+              <Col span={24} className='flex flex-wrap'>
+                {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+              </Col>
+            </div>
+
           </Row>
         </div>
       </div>
