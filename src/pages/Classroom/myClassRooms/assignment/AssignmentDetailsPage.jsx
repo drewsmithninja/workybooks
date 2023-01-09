@@ -23,7 +23,7 @@ import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
-  const assignmentList = useSelector((state) => state.assignment.assignments);
+  const assignmentList = useSelector((state) => state.assignment?.assignments);
   console.log(assignmentList, 'assignmentList');
 
   const [modal, setModal] = useState(false);
@@ -96,7 +96,11 @@ function AssignmentDetailsPage() {
 
   const showEditAssignModal = async () => {
     const ca = await assignmentList?.find((assignment) => assignment?._id === id);
-    await dispatch(setAssignment(ca));
+    await dispatch(
+      setAssignment({
+        assignment: ca
+      })
+    );
     await setIsAssignModalOpen(true);
   };
 

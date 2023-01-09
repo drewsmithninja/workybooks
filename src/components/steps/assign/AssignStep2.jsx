@@ -13,7 +13,7 @@ import { updateAssignment } from '../../../app/features/assignment/assignmentSli
 
 export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
-  const currentAssignment = useSelector((state) => state.assignment.currentAssignment);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const students = useSelector((state) => state.students?.students?.list);
 
@@ -29,6 +29,7 @@ export default function AssignStep2({ next, onClose }) {
   }, [currentClass]);
 
   useEffect(() => {
+    console.log(currentAssignment, 'currentAssignment');
     form.setFieldsValue({
       assignedClass: currentClass?.classId,
       assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)

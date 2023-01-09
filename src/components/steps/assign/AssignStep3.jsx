@@ -13,8 +13,6 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
 
-  const dateFormat = 'DD/MM/YYYY HH:mm';
-
   const options = [
     {
       label: (

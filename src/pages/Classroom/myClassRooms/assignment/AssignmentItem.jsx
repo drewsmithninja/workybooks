@@ -30,7 +30,9 @@ function AssignmentItem({ item, classId }) {
 
   const showEditAssignModal = (e) => {
     console.log(e, 'currentAssignment');
-    dispatch(setAssignment(e));
+    dispatch(setAssignment({
+      assignment: e
+    }));
     setIsAssignModalOpen(true);
   };
 
