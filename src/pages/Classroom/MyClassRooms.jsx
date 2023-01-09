@@ -27,17 +27,20 @@ function MyClassrooms() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const searchParams = new URLSearchParams(document.location.search);
+  const initialTab = searchParams.get('tab') || 'students';
+
   useEffect(() => {
     dispatch(getClassrooms());
   }, []);
 
   const onClassChangeHandler = async (e) => {
     const sc = await classes?.list?.find((item) => item?._id === e);
-    await dispatch(setClass(await sc));
-    if ((await currentTab) === 'students') {
+    dispatch(setClass(await sc));
+    if (currentTab === 'students') {
       dispatch(getStudents(sc?._id));
     }
-    if ((await currentTab) === 'assignment') {
+    if (currentTab === 'assignment') {
       dispatch(getAssignments(sc?._id));
     }
   };
@@ -67,15 +70,12 @@ function MyClassrooms() {
   };
 
   const tabChangeHandler = async (e) => {
+    navigate(`/my-classrooms?tab=${e}`);
+    setCurrentTab(e);
     if (e === 'students') {
-      setCurrentTab(e);
-      await dispatch(getStudents(await currentClass?._id));
+      dispatch(getStudents(await currentClass?._id));
     } else if (e === 'assignment') {
-      setCurrentTab(e);
-      await dispatch(getAssignments(await currentClass?._id));
-    } else if (e === 'reports') {
-      setCurrentTab(e);
-      // dispatch(getReports());
+      dispatch(getAssignments(await currentClass?._id));
     }
   };
 
@@ -139,7 +139,7 @@ function MyClassrooms() {
               </div>
             </Space>
           </div>
-          <Tabs onChange={tabChangeHandler} activeKey={currentTab} items={tabItems} />
+          <Tabs onChange={tabChangeHandler} activeKey={initialTab} items={tabItems} />
         </div>
       )}
     </MainLayout>

@@ -47,6 +47,7 @@ export default function AssignStep2({ next, onClose }) {
         .then(() => next());
     }
   };
+  const onFinishFailed = (errorInfo) => { };
 
   const classOptions = classes?.length ?
     classes?.map(({ _id: value, name: label, ...rest }) => ({
@@ -129,7 +130,7 @@ export default function AssignStep2({ next, onClose }) {
                         </div>
                       </Checkbox>
                     </List.Item>
-                  )}
+                )}
                 />
               </Checkbox.Group>
             </Form.Item>
