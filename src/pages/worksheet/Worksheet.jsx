@@ -202,22 +202,12 @@ function Worksheet() {
                 <div className='flex items-center justify-between'>
                   <div className='flex mx-0'>SHARE</div>
                   <div className='text-2xl flex mx-2'>
-                    <EmailShareButton
-                      url="Url"
-                      subject="Subjec is here"
-                      body="body"
-                      className='flex justify-center'
-                    >
+                    <EmailShareButton url='Url' subject='Subjec is here' body='body' className='flex justify-center'>
                       <EmailIcon size={28} round />
                     </EmailShareButton>
                   </div>
                   <div className='text-2xl flex mx-2'>
-                    <PinterestShareButton
-                      media={worksheetDetail?.thumbnail}
-                      title='Pinterest'
-                      url={String(window.location)}
-                      className='flex justify-center'
-                    >
+                    <PinterestShareButton media={worksheetDetail?.thumbnail} title='Pinterest' url={String(window.location)} className='flex justify-center'>
                       <PinterestIcon size={28} round />
                     </PinterestShareButton>
                   </div>
