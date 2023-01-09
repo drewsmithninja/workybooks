@@ -15,13 +15,19 @@ import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
 import ADImage from '../../../../components/antd/ADImage';
-import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
+import { getStudentAssignmentDetail, setAssignment } from '../../../../app/features/assignment/assignmentSlice';
 import ADModal from '../../../../components/antd/ADModal';
 import ExportAssignmentReport from './ExportAssignmentReport';
 import ADInput from '../../../../components/antd/ADInput';
+import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const assignmentList = useSelector((state) => state.assignment.assignments);
+  console.log(assignmentList, 'assignmentList');
+
   const [modal, setModal] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isEditableInput, setIsEditableInput] = useState(false);
   const [updatedGradeList, setUpdatedGradeList] = useState([]);
 
@@ -80,10 +86,27 @@ function AssignmentDetailsPage() {
     //   setUpdatedGradeList([...updatedGradeList, newArr])
   };
 
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const showEditAssignModal = async () => {
+    const ca = await assignmentList?.find((assignment) => assignment?._id === id);
+    await dispatch(setAssignment(ca));
+    await setIsAssignModalOpen(true);
+  };
+
+  const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
   return isLoading ? (
     <Spinner />
   ) : (
     <MainLayout>
+      {editAssignModal}
       {isError ? (
         <div
           className='text-center text-lg'
@@ -110,7 +133,9 @@ function AssignmentDetailsPage() {
               />
 
               <div className='flex'>
-                <FaPencilAlt className='text-gray-400 text-lg' />
+                <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={showEditAssignModal}>
+                  <FaPencilAlt />
+                </ADButton>
               </div>
             </Space>
           </div>

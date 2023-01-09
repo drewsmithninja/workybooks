@@ -78,7 +78,6 @@ export default function GetCsvData({ onFileData }) {
     readXlsxFile(e.target.files[0], {
       schema
     }).then((rows) => {
-      //  console.log(rows);
       setClassData(rows.rows);
     });
   };

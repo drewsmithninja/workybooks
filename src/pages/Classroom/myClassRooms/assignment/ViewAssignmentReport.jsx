@@ -20,7 +20,6 @@ function ViewAssignmentReport() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log('ccs', currentClass, currentStudent, submittedAssignmentDetail, submittedAssignments);
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
       value,
@@ -55,24 +54,34 @@ function ViewAssignmentReport() {
           studentId: currentStudent?._id
         })
       );
-      dispatch(getSubmittedAssignments({
-        studentId: currentStudent?._id,
-        classId: currentClass?._id
-      }));
+      dispatch(
+        getSubmittedAssignments({
+          studentId: currentStudent?._id,
+          classId: currentClass?._id
+        })
+      );
     }
   }, [id]);
 
   const onStudentChangeHandler = async (e) => {
     const cs = await students?.list.find((item) => item._id === e);
     await dispatch(setStudent(await cs));
-    await dispatch(getSubmittedAssignments(await {
-      studentId: e,
-      classId: currentClass?._id
-    }));
-    await dispatch(getSubmittedAssignments(await {
-      studentId: e,
-      classId: currentClass?._id
-    }));
+    await dispatch(
+      getSubmittedAssignments(
+        await {
+          studentId: e,
+          classId: currentClass?._id
+        }
+      )
+    );
+    await dispatch(
+      getSubmittedAssignments(
+        await {
+          studentId: e,
+          classId: currentClass?._id
+        }
+      )
+    );
   };
 
   const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
@@ -82,7 +91,8 @@ function ViewAssignmentReport() {
       <div
         className='border-bottom'
         style={{
-          borderBottom: '2px solid black', padding: '10px'
+          borderBottom: '2px solid black',
+          padding: '10px'
         }}
       >
         <Row gutter={[16, 0]}>
@@ -110,7 +120,9 @@ function ViewAssignmentReport() {
         </Row>
         <Row gutter={[20, 0]} className='center items-center'>
           <Col xl={4} md={4} sm={8} xs={10}>
-            <ADTitle className='text-center' level={4}>Assignment</ADTitle>
+            <ADTitle className='text-center' level={4}>
+              Assignment
+            </ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
             <ADSelect className='w-60' defaultValue={submittedAssignmentDetail?.submittedAssignment[0]?.name} options={assignmentOptions} />
@@ -216,9 +228,7 @@ function ViewAssignmentReport() {
                 }}
                 className='flex flex-col justify-center items-center'
               >
-                {(assigmentDetails?.score) ?
-                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.score} /> :
-                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                {assigmentDetails?.score ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.score} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
               </Col>
             </Row>
           </Col>
