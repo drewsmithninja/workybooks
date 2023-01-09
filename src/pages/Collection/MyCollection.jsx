@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Col, Row, Space } from 'antd';
 import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
 import { getCollection } from '../../app/features/collection/collectionSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
@@ -11,11 +12,13 @@ import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
 import ADImage from '../../components/antd/ADImage';
+import PrintImages from '../../components/common/PrintImages';
 
 function MyCollection() {
   const { user } = useSelector((state) => state.auth);
   const authToken = user?.payload?.verification?.token;
   const { id } = useParams();
+  const componentRef = useRef();
   const [rerender, setRerender] = useState(0);
   const { currentCollection } = useSelector((state) => state.collection);
   const collectionInfo = currentCollection;
@@ -31,6 +34,15 @@ function MyCollection() {
       );
     }
   }, [id, rerender]);
+
+  const printList = useMemo(() => {
+    const thumbnails = worksheetList.map((item) => item.thumbnail);
+    return thumbnails;
+  }, [worksheetList]);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  });
 
   return (
     <MainLayout>
@@ -58,10 +70,20 @@ function MyCollection() {
               <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
             </Space>
           </Col>
+          <PrintImages ref={componentRef} src={printList} />
+
           <Col xs={24} md={12} className='flex justify-end items-end'>
             <Space>
               <Row gutter={16} className='text-gray-400'>
-                <Col xs={24} lg={8} className='flex items-center border-y-0 border-l-0 border-solid'>
+                <Col
+                  xs={24}
+                  lg={8}
+                  className='flex items-center border-y-0 border-l-0 border-solid'
+                  onClick={handlePrint}
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
                   <div className='text-2xl mr-2 flex'>
                     <FaPrint />
                   </div>

@@ -26,7 +26,9 @@ export const getProfile = createAsyncThunk('user/getProfile', async (userId, thu
 // update user Profile
 export const updateProfile = createAsyncThunk('user/updateprofile', async (userInfo, thunkAPI) => {
   try {
-    return await userAPI.updateProfile(userInfo);
+    const response = await userAPI.updateProfile(userInfo);
+    toast.success(response?.message);
+    return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);

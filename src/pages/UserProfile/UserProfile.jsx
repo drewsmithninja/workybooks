@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Row, Form, Upload, message, Avatar } from 'antd';
+import { Button, Col, Row, Form, Upload, message, Avatar, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
@@ -8,10 +8,14 @@ import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
 import ADTitle from '../../components/antd/ADTitle';
 import { getProfile, updateProfile } from '../../app/features/user/userSlice';
+import getBase64 from '../../utils/getBase64';
 
 function UserProfile() {
   const { user } = useSelector((state) => state.auth);
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
   const { userData } = useSelector((state) => state.user);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -22,17 +26,6 @@ function UserProfile() {
       })
     );
   }, [user?.user]);
-
-  const onChange = (info) => {
-    if (info.file.status !== 'uploading') {
-      // console.log(info.file, info.fileList);
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
 
   useEffect(() => {
     form.setFieldsValue({
@@ -73,12 +66,40 @@ function UserProfile() {
     return e && e.fileList;
   };
 
+  // Extra
+
+  const [fileList, setFileList] = useState([]);
+
+  const handleChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+  };
+
+  const handleCancel = () => setPreviewOpen(false);
+
   return (
     <MainLayout>
       <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
         <div className='px-4 py-5 sm:px-6'>
           <h3 className='text-3xl font-bold leading-6'>Edit Profile</h3>
         </div>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <img
+            alt="example"
+            style={{
+              width: '100%'
+            }}
+            src={previewImage}
+          />
+        </Modal>
         <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
           <div className='px-6'>
             <Row
@@ -108,16 +129,15 @@ function UserProfile() {
                   </Col>
                   <Col span={16}>
                     <div className='flex items-center'>
-                      <Avatar size={64} icon={<UserOutlined />} />
                       <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
                         <Upload
-                          name='file'
-                          headers={{
-                            authorization: 'authorization-text'
-                          }}
-                          onChange={onChange}
+                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                          listType='picture-card'
+                          fileList={fileList}
+                          onChange={handleChange}
+                          onPreview={handlePreview}
                         >
-                          <Button icon={<UploadOutlined />}>Upload</Button>
+                          {fileList.length >= 1 ? null : <Avatar size={64} icon={<UserOutlined />} />}
                         </Upload>
                       </Form.Item>
                     </div>

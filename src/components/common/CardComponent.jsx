@@ -1,8 +1,9 @@
 /* eslint-disable no-return-assign */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, memo, useRef } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ReactToPrint, { useReactToPrint } from 'react-to-print';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
@@ -17,11 +18,16 @@ import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
 import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 import dummyImage from '../../assets/images/dummyImage.png';
+import PrintImages from './PrintImages';
+import ShareModal from '../modals/ShareModal';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+  // const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+  const componentRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -33,8 +39,14 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     setIsAssignModalOpen(false);
     dispatch(setCurrentStep(0));
   };
+  const handleShareModalOk = () => {
+    setIsShareModalOpen(false);
+  };
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
+  };
+  const handleShareModalCancel = () => {
+    setIsShareModalOpen(false);
   };
   const showCollectionModal = () => {
     dispatch(getCollections());
@@ -47,6 +59,13 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   const handleCollectionModalCancel = () => {
     setIsCollectionModalOpen(false);
   };
+  const showShareModal = () => {
+    setIsShareModalOpen(true);
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  });
 
   const setLike = async () => {
     const data = {
@@ -62,7 +81,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     {
       label: <span className='ml-2'>PRINT</span>,
       key: '1',
-      icon: <ADImage width={25} src={printIcon} alt='print' />
+      icon: <ADImage width={25} src={printIcon} alt='print' />,
+      onClick: handlePrint
     },
     {
       label: <span className='ml-2'>ASSIGN</span>,
@@ -79,17 +99,21 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     {
       label: <span className='ml-2'>SHARE</span>,
       key: '4',
-      icon: <ADImage width={25} src={shareIcon} alt='share' />
+      icon: <ADImage width={25} src={shareIcon} alt='share' />,
+      onClick: showShareModal
     }
   ];
 
   const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/worksheet/${item._id}`]} item={item} />;
   const assignModal = <AssignModal closable={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
       {addToCollectionModal}
       {assignModal}
+      {shareModal}
+
       <div
         className='cardComponent m-3 flex max-w-auto flex-col gap-[10px]'
         style={{
@@ -107,6 +131,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
             <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />
           </Link>
         </div>
+
+        <PrintImages ref={componentRef} src={[item?.thumbnail]} />
 
         {/* Card action buttons */}
         <div className='cardActionButtons flex items-center'>

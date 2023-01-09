@@ -88,7 +88,8 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     let newJsonData = [];
 
     studentAssignmentReportJson.forEach((item) => {
-      const newObject = {};
+      const newObject = {
+};
       data.forEach((newItem) => {
         newObject[newItem?.value] = item[newItem?.value];
       });
