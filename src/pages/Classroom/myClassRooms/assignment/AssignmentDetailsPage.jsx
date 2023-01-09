@@ -4,33 +4,29 @@ import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image, Input } 
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import CsvDownloadButton from 'react-json-to-csv';
+
 import moment from 'moment';
 import { BsThreeDots } from 'react-icons/bs';
-import { AntDesignOutlined } from '@ant-design/icons';
 import Spinner from '../../../../components/spinner/Spinner';
-import data from '../../../../data.json';
+
 import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
 import ADImage from '../../../../components/antd/ADImage';
-import { getStudentAssignmentDetail } from '../../../../app/features/assignment/assignmentSlice';
-import ADModal from '../../../../components/antd/ADModal';
+import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
 import ExportAssignmentReport from './ExportAssignmentReport';
-import ADInput from '../../../../components/antd/ADInput';
 
 function AssignmentDetailsPage() {
+  const { id } = useParams();
   const [modal, setModal] = useState(false);
   const [isEditableInput, setIsEditableInput] = useState(false);
   const [updatedGradeList, setUpdatedGradeList] = useState([]);
 
-  const { Option } = Select;
-  const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentClass } = useSelector((state) => state.classroom);
-  const { studentAssignmentDetail, studentAssignmentReportJson, assignments, isLoading, isError, message } = useSelector((state) => state.assignment);
+  const { studentAssignmentDetail, assignmentGradeList, assignments, isLoading, isError, message } = useSelector((state) => state.assignment);
 
   const updatedAssignmentList = assignments.map((item) => ({
     label: item?.title,
@@ -38,10 +34,17 @@ function AssignmentDetailsPage() {
   }));
   const getIndex = updatedAssignmentList.findIndex((item) => item.value === id);
 
+  const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
+    label: item?.title,
+    value: item?._id,
+    color: item?.color
+  }));
+
   const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {
   });
   useEffect(() => {
     onAssignmentApiCall(id);
+    getGradeList();
   }, []);
 
   const onAssignmentApiCall = (assignmentId) => {
@@ -52,32 +55,40 @@ function AssignmentDetailsPage() {
       })
     );
   };
+  const getGradeList = () => {
+    dispatch(
+      getAssignmentGradeList()
+    );
+  };
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
   };
 
-  // const viewAssignmentReportModal = <ViewAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
-
   const exportAssignmentReportModal = <ExportAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
-  const onChangeAssignment = (value) => {
-    setCurrentSelectedAssignment(value);
+  const onChangeAssignment = (item) => {
+    const { label, value } = item;
+    setCurrentSelectedAssignment({
+      label, value
+    });
     navigate(`/my-classrooms/assignment/${value}`);
     onAssignmentApiCall(value);
   };
   const onClickEditGrade = (value) => {
     setIsEditableInput(value);
     // Editable
-    if (value) {
-      // dispatch(updateGradeList(updatedGradeList));
+    if (updatedGradeList.length > 0) {
+      dispatch(updateGradeList(updatedGradeList));
+      onAssignmentApiCall(currentSelectedAssignment?.value);
     }
   };
-  const onBlurGradeInput = (item) => {
-    // const newArr = {
-    //   assignmentId: ,
-    //   studentId: ,
-    //   assignmentGrade: ,
-    // }
-    //   setUpdatedGradeList([...updatedGradeList, newArr])
+
+  const onChangeGrade = (value, item) => {
+    const newStudentObj = {
+      assignmentId: item?.assignment,
+      studentId: item?.student,
+      assignmentGrade: value
+    };
+    setUpdatedGradeList([...updatedGradeList, newStudentObj]);
   };
 
   return isLoading ? (
@@ -96,11 +107,12 @@ function AssignmentDetailsPage() {
       ) : (
         <div>
           {exportAssignmentReportModal}
-          {/* {viewAssignmentReportModal} */}
+
           <div className='px-4 py-5 w-full flex justify-between'>
             <Space size='large'>
               <ADTitle level={3}>Assignment</ADTitle>
               <Select
+                labelInValue
                 value={currentSelectedAssignment}
                 onChange={onChangeAssignment}
                 style={{
@@ -183,10 +195,6 @@ function AssignmentDetailsPage() {
               <ADButton type={isEditableInput ? 'medium' : 'primary'} onClick={() => onClickEditGrade(!isEditableInput)}>
                 {isEditableInput ? 'Done' : 'Edit Grades'}
               </ADButton>
-
-              {/* <CsvDownloadButton data={studentAssignmentReportJson} filename='student_report.csv' style={csvButton}>
-                Export Grades Reports
-              </CsvDownloadButton> */}
               <ADButton type='primary' onClick={() => setModal(true)}>
                 Export Grades Reports
               </ADButton>
@@ -198,7 +206,7 @@ function AssignmentDetailsPage() {
             <List
               pagination={{
                 onChange: (page) => {},
-                pageSize: 10
+                pageSize: 2
               }}
               className='rounded-t-lg with-header'
               header={(
@@ -347,22 +355,24 @@ function AssignmentDetailsPage() {
                         </Row>
                       </Col>
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                        {isEditableInput ? (
-                          <ADInput
-                            placeholder='Grade'
-                            value={item?.assignmentGrades.title}
+                        {isEditableInput ? item?.assignmentGrades.length > 0 ? (
+                          <Select
+                            defaultValue={{
+                              value: 0,
+                              label: 'Select'
+                            }}
+                            // value={}
+                            onChange={(value) => onChangeGrade(value, item)}
                             style={{
-                              margin: 'auto 30px'
+                              width: '100px'
                             }}
-                            onBlur={(e) => {
-                              onBlurGradeInput();
-                            }}
+                            options={updatedAssignmentGradeList || []}
                           />
-                        ) : (
+                        ) : null : (
                           <Badge
-                            count={item?.assignmentGrades?.title}
+                            count={item?.assignmentGrades?.[0]?.title}
                             style={{
-                              backgroundColor: item.assignmentGrades?.color || '#52c41a',
+                              backgroundColor: item?.assignmentGrades?.[0]?.color || '#52c41a',
                               padding: '0 10px'
                             }}
                           />

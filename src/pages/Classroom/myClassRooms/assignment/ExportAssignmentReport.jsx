@@ -88,7 +88,8 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     let newJsonData = [];
 
     studentAssignmentReportJson.forEach((item) => {
-      const newObject = {};
+      const newObject = {
+      };
       data.forEach((newItem) => {
         newObject[newItem?.value] = item[newItem?.value];
       });
@@ -118,8 +119,6 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     const tempArr = [...staticItem, ...newChangedArr];
     filterRecords(tempArr);
   };
-
-  console.log('----headers---->', updatedHeader);
 
   return (
     <Modal forceRender rounded centered width={550} footer={false} onCancel={onCancel} {...props} className='flex text-center'>
