@@ -201,9 +201,14 @@ function SearchResult() {
 
             {/* Collection  */}
             <div>
-            <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-            <Row gutter={[16, 16]} style={{marginTop:10}}>
-              {collectionData?.length ? (
+              <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
+              <Row
+                gutter={[16, 16]}
+                style={{
+ marginTop: 10
+}}
+              >
+                {collectionData?.length ? (
                 collectionData?.map((item) => (
                   <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
                     <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
@@ -214,7 +219,7 @@ function SearchResult() {
                   No Collections here!
                 </ADTitle>
               )}
-            </Row>
+              </Row>
             </div>
 
             <div>
