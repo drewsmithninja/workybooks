@@ -114,24 +114,26 @@ export default function AssignStep2({ next, onClose }) {
             <div className='font-bold pt-2'>Select Students</div>
           </Col>
           <Col xs={24} sm={10} className='max-h-[300px] overflow-auto'>
-            <Checkbox.Group className='w-full' onChange={() => { }}>
-              <List
-                className='px-4 rounded-md'
-                dataSource={students}
-                renderItem={(item) => (
-                  <List.Item>
-                    <Checkbox value={item._id}>
-                      <div className='flex items-center'>
-                        <Space size='middle' className='ml-2'>
-                          <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
-                          <div className='font-bold'>{item?.fullName}</div>
-                        </Space>
-                      </div>
-                    </Checkbox>
-                  </List.Item>
+            <Form.Item name='assignedStudents'>
+              <Checkbox.Group className='w-full' onChange={(e) => setSelectedStudents(e)}>
+                <List
+                  className='px-4 rounded-md'
+                  dataSource={students}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <Checkbox value={item._id}>
+                        <div className='flex items-center'>
+                          <Space size='middle' className='ml-2'>
+                            <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
+                            <div className='font-bold'>{item?.fullName}</div>
+                          </Space>
+                        </div>
+                      </Checkbox>
+                    </List.Item>
                 )}
-              />
-            </Checkbox.Group>
+                />
+              </Checkbox.Group>
+            </Form.Item>
           </Col>
           <Col xs={24} sm={7}>
             <Form.Item className='flex-none'>
