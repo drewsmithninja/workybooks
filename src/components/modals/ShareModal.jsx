@@ -8,12 +8,13 @@ import ADModal from '../antd/ADModal';
 function ShareModal({ onOk, path, multiple, item, ...props }) {
     const [copied, setCopied] = useState(false);
 
-    const { thumbnail } = item || {};
+    const { thumbnail } = item || {
+};
 
     const link = useMemo(() => {
-        let result = "";
-        for (let i = 0; i < path.length; i = i + 1) {
-            result = result + window.location.origin + path[i] + " ";
+        let result = '';
+        for (let i = 0; i < path.length; i += 1) {
+            result = `${result + window.location.origin + path[i]} `;
         }
         return result;
     }, [path]);
@@ -32,42 +33,47 @@ function ShareModal({ onOk, path, multiple, item, ...props }) {
     };
 
     return (
-        <ADModal closable={false} footer={null} width={680} {...props}>
-            <div className='flex items-center justify-between'>
-                <div className='flex mx-0'>SHARE</div>
-                <div className='text-2xl flex mx-2'>
-                    <EmailShareButton
-                        url={String(link)}
-                        subject="Subject is here"
-                        body="this is body"
-                        className='flex justify-center'
-                    >
-                        <EmailIcon size={28} round />
-                    </EmailShareButton>
-                </div>
-                {!multiple ? <div className='text-2xl flex mx-2'>
-                    <PinterestShareButton
-                        media={thumbnail}
-                        title='Pinterest'
-                        url={String(link)}
-                        className='flex justify-center'>
-                        <PinterestIcon size={28} round />
-                    </PinterestShareButton>
-                </div> : null}
-
-                <div className='text-2xl flex mx-2'>
-                    <WhatsappShareButton title="Have a look:" url={link} className='flex justify-center'>
-                        <WhatsappIcon size={28} round />
-                    </WhatsappShareButton>
-                </div>
-                {!multiple ? <div className='text-2xl flex mx-2'>
-                    <ADButton onClick={copyHandler} type='text' className='!p-0 text-gray-400 flex items-center w-full'>
-                        {!copied ? <FaLink className='text-xl px-px' /> : <BsFillCheckCircleFill className='text-primary text-2xl font-bold' />}
-                    </ADButton>
-                </div> : null}
-
+      <ADModal closable={false} footer={null} width={680} {...props}>
+        <div className='flex items-center justify-between'>
+          <div className='flex mx-0'>SHARE</div>
+          <div className='text-2xl flex mx-2'>
+            <EmailShareButton
+              url={String(link)}
+              subject='Subject is here'
+              body='this is body'
+              className='flex justify-center'
+            >
+              <EmailIcon size={28} round />
+            </EmailShareButton>
+          </div>
+          {!multiple ? (
+            <div className='text-2xl flex mx-2'>
+              <PinterestShareButton
+                media={thumbnail}
+                title='Pinterest'
+                url={String(link)}
+                className='flex justify-center'
+              >
+                <PinterestIcon size={28} round />
+              </PinterestShareButton>
             </div>
-        </ADModal>
+) : null}
+
+          <div className='text-2xl flex mx-2'>
+            <WhatsappShareButton title='Have a look:' url={link} className='flex justify-center'>
+              <WhatsappIcon size={28} round />
+            </WhatsappShareButton>
+          </div>
+          {!multiple ? (
+            <div className='text-2xl flex mx-2'>
+              <ADButton onClick={copyHandler} type='text' className='!p-0 text-gray-400 flex items-center w-full'>
+                {!copied ? <FaLink className='text-xl px-px' /> : <BsFillCheckCircleFill className='text-primary text-2xl font-bold' />}
+              </ADButton>
+            </div>
+) : null}
+
+        </div>
+      </ADModal>
     );
 }
 

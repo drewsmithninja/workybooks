@@ -115,12 +115,12 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/collection/${id}`]} multiple />;
   const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
-  
+
   return (
     <>
       {addToCollectionModal}
-        {assignModal}
-        {shareModal}
+      {assignModal}
+      {shareModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
         <ADTitle level={3} className='text-center text-danger pb-8'>
           Create New Assign Activities

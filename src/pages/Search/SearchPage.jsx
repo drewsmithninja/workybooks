@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography, Space } from 'antd';
 import React, { useState, useEffect, useMemo } from 'react';
@@ -36,13 +37,12 @@ function SearchResult() {
       let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
-    } else {
+    }
       const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
       const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
       let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
-    }
   }, [sortBy]);
 
   const collectionData = useMemo(() => {
@@ -52,13 +52,12 @@ function SearchResult() {
       let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
-    } else {
+    }
       const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
       const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
       let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
-    }
   }, [sortBy]);
 
   const collectionFavHandler = async (e) => {
