@@ -29,7 +29,6 @@ export default function AssignStep2({ next, onClose }) {
   }, [currentClass]);
 
   useEffect(() => {
-    console.log(currentAssignment, 'currentAssignment');
     form.setFieldsValue({
       assignedClass: currentClass?.classId,
       assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)
