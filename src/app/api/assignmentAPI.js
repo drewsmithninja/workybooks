@@ -22,30 +22,22 @@ const getAssignments = async (classId) => {
 const getSubmittedAssignmentDetail = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(
-    `${API_URL}/submittedAssignment/getBy/student/assignment`,
-    data,
-    {
-      headers: {
-        authorization: authToken
-      }
+  const response = await axios.post(`${API_URL}/submittedAssignment/getBy/student/assignment`, data, {
+    headers: {
+      authorization: authToken
     }
-  );
+  });
   return response.data;
 };
 
 const getSubmittedAssignments = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
-  const response = await axios.post(
-    `${API_URL}/submittedAssignment/getListBy/student`,
-    data,
-    {
-      headers: {
-        authorization: authToken
-      }
+  const response = await axios.post(`${API_URL}/submittedAssignment/getListBy/student`, data, {
+    headers: {
+      authorization: authToken
     }
-  );
+  });
   return response.data;
 };
 
@@ -115,6 +107,28 @@ const getStudentAssignmentDetail = async (data) => {
   return response.data;
 };
 
+const getAssignmentGradeList = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/assignmentGrade/list`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+const updateGradeList = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.put(`${API_URL}/submittedAssignment/grade/list`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
 const assignmentAPI = {
   getAssignments,
   getSubmittedAssignmentDetail,
@@ -123,7 +137,9 @@ const assignmentAPI = {
   getSubmittedAssignments,
   getStudentAssignmentDetail,
   createAssignment,
-  updateAssignment
+  updateAssignment,
+  getAssignmentGradeList,
+  updateGradeList
 };
 
 export default assignmentAPI;

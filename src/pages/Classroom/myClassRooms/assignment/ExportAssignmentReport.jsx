@@ -120,8 +120,6 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     filterRecords(tempArr);
   };
 
-  console.log('----headers---->', updatedHeader);
-
   return (
     <Modal forceRender rounded centered width={550} footer={false} onCancel={onCancel} {...props} className='flex text-center'>
       <div>
