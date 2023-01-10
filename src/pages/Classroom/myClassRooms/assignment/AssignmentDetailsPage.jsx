@@ -1,27 +1,21 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image, Input } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import moment from 'moment';
 import { BsThreeDots } from 'react-icons/bs';
-import Spinner from '../../../../components/spinner/Spinner';
-
 import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
 import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
 import ADImage from '../../../../components/antd/ADImage';
-import ADModal from '../../../../components/antd/ADModal';
 import ExportAssignmentReport from './ExportAssignmentReport';
-import ADInput from '../../../../components/antd/ADInput';
 import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
-  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const assignmentList = useSelector((state) => state.assignment?.assignments);
   const { id } = useParams();
   const [modal, setModal] = useState(false);
@@ -32,7 +26,7 @@ function AssignmentDetailsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentClass } = useSelector((state) => state.classroom);
-  const { studentAssignmentDetail, assignmentGradeList, assignments, isLoading, isError, message } = useSelector((state) => state.assignment);
+  const { studentAssignmentDetail, assignmentGradeList, assignments, isError, message } = useSelector((state) => state.assignment);
 
   const updatedAssignmentList = assignments.map((item) => ({
     label: item?.title,
@@ -116,9 +110,7 @@ function AssignmentDetailsPage() {
 
   const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  return (
     <MainLayout>
       {editAssignModal}
       {isError ? (
