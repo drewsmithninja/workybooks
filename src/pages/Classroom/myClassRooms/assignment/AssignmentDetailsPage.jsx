@@ -10,7 +10,7 @@ import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
-import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
+import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList, setAssignment } from '../../../../app/features/assignment/assignmentSlice';
 import ADImage from '../../../../components/antd/ADImage';
 import ExportAssignmentReport from './ExportAssignmentReport';
 import EditAssignModal from '../../../../components/modals/EditAssignModal';
