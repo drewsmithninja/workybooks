@@ -1,27 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClass } from '../../app/features/classroom/classroomSlice';
-import { getStudents, setStudents } from '../../app/features/students/studentsSlice';
-import ADSelect from '../antd/ADSelect';
-import ADTitle from '../antd/ADTitle';
-import dummyImage from '../../assets/images/dummyImage.png';
-import ADImage from '../antd/ADImage';
-import ADButton from '../antd/ADButton';
-import { updateAssignment } from '../../app/features/assignment/assignmentSlice';
+import { useForm } from 'antd/lib/form/Form';
+import { setClass } from '../../../app/features/classroom/classroomSlice';
+import { getStudents } from '../../../app/features/students/studentsSlice';
+import ADSelect from '../../antd/ADSelect';
+import ADTitle from '../../antd/ADTitle';
+import dummyImage from '../../../assets/images/dummyImage.png';
+import ADImage from '../../antd/ADImage';
+import ADButton from '../../antd/ADButton';
+import { updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 
 export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
-  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const students = useSelector((state) => state.students?.students?.list);
-  const [selectedStudents, setSelectedStudents] = useState([]);
 
+  const [selectedStudents, setSelectedStudents] = useState(currentAssignment?.assignedStudents?.map((as) => as?._id));
+  const [form] = useForm();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getStudents(currentClass?._id));
+    const getData = async () => {
+      dispatch(getStudents(await currentClass?._id));
+    };
+    getData();
   }, [currentClass]);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      assignedClass: currentClass?.classId,
+      assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)
+    });
+  }, [currentClass, currentAssignment]);
 
   const onFinish = async (values) => {
     if (values?.assignedStudents?.length) {
@@ -47,7 +59,6 @@ export default function AssignStep2({ next, onClose }) {
         .then(() => next());
     }
   };
-  const onFinishFailed = (errorInfo) => { };
 
   const classOptions = classes?.length ?
     classes?.map(({ _id: value, name: label, ...rest }) => ({
@@ -78,17 +89,7 @@ export default function AssignStep2({ next, onClose }) {
 
   return (
     <div>
-      <Form
-        initialValues={{
-          assignedClass: currentClass?.classId,
-          assignedStudents: currentAssignment?.assignedStudents
-        }}
-        className='py-2'
-        size='large'
-        name='basic'
-        onFinish={onFinish}
-        autoComplete='off'
-      >
+      <Form form={form} className='py-2' size='large' name='basic' onFinish={onFinish} autoComplete='off'>
         <Row gutter={[16, 16]}>
           <Col xs={24} sm={7}>
             <div className='font-bold py-2'>Assign to entire class</div>
@@ -130,7 +131,7 @@ export default function AssignStep2({ next, onClose }) {
                         </div>
                       </Checkbox>
                     </List.Item>
-                )}
+                  )}
                 />
               </Checkbox.Group>
             </Form.Item>

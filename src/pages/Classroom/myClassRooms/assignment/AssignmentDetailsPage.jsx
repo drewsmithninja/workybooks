@@ -13,13 +13,19 @@ import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
-import ADImage from '../../../../components/antd/ADImage';
 import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
+import ADImage from '../../../../components/antd/ADImage';
+import ADModal from '../../../../components/antd/ADModal';
 import ExportAssignmentReport from './ExportAssignmentReport';
+import ADInput from '../../../../components/antd/ADInput';
+import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
+  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const assignmentList = useSelector((state) => state.assignment?.assignments);
   const { id } = useParams();
   const [modal, setModal] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isEditableInput, setIsEditableInput] = useState(false);
   const [updatedGradeList, setUpdatedGradeList] = useState([]);
 
@@ -56,9 +62,7 @@ function AssignmentDetailsPage() {
     );
   };
   const getGradeList = () => {
-    dispatch(
-      getAssignmentGradeList()
-    );
+    dispatch(getAssignmentGradeList());
   };
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
   };
@@ -68,7 +72,8 @@ function AssignmentDetailsPage() {
   const onChangeAssignment = (item) => {
     const { label, value } = item;
     setCurrentSelectedAssignment({
-      label, value
+      label,
+      value
     });
     navigate(`/my-classrooms/assignment/${value}`);
     onAssignmentApiCall(value);
@@ -91,10 +96,31 @@ function AssignmentDetailsPage() {
     setUpdatedGradeList([...updatedGradeList, newStudentObj]);
   };
 
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const showEditAssignModal = async () => {
+    const ca = await assignmentList?.find((assignment) => assignment?._id === id);
+    await dispatch(
+      setAssignment({
+        assignment: ca
+      })
+    );
+    await setIsAssignModalOpen(true);
+  };
+
+  const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
   return isLoading ? (
     <Spinner />
   ) : (
     <MainLayout>
+      {editAssignModal}
       {isError ? (
         <div
           className='text-center text-lg'
@@ -122,7 +148,9 @@ function AssignmentDetailsPage() {
               />
 
               <div className='flex'>
-                <FaPencilAlt className='text-gray-400 text-lg' />
+                <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={showEditAssignModal}>
+                  <FaPencilAlt />
+                </ADButton>
               </div>
             </Space>
           </div>
@@ -355,20 +383,22 @@ function AssignmentDetailsPage() {
                         </Row>
                       </Col>
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                        {isEditableInput ? item?.assignmentGrades.length > 0 ? (
-                          <Select
-                            defaultValue={{
-                              value: 0,
-                              label: 'Select'
-                            }}
-                            // value={}
-                            onChange={(value) => onChangeGrade(value, item)}
-                            style={{
-                              width: '100px'
-                            }}
-                            options={updatedAssignmentGradeList || []}
-                          />
-                        ) : null : (
+                        {isEditableInput ? (
+                          item?.assignmentGrades.length > 0 ? (
+                            <Select
+                              defaultValue={{
+                                value: 0,
+                                label: 'Select'
+                              }}
+                              // value={}
+                              onChange={(value) => onChangeGrade(value, item)}
+                              style={{
+                                width: '100px'
+                              }}
+                              options={updatedAssignmentGradeList || []}
+                            />
+                          ) : null
+                        ) : (
                           <Badge
                             count={item?.assignmentGrades?.[0]?.title}
                             style={{

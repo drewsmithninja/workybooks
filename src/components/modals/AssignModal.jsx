@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
 import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import AssignStep1 from '../assignSteps/AssignStep1';
-import AssignStep2 from '../assignSteps/AssignStep2';
-import AssignStep3 from '../assignSteps/AssignStep3';
+import AssignStep1 from '../steps/assign/AssignStep1';
+import AssignStep2 from '../steps/assign/AssignStep2';
+import AssignStep3 from '../steps/assign/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
 
 function AssignModal({ onOk, ...props }) {

@@ -2,9 +2,9 @@ import { Modal, Steps } from 'antd';
 import React from 'react';
 import ADButton from '../antd/ADButton';
 import ADTitle from '../antd/ADTitle';
-import AssignStep1 from '../assignSteps/AssignStep1';
-import AssignStep2 from '../assignSteps/AssignStep2';
-import AssignStep3 from '../assignSteps/AssignStep3';
+import AssignStep1 from '../steps/assign/AssignStep1';
+import AssignStep2 from '../steps/assign/AssignStep2';
+import AssignStep3 from '../steps/assign/AssignStep3';
 
 function StepModal({ nextStep, prevStep, currentStep, ...props }) {
   const { Step } = Steps;

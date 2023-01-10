@@ -20,7 +20,7 @@ import { getStudents } from '../../app/features/students/studentsSlice';
 function MyClassrooms() {
   const { classes, isLoading, currentClass } = useSelector((state) => state.classroom);
 
-  const [currentTab, setCurrentTab] = useState('assignment');
+  const [currentTab, setCurrentTab] = useState('students');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
   const [isEditClassModalOpen, setIsEditClassModalOpen] = useState(false);
 
