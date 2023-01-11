@@ -56,7 +56,7 @@ function AssignmentPage() {
         <List
           className='rounded-t-lg with-header'
           pagination={{
-            onChange: (page) => {},
+            onChange: (page) => { },
             pageSize: 10
           }}
           header={(

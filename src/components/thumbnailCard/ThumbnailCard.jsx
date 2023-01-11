@@ -19,6 +19,8 @@ import PrintImages from '../common/PrintImages';
 import ShareModal from '../modals/ShareModal';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
+import { useDispatch } from 'react-redux';
+import TestImage from './TestImage';
 
 function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const componentRef = useRef();
@@ -30,6 +32,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const [display, setDisplay] = useState(false);
   const { Step } = Steps;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
@@ -171,14 +174,17 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         </div>
       </Modal>
       <PrintImages src={thumbnails} ref={componentRef} display={display} />
-      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
-        <div className='w-full h-full aspect-[16/9]'>
+      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} {...props}>
+        <div className='w-full h-full aspect-[16/9]' style={{ cursor: "pointer" }} onClick={() => navigate(`/collection/${id}`)}>
           <Row gutter={[8, 8]}>
+            {console.log("thumbnails", thumbnails)}
+            {console.log("collection?.title", collection?.title, "thumbnails", thumbnails)}
             {thumbnails && thumbnails?.length ? (
               thumbnails.slice(0, 4).map((item, index) => (
-                <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} onClick={() => navigate(`/collection/${id}`)}>
-                  <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
-                </Col>
+                <TestImage item={item} thumbnails={thumbnails} />
+                // <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} >
+                //   <Image preview={false} src={item} fallback="" onError={(err) => err.currentTarget.style.display = "none"} className='rounded-md aspect-[16/9] object-cover' />
+                // </Col>
               ))
             ) : (
               <Image preview={false} src={sampleImage} className='rounded-md aspect-[16/9] object-cover' alt='thumbnail-default-image' />
@@ -188,7 +194,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         <div className='flex justify-between items-center py-2'>
           <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
           <div className='flex items-center'>
-            <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
+            <ADButton style={{ cursor: "pointer" }} className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
               {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-success' />}
             </ADButton>
             <span className='text-sm pl-2'>{likes}</span>
@@ -199,8 +205,9 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             }}
             placement='topLeft'
             arrow
+            style={{ cursor: "pointer" }}
           >
-            <div className='rounded-full border-solid border-2 border-slate-300 flex'>
+            <div style={{ cursor: "pointer" }} className='rounded-full border-solid border-2 border-slate-300 flex'>
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>
           </Dropdown>
@@ -208,7 +215,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         <div>{collection?.title}</div>
         <div className='flex justify-between'>
           <div className='text-xs text-slate-400'>
-            By
+            By {" "}
             {collection?.added_by?.firstName}
             {collection?.added_by?.lastName}
           </div>

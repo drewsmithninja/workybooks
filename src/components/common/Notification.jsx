@@ -17,7 +17,7 @@ function Notification() {
       itemLayout='horizontal'
       dataSource={notification}
       style={{
-        position: 'absolute', width: '30%', zIndex: '999', right: '10%', top: '4%', background: '#f9fafb'
+        position: 'absolute', width: '30%', zIndex: '999', right: '194px', top: '50px', background: '#f9fafb'
       }}
       renderItem={(item) => (
         <List.Item>

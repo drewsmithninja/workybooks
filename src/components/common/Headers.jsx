@@ -45,7 +45,7 @@ function Headers() {
       }
     }
   ];
-
+  const test = window.location.pathname === '/' ? 'test-class' : 'test-bc';
   return (
     <>
       <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
@@ -60,16 +60,19 @@ function Headers() {
         </Link>
 
         {/* navbar menu */}
+
         {user && (
-        <div className='hidden space-x-4 md:flex'>
-          <Link to='/' className='hover:text-[#243E8F]'>
-            {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
-          </Link>
-          <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
-          <Link to='/my-classrooms'>
-            <span className='navbar-menu-item'>My Classrooms</span>
-          </Link>
-        </div>
+          <div className='hidden space-x-4 md:flex'>
+            <Link to='/' className='hover:text-[#243E8F]'>
+              <span className={`navbar-menu-item ${window.location.pathname === '/' ? "active-menu" : ""}`}>Explore</span>
+            </Link>
+            <Link to='/my-library'>
+              <span className={`navbar-menu-item ${window.location.pathname === '/my-library' ? "active-menu" : ""}`}>My Library</span>
+            </Link>
+            <Link to='/my-classrooms'>
+              <span className={`navbar-menu-item ${window.location.pathname === '/my-classrooms' ? "active-menu" : ""}`}>My Classrooms</span>
+            </Link>
+          </div>
         )}
 
         {/* login/register button */}
@@ -84,9 +87,7 @@ function Headers() {
           </Space>
         ) : (
           <Space>
-
             <BellFilled onClick={() => setNotify(!Notify)} className='text-2xl text-gray-400 mr-5 mt-6' />
-
             <div className='flex'>
               <FaUserCircle className='text-4xl text-success' />
             </div>
@@ -105,9 +106,9 @@ function Headers() {
 
         {/* hamburger icon */}
         {user && (
-        <ADButton className='hamburger md:hidden focus:outline-none bg-white' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
-          <MenuOutlined />
-        </ADButton>
+          <ADButton className='hamburger md:hidden focus:outline-none bg-white' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
+            <MenuOutlined />
+          </ADButton>
         )}
 
         {/* mobile menu */}
@@ -124,8 +125,8 @@ function Headers() {
             </Link>
           </div>
         </div>
+        {Notify ? <Notification /> : null}
       </Header>
-      {Notify ? <Notification /> : ''}
     </>
   );
 }

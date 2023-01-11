@@ -5,6 +5,8 @@ import { Col, Form, Input, Layout, Row, Typography } from 'antd';
 import { toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+// import { resendVerificationEmail } from '../../app/features/auth/authSlice';
+import { resendVerificationEmail } from '../../app/features/auth/authSlice';
 import Spinner from '../../components/spinner/Spinner';
 import { register, reset, googleLogin } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
@@ -18,7 +20,11 @@ function NewSignUp() {
   const { isLoading, isSuccess, isError, message, isGoogle } = useSelector((state) => state.auth);
   const [isVerified, setIsVerified] = useState(false);
   const [successMessage, setSuccessMessage] = useState(message);
+  console.log("isSuccess", isSuccess)
+  console.log("message", message)
+  console.log("successMessage", successMessage)
   const [showResend, setShowResend] = useState(false);
+  const [email, setEmail] = useState("");
   const [googleData, setGoogleData] = useState({
   });
   window.document.title = 'Workybook - Sign Up';
@@ -27,7 +33,8 @@ function NewSignUp() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const user = localStorage.getItem('user');
-  const nevigate = useNavigate();
+  const [inputFieldsActive, setInputFieldsActive] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     setShowResend(false);
     setTimeout(() => {
@@ -36,14 +43,14 @@ function NewSignUp() {
 
     if (isError) {
       if (isGoogle) {
-        nevigate('/sign-up-google', {
+        navigate('/sign-up-google', {
           state: googleData
         });
       } else {
         toast.error(message);
       }
     } else if (user) {
-      nevigate('/');
+      navigate('/');
     }
     if (isSuccess) {
       setIsVerified(true);
@@ -59,6 +66,7 @@ function NewSignUp() {
 
   const onResendHandler = () => {
     setShowResend(false);
+    dispatch(resendVerificationEmail({ email }));
     //
     setTimeout(() => {
       setShowResend(true);
@@ -69,8 +77,10 @@ function NewSignUp() {
     if (values.password !== values.confirmPassword) {
       toast.error("Password doesn't match");
     }
+    setEmail(values.email);
     dispatch(register(values));
   };
+
 
   const onFinishFailed = () => {
     toast.error('Please fill the required fields!');
@@ -103,7 +113,7 @@ function NewSignUp() {
               email: res?.data?.email
             })
           );
-          // nevigate('/sign-up-google', {
+          // navigate('/sign-up-google', {
           //   state: {
           //     email: res?.data?.email, firstName: res?.data?.given_name, lastName: res?.data?.family_name, accessToken: codeResponse?.access_token
           //   }
@@ -118,6 +128,10 @@ function NewSignUp() {
     },
     prompt: 'consent'
   });
+
+  const handleSignUpWithEmail = () => {
+    setInputFieldsActive(!inputFieldsActive);
+  }
 
   return (
     <>
@@ -136,7 +150,7 @@ function NewSignUp() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] min-h-[522px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
+      <div className='w-[85%] max-w-[554px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
         <Typography.Title level={2} className='!text-base md:!text-2xl mt-[56px]'>
           Create your teacher account
         </Typography.Title>
@@ -161,12 +175,12 @@ function NewSignUp() {
                   Sign in with Clever
                 </ADButton>
               </a>
-              <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
+              <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={handleSignUpWithEmail}>
                 Sign up with Email
               </ADButton>
             </div>
 
-            <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
+            {inputFieldsActive ? <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
               <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
                 <Col span={12} className='!pl-[0px]'>
                   <Form.Item
@@ -303,11 +317,11 @@ function NewSignUp() {
                   </Link>
                 </Paragraph>
               </Row>
-            </Form>
+            </Form> : null}
           </>
         ) : (
           <div className='flex flex-col items-center'>
-            <ADCard hoverable className='shadow-lg rounded-xl text-xl p-8 mt-20'>
+            <ADCard className='shadow-lg rounded-xl text-xl p-8 mt-20'>
               {successMessage}
             </ADCard>
             <Text type='secondary' className='mt-10'>
