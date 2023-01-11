@@ -123,9 +123,14 @@ export const assignmentSlice = createSlice({
     isLoading: false,
     isError: false,
     isSuccess: false,
-    message: null
+    message: null,
+    viewWorkPageCount: 1
   },
   reducers: {
+    setViewWorkPageCount(state, action) {
+      console.log('---action.payload--->', action.payload);
+      state.viewWorkPageCount = action.payload;
+    },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
     },
@@ -243,22 +248,24 @@ export const assignmentSlice = createSlice({
         // eslint-disable-next-line no-unsafe-optional-chaining
         const { assignmentScore } = action?.payload?.studentsAssignmentData;
         let newJsonData = [];
-        assignmentScore.forEach((data) => {
-          const totalQuestions = (data?.totalCorrectAnswer || 0) + (data?.totalWrongAnswer || 0) + (data?.totalBlankAnswer || 0);
-          const newObject = {
-            studentName: data?.student_name,
-            submittedDate: data?.submittedDate ? moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') : 'N/A',
-            time: data?.time || 'N/A',
-            totalCorrectAnswer: data?.totalCorrectAnswer,
-            totalWrongAnswer: data?.totalWrongAnswer,
-            totalBlankAnswer: data?.totalBlankAnswer,
-            averagePercentage: data?.averagePercentage,
-            assignmentGrade: 'F',
-            assignmentGradeColor: 'red',
-            totalQuestions
-          };
-          newJsonData = [...newJsonData, newObject];
-        });
+        if (assignmentScore) {
+          assignmentScore.forEach((data) => {
+            const totalQuestions = (data?.totalCorrectAnswer || 0) + (data?.totalWrongAnswer || 0) + (data?.totalBlankAnswer || 0);
+            const newObject = {
+              studentName: data?.student_name,
+              submittedDate: data?.submittedDate ? moment(data?.submittedDate).format('DD/MM/YYYY hh:mm a') : 'N/A',
+              time: data?.time || 'N/A',
+              totalCorrectAnswer: data?.totalCorrectAnswer,
+              totalWrongAnswer: data?.totalWrongAnswer,
+              totalBlankAnswer: data?.totalBlankAnswer,
+              averagePercentage: data?.averagePercentage,
+              assignmentGrade: 'F',
+              assignmentGradeColor: 'red',
+              totalQuestions
+            };
+            newJsonData = [...newJsonData, newObject];
+          });
+        }
         state.studentAssignmentReportJson = newJsonData;
       })
       .addCase(getStudentAssignmentDetail.rejected, (state, action) => {
@@ -296,5 +303,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus, setCurrentStep, resetAssignment } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setCurrentStep, resetAssignment, setViewWorkPageCount } = assignmentSlice.actions;
 export default assignmentSlice.reducer;

@@ -11,9 +11,11 @@ import Spinner from '../../../../components/spinner/Spinner';
 
 import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
+import dummyAvatar from '../../../../assets/images/avatar.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
 import ADImage from '../../../../components/antd/ADImage';
+import { setStudent, getStudents } from '../../../../app/features/students/studentsSlice';
 import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
 import ExportAssignmentReport from './ExportAssignmentReport';
 
@@ -27,6 +29,7 @@ function AssignmentDetailsPage() {
   const dispatch = useDispatch();
   const { currentClass } = useSelector((state) => state.classroom);
   const { studentAssignmentDetail, assignmentGradeList, assignments, isLoading, isError, message } = useSelector((state) => state.assignment);
+  const { currentStudent, students } = useSelector((state) => state.students);
 
   const updatedAssignmentList = assignments.map((item) => ({
     label: item?.title,
@@ -54,6 +57,7 @@ function AssignmentDetailsPage() {
         classId: currentClass?._id
       })
     );
+    dispatch(getStudents(currentClass?._id));
   };
   const getGradeList = () => {
     dispatch(
@@ -76,7 +80,7 @@ function AssignmentDetailsPage() {
   const onClickEditGrade = (value) => {
     setIsEditableInput(value);
     // Editable
-    if (updatedGradeList.length > 0) {
+    if (updatedGradeList?.length > 0) {
       dispatch(updateGradeList(updatedGradeList));
       onAssignmentApiCall(currentSelectedAssignment?.value);
     }
@@ -89,6 +93,13 @@ function AssignmentDetailsPage() {
       assignmentGrade: value
     };
     setUpdatedGradeList([...updatedGradeList, newStudentObj]);
+  };
+  const navigateToViewWork = async (studentItem) => {
+    console.log(students, '-----', studentItem?.student);
+    const cs = await students?.list.find((item) => item._id === studentItem?.student);
+    console.log('----cs----->', cs);
+    await dispatch(setStudent(await cs));
+    navigate(`/my-classrooms/assignment/view-work/${studentItem?.assignment}`);
   };
 
   return isLoading ? (
@@ -188,9 +199,9 @@ function AssignmentDetailsPage() {
             </Row>
           </div>
           <div className='flex py-4 justify-between px-4 items-center'>
-            <div>
-              <ADTitle level={4}>Assignment Progress</ADTitle>
-            </div>
+
+            <ADTitle level={4}>Assignment Progress</ADTitle>
+
             <Space size='large'>
               <ADButton type={isEditableInput ? 'medium' : 'primary'} onClick={() => onClickEditGrade(!isEditableInput)}>
                 {isEditableInput ? 'Done' : 'Edit Grades'}
@@ -206,7 +217,7 @@ function AssignmentDetailsPage() {
             <List
               pagination={{
                 onChange: (page) => {},
-                pageSize: 2
+                pageSize: 10
               }}
               className='rounded-t-lg with-header'
               header={(
@@ -232,14 +243,17 @@ function AssignmentDetailsPage() {
               dataSource={assignmentScore || []}
               bordered
               renderItem={(item) => {
-                const test = item?.assignmentGrades;
+                let findGradeIndex;
+                if (item?.assignmentGrades?.length > 0) {
+                  findGradeIndex = updatedAssignmentGradeList.findIndex((data, index) => data.value === item?.assignmentGrades?.[0]?._id);
+                }
                 return (
                   <List.Item>
                     <Row gutter={[0, 16]} className='w-full'>
                       <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
                         <Row gutter={16} className='w-full'>
                           <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
-                            <ADImage alt='cover-img' src={item?.avatar || dummyImage} className='aspect-[80px/100px]   rounded max-w-[80px]' />
+                            <ADImage alt='cover-img' src={item?.avatar || dummyAvatar} className='aspect-[80px/100px]   rounded max-w-[80px] rounded' />
                           </Col>
                           <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                             <div className='flex flex-col justify-center h-full lg:py-0 py-4'>
@@ -357,11 +371,10 @@ function AssignmentDetailsPage() {
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
                         {isEditableInput ? item?.assignmentGrades.length > 0 ? (
                           <Select
-                            defaultValue={{
+                            defaultValue={findGradeIndex ? updatedAssignmentGradeList[findGradeIndex] : {
                               value: 0,
                               label: 'Select'
                             }}
-                            // value={}
                             onChange={(value) => onChangeGrade(value, item)}
                             style={{
                               width: '100px'
@@ -398,7 +411,7 @@ function AssignmentDetailsPage() {
                         </div>
                       </Col>
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                        <ADButton type='text' onClick={() => navigate(`/my-classrooms/assignment/view-work/${assignmentDetails?._id}`)}>
+                        <ADButton type='text' onClick={() => navigateToViewWork(item)}>
                           <div className='flex'>
                             <FaChartLine className='text-gray-400 text-2xl' />
                           </div>
