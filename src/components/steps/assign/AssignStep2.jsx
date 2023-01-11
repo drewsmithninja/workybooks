@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'antd/lib/form/Form';
-import { setClass } from '../../../app/features/classroom/classroomSlice';
+import { setUpdatedClass } from '../../../app/features/classroom/classroomSlice';
 import { getStudents } from '../../../app/features/students/studentsSlice';
 import ADSelect from '../../antd/ADSelect';
 import ADTitle from '../../antd/ADTitle';
 import dummyImage from '../../../assets/images/dummyImage.png';
 import ADImage from '../../antd/ADImage';
 import ADButton from '../../antd/ADButton';
-import { updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import { getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 
 export default function AssignStep2({ next, onClose }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
@@ -23,7 +23,7 @@ export default function AssignStep2({ next, onClose }) {
 
   useEffect(() => {
     const getData = async () => {
-      dispatch(getStudents(await currentClass?._id));
+      await dispatch(getStudents(currentClass?._id));
     };
     getData();
   }, [currentClass]);
@@ -33,14 +33,15 @@ export default function AssignStep2({ next, onClose }) {
       assignedClass: currentClass?.classId,
       assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)
     });
-  }, [currentClass, currentAssignment]);
+  }, [currentClass]);
 
   const onFinish = async (values) => {
-    if (values?.assignedStudents?.length) {
-      dispatch(
+    const result = classes?.find((c) => c._id === values.assignedClass);
+    if (await values?.assignedStudents?.length) {
+      await dispatch(
         updateAssignment({
           id: currentAssignment?._id,
-          assignedClass: [currentClass?.classId],
+          assignedClass: [result?.classId],
           assignedStudents: selectedStudents,
           assignedTo: 'Student'
         })
@@ -48,10 +49,10 @@ export default function AssignStep2({ next, onClose }) {
         .unwrap()
         .then(() => next());
     } else {
-      dispatch(
+      await dispatch(
         updateAssignment({
           id: currentAssignment?._id,
-          assignedClass: [currentClass?.classId],
+          assignedClass: [result?.classId],
           assignedTo: 'Classroom'
         })
       )
@@ -73,17 +74,9 @@ export default function AssignStep2({ next, onClose }) {
       }
     ];
 
-  useEffect(() => {
-    const getData = async () => {
-      await dispatch(setClass(classes?.[0]));
-      await dispatch(getStudents(classes?.[0]?._id));
-    };
-    getData();
-  }, []);
-
   const onClassChangeHandler = async (e) => {
     const sc = await classes?.find((item) => item?._id === e);
-    await dispatch(setClass(sc));
+    await dispatch(setUpdatedClass(sc));
     await dispatch(getStudents(e));
   };
 

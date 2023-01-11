@@ -110,7 +110,7 @@ function NewSignUp() {
           // });
         }
       } catch (err) {
-        console.error(err);
+        toast.error(err);
       }
     },
     onError: () => {

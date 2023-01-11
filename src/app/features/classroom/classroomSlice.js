@@ -83,6 +83,7 @@ export const classroomSlice = createSlice({
   initialState: {
     classes: [],
     currentClass: null,
+    updatedClass: null,
     isLoading: false,
     isError: false,
     isSuccess: false,
@@ -91,6 +92,9 @@ export const classroomSlice = createSlice({
   reducers: {
     setClass(state, action) {
       state.currentClass = action.payload;
+    },
+    setUpdatedClass(state, action) {
+      state.updatedClass = action.payload;
     },
     reset(state) {
       state.isLoading = false;
@@ -201,5 +205,5 @@ export const classroomSlice = createSlice({
   }
 });
 
-export const { reset, setClass } = classroomSlice.actions;
+export const { reset, setClass, setUpdatedClass } = classroomSlice.actions;
 export default classroomSlice.reducer;

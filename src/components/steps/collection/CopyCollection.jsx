@@ -8,8 +8,9 @@ import ADImage from '../../antd/ADImage';
 import { createCollection, getCollections, updateCollection } from '../../../app/features/collection/collectionSlice';
 import dummyImage from '../../../assets/images/dummyImage.png';
 
-export default function NewCollection({ onCancel }) {
+export default function CopyCollection({ onCancel }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
+  const currentCollection = useSelector((state) => state.collection.currentCollection);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const collections = useSelector((state) => state.collection.collections?.list);
   const [inputVal, setInputVal] = useState('');
@@ -39,27 +40,20 @@ export default function NewCollection({ onCancel }) {
     await setInputVal('');
   };
 
-  const addCollectionHandler = (e) => {
-    if (selectedWorksheets.length) {
-      const data = {
-        collectionId: e,
-        content: selectedWorksheets
-      };
-      dispatch(updateCollection(data));
-    } else {
-      const data = {
-        collectionId: e,
-        content: [currentWorksheet?._id]
-      };
-      dispatch(updateCollection(data));
-    }
+  const addCollectionHandler = async (e) => {
+    const data = {
+      collectionId: e,
+      content: currentCollection?.content?.map((c) => c?._id)
+    };
+    await dispatch(updateCollection(data));
+    await dispatch(getCollections());
     onCancel();
   };
 
   return (
     <div>
       <ADTitle level={3} className='text-center pb-8'>
-        Add to Collection
+        Copy to Collection
       </ADTitle>
       <Row className='pb-8'>
         <Col xs={24} sm={8}>
@@ -82,7 +76,7 @@ export default function NewCollection({ onCancel }) {
             </Row>
             <div className='border border-solid border-black border-x-0 border-t-0' />
             <ADTitle level={5} className='py-4'>
-              Add to existing Collection
+              Copy to existing Collection
             </ADTitle>
             <div className='max-h-56 overflow-y-auto'>
               {collections?.length &&
