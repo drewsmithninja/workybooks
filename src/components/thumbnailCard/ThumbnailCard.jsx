@@ -1,15 +1,17 @@
+/* eslint-disable no-return-assign */
 import React, { useRef, useState } from 'react';
 import { Checkbox, Col, Dropdown, Image, Menu, Modal, Row, Steps } from 'antd';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
+import { useDispatch, useSelector } from 'react-redux';
 import printIcon from '../../assets/images/icons/print_gray.png';
 import assignIcon from '../../assets/images/icons/assign_gray.png';
 import folderIcon from '../../assets/images/icons/folder_gray.png';
 import shareIcon from '../../assets/images/icons/share_gray.png';
 import ADCard from '../antd/ADCard';
 import ADButton from '../antd/ADButton';
-import sampleImage from '../../assets/images/dummyImage.png';
+import dummyImage from '../../assets/images/dummyImage.png';
 import AssignStep1 from '../steps/assign/AssignStep1';
 import AssignStep2 from '../steps/assign/AssignStep2';
 import AssignStep3 from '../steps/assign/AssignStep3';
@@ -19,8 +21,12 @@ import PrintImages from '../common/PrintImages';
 import ShareModal from '../modals/ShareModal';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
+import { getCollection, setCollection } from '../../app/features/collection/collectionSlice';
+import CopyToCollectionModal from '../modals/CopyToCollectionModal';
 
-function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+function ThumbnailCard({ className, cardWidth, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
+  const currentCollection = useSelector((state) => state.collection.currentCollection);
+  console.log(currentCollection, 'currentCollection');
   const componentRef = useRef();
   const [currentStep, setCurrentStep] = useState(0);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -31,6 +37,8 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   const { Step } = Steps;
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
   };
@@ -40,6 +48,10 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   };
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
+  };
+  const showCollectionModal = () => {
+    setIsCollectionModalOpen(true);
+    dispatch(setCollection(collection));
   };
   const handleCollectionModalOk = () => {
     setIsCollectionModalOpen(false);
@@ -86,8 +98,8 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
     {
       label: 'COPY TO MY COLLECTION',
       key: '3',
-      icon: <ADImage src={folderIcon} alt='copy to my collection' />
-      // onClick: showCollectionModal
+      icon: <ADImage src={folderIcon} alt='copy to my collection' />,
+      onClick: showCollectionModal
     },
     {
       label: 'SHARE',
@@ -113,12 +125,12 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
   ];
 
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/collection/${id}`]} multiple />;
-  const addToCollectionModal = <AddToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
+  const copyToCollectionModal = <CopyToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
-      {addToCollectionModal}
+      {copyToCollectionModal}
       {assignModal}
       {shareModal}
       <Modal className='rounded-xl' centered footer={false} open={isStepModalOpen}>
@@ -171,22 +183,20 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         </div>
       </Modal>
       <PrintImages src={thumbnails} ref={componentRef} display={display} />
-      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} hoverable {...props}>
-        <div className='w-full h-full aspect-[16/9]'>
+      <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} {...props}>
+        <ADButton type='text' className='w-full h-full aspect-[16/9] !p-0 m-0 !justify-start !items-start' onClick={() => navigate(`/collection/${id}`)}>
           <Row gutter={[8, 8]}>
-            {thumbnails && thumbnails?.length ? (
+            {thumbnails && thumbnails?.length ?
               thumbnails.slice(0, 4).map((item, index) => (
-                <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} onClick={() => navigate(`/collection/${id}`)}>
-                  <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
+                <Col key={index} xs={12}>
+                  <Image onError={(e) => (e.target.src = dummyImage)} preview={false} src={item} className='rounded-md aspect-[16/9] object-cover w-full' />
                 </Col>
-              ))
-            ) : (
-              <Image preview={false} src={sampleImage} className='rounded-md aspect-[16/9] object-cover' alt='thumbnail-default-image' />
-            )}
+              )) :
+              null}
           </Row>
-        </div>
+        </ADButton>
         <div className='flex justify-between items-center py-2'>
-          <Checkbox onChange={onCheck} id={id} name={id} checked={cardChecked} />
+          <Checkbox />
           <div className='flex items-center'>
             <ADButton className='!p-0 !border-0 text-xl !focus:bg-transparent !active:bg-transparent !hover:bg-transparent' type='text' onClick={onFavChange}>
               {favorite ? <HeartFilled className='text-primary' /> : <HeartOutlined className='text-success' />}
@@ -200,7 +210,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
             placement='topLeft'
             arrow
           >
-            <div className='rounded-full border-solid border-2 border-slate-300 flex'>
+            <div className='rounded-full border-solid border-2 border-slate-300 flex cursor-pointer'>
               <EllipsisOutlined className='text-[18px] text-medium p-px text-gray-400' />
             </div>
           </Dropdown>

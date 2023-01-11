@@ -144,7 +144,6 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
         </Form.Item>
         <Row gutter={24}>
           <Col xs={24} md={8}>
-            or
             <ADButton type='danger' block onClick={onClose}>
               Close
             </ADButton>

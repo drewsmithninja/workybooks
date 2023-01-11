@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Col, Form, List, Row, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'antd/lib/form/Form';
-import { setClass, setUpdatedClass } from '../../../app/features/classroom/classroomSlice';
+import { setUpdatedClass } from '../../../app/features/classroom/classroomSlice';
 import { getStudents } from '../../../app/features/students/studentsSlice';
 import ADSelect from '../../antd/ADSelect';
 import ADTitle from '../../antd/ADTitle';
@@ -59,7 +59,6 @@ export default function AssignStep2({ next, onClose }) {
         .unwrap()
         .then(() => next());
     }
-    await dispatch(getAssignments(currentClass?.classId));
   };
 
   const classOptions = classes?.length ?

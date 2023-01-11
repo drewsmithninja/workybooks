@@ -209,7 +209,7 @@ function MyLibrary() {
   const tabChangeHandler = (e) => {
     if (e === 'my collection') {
       setCurrentTab(e);
-      dispatch(collectionList());
+      dispatch(getCollections());
     } else if (e === 'favorites') {
       setCurrentTab(e);
       dispatch(favoriteData());
