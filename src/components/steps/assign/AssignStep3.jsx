@@ -43,11 +43,16 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
     }
   ];
 
+  // useEffect(() => {
+  //   const setInitialClass = currentClass?._id;
+  //   console.log(setInitialClass);
+  // }, []);
+
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const onFinish = async (values) => {
-    dispatch(
+    await dispatch(
       updateAssignment({
         id: currentAssignment?._id,
         title: assignmentTitle,
@@ -59,9 +64,9 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
     )
       .unwrap()
       .then(() => onOk());
-    dispatch(resetAssignment());
-    dispatch(resetSelectedWorksheets());
-    dispatch(getAssignments(currentClass?._id));
+    await dispatch(resetAssignment());
+    await dispatch(resetSelectedWorksheets());
+    await dispatch(getAssignments(currentClass?._id));
   };
 
   useEffect(() => {
@@ -135,10 +140,11 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
           </Col>
         </Row>
         <Form.Item label='Points' name='points'>
-          <InputNumber min={1} max={10} />
+          <InputNumber />
         </Form.Item>
         <Row gutter={24}>
           <Col xs={24} md={8}>
+            or
             <ADButton type='danger' block onClick={onClose}>
               Close
             </ADButton>

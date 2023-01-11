@@ -14,6 +14,7 @@ import { getClassrooms } from '../../../app/features/classroom/classroomSlice';
 export default function AssignStep1({ next, onClose, onCancel }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
+  const currentClass = useSelector((state) => state.classroom?.currentClass);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const worksheets = useSelector((state) => state.worksheet.worksheets?.list);
   const data = worksheets.filter((w) => selectedWorksheets.includes(w?._id));
@@ -47,6 +48,8 @@ export default function AssignStep1({ next, onClose, onCancel }) {
         content: result
       })
     );
+    console.log(currentClass, 'currentClass');
+    // dispatch(getAssignments(currentClass));
     dispatch(getClassrooms())
       .unwrap()
       .then(() => next());
