@@ -45,7 +45,7 @@ function Headers() {
       }
     }
   ];
-
+  const test = window.location.pathname === '/' ? 'test-class' : 'test-bc';
   return (
     <>
       <Header className='h-20 flex justify-between items-center bg-white xl:px-10 lg:px-8 md:px-6 px-0'>
@@ -60,15 +60,17 @@ function Headers() {
         </Link>
 
         {/* navbar menu */}
+
         {user && (
           <div className='hidden space-x-4 md:flex'>
-            <></>
             <Link to='/' className='hover:text-[#243E8F]'>
-              {window.location.pathname === '/' ? <span className='navbar-menu-item active-menu'>Explore</span> : <span className='navbar-menu-item'>Explore</span>}
+              <span className={`navbar-menu-item ${window.location.pathname === '/' ? "active-menu" : ""}`}>Explore</span>
             </Link>
-            <Link to='/my-library'>{window.location.pathname === '/my-library' ? <span className='navbar-menu-item active-menu'>My Library</span> : <span className='navbar-menu-item'>My Library</span>}</Link>
+            <Link to='/my-library'>
+              <span className={`navbar-menu-item ${window.location.pathname === '/my-library' ? "active-menu" : ""}`}>My Library</span>
+            </Link>
             <Link to='/my-classrooms'>
-              {window.location.pathname === '/my-classrooms' ? <span className='navbar-menu-item active-menu'>My Classrooms</span> : <span className='navbar-menu-item'>My Classrooms</span>}
+              <span className={`navbar-menu-item ${window.location.pathname === '/my-classrooms' ? "active-menu" : ""}`}>My Classrooms</span>
             </Link>
           </div>
         )}

@@ -20,6 +20,7 @@ import ShareModal from '../modals/ShareModal';
 import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
 import { useDispatch } from 'react-redux';
+import TestImage from './TestImage';
 
 function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, likes, ...props }) {
   const componentRef = useRef();
@@ -176,11 +177,14 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
       <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} {...props}>
         <div className='w-full h-full aspect-[16/9]' style={{ cursor: "pointer" }} onClick={() => navigate(`/collection/${id}`)}>
           <Row gutter={[8, 8]}>
+            {console.log("thumbnails", thumbnails)}
+            {console.log("collection?.title", collection?.title, "thumbnails", thumbnails)}
             {thumbnails && thumbnails?.length ? (
               thumbnails.slice(0, 4).map((item, index) => (
-                <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} >
-                  <Image preview={false} src={item} className='rounded-md aspect-[16/9] object-cover' />
-                </Col>
+                <TestImage item={item} thumbnails={thumbnails} />
+                // <Col key={index} xs={thumbnails?.length === 1 ? 24 : 12} >
+                //   <Image preview={false} src={item} fallback="" onError={(err) => err.currentTarget.style.display = "none"} className='rounded-md aspect-[16/9] object-cover' />
+                // </Col>
               ))
             ) : (
               <Image preview={false} src={sampleImage} className='rounded-md aspect-[16/9] object-cover' alt='thumbnail-default-image' />
@@ -211,7 +215,7 @@ function ThumbnailCard({ className, cardWidth, onCheck, id, cardChecked, collect
         <div>{collection?.title}</div>
         <div className='flex justify-between'>
           <div className='text-xs text-slate-400'>
-            By
+            By {" "}
             {collection?.added_by?.firstName}
             {collection?.added_by?.lastName}
           </div>

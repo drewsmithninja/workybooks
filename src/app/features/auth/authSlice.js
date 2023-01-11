@@ -100,6 +100,16 @@ export const resetPassword = createAsyncThunk('auth/resetPassword', async (passw
   }
 });
 
+export const resendVerificationEmail = createAsyncThunk('auth/resend-verification-email', async (emailId, thunkAPI) => {
+  try {
+    return await authAPI.resendVerificationMail(emailId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    console.log("error value", message)
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   await authAPI.logout();
 });
@@ -214,6 +224,19 @@ export const authSlice = createSlice({
         state.user = null;
       })
       .addCase(forgotPassword.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      // resendVerificationEmail password cases
+      .addCase(resendVerificationEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+      })
+      .addCase(resendVerificationEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      .addCase(resendVerificationEmail.pending, (state, action) => {
         state.isLoading = true;
       })
       // reset password cases

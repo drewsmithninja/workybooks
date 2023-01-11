@@ -17,6 +17,7 @@ import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
   const assignmentList = useSelector((state) => state.assignment?.assignments);
+  const { isLoading } = useSelector(s => s.assignment)
   const { id } = useParams();
   const [modal, setModal] = useState(false);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);

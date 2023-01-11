@@ -8,6 +8,12 @@ const register = async (userData) => {
   return response.data;
 };
 
+const resendVerificationMail = async (userData) => {
+  const response = await axios.post(`${API_URL}/auth/resend-verification-email`, userData);
+  console.log("response ", response)
+  return response.data;
+};
+
 const verifyEmail = async (id) => {
   const response = await axios.post(`${API_URL}/auth/verify-email`, id, {
     headers: {
@@ -84,7 +90,8 @@ const authAPI = {
   logout,
   verifyEmail,
   googleLogin,
-  googleRegister
+  googleRegister,
+  resendVerificationMail
 };
 
 export default authAPI;

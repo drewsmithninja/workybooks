@@ -15,10 +15,7 @@ import Spinner from '../../components/spinner/Spinner';
 function Home() {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
-
   const collections = useSelector((state) => state.collection.collections?.list);
-  console.log("collections in home page", collections)
-
   const worksheets = useSelector((state) => state.worksheet.worksheets);
   const popularWorksheets = useSelector((state) => state.worksheet.popularWorksheets?.list);
   const { grades, currentGrade } = useSelector((state) => state.grades);
