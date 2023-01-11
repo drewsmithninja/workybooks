@@ -18,7 +18,7 @@ import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { getStudents } from '../../app/features/students/studentsSlice';
 
 function MyClassrooms() {
-  const { classes, isLoading, currentClass } = useSelector((state) => state.classroom);
+  const { classes, isLoading, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
 
   const [currentTab, setCurrentTab] = useState('students');
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
@@ -32,6 +32,10 @@ function MyClassrooms() {
 
   useEffect(() => {
     dispatch(getClassrooms());
+    // console.log(currentCreateClass);
+    // if (currentCreateClass) {
+    //   dispatch(getStudents(currentCreateClass?.classroom?._id));
+    // }
   }, []);
 
   const onClassChangeHandler = async (e) => {
@@ -112,7 +116,6 @@ function MyClassrooms() {
 
   const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
   const editClassRoom = <EditClassModal closable={false} open={isEditClassModalOpen} onShow={(e) => showEditClassModal(e)} onOk={handleEditClassOk} onCancel={handleEditClassCancel} />;
-
   return (
     <MainLayout>
       {createClassRoom}
@@ -124,7 +127,7 @@ function MyClassrooms() {
           <div className='py-2'>
             <Space size='large'>
               <ADTitle level={3}>Class</ADTitle>
-              <ADSelect className='w-32' defaultValue={classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
+              <ADSelect className='w-32' defaultValue={currentCreateClass?.classroom ? currentCreateClass?.classroom?.name : classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
               {classes?.list?.length > 0 ? (
                 <div className='flex'>
                   <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
