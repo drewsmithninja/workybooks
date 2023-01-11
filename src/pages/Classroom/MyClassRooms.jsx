@@ -32,11 +32,13 @@ function MyClassrooms() {
 
   useEffect(() => {
     dispatch(getClassrooms());
-    // console.log(currentCreateClass);
-    // if (currentCreateClass) {
-    //   dispatch(getStudents(currentCreateClass?.classroom?._id));
+    // if (currentCreateClass?.classroom) {
+
     // }
-  }, []);
+    // if (currentCreateClass) {
+    //   dispatch(setClass(currentCreateClass?.classroom));
+    // }
+  }, [currentCreateClass]);
 
   const onClassChangeHandler = async (e) => {
     const sc = await classes?.list?.find((item) => item?._id === e);
@@ -127,7 +129,7 @@ function MyClassrooms() {
           <div className='py-2'>
             <Space size='large'>
               <ADTitle level={3}>Class</ADTitle>
-              <ADSelect className='w-32' defaultValue={currentCreateClass?.classroom ? currentCreateClass?.classroom?.name : classOptions?.[0] ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
+              <ADSelect className='w-32' defaultValue={currentClass?.name ?? 'No Class'} onChange={onClassChangeHandler} options={classOptions} />
               {classes?.list?.length > 0 ? (
                 <div className='flex'>
                   <ADButton type='text' className='!p-0' onClick={showEditClassModal}>
