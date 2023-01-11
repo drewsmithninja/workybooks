@@ -14,15 +14,19 @@ import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
 import AssignStep1 from '../../components/steps/assign/AssignStep1';
 import AssignStep2 from '../../components/steps/assign/AssignStep2';
 import AssignStep3 from '../../components/steps/assign/AssignStep3';
+import Spinner from '../../components/spinner/Spinner';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
   const collections = useSelector((state) => state.collection.collections?.list);
+  const isCollectionLoading = useSelector((state) => state.collection.isLoading);
+  const { isLikeLoading } = useSelector((state) => state.collection.isLikeLoading);
   const recentWorksheets = useSelector((state) => state.worksheet?.recentWorksheets?.list);
   const user = localStorage.getItem('user');
-  const [collectionData, setCollectionData] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [collectionData, setCollectionData] = useState(collections);
   const [favorites, setFavorites] = useState([]);
-  const [recentData, setRecentData] = useState([]);
+  const [recentData, setRecentData] = useState([])
   const [rerender, setRerender] = useState(0);
   const [sortBy, setSortBy] = useState('dt_added');
   const [currentTab, setCurrentTab] = useState('my collection');
@@ -41,7 +45,13 @@ function MyLibrary() {
   };
 
   useEffect(() => {
-    setCollectionData(collections);
+    setLoader(true)
+    setTimeout(() => {
+      setCollectionData(collections);
+    }, 0)
+    setTimeout(() => {
+      setLoader(false)
+    }, 500)
   }, [collections]);
 
   useEffect(() => {
@@ -84,11 +94,10 @@ function MyLibrary() {
       sortedData2 = [...sortedData2, ...noData2];
       setRecentData(sortedData2);
 
-      const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
-      const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
-      let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
+      let sortedData3 = filtered3?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData3 = [...sortedData2, ...noData2];
-      const sortedCollection = collectionData?.slice()?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       setCollectionData(sortedData3);
     }
   }, [sortBy]);
@@ -98,7 +107,6 @@ function MyLibrary() {
       dispatch(updateCollectionLike());
       dispatch(getRecentWorksheets());
       dispatch(getFavoriteCollections());
-      dispatch(getCollections());
     }
   }, [rerender]);
 
@@ -131,19 +139,22 @@ function MyLibrary() {
   ];
 
   const collectionTab = (
-    <Row gutter={[16, 16]}>
-      {collectionData?.length ? (
-        collectionData?.map((item) => (
-          <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-            <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
-          </Col>
-        ))
-      ) : (
-        <ADTitle level={3} className='px-2 py-20 rounded-xl'>
-          No Collections here!
-        </ADTitle>
-      )}
-    </Row>
+    <>
+      {isCollectionLoading || loader ? <div style={{ marginTop: 150 }}><Spinner /></div> : <Row gutter={[16, 16]}>
+        {collectionData?.length ? (
+          collectionData?.map((item) => (
+            <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+              <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+            </Col>
+          ))
+        ) : (
+          <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+            No Collections here!
+          </ADTitle>
+        )}
+      </Row>}
+    </>
+
   );
 
   const favCollectionTab = (

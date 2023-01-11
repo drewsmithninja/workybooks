@@ -56,9 +56,10 @@ function AssignmentItem({ item, classId }) {
               <Image src={dummyImage} className='w-full aspect-[3/4] max-w-[100px]' />
               <div className='inter-font text-sm ml-5'>
                 <div className='font-medium'>{item?.title}</div>
+                {console.log("item", item)}
                 <div className='font-normal text-gray-400'>
                   {item?.content?.[0]?.stds_topic?.map((topic, index) => (
-                    <span key={topic}>{`${topic}${index < item?.content?.[0]?.stds_topic?.length - 1 ? ', ' : ''}`}</span>
+                    index == 1 ? <span >{`${topic}${index < item?.content?.[0]?.stds_topic?.length - 1 ? ', ' : ''}`}</span> : null
                   ))}
                 </div>
               </div>

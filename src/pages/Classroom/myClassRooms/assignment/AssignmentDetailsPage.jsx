@@ -110,7 +110,11 @@ function AssignmentDetailsPage() {
 
   const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
-  return (
+  return isLoading ? (
+    <div style={{ display: "flex", height: "100vh", width: "100vw", alignItems: "center", justifyContent: "center" }}>
+      <Spinner />
+    </div>
+  ) : (
     <MainLayout>
       {editAssignModal}
       {isError ? (
@@ -225,7 +229,7 @@ function AssignmentDetailsPage() {
           <div className='xl:px-20 lg:px-16 md:px-10 px-0 py-6'>
             <List
               pagination={{
-                onChange: (page) => {},
+                onChange: (page) => { },
                 pageSize: 2
               }}
               className='rounded-t-lg with-header'

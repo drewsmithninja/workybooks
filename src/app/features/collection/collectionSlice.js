@@ -8,7 +8,8 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: ''
+  message: '',
+  isLikeLoading: false,
 };
 
 // getCollections done
@@ -156,15 +157,18 @@ export const collectionSlice = createSlice({
       })
       // update workybook list likes
       .addCase(updateCollectionLike.pending, (state) => {
-        state.isLoading = true;
+        // state.isLoading = true;
+        state.isLikeLoading = true;
       })
       .addCase(updateCollectionLike.fulfilled, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
+        state.isLikeLoading = false;
         state.isSuccess = true;
         state.currentCollection = action.payload;
       })
       .addCase(updateCollectionLike.rejected, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
+        state.isLikeLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.currentCollection = null;
