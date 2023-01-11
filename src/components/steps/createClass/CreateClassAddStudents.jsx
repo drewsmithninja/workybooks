@@ -18,6 +18,7 @@ export default function CreateClassAddStudents({ next }) {
     await dispatch(importStudentCsv(formData));
     if (await isSuccess) {
       await next();
+      await dispatch(getStudents(currentCreateClass.classroom._id));
     }
   };
   const onFinish = async (values) => {
