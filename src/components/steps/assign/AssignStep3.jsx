@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { useForm } from 'antd/lib/form/Form';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
-import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../app/features/assignment/assignmentSlice';
-import ADButton from '../antd/ADButton';
-import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
+import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import ADButton from '../../antd/ADButton';
+import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
 
 export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
-
+  const currentClass = useSelector((state) => state.classroom.currentClass);
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
 
   const options = [
@@ -60,7 +61,15 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
       .then(() => onOk());
     dispatch(resetAssignment());
     dispatch(resetSelectedWorksheets());
+    dispatch(getAssignments(currentClass?._id));
   };
+
+  useEffect(() => {
+    form.setFieldsValue({
+      assignedClass: currentClass?.classId,
+      assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)
+    });
+  }, [currentAssignment]);
 
   return (
     <div>
@@ -68,9 +77,17 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
         form={form}
         layout='vertical'
         onFinish={onFinish}
-        initialValues={{
-          name: assignmentTitle.trim()
-        }}
+        initialValues={
+          edit ?
+            {
+              name: currentAssignment?.title,
+              assignmentType: currentAssignment?.assignmentType,
+              points: currentAssignment?.points
+            } :
+            {
+              name: assignmentTitle?.trim()
+            }
+        }
       >
         <Form.Item
           label='Assignment Name'

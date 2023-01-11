@@ -1,27 +1,27 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Avatar, Badge, Col, List, Progress, Row, Select, Space, Image, Input } from 'antd';
 import { FaChartLine, FaCheck, FaPencilAlt, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import moment from 'moment';
 import { BsThreeDots } from 'react-icons/bs';
-import Spinner from '../../../../components/spinner/Spinner';
-
 import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import dummyAvatar from '../../../../assets/images/avatar.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
+import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList, setAssignment } from '../../../../app/features/assignment/assignmentSlice';
 import ADImage from '../../../../components/antd/ADImage';
 import { setStudent, getStudents } from '../../../../app/features/students/studentsSlice';
-import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
 import ExportAssignmentReport from './ExportAssignmentReport';
+import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
 function AssignmentDetailsPage() {
+  const assignmentList = useSelector((state) => state.assignment?.assignments);
   const { id } = useParams();
   const [modal, setModal] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isEditableInput, setIsEditableInput] = useState(false);
   const [updatedGradeList, setUpdatedGradeList] = useState([]);
 
@@ -60,9 +60,7 @@ function AssignmentDetailsPage() {
     dispatch(getStudents(currentClass?._id));
   };
   const getGradeList = () => {
-    dispatch(
-      getAssignmentGradeList()
-    );
+    dispatch(getAssignmentGradeList());
   };
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
   };
@@ -72,7 +70,8 @@ function AssignmentDetailsPage() {
   const onChangeAssignment = (item) => {
     const { label, value } = item;
     setCurrentSelectedAssignment({
-      label, value
+      label,
+      value
     });
     navigate(`/my-classrooms/assignment/${value}`);
     onAssignmentApiCall(value);
@@ -102,10 +101,29 @@ function AssignmentDetailsPage() {
     navigate(`/my-classrooms/assignment/view-work/${studentItem?.assignment}`);
   };
 
-  return isLoading ? (
-    <Spinner />
-  ) : (
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
+  const showEditAssignModal = async () => {
+    const ca = await assignmentList?.find((assignment) => assignment?._id === id);
+    await dispatch(
+      setAssignment({
+        assignment: ca
+      })
+    );
+    await setIsAssignModalOpen(true);
+  };
+
+  const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+
+  return (
     <MainLayout>
+      {editAssignModal}
       {isError ? (
         <div
           className='text-center text-lg'
@@ -133,7 +151,9 @@ function AssignmentDetailsPage() {
               />
 
               <div className='flex'>
-                <FaPencilAlt className='text-gray-400 text-lg' />
+                <ADButton type='text' className='!p-0 text-secondary text-slate-400 text-xl' onClick={showEditAssignModal}>
+                  <FaPencilAlt />
+                </ADButton>
               </div>
             </Space>
           </div>

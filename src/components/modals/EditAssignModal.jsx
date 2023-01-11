@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import AssignStep2 from '../assignSteps/AssignStep2';
-import AssignStep3 from '../assignSteps/AssignStep3';
+import AssignStep2 from '../steps/assign/AssignStep2';
+import AssignStep3 from '../steps/assign/AssignStep3';
 
 export default function EditAssignModal({ onOk, ...props }) {
   const [current, setCurrent] = useState(0);
@@ -19,7 +19,7 @@ export default function EditAssignModal({ onOk, ...props }) {
     {
       title: 'Select Students',
       status: `${current === 0 ? 'process' : 'wait'}`,
-      content: <AssignStep2 next={next} {...props} />
+      content: <AssignStep2 next={next} onClose={onOk} {...props} />
     },
     {
       title: 'Set Assignment Details',

@@ -32,32 +32,32 @@ function SearchResult() {
 
   const worksheetData = useMemo(() => {
     if (sortBy === 'title') {
-      const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered = worksheets?.slice()?.filter((a) => a?.[sortBy]);
+      const noData = worksheets?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
     }
-      const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
-      let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
-      sortedData = [...sortedData, ...noData];
-      return sortedData;
+    const filtered = worksheets?.slice()?.filter((a) => a?.[sortBy]);
+    const noData = worksheets?.slice()?.filter((a) => !a?.[sortBy]);
+    let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+    sortedData = [...sortedData, ...noData];
+    return sortedData;
   }, [sortBy]);
 
   const collectionData = useMemo(() => {
     if (sortBy === 'title') {
-      const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered = collections?.slice()?.filter((a) => a?.[sortBy]);
+      const noData = collections?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       return sortedData;
     }
-      const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
-      let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
-      sortedData = [...sortedData, ...noData];
-      return sortedData;
+    const filtered = collections?.slice()?.filter((a) => a?.[sortBy]);
+    const noData = collections?.slice()?.filter((a) => !a?.[sortBy]);
+    let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+    sortedData = [...sortedData, ...noData];
+    return sortedData;
   }, [sortBy]);
 
   const collectionFavHandler = async (e) => {
@@ -178,7 +178,8 @@ function SearchResult() {
               md={24}
               className='!pl-[20px]'
               style={{
-                justifyContent: 'space-between', display: 'flex'
+                justifyContent: 'space-between',
+                display: 'flex'
               }}
             >
               <Typography.Text className='font-bold'>{`${worksheets?.length + collections.length ?? 0} resources found`}</Typography.Text>
@@ -205,20 +206,20 @@ function SearchResult() {
               <Row
                 gutter={[16, 16]}
                 style={{
- marginTop: 10
-}}
+                  marginTop: 10
+                }}
               >
                 {collectionData?.length ? (
-                collectionData?.map((item) => (
-                  <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-                    <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
-                  </Col>
-                ))
-              ) : (
-                <ADTitle level={3} className='px-2 py-20 rounded-xl'>
-                  No Collections here!
-                </ADTitle>
-              )}
+                  collectionData?.map((item) => (
+                    <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+                      <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                    </Col>
+                  ))
+                ) : (
+                  <ADTitle level={3} className='px-2 py-20 rounded-xl'>
+                    No Collections here!
+                  </ADTitle>
+                )}
               </Row>
             </div>
 
@@ -228,7 +229,6 @@ function SearchResult() {
                 {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
               </Col>
             </div>
-
           </Row>
         </div>
       </div>

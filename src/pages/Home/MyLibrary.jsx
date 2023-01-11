@@ -7,13 +7,13 @@ import CardComponent from '../../components/common/CardComponent';
 import ThumbnailCard from '../../components/thumbnailCard/ThumbnailCard';
 import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
-import AssignStep1 from '../../components/assignSteps/AssignStep1';
-import AssignStep2 from '../../components/assignSteps/AssignStep2';
-import AssignStep3 from '../../components/assignSteps/AssignStep3';
 import { getCollections, getFavoriteCollections, updateCollectionLike } from '../../app/features/collection/collectionSlice';
 import ADImage from '../../components/antd/ADImage';
 import { getRecentWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
+import AssignStep1 from '../../components/steps/assign/AssignStep1';
+import AssignStep2 from '../../components/steps/assign/AssignStep2';
+import AssignStep3 from '../../components/steps/assign/AssignStep3';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
@@ -54,38 +54,38 @@ function MyLibrary() {
 
   useEffect(() => {
     if (sortBy === 'title') {
-      const filtered1 = favorites?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData1 = favorites?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered1 = favorites?.slice()?.filter((a) => a?.[sortBy]);
+      const noData1 = favorites?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData1 = filtered1.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData1 = [...sortedData1, ...noData1];
       setFavorites(sortedData1);
 
-      const filtered2 = recentData?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData2 = recentData?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered2 = recentData?.slice()?.filter((a) => a?.[sortBy]);
+      const noData2 = recentData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData2 = filtered2.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData2 = [...sortedData2, ...noData2];
       setRecentData(sortedData2);
 
-      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
+      const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
       sortedData3 = [...sortedData2, ...noData2];
       setCollectionData(sortedData3);
     } else {
-      const filtered1 = favorites?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData1 = favorites?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered1 = favorites?.slice()?.filter((a) => a?.[sortBy]);
+      const noData1 = favorites?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData1 = filtered1.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData1 = [...sortedData1, ...noData1];
       setFavorites(sortedData1);
 
-      const filtered2 = recentData?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData2 = recentData?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered2 = recentData?.slice()?.filter((a) => a?.[sortBy]);
+      const noData2 = recentData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData2 = filtered2.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData2 = [...sortedData2, ...noData2];
       setRecentData(sortedData2);
 
-      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
+      const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData3 = [...sortedData2, ...noData2];
       const sortedCollection = collectionData?.slice()?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
@@ -273,7 +273,6 @@ function MyLibrary() {
           )}
         </div>
       </Modal>
-      {console.log('sortBy', sortBy)}
       <div className='px-8 py-8 flex justify-between align-center'>
         <ADTitle level={3}>{`My Library - ${currentTab}`}</ADTitle>
         <Space>

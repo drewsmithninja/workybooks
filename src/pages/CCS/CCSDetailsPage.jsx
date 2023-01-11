@@ -56,38 +56,38 @@ export default function CCSDetailsPage() {
     }
   };
 
-  // const searchData = (dataArray, searchTerm) => dataArray?.flatMap((obj) => {
-  //   const objHasSearchTerm = Object.entries(obj)
-  //     .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
-  //   if (objHasSearchTerm && !obj) return [obj];
-  //   const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
-  //   const searchedData = objHasSearchTerm || matchedTopics?.length > 0 ?
-  //     [{
-  //       ...obj,
-  //       topics: matchedTopics
-  //     }] :
-  //     [];
-  //   return searchedData;
-  // });
+  const searchData = (dataArray, searchTerm) => dataArray?.flatMap((obj) => {
+    const objHasSearchTerm = Object.entries(obj)
+      .some(([key, value]) => key !== 'topics' && String(value).toLowerCase().includes(searchTerm.toLowerCase()));
+    if (objHasSearchTerm && !obj) return [obj];
+    const matchedTopics = searchData(obj?.topics ?? [], searchTerm);
+    const searchedData = objHasSearchTerm || matchedTopics?.length > 0 ?
+      [{
+        ...obj,
+        topics: matchedTopics
+      }] :
+      [];
+    return searchedData;
+  });
 
-  const searchData = (array, searchTerm) => array.reduce((prev, curr) => {
-    const children = curr.topics ? searchData(curr.topics, searchTerm) : undefined;
-    return curr.id === searchTerm || children?.length > 0 ?
-      [
-        ...prev,
-        {
-          ...curr,
-          topics: children
-        }
-      ] :
-      prev;
-    // return curr.title === searchTerm || children?.length > 0 ? [...prev, { ...curr, topics: children }] : prev;
-  }, []);
+  // const searchData = (array, searchTerm) => array.reduce((prev, curr) => {
+  //   const children = curr.topics ? searchData(curr.topics, searchTerm) : undefined;
+  //   return curr.id === searchTerm || children?.length > 0 ?
+  //     [
+  //       ...prev,
+  //       {
+  //         ...curr,
+  //         topics: children
+  //       }
+  //     ] :
+  //     prev;
+  //   // return curr.title === searchTerm || children?.length > 0 ? [...prev, { ...curr, topics: children }] : prev;
+  // }, []);
 
   function renderCCSItem(items, ccsItem, level) {
     let item = '<></>;';
 
-    if (ccsItem.topics && ccsItem.topics?.length > 0) {
+    if (ccsItem?.topics && ccsItem?.topics?.length > 0) {
       // eslint-disable-next-line no-plusplus
       level++;
       if (level === 1) {
@@ -130,12 +130,12 @@ export default function CCSDetailsPage() {
     } else {
       item = (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        <div onClick={() => topicSelectHandler(ccsItem.id)} className=' w-full border-b  my-2 px-2 text-left text-sm font-medium text-gray-700 h-auto'>
+        <div onClick={() => topicSelectHandler(ccsItem?.id)} className=' w-full border-b  my-2 px-2 text-left text-sm font-medium text-gray-700 h-auto'>
           <div className='flex flex-wrap w-full py-2 my-2 rounded-xl cursor-pointer  hover:bg-blue-100'>
             <div className='w-32  m-2 rounded-xl'>
-              <span className='font-bold'>{ccsItem.id}</span>
+              <span className='font-bold'>{ccsItem?.id}</span>
             </div>
-            <div className='flex flex-1 flex-wrap'>{ccsItem.description}</div>
+            <div className='flex flex-1 flex-wrap'>{ccsItem?.description}</div>
             <div className='w-16 text-center'>&gt;</div>
           </div>
         </div>
@@ -150,18 +150,20 @@ export default function CCSDetailsPage() {
     const ccsTree = ccsData?.list;
     ccsNewDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
     ab.push(ccsNewDetail?.tree);
-    const newData = searchData(ccsNewDetail?.tree, '3.RL.3.2');
-    for (let i = 0; i < newData?.list?.length; i += 1) {
-      if (newData?.list[i]._id === id) {
-        for (let j = 0; j < newData?.list[i].tree?.length; j += 1) {
-          const ccs = newData?.list[i]?.tree[j];
+    const newData = searchData(ccsNewDetail?.tree, value);
+    renderCCSItem(ccsItemsArr, newData?.[0], 0);
+    setCCSItems(ccsItemsArr);
+    // for (let i = 0; i < newData?.list?.length; i += 1) {
+    //   if (newData?.list[i]._id === id) {
+    //     for (let j = 0; j < newData?.list[i].tree?.length; j += 1) {
+    //       const ccs = newData?.list[i]?.tree[j];
 
-          // eslint-disable-next-line no-use-before-define
-          renderCCSItem(ccsItemsArr, ccs, 0);
-        }
-        setCCSItems(ccsItemsArr);
-      }
-    }
+    //       // eslint-disable-next-line no-use-before-define
+    //       renderCCSItem(ccsItemsArr, ccs, 0);
+    //     }
+    //     setCCSItems(ccsItemsArr);
+    //   }
+    // }
   };
 
   return (

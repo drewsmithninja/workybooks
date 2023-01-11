@@ -71,7 +71,7 @@ function ViewAssignmentReport() {
     getGradeList();
   }, []);
   const getGradeList = async () => {
-   await dispatch(
+    await dispatch(
       getAssignmentGradeList()
     );
   };
@@ -88,10 +88,12 @@ function ViewAssignmentReport() {
           studentId: currentStudent?._id
         })
       );
-      dispatch(getSubmittedAssignments({
-        studentId: currentStudent?._id,
-        classId: currentClass?._id
-      }));
+      dispatch(
+        getSubmittedAssignments({
+          studentId: currentStudent?._id,
+          classId: currentClass?._id
+        })
+      );
     }
   };
   const onStudentChangeHandler = async (e) => {
@@ -114,11 +116,11 @@ function ViewAssignmentReport() {
   console.log('-----viewWorkPageCount---->', -viewPageCount);
 
   const onChangeGrade = (value) => {
-  let newTempArr = [];
-  const newTempObj = updatedGrade?.[0];
-  newTempObj.assignmentGrade = value;
-  newTempArr = [...newTempArr, newTempObj];
-  setUpdatedGrade(newTempArr);
+    let newTempArr = [];
+    const newTempObj = updatedGrade?.[0];
+    newTempObj.assignmentGrade = value;
+    newTempArr = [...newTempArr, newTempObj];
+    setUpdatedGrade(newTempArr);
   };
 
   const onGradeUpdate = async () => {
@@ -130,7 +132,8 @@ function ViewAssignmentReport() {
       <div
         className='border-bottom'
         style={{
-          borderBottom: '2px solid black', padding: '10px'
+          borderBottom: '2px solid black',
+          padding: '10px'
         }}
       >
         <Row gutter={[16, 0]}>
@@ -158,7 +161,9 @@ function ViewAssignmentReport() {
         </Row>
         <Row gutter={[20, 0]} className='center items-center'>
           <Col xl={4} md={4} sm={8} xs={10}>
-            <ADTitle className='text-center' level={4}>Assignment</ADTitle>
+            <ADTitle className='text-center' level={4}>
+              Assignment
+            </ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
             <ADSelect
@@ -286,13 +291,13 @@ function ViewAssignmentReport() {
               </span>
               <Select
                 defaultValue={updatedAssignmentGradeList?.[getIndex] || {
-                              value: 0,
-                              label: 'Select'
-                            }}
+                  value: 0,
+                  label: 'Select'
+                }}
                 onChange={onChangeGrade}
                 style={{
-                              width: '100px'
-                            }}
+                  width: '100px'
+                }}
                 options={updatedAssignmentGradeList || []}
               />
               <ADButton type='text' onClick={onGradeUpdate}>

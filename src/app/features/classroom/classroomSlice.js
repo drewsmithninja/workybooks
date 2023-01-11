@@ -190,7 +190,7 @@ export const classroomSlice = createSlice({
       .addCase(getClassrooms.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.currentClass = action.payload.list?.filter((x) => !state.classes?.list?.includes(x))?.[0];
+        state.currentClass = action.payload.list?.filter((x) => x?._id === state?.currentCreateClass?.classroom?._id)?.[0] || action.payload.list[0];
         state.classes = action.payload;
       })
       .addCase(getClassrooms.rejected, (state, action) => {

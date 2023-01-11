@@ -54,7 +54,6 @@ const getGoogleClassRoomDatainsert = async (data) => {
 };
 
 const classRoomExcelDataImport = async (data) => {
-  // console.log('data', data);
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const response = await axios.post(`${API_URL}/classroom/importClassroom`, data, {

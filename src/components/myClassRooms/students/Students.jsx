@@ -10,7 +10,7 @@ import EditStudentModal from '../../modals/EditStudentModal';
 import AddStudentsModal from '../../modals/AddStudentsModal';
 
 function StudentsPage() {
-  const { classes, currentClass } = useSelector((state) => state.classroom);
+  const { classes, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
   const { students } = useSelector((state) => state.students);
 
   const [showEditStudent, setShowEditStudent] = useState(false);
@@ -21,14 +21,15 @@ function StudentsPage() {
 
   const updateStudentList = async () => {
     if (await classes?.length) {
-      dispatch(setClass(classes?.list?.[0]));
+      // console.log(currentCreateClass);
+      dispatch(setClass(currentCreateClass?.classroom?.name && classes?.list?.[0]));
     }
-    await dispatch(getStudents(currentClass?._id));
+    await dispatch(getStudents(currentCreateClass?.classroom?._id && currentClass?._id));
   };
 
   useEffect(() => {
-    updateStudentList();
-    dispatch(getStudents(currentClass?._id));
+    // updateStudentList();
+    dispatch(getStudents(currentCreateClass?.classroom?._id));
   }, []);
 
   const header = (
