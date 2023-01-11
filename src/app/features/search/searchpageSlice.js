@@ -9,7 +9,8 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: ''
+  message: '',
+  isSearchResultLoading: false
 };
 
 // List worksheet by search bar text
@@ -70,15 +71,18 @@ export const searchSlice = createSlice({
     builder
       // Search Text Workybook List cases
       .addCase(search.pending, (state, action) => {
-        state.isLoading = true;
+        // state.isLoading = true;
+        state.isSearchResultLoading = true;
       })
       .addCase(search.fulfilled, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
+        state.isSearchResultLoading = false;
         state.isSuccess = true;
         state.searchData = action.payload;
       })
       .addCase(search.rejected, (state, action) => {
-        state.isLoading = false;
+        // state.isLoading = false;
+        state.isSearchResultLoading = false;
         state.isError = true;
         state.message = action.payload;
         state.searchData = null;
