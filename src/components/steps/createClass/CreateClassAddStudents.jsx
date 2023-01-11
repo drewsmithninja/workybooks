@@ -14,20 +14,20 @@ export default function CreateClassAddStudents({ next }) {
   const uplaodCsv = async (e) => {
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
-    formData.append('classId', currentCreateClass.classroom._id);
+    formData.append('classId', currentClass._id);
     await dispatch(importStudentCsv(formData));
     if (await isSuccess) {
       await next();
-      await dispatch(getStudents(currentCreateClass.classroom._id));
+      await dispatch(getStudents(currentClass._id));
     }
   };
   const onFinish = async (values) => {
     const data = {
-      classroom: currentCreateClass.classroom._id,
+      classroom: currentClass._id,
       ...values
     };
     await dispatch(createStudents(data));
-    await dispatch(getStudents(currentCreateClass.classroom._id));
+    await dispatch(getStudents(currentClass._id));
     if (await isSuccess) {
       await next();
     }
