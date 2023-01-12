@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Spinner from '../../components/spinner/Spinner';
-import { register, reset, googleLogin } from '../../app/features/auth/authSlice';
+import { register, reset, googleLogin, resendVerificationEmail } from '../../app/features/auth/authSlice';
 import logo from '../../assets/images/logo.png';
 import googleIcon from '../../assets/images/google-icon.png';
 import cleverIcon from '../../assets/images/clever-icon.png';
@@ -19,6 +19,8 @@ function NewSignUp() {
   const [isVerified, setIsVerified] = useState(false);
   const [successMessage, setSuccessMessage] = useState(message);
   const [showResend, setShowResend] = useState(false);
+  const [email, setEmail] = useState('');
+  const [inputFieldsActive, setInputFieldsActive] = useState(false);
   const [googleData, setGoogleData] = useState({
   });
   window.document.title = 'Workybook - Sign Up';
@@ -59,7 +61,9 @@ function NewSignUp() {
 
   const onResendHandler = () => {
     setShowResend(false);
-    //
+    dispatch(resendVerificationEmail({
+      email
+    }));
     setTimeout(() => {
       setShowResend(true);
     }, 10000);
@@ -69,6 +73,7 @@ function NewSignUp() {
     if (values.password !== values.confirmPassword) {
       toast.error("Password doesn't match");
     }
+    setEmail(values.email);
     dispatch(register(values));
   };
 
@@ -119,6 +124,10 @@ function NewSignUp() {
     prompt: 'consent'
   });
 
+  const handleSignUpWithEmail = () => {
+    setInputFieldsActive(!inputFieldsActive);
+  };
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -136,7 +145,7 @@ function NewSignUp() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] min-h-[522px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
+      <div className='w-[85%] max-w-[554px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
         <Typography.Title level={2} className='!text-base md:!text-2xl mt-[56px]'>
           Create your teacher account
         </Typography.Title>
@@ -161,153 +170,154 @@ function NewSignUp() {
                   Sign in with Clever
                 </ADButton>
               </a>
-              <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={() => setFormData(true)}>
+              <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={handleSignUpWithEmail}>
                 Sign up with Email
               </ADButton>
             </div>
-
-            <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
-                  <Form.Item
-                    label={false}
-                    name='firstName'
-                    rules={[
-                      {
-                        type: 'text'
-                      },
-                      {
-                        required: true,
-                        message: 'Please input your first name!'
-                      }
-                    ]}
-                  >
-                    <Input placeholder='First Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-                <Col span={12} className='!pr-0'>
-                  <Form.Item
-                    label={false}
-                    name='lastName'
-                    rules={[
-                      {
-                        type: 'text'
-                      },
-                      {
-                        required: true,
-                        message: 'Please input your last name!'
-                      }
-                    ]}
-                  >
-                    <Input placeholder='Last Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={24} className='!pr-0 !pl-0'>
-                  <Form.Item
-                    label={false}
-                    name='email'
-                    rules={[
-                      {
-                        type: 'email',
-                        message: 'The input is not valid E-mail!'
-                      },
-                      {
-                        required: true,
-                        message: 'Please input your E-mail!'
-                      }
-                    ]}
-                  >
-                    <Input placeholder='Email' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
-                  <Form.Item
-                    label={false}
-                    name='password'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!'
-                      }
-                    ]}
-                    hasFeedback
-                  >
-                    <Input.Password placeholder='Password' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-                <Col span={12} className='!pr-0'>
-                  <Form.Item
-                    label={false}
-                    name='confirmPassword'
-                    dependencies={['password']}
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please confirm your password!'
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue('password') === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(new Error('The two passwords that you entered do not match!'));
+            {inputFieldsActive ? (
+              <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Col span={12} className='!pl-[0px]'>
+                    <Form.Item
+                      label={false}
+                      name='firstName'
+                      rules={[
+                        {
+                          type: 'text'
+                        },
+                        {
+                          required: true,
+                          message: 'Please input your first name!'
                         }
-                      })
-                    ]}
-                  >
-                    <Input.Password placeholder='Confirm' className='w-full h-[46px] m-auto rounded-[6px]' />
+                      ]}
+                    >
+                      <Input placeholder='First Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12} className='!pr-0'>
+                    <Form.Item
+                      label={false}
+                      name='lastName'
+                      rules={[
+                        {
+                          type: 'text'
+                        },
+                        {
+                          required: true,
+                          message: 'Please input your last name!'
+                        }
+                      ]}
+                    >
+                      <Input placeholder='Last Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Col span={24} className='!pr-0 !pl-0'>
+                    <Form.Item
+                      label={false}
+                      name='email'
+                      rules={[
+                        {
+                          type: 'email',
+                          message: 'The input is not valid E-mail!'
+                        },
+                        {
+                          required: true,
+                          message: 'Please input your E-mail!'
+                        }
+                      ]}
+                    >
+                      <Input placeholder='Email' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Col span={12} className='!pl-[0px]'>
+                    <Form.Item
+                      label={false}
+                      name='password'
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please input your password!'
+                        }
+                      ]}
+                      hasFeedback
+                    >
+                      <Input.Password placeholder='Password' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12} className='!pr-0'>
+                    <Form.Item
+                      label={false}
+                      name='confirmPassword'
+                      dependencies={['password']}
+                      hasFeedback
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please confirm your password!'
+                        },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (!value || getFieldValue('password') === value) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                          }
+                        })
+                      ]}
+                    >
+                      <Input.Password placeholder='Confirm' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Typography.Title level={5} className='!font-medium'>
+                    Your School
+                  </Typography.Title>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Col span={24} className='!pr-0 !pl-0'>
+                    <Form.Item name='schoolName' label={false}>
+                      <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Col span={12} className='!pl-[0px]'>
+                    <Form.Item label={false} name='state'>
+                      <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12} className='!pr-0'>
+                    <Form.Item label={false} name='city'>
+                      <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
+                  <Form.Item shouldUpdate className='w-full'>
+                    {() => (
+                      <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0 || isLoading}>
+                        {isLoading ? <Spinner /> : 'Sign Up'}
+                      </ADButton>
+                    )}
                   </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Typography.Title level={5} className='!font-medium'>
-                  Your School
-                </Typography.Title>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={24} className='!pr-0 !pl-0'>
-                  <Form.Item name='schoolName' label={false}>
-                    <Input placeholder='School Name' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Col span={12} className='!pl-[0px]'>
-                  <Form.Item label={false} name='state'>
-                    <Input placeholder='State' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-                <Col span={12} className='!pr-0'>
-                  <Form.Item label={false} name='city'>
-                    <Input placeholder='City' className='w-full h-[46px] m-auto rounded-[6px]' />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row gutter={[16, 16]} className='w-[85%] max-w-[358px] !m-auto'>
-                <Form.Item shouldUpdate className='w-full'>
-                  {() => (
-                    <ADButton type={isLoading ? 'default' : 'primary'} htmlType='submit' className='w-full' disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0 || isLoading}>
-                      {isLoading ? <Spinner /> : 'Sign Up'}
-                    </ADButton>
-                  )}
-                </Form.Item>
-                <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
-                  By signing up I agree to Workybooks
-                  <Link to='/' className='ml-[5px]'>
-                    Terms of Service
-                  </Link>
-                </Paragraph>
-              </Row>
-            </Form>
+                  <Paragraph className='m-auto block max-w-[554px] text-center mt-[0px] !mb-[40px] text-xs'>
+                    By signing up I agree to Workybooks
+                    <Link to='/' className='ml-[5px]'>
+                      Terms of Service
+                    </Link>
+                  </Paragraph>
+                </Row>
+              </Form>
+            ) : null }
           </>
         ) : (
           <div className='flex flex-col items-center'>
-            <ADCard hoverable className='shadow-lg rounded-xl text-xl p-8 mt-20'>
+            <ADCard className='shadow-lg rounded-xl text-xl p-8 mt-20'>
               {successMessage}
             </ADCard>
             <Text type='secondary' className='mt-10'>
