@@ -81,6 +81,11 @@ export const updateCollectionLike = createAsyncThunk('collection/updateCollectio
 export const collectionSlice = createSlice({
   name: 'collection',
   initialState,
+  reducers: {
+    setCollection(state, action) {
+      state.currentCollection = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getCollections.pending, (state) => {
@@ -172,5 +177,5 @@ export const collectionSlice = createSlice({
   }
 });
 
-export const { reset } = collectionSlice.actions;
+export const { reset, setCollection } = collectionSlice.actions;
 export default collectionSlice.reducer;

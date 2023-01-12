@@ -11,7 +11,7 @@ import dummyImage from '../../../../assets/images/dummyImage.png';
 import dummyAvatar from '../../../../assets/images/avatar.png';
 import ADTitle from '../../../../components/antd/ADTitle';
 import MainLayout from '../../../../components/layout/MainLayout';
-import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList, setAssignment } from '../../../../app/features/assignment/assignmentSlice';
+import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList, setAssignment, getAssignments } from '../../../../app/features/assignment/assignmentSlice';
 import ADImage from '../../../../components/antd/ADImage';
 import { setStudent, getStudents } from '../../../../app/features/students/studentsSlice';
 import ExportAssignmentReport from './ExportAssignmentReport';
@@ -119,7 +119,11 @@ function AssignmentDetailsPage() {
     await setIsAssignModalOpen(true);
   };
 
-  const editAssignModal = <EditAssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const afterClose = () => {
+    dispatch(getAssignments(currentClass?.classId));
+  };
+
+  const editAssignModal = <EditAssignModal afterClose={afterClose} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <MainLayout>
