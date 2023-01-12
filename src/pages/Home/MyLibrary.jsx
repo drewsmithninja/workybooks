@@ -69,7 +69,7 @@ function MyLibrary() {
       const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
       const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
-      sortedData3 = [...sortedData2, ...noData2];
+      sortedData3 = [...sortedData3, ...noData3];
       setCollectionData(sortedData3);
     } else {
       const filtered1 = favorites?.slice()?.filter((a) => a?.[sortBy]);
@@ -84,11 +84,10 @@ function MyLibrary() {
       sortedData2 = [...sortedData2, ...noData2];
       setRecentData(sortedData2);
 
-      const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
-      const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
+      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
-      sortedData3 = [...sortedData2, ...noData2];
-      const sortedCollection = collectionData?.slice()?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+      sortedData3 = [...sortedData3, ...noData3];
       setCollectionData(sortedData3);
     }
   }, [sortBy]);
