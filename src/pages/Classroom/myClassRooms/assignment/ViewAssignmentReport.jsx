@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Avatar, Badge, Col, List, Progress, Row, Form, Input, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Badge, Col, List, Progress, Row, Form, Input, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CloseCircleOutlined } from '@ant-design/icons';
@@ -11,15 +11,29 @@ import ADSelect from '../../../../components/antd/ADSelect';
 import ADButton from '../../../../components/antd/ADButton';
 import dummy from '../../../../assets/images/worksheet.png';
 import { setStudent } from '../../../../app/features/students/studentsSlice';
-import { getSubmittedAssignmentDetail, getSubmittedAssignments } from '../../../../app/features/assignment/assignmentSlice';
+import { getSubmittedAssignmentDetail, getSubmittedAssignments, getAssignmentGradeList, updateGradeList } from '../../../../app/features/assignment/assignmentSlice';
 
 function ViewAssignmentReport() {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent, students } = useSelector((state) => state.students);
-  const { submittedAssignmentDetail, submittedAssignments } = useSelector((state) => state.assignment);
+
+  const [updatedGrade, setUpdatedGrade] = useState([]);
+  const [viewPageCount, setViewPageCount] = useState(1);
+  const { submittedAssignmentDetail, submittedAssignments, assignmentGradeList } = useSelector((state) => state.assignment);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
+    label: item?.title,
+    value: item?._id,
+    color: item?.color
+  }));
+
+  // const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
+  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.totalScore || [];
+  const assignmentGrade = submittedAssignmentDetail?.submittedAssignment[0]?.assignmentGrade || [];
+  const getIndex = updatedAssignmentGradeList.findIndex((item) => item.value === assignmentGrade._id);
+
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
       value,
@@ -45,12 +59,32 @@ function ViewAssignmentReport() {
         label: 'No Assignment'
       }
     ];
+  useEffect(() => {
+    const updateGradeDataArr = {
+      studentId: currentStudent?._id,
+      assignmentId: id,
+      assignmentGrade: updatedAssignmentGradeList[getIndex]
+    };
+
+    setUpdatedGrade([...updatedGrade, updateGradeDataArr]);
+
+    getGradeList();
+  }, []);
+  const getGradeList = async () => {
+    await dispatch(
+      getAssignmentGradeList()
+    );
+  };
 
   useEffect(() => {
-    if (id) {
+    getDataRequest(id);
+  }, [id]);
+
+  const getDataRequest = (asId) => {
+    if (asId) {
       dispatch(
         getSubmittedAssignmentDetail({
-          assignmentId: id,
+          assignmentId: asId,
           studentId: currentStudent?._id
         })
       );
@@ -61,31 +95,38 @@ function ViewAssignmentReport() {
         })
       );
     }
-  }, [id]);
-
+  };
   const onStudentChangeHandler = async (e) => {
     const cs = await students?.list.find((item) => item._id === e);
+
     await dispatch(setStudent(await cs));
-    await dispatch(
-      getSubmittedAssignments(
-        await {
-          studentId: e,
-          classId: currentClass?._id
-        }
-      )
-    );
-    await dispatch(
-      getSubmittedAssignments(
-        await {
-          studentId: e,
-          classId: currentClass?._id
-        }
-      )
-    );
+    await dispatch(getSubmittedAssignments(await {
+      studentId: e,
+      classId: currentClass?._id
+    }));
+    // await dispatch(getSubmittedAssignments(await {
+    //   studentId: e,
+    //   classId: currentClass?._id
+    // }));
+  };
+  const onAssignmentChangeHandler = async (assignmentId) => {
+    setViewPageCount(viewPageCount + 1);
+    navigate(`/my-classrooms/assignment/view-work/${assignmentId}`);
+  };
+  console.log('-----viewWorkPageCount---->', -viewPageCount);
+
+  const onChangeGrade = (value) => {
+    let newTempArr = [];
+    const newTempObj = updatedGrade?.[0];
+    newTempObj.assignmentGrade = value;
+    newTempArr = [...newTempArr, newTempObj];
+    setUpdatedGrade(newTempArr);
   };
 
-  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
-
+  const onGradeUpdate = async () => {
+    console.log('----updatedGrade---->', updatedGrade);
+    await dispatch(updateGradeList(updatedGrade));
+  };
   return (
     <div>
       <div
@@ -106,16 +147,16 @@ function ViewAssignmentReport() {
               style={{
                 fontSize: '26px'
               }}
-              onClick={() => navigate(-1)}
+              onClick={() => navigate(-viewPageCount)}
             />
           </Col>
         </Row>
         <Row gutter={[16, 0]}>
-          <Col xl={4} md={4} sm={4} xs={6} className='items-center ml-10'>
-            <ADTitle level={3}>Student work</ADTitle>
+          <Col xl={4} md={4} sm={4} xs={6} className='text-center'>
+            <ADTitle level={3} className='center'>Student work</ADTitle>
           </Col>
           <Col xl={8} md={8} sm={8} xs={6}>
-            <ADSelect className='w-40' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
+            <ADSelect className='w-60' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           </Col>
         </Row>
         <Row gutter={[20, 0]} className='center items-center'>
@@ -125,7 +166,12 @@ function ViewAssignmentReport() {
             </ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
-            <ADSelect className='w-60' defaultValue={submittedAssignmentDetail?.submittedAssignment[0]?.name} options={assignmentOptions} />
+            <ADSelect
+              className='w-60'
+              defaultValue={assignmentOptions?.[0]}
+              onChange={(e) => onAssignmentChangeHandler(e)}
+              options={assignmentOptions}
+            />
           </Col>
           <Col xl={7} md={7} sm={8} xs={10}>
             <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
@@ -143,7 +189,7 @@ function ViewAssignmentReport() {
                 className='flex flex-col justify-center items-center'
               >
                 <div>TIME</div>
-                <div>{moment(assigmentDetails?.time).format('hh:mm a')}</div>
+                <div>{assigmentDetails?.time}</div>
               </Col>
               <Col
                 xs={12}
@@ -161,7 +207,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <FaCheck className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.currectAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.totalCorrectAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -179,7 +225,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <FaTimes className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.wrongAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.totalWrongAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -197,7 +243,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <BsThreeDots className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.blankAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.totalBlankAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -213,7 +259,7 @@ function ViewAssignmentReport() {
                 className='flex flex-col justify-center items-center'
               >
                 <div className=''>SCORE</div>
-                <div className='font-bold'>{assigmentDetails?.score || '-'}</div>
+                <div className='font-bold'>{ `${assigmentDetails?.averagePercentage ? assigmentDetails?.averagePercentage : 0}%`}</div>
               </Col>
               <Col
                 xs={12}
@@ -228,7 +274,9 @@ function ViewAssignmentReport() {
                 }}
                 className='flex flex-col justify-center items-center'
               >
-                {assigmentDetails?.score ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.score} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                {(assigmentDetails?.averagePercentage) ?
+                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.averagePercentage} /> :
+                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
               </Col>
             </Row>
           </Col>
@@ -241,8 +289,18 @@ function ViewAssignmentReport() {
               >
                 GRADE
               </span>
-              <Input size='medium' placeholder='Grade' />
-              <ADButton type='text'>
+              <Select
+                defaultValue={updatedAssignmentGradeList?.[getIndex] || {
+                  value: 0,
+                  label: 'Select'
+                }}
+                onChange={onChangeGrade}
+                style={{
+                  width: '100px'
+                }}
+                options={updatedAssignmentGradeList || []}
+              />
+              <ADButton type='text' onClick={onGradeUpdate}>
                 <FaCheck className='text-slate-800' />
               </ADButton>
             </div>
