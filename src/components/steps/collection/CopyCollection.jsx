@@ -11,6 +11,7 @@ import dummyImage from '../../../assets/images/dummyImage.png';
 export default function CopyCollection({ onCancel }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
   const currentCollection = useSelector((state) => state.collection.currentCollection);
+  const selectedCollections = useSelector((state) => state.collection.selectedCollections);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const collections = useSelector((state) => state.collection.collections?.list);
   const [inputVal, setInputVal] = useState('');
@@ -24,15 +25,15 @@ export default function CopyCollection({ onCancel }) {
     if (selectedWorksheets?.length === 0) {
       const data = {
         title: inputVal,
-        favorite: false
-        // content: [currentWorksheet?._id]
+        favorite: false,
+        content: [currentWorksheet?._id]
       };
       await dispatch(createCollection(data));
     } else {
       const data = {
         title: inputVal,
-        favorite: false
-        // content: selectedWorksheets
+        favorite: false,
+        content: selectedWorksheets
       };
       await dispatch(createCollection(data));
     }
@@ -41,12 +42,19 @@ export default function CopyCollection({ onCancel }) {
   };
 
   const addCollectionHandler = async (e) => {
-    const data = {
-      collectionId: e,
-      content: currentCollection?.content?.map((c) => c?._id)
-    };
-    await dispatch(updateCollection(data));
-    await dispatch(getCollections());
+    if (selectedCollections.length) {
+      const data = {
+        collectionId: e,
+        collection: selectedCollections
+      };
+      dispatch(updateCollection(data));
+    } else {
+      const data = {
+        collectionId: e,
+        content: currentCollection?.content?.map((content) => content?._id)
+      };
+      dispatch(updateCollection(data));
+    }
     onCancel();
   };
 

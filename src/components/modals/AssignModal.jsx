@@ -9,7 +9,7 @@ import AssignStep2 from '../steps/assign/AssignStep2';
 import AssignStep3 from '../steps/assign/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
 
-function AssignModal({ onOk, ...props }) {
+function AssignModal({ forCollection, onOk, ...props }) {
   const currentStep = useSelector((state) => state.assignment.currentStep);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const dispatch = useDispatch();

@@ -60,7 +60,8 @@ const updateCollection = async (data) => {
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const body = {
     favorite: false,
-    content: data.content
+    content: data.content,
+    collection: data.collection
   };
   const response = await axios.put(`${API_URL}/collection/${data.collectionId}`, body, {
     headers: {

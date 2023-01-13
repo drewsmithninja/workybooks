@@ -10,11 +10,13 @@ import { createAssignment, getAssignments, updateAssignment } from '../../../app
 import Spinner from '../../spinner/Spinner';
 import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
 
-export default function NewAssignment({ next, onOk }) {
+export default function NewAssignment({ next, onOk, forCollection }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
+  const currentCollection = useSelector((state) => state.collection.currentCollection);
   const assignments = useSelector((state) => state.assignment.assignments);
   const assignmentLoading = useSelector((state) => state.assignment.isLoading);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+  const selectedCollections = useSelector((state) => state.collection.selectedCollections);
 
   const [assignmentTitle, setAssignmentTitle] = useState('');
 
@@ -32,20 +34,38 @@ export default function NewAssignment({ next, onOk }) {
 
   const addToAssignmentHandler = (assignment) => {
     dispatch(resetSelectedWorksheets());
-    if (selectedWorksheets.length) {
-      const data = {
-        id: assignment?._id,
-        content: selectedWorksheets
-      };
-      dispatch(updateAssignment(data));
-    } else {
-      const data = {
-        id: assignment?._id,
-        content: [currentWorksheet?._id]
-      };
-      dispatch(updateAssignment(data));
+    if (forCollection) {
+      if (selectedWorksheets.length) {
+        const data = {
+          id: assignment?._id,
+          content: selectedWorksheets
+        };
+        dispatch(updateAssignment(data));
+      } else {
+        const data = {
+          id: assignment?._id,
+          content: [currentWorksheet?._id]
+        };
+        dispatch(updateAssignment(data));
+      }
+      dispatch(getAssignments());
     }
-    dispatch(getAssignments());
+    if (!forCollection) {
+      if (selectedCollections.length) {
+        const data = {
+          id: assignment?._id,
+          collection: selectedCollections
+        };
+        dispatch(updateAssignment(data));
+      } else {
+        const data = {
+          id: assignment?._id,
+          collection: [currentCollection?._id]
+        };
+        dispatch(updateAssignment(data));
+      }
+      dispatch(getAssignments());
+    }
     onOk();
   };
 
