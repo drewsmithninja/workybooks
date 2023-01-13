@@ -31,11 +31,11 @@ function AssignmentDetailsPage() {
   const { studentAssignmentDetail, assignmentGradeList, assignments, isLoading, isError, message } = useSelector((state) => state.assignment);
   const { currentStudent, students } = useSelector((state) => state.students);
 
-  const updatedAssignmentList = assignments.map((item) => ({
+  const updatedAssignmentList = assignments?.map((item) => ({
     label: item?.title,
     value: item?._id
   }));
-  const getIndex = updatedAssignmentList.findIndex((item) => item.value === id);
+  const getIndex = updatedAssignmentList?.findIndex((item) => item.value === id);
 
   const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
     label: item?.title,
@@ -45,23 +45,25 @@ function AssignmentDetailsPage() {
 
   const [currentSelectedAssignment, setCurrentSelectedAssignment] = useState(updatedAssignmentList?.[getIndex] || {
   });
-  useEffect(() => {
-    onAssignmentApiCall(id);
-    getGradeList();
-  }, []);
 
-  const onAssignmentApiCall = (assignmentId) => {
-    dispatch(
+  const onAssignmentApiCall = async (assignmentId) => {
+    await dispatch(
       getStudentAssignmentDetail({
         assignmentId,
         classId: currentClass?._id
       })
     );
-    dispatch(getStudents(currentClass?._id));
+    await dispatch(getStudents(currentClass?._id));
   };
-  const getGradeList = () => {
-    dispatch(getAssignmentGradeList());
+  const getGradeList = async () => {
+    await dispatch(getAssignmentGradeList());
   };
+
+  useEffect(() => {
+    onAssignmentApiCall(id);
+    getGradeList();
+  }, []);
+
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
   };
 
@@ -269,7 +271,7 @@ function AssignmentDetailsPage() {
               renderItem={(item) => {
                 let findGradeIndex;
                 if (item?.assignmentGrades?.length > 0) {
-                  findGradeIndex = updatedAssignmentGradeList.findIndex((data, index) => data.value === item?.assignmentGrades?.[0]?._id);
+                  findGradeIndex = updatedAssignmentGradeList?.findIndex((data, index) => data.value === item?.assignmentGrades?.[0]?._id);
                 }
                 return (
                   <List.Item>
@@ -435,7 +437,7 @@ function AssignmentDetailsPage() {
                         </div>
                       </Col>
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                        <ADButton type='text' onClick={() => navigateToViewWork(item)}>
+                        <ADButton disabled={!item?.submittedDate} type='text' onClick={() => navigateToViewWork(item)}>
                           <div className='flex'>
                             <FaChartLine className='text-gray-400 text-2xl' />
                           </div>

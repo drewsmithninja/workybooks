@@ -30,9 +30,9 @@ function ViewAssignmentReport() {
   }));
 
   // const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
-  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.totalScore || [];
-  const assignmentGrade = submittedAssignmentDetail?.submittedAssignment[0]?.assignmentGrade || [];
-  const getIndex = updatedAssignmentGradeList.findIndex((item) => item.value === assignmentGrade._id);
+  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore || [];
+  const assignmentGrade = submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade || [];
+  const getIndex = updatedAssignmentGradeList?.findIndex((item) => item.value === assignmentGrade._id);
 
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
@@ -59,6 +59,11 @@ function ViewAssignmentReport() {
         label: 'No Assignment'
       }
     ];
+  const getGradeList = async () => {
+    await dispatch(
+      getAssignmentGradeList()
+    );
+  };
   useEffect(() => {
     const updateGradeDataArr = {
       studentId: currentStudent?._id,
@@ -70,25 +75,16 @@ function ViewAssignmentReport() {
 
     getGradeList();
   }, []);
-  const getGradeList = async () => {
-    await dispatch(
-      getAssignmentGradeList()
-    );
-  };
 
-  useEffect(() => {
-    getDataRequest(id);
-  }, [id]);
-
-  const getDataRequest = (asId) => {
+  const getDataRequest = async (asId) => {
     if (asId) {
-      dispatch(
+      await dispatch(
         getSubmittedAssignmentDetail({
           assignmentId: asId,
           studentId: currentStudent?._id
         })
       );
-      dispatch(
+      await dispatch(
         getSubmittedAssignments({
           studentId: currentStudent?._id,
           classId: currentClass?._id
@@ -96,6 +92,13 @@ function ViewAssignmentReport() {
       );
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      getDataRequest(id);
+    }
+  }, [id]);
+
   const onStudentChangeHandler = async (e) => {
     const cs = await students?.list.find((item) => item._id === e);
 
