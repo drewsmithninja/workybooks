@@ -94,12 +94,15 @@ function MyLibrary() {
   }, [sortBy]);
 
   useEffect(() => {
-    if (user) {
-      dispatch(updateCollectionLike());
-      dispatch(getRecentWorksheets());
-      dispatch(getFavoriteCollections());
-      dispatch(getCollections());
-    }
+    const getData = async () => {
+      if (user) {
+        await dispatch(getCollections());
+        await dispatch(updateCollectionLike());
+        await dispatch(getRecentWorksheets());
+        await dispatch(getFavoriteCollections());
+      }
+    };
+    getData();
   }, [rerender]);
 
   const handleCollectionModalOk = () => {
