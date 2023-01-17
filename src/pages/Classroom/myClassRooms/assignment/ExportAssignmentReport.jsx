@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // import CsvDownloadButton from 'react-json-to-csv';
 import { useSelector } from 'react-redux';
-import { CSVLink } from 'react-csv';
+import { CSVLink, CSVDownload } from 'react-csv';
 
 import { Col, Row, Checkbox, Modal, Typography } from 'antd';
 import ADTitle from '../../../../components/antd/ADTitle';
@@ -60,7 +60,10 @@ const staticItem = [
 ];
 
 function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
-  let headers = [
+  const [updatedRecords, setUpdatedRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [headers, setHeaders] = useState([
     {
       label: 'Student Name',
       key: 'studentName'
@@ -73,17 +76,8 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
       label: 'Assignment Grade',
       key: 'assignmentGrade'
     }
-  ];
-
-  const [updatedRecords, setUpdatedRecords] = useState([]);
-  const [updatedHeader, setUpdatedHeader] = useState([]);
+  ]);
   const { studentAssignmentReportJson } = useSelector((state) => state.assignment);
-
-  useEffect(() => {
-    filterRecords(staticItem);
-    setUpdatedHeader(headers);
-  }, []);
-
   const filterRecords = (data) => {
     let newJsonData = [];
 
@@ -98,28 +92,36 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
 
     setUpdatedRecords(newJsonData);
   };
+  useEffect(() => {
+    filterRecords(staticItem);
+    // setHeaders(headersList);
+  }, []);
+  useEffect(() => {
+    filterRecords(staticItem);
+    // setHeaders(headersList);
+  }, [studentAssignmentReportJson]);
 
   const onChange = (data) => {
+    setLoading(false);
     let newChangedArr = [];
 
     exportCsv.forEach((item, index) => {
       if (data.includes(item._id)) {
         newChangedArr = [...newChangedArr, exportCsv[index]];
-        headers = [
+        setHeaders([
           ...headers,
           {
             lable: exportCsv[index].title,
             key: exportCsv[index].value
           }
-        ];
+        ]);
       }
     });
 
-    setUpdatedHeader(headers);
     const tempArr = [...staticItem, ...newChangedArr];
     filterRecords(tempArr);
+    setLoading(true);
   };
-
   return (
     <Modal forceRender rounded centered width={550} footer={false} onCancel={onCancel} {...props} className='flex text-center'>
       <div>
@@ -159,9 +161,17 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
 
         <Row className='pt-10 pb-10'>
           <Col xl={24} md={24} sm={24} xs={24}>
-            <CSVLink data={updatedRecords} headers={updatedHeader} style={csvButton}>
-              Export Grades Reports
-            </CSVLink>
+            {loading ? (
+              <CSVLink
+                data={updatedRecords}
+                headers={headers}
+                style={csvButton}
+                filename='students-report.csv'
+                asyncOnClick={true}
+              >
+                Export Grades Reports
+              </CSVLink>
+            ) : null }
           </Col>
         </Row>
       </div>
