@@ -5,7 +5,7 @@ import { Table } from 'antd';
 import { toast } from 'react-toastify';
 import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
-import { classImportWithExcel } from '../../../app/features/classroom/classroomSlice';
+import { classImportWithExcel, getClassrooms } from '../../../app/features/classroom/classroomSlice';
 
 export default function GetCsvData({ onFileData }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -91,6 +91,7 @@ export default function GetCsvData({ onFileData }) {
         toast.error(error);
       } else {
         onFileData();
+        dispatch(getClassrooms());
       }
     });
   };
