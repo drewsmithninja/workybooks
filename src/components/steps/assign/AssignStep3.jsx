@@ -147,7 +147,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
-            {!edit && !inDetail && (
+            {!edit && (
               <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
                 Add more items
               </ADButton>
