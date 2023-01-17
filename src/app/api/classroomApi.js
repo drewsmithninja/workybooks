@@ -30,10 +30,12 @@ const getGoogleClassRoomData = async (data) => {
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const gToken = JSON.parse(gTOkenParse)?.accessToken;
 
-  const response = await axios.post(`${API_URL}/classroom/googleClassroom`, data, {
+  const response = await axios.post(`${API_URL}/classroom/googleClassroom`, {
+    access_token: gToken
+  }, {
     headers: {
-      authorization: authToken,
-      access_token: gToken
+      authorization: authToken
+      // access_token: gToken
     }
   });
   return response.data;
@@ -44,10 +46,12 @@ const getGoogleClassRoomDatainsert = async (data) => {
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const gToken = JSON.parse(gTOkenParse)?.accessToken;
 
-  const response = await axios.post(`${API_URL}/classroom/importGoogleClassroom`, data, {
+  const response = await axios.post(`${API_URL}/classroom/importGoogleClassroom`, {
+    access_token: gToken
+  }, {
     headers: {
-      authorization: authToken,
-      access_token: gToken
+      authorization: authToken
+      // access_token: gToken
     }
   });
   return response.data;
