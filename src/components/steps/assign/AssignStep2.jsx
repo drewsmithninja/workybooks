@@ -11,7 +11,7 @@ import ADImage from '../../antd/ADImage';
 import ADButton from '../../antd/ADButton';
 import { getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 
-export default function AssignStep2({ next, onClose }) {
+export default function AssignStep2({ next, onClose, inDetail }) {
   const classes = useSelector((state) => state.classroom.classes?.list);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);

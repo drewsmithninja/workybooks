@@ -96,9 +96,7 @@ function AssignmentDetailsPage() {
     setUpdatedGradeList([...updatedGradeList, newStudentObj]);
   };
   const navigateToViewWork = async (studentItem) => {
-    console.log(students, '-----', studentItem?.student);
     const cs = await students?.list.find((item) => item._id === studentItem?.student);
-    console.log('----cs----->', cs);
     await dispatch(setStudent(await cs));
     navigate(`/my-classrooms/assignment/view-work/${studentItem?.assignment}`);
   };
@@ -225,7 +223,6 @@ function AssignmentDetailsPage() {
             </Row>
           </div>
           <div className='flex py-4 justify-between px-4 items-center'>
-
             <ADTitle level={4}>Assignment Progress</ADTitle>
 
             <Space size='large'>
@@ -395,19 +392,25 @@ function AssignmentDetailsPage() {
                         </Row>
                       </Col>
                       <Col xl={3} lg={3} md={3} sm={3} xs={3} className='flex justify-center items-center'>
-                        {isEditableInput ? item?.assignmentGrades.length > 0 ? (
-                          <Select
-                            defaultValue={findGradeIndex ? updatedAssignmentGradeList[findGradeIndex] : {
-                              value: 0,
-                              label: 'Select'
-                            }}
-                            onChange={(value) => onChangeGrade(value, item)}
-                            style={{
-                              width: '100px'
-                            }}
-                            options={updatedAssignmentGradeList || []}
-                          />
-                        ) : null : (
+                        {isEditableInput ? (
+                          item?.assignmentGrades.length > 0 ? (
+                            <Select
+                              defaultValue={
+                                findGradeIndex ?
+                                  updatedAssignmentGradeList[findGradeIndex] :
+                                  {
+                                    value: 0,
+                                    label: 'Select'
+                                  }
+                              }
+                              onChange={(value) => onChangeGrade(value, item)}
+                              style={{
+                                width: '100px'
+                              }}
+                              options={updatedAssignmentGradeList || []}
+                            />
+                          ) : null
+                        ) : (
                           <Badge
                             count={item?.assignmentGrades?.[0]?.title}
                             style={{
