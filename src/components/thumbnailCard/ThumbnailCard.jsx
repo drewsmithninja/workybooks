@@ -18,6 +18,7 @@ import ShareModal from '../modals/ShareModal';
 import AssignModal from '../modals/AssignModal';
 import { unSelectCollection, selectCollection, setCurrentCollection } from '../../app/features/collection/collectionSlice';
 import CopyToCollectionModal from '../modals/CopyToCollectionModal';
+import AssignCollectionModal from '../modals/AssignCollectionModal';
 
 function ThumbnailCard({ className, cardWidth, id, cardChecked, collection, thumbnails = [], favorite, onFavChange, ...props }) {
   const collectionIsLoading = useSelector((state) => state.collection.isLoading);
@@ -95,12 +96,14 @@ function ThumbnailCard({ className, cardWidth, id, cardChecked, collection, thum
 
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/collection/${id}`]} multiple />;
   const copyToCollectionModal = <CopyToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const assignModal = <AssignModal forCollection open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  // const assignModal = <AssignModal forCollection open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const assignCollectionModal = <AssignCollectionModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
       {copyToCollectionModal}
-      {assignModal}
+      {assignCollectionModal}
+      {/* {assignModal} */}
       {shareModal}
       <PrintImages src={thumbnails} ref={componentRef} display={display} />
       <ADCard className={`${className ?? ''} ${cardWidth} bg-slate-200 h-full p-2`} {...props}>
