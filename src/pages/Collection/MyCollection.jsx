@@ -13,6 +13,7 @@ import ADTitle from '../../components/antd/ADTitle';
 import ADButton from '../../components/antd/ADButton';
 import ADImage from '../../components/antd/ADImage';
 import PrintImages from '../../components/common/PrintImages';
+import ShareModal from '../../components/modals/ShareModal';
 
 function MyCollection() {
   const { user } = useSelector((state) => state.auth);
@@ -20,6 +21,7 @@ function MyCollection() {
   const { id } = useParams();
   const componentRef = useRef();
   const [rerender, setRerender] = useState(0);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { currentCollection } = useSelector((state) => state.collection);
   const collectionInfo = currentCollection;
   const worksheetList = collectionInfo?.content || [];
@@ -43,9 +45,20 @@ function MyCollection() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
   });
+  const handleShareModalCancel = () => {
+    setIsShareModalOpen(false);
+  };
+
+  const paths = useMemo(() => {
+    const result = worksheetList.map((item) => `/worksheet/${item?._id}`);
+    return result;
+  }, [worksheetList]);
+
+  const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalCancel} onCancel={handleShareModalCancel} path={paths} multiple />;
 
   return (
     <MainLayout>
+      {shareModal}
       <div className='px-8 pb-4 pt-4'>
         <Row gutter={16} className='pb-4 border-1 border-solid border-x-0 border-t-0'>
           <Col xs={24} md={12}>
@@ -95,7 +108,15 @@ function MyCollection() {
                   </div>
                   <div className='text-xs pr-4 text-gray-500'>ASSIGN</div>
                 </Col>
-                <Col xs={24} lg={8} className='flex items-center'>
+                <Col
+                  xs={24}
+                  lg={8}
+                  className='flex items-center'
+                  onClick={() => setIsShareModalOpen(true)}
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
                   <div className='text-2xl mr-2 flex'>
                     <ADImage src={shareIcon} alt='share' />
                   </div>

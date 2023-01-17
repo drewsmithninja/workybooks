@@ -58,7 +58,7 @@ function AssignmentItem({ item, classId }) {
               <div className='inter-font text-sm ml-5'>
                 <div className='font-medium'>{item?.title}</div>
                 <div className='font-normal text-gray-400'>
-                  {item?.content?.[0]?.stds_topic?.map((topic, index) => (
+                  {item?.content?.[0]?.stds_topic?.slice(0, 2)?.map((topic, index) => (
                     <span key={topic}>{`${topic}${index < item?.content?.[0]?.stds_topic?.length - 1 ? ', ' : ''}`}</span>
                   ))}
                 </div>
