@@ -212,7 +212,7 @@ function MyLibrary() {
     if (e === 'my collection') {
       setCurrentTab(e);
       dispatch(getCollections());
-    } else if (e === 'favorites') {
+    } else if (e === 'favourites') {
       setCurrentTab(e);
       dispatch(favoriteData());
     } else if (e === 'recent') {
