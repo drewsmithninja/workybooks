@@ -128,7 +128,6 @@ export const assignmentSlice = createSlice({
   },
   reducers: {
     setViewWorkPageCount(state, action) {
-      console.log('---action.payload--->', action.payload);
       state.viewWorkPageCount = action.payload;
     },
     setCurrentStep: (state, action) => {

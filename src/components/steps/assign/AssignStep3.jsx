@@ -4,12 +4,12 @@ import moment from 'moment';
 import { useForm } from 'antd/lib/form/Form';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
-import { createAssignment, getAssignments, resetAssignment, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import { createAssignment, getAssignments, resetAssignment, setCurrentStep, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 import ADButton from '../../antd/ADButton';
 import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
 import { resetSelectedCollections } from '../../../app/features/collection/collectionSlice';
 
-export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
+export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
@@ -44,11 +44,6 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
     }
   ];
 
-  // useEffect(() => {
-  //   const setInitialClass = currentClass?._id;
-  //   console.log(setInitialClass);
-  // }, []);
-
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
@@ -68,6 +63,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
     await dispatch(resetAssignment());
     await dispatch(resetSelectedWorksheets());
     await dispatch(resetSelectedCollections());
+    await dispatch(setCurrentStep(0));
     await dispatch(getAssignments(currentClass?._id));
   };
 
@@ -151,7 +147,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
-            {!edit && (
+            {!edit && !inDetail && (
               <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
                 Add more items
               </ADButton>

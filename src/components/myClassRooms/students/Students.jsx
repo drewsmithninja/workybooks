@@ -21,7 +21,6 @@ function StudentsPage() {
 
   const updateStudentList = async () => {
     if (await classes?.length) {
-      // console.log(currentCreateClass);
       dispatch(setClass(currentCreateClass?.classroom?.name && classes?.list?.[0]));
     }
     await dispatch(getStudents(currentCreateClass?.classroom?._id && currentClass?._id));
