@@ -5,18 +5,12 @@ const initialState = {
   collections: null,
   favoriteCollections: null,
   currentCollection: null,
+  selectedCollections: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: ''
 };
-
-// getCollections done
-// getCollection done
-// getFavoriteCollection done
-// createCollection done
-// updateCollection done
-// deleteCollection
 
 export const getCollections = createAsyncThunk('library/getCollections', async (data, thunkAPI) => {
   try {
@@ -82,7 +76,16 @@ export const collectionSlice = createSlice({
   name: 'collection',
   initialState,
   reducers: {
-    setCollection(state, action) {
+    selectCollection(state, action) {
+      state.selectedCollections = [...state.selectedCollections, action.payload];
+    },
+    unSelectCollection(state, action) {
+      state.selectedCollections = state.selectedCollections.filter((c) => c !== action.payload);
+    },
+    resetSelectedCollections(state) {
+      state.selectedCollections = [];
+    },
+    setCurrentCollection(state, action) {
       state.currentCollection = action.payload;
     }
   },
@@ -177,5 +180,5 @@ export const collectionSlice = createSlice({
   }
 });
 
-export const { reset, setCollection } = collectionSlice.actions;
+export const { reset, selectCollection, unSelectCollection, resetSelectedCollections, setCurrentCollection } = collectionSlice.actions;
 export default collectionSlice.reducer;

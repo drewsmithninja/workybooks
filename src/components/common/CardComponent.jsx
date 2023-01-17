@@ -1,9 +1,9 @@
 /* eslint-disable no-return-assign */
-import React, { useCallback, useState, memo, useRef } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import ReactToPrint, { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from 'react-to-print';
 import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
@@ -23,7 +23,6 @@ import ShareModal from '../modals/ShareModal';
 
 function CardComponent({ cardWidth = 215, item, setRerender }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
-  // const [currentStep, setCurrentStep] = useState(0);
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -120,7 +119,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
           width: cardWidth
         }}
       >
-        {/* Card Image */}
         <div
           className='topImage rounded-2xl'
           style={{
@@ -150,13 +148,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
                 },
                 [item?._id]
               )}
-              // onChange={(e) => {
-              //   if (e.target.checked) {
-              //     dispatch(selectWorksheet(item?._id));
-              //   } else {
-              //     dispatch(unSelectWorksheet(item?._id));
-              //   }
-              // }}
               id={`collection_id_${item.worky_id}`}
               name={`collection_id_${item.worky_id}`}
             />

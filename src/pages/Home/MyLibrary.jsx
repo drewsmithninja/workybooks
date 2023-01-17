@@ -69,7 +69,7 @@ function MyLibrary() {
       const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
       const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy].toLowerCase() > b?.[sortBy].toLowerCase() ? 1 : -1));
-      sortedData3 = [...sortedData2, ...noData2];
+      sortedData3 = [...sortedData3, ...noData3];
       setCollectionData(sortedData3);
     } else {
       const filtered1 = favorites?.slice()?.filter((a) => a?.[sortBy]);
@@ -84,22 +84,24 @@ function MyLibrary() {
       sortedData2 = [...sortedData2, ...noData2];
       setRecentData(sortedData2);
 
-      const filtered3 = collectionData?.slice()?.filter((a) => a?.[sortBy]);
-      const noData3 = collectionData?.slice()?.filter((a) => !a?.[sortBy]);
+      const filtered3 = collectionData?.slice()?.filter((a) => (a?.[sortBy]));
+      const noData3 = collectionData?.slice()?.filter((a) => (!a?.[sortBy]));
       let sortedData3 = filtered3.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
-      sortedData3 = [...sortedData2, ...noData2];
-      const sortedCollection = collectionData?.slice()?.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
+      sortedData3 = [...sortedData3, ...noData3];
       setCollectionData(sortedData3);
     }
   }, [sortBy]);
 
   useEffect(() => {
-    if (user) {
-      dispatch(updateCollectionLike());
-      dispatch(getRecentWorksheets());
-      dispatch(getFavoriteCollections());
-      dispatch(getCollections());
-    }
+    const getData = async () => {
+      if (user) {
+        await dispatch(getCollections());
+        await dispatch(updateCollectionLike());
+        await dispatch(getRecentWorksheets());
+        await dispatch(getFavoriteCollections());
+      }
+    };
+    getData();
   }, [rerender]);
 
   const handleCollectionModalOk = () => {
@@ -170,7 +172,7 @@ function MyLibrary() {
           favorites.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
         ) : (
           <ADTitle level={3} className='px-2 py-20 rounded-xl'>
-            No any favorites Worksheets
+            No any favourites Worksheets
           </ADTitle>
         )}
       </div>
@@ -196,8 +198,8 @@ function MyLibrary() {
       children: collectionTab
     },
     {
-      label: 'favorites',
-      key: 'favorites',
+      label: 'favourites',
+      key: 'favourites',
       children: favCollectionTab
     },
     {
@@ -210,7 +212,7 @@ function MyLibrary() {
     if (e === 'my collection') {
       setCurrentTab(e);
       dispatch(getCollections());
-    } else if (e === 'favorites') {
+    } else if (e === 'favourites') {
       setCurrentTab(e);
       dispatch(favoriteData());
     } else if (e === 'recent') {

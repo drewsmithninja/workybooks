@@ -24,6 +24,7 @@ function NewSignIn() {
   const [googleData, setGoogleData] = useState({
   });
   const { isLoading, isError, message, isGoogle } = useSelector((state) => state.auth);
+  const [inputFieldsActive, setInputFieldsActive] = useState(false);
   useEffect(() => {
     if (isError) {
       if (isGoogle) {
@@ -89,6 +90,10 @@ function NewSignIn() {
     prompt: 'consent'
   });
 
+  const handleSignUpWithEmail = () => {
+    setInputFieldsActive(!inputFieldsActive);
+  };
+
   return (
     <>
       <Header className='h-20 relative container mx-auto'>
@@ -106,7 +111,7 @@ function NewSignIn() {
           </div>
         </div>
       </Header>
-      <div className='w-[85%] max-w-[554px] h-[688px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
+      <div className='w-[85%] max-w-[554px] bg-white-100 rounded-[20px] m-auto shadow flex flex-col text-center'>
         <Typography.Title level={2} className='mt-[56px] !mb-[65px]'>
           Sign in
         </Typography.Title>
@@ -122,52 +127,53 @@ function NewSignIn() {
               Sign in with Clever
             </ADButton>
           </a>
-          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]'>Sign in with Email</ADButton>
+          <ADButton className='w-[85%] max-w-[358px] h-[60px] m-auto rounded-[6px]' onClick={handleSignUpWithEmail}>Sign in with Email</ADButton>
         </div>
-
-        <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
-          <Form.Item
-            label={false}
-            name='email'
-            rules={[
-              {
-                type: 'email',
-                message: 'The input is not valid E-mail!'
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!'
-              }
-            ]}
-          >
-            <Input placeholder='Email' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
-          </Form.Item>
-          <Form.Item
-            label={false}
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!'
-              }
-            ]}
-          >
-            <Input.Password placeholder='Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
-          </Form.Item>
-          <div className='w-[85%] max-w-[358px] m-auto flex items-baseline justify-between'>
-            <Form.Item label={false}>
-              <Checkbox className='mr-[10px]'>Remember me</Checkbox>
+        {inputFieldsActive ? (
+          <Form onFinish={onFinish} form={form} onFinishFailed={onFinishFailed}>
+            <Form.Item
+              label={false}
+              name='email'
+              rules={[
+                {
+                  type: 'email',
+                  message: 'The input is not valid E-mail!'
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!'
+                }
+              ]}
+            >
+              <Input placeholder='Email' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
             </Form.Item>
-            <Link to='/forgot-password'>Forgot your password?</Link>
-          </div>
-          <Form.Item shouldUpdate>
-            {() => (
-              <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
-                Log in
-              </ADButton>
-            )}
-          </Form.Item>
-        </Form>
+            <Form.Item
+              label={false}
+              name='password'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your password!'
+                }
+              ]}
+            >
+              <Input.Password placeholder='Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
+            </Form.Item>
+            <div className='w-[85%] max-w-[358px] m-auto flex items-baseline justify-between'>
+              <Form.Item label={false}>
+                <Checkbox className='mr-[10px]'>Remember me</Checkbox>
+              </Form.Item>
+              <Link to='/forgot-password'>Forgot your password?</Link>
+            </div>
+            <Form.Item shouldUpdate>
+              {() => (
+                <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                  Log in
+                </ADButton>
+              )}
+            </Form.Item>
+          </Form>
+        ) : null}
       </div>
       <Paragraph className='m-auto block w-[85%] max-w-[554px] text-center mt-[20px] mb-[40px]'>
         Don’t have an account?

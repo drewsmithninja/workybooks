@@ -104,6 +104,15 @@ export const logout = createAsyncThunk('auth/logout', async () => {
   await authAPI.logout();
 });
 
+export const resendVerificationEmail = createAsyncThunk('auth/resend-verification-email', async (emailId, thunkAPI) => {
+  try {
+    return await authAPI.resendVerificationMail(emailId);
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -233,6 +242,18 @@ export const authSlice = createSlice({
       // logout cases
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(resendVerificationEmail.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+      })
+      .addCase(resendVerificationEmail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      .addCase(resendVerificationEmail.pending, (state, action) => {
+        state.isLoading = true;
       });
   }
 });

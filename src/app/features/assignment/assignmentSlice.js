@@ -259,8 +259,8 @@ export const assignmentSlice = createSlice({
               totalWrongAnswer: data?.totalWrongAnswer,
               totalBlankAnswer: data?.totalBlankAnswer,
               averagePercentage: data?.averagePercentage,
-              assignmentGrade: 'F',
-              assignmentGradeColor: 'red',
+              assignmentGrade: data?.assignmentGrades?.[0]?.title,
+              assignmentGradeColor: data?.assignmentGrades?.[0]?.color,
               totalQuestions
             };
             newJsonData = [...newJsonData, newObject];

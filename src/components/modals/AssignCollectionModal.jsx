@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssignments, setCurrentStep } from '../../app/features/assignment/assignmentSlice';
+import { resetSelectedCollections } from '../../app/features/collection/collectionSlice';
 import { resetSelectedWorksheets } from '../../app/features/worksheet/worksheetSlice';
 import ADModal from '../antd/ADModal';
 import ADSteps from '../antd/ADSteps';
-import AssignStep1 from '../steps/assign/AssignStep1';
 import AssignStep2 from '../steps/assign/AssignStep2';
 import AssignStep3 from '../steps/assign/AssignStep3';
 import NewAssignment from '../steps/assign/NewAssignment';
+import AssignCollectionStep1 from '../steps/AssignCollectionStep1';
 
-function AssignModal({ forCollection, onOk, ...props }) {
+function AssignCollectionModal({ onOk, ...props }) {
   const currentStep = useSelector((state) => state.assignment.currentStep);
-  const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
+  const [current, setCurrent] = useState(0);
   const dispatch = useDispatch();
 
   const next = () => {
@@ -24,8 +25,8 @@ function AssignModal({ forCollection, onOk, ...props }) {
 
   const onClose = () => {
     dispatch(setCurrentStep(0));
-    dispatch(resetSelectedWorksheets());
-    onOk();
+    dispatch(resetSelectedCollections());
+    onCancel();
   };
 
   const items = [
@@ -36,7 +37,7 @@ function AssignModal({ forCollection, onOk, ...props }) {
     {
       title: 'Select Items',
       icon: <>1</>,
-      content: <AssignStep1 next={next} onClose={onClose} onOk={onOk} {...props} />
+      content: <AssignCollectionStep1 next={next} onClose={onClose} onOk={onOk} {...props} />
     },
     {
       title: 'Select Students',
@@ -60,4 +61,4 @@ function AssignModal({ forCollection, onOk, ...props }) {
   );
 }
 
-export default AssignModal;
+export default AssignCollectionModal;
