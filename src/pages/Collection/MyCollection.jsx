@@ -14,13 +14,19 @@ import ADButton from '../../components/antd/ADButton';
 import ADImage from '../../components/antd/ADImage';
 import PrintImages from '../../components/common/PrintImages';
 import ShareModal from '../../components/modals/ShareModal';
+import AssignModal from '../../components/modals/AssignModal';
+import { setAssignment } from '../../app/features/assignment/assignmentSlice';
+import AssignCollectionModal from '../../components/modals/AssignCollectionModal';
 
 function MyCollection() {
   const { user } = useSelector((state) => state.auth);
+  const assignments = useSelector((state) => state.assignment.assignments);
+
   const authToken = user?.payload?.verification?.token;
   const { id } = useParams();
   const componentRef = useRef();
   const [rerender, setRerender] = useState(0);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { currentCollection } = useSelector((state) => state.collection);
   const collectionInfo = currentCollection;
@@ -49,15 +55,30 @@ function MyCollection() {
     setIsShareModalOpen(false);
   };
 
+  const showAssignModal = () => {
+    setIsAssignModalOpen(true);
+  };
+
+  const handleAssignModalOk = () => {
+    setIsAssignModalOpen(false);
+    dispatch(setCurrentStep(0));
+  };
+
+  const handleAssignModalCancel = () => {
+    setIsAssignModalOpen(false);
+  };
+
   const paths = useMemo(() => {
     const result = worksheetList.map((item) => `/worksheet/${item?._id}`);
     return result;
   }, [worksheetList]);
 
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalCancel} onCancel={handleShareModalCancel} path={paths} multiple />;
+  const assignCollectionModal = <AssignCollectionModal inDetail open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <MainLayout>
+      {assignCollectionModal}
       {shareModal}
       <div className='px-8 pb-4 pt-4'>
         <Row gutter={16} className='pb-4 border-1 border-solid border-x-0 border-t-0'>
@@ -101,10 +122,10 @@ function MyCollection() {
                   <div className='text-xs text-gray-500'>PRINT</div>
                 </Col>
                 <Col xs={24} lg={8} className='flex items-center border-y-0 border-l-0 border-solid'>
-                  <div className='text-2xl mr-2 flex'>
+                  <ADButton type='text' className='text-2xl mr-3 flex !p-0 text-gray-400 hover:text-gray-500' onClick={showAssignModal}>
                     <MdAssignmentTurnedIn />
-                  </div>
-                  <div className='text-xs pr-4 text-gray-500'>ASSIGN</div>
+                    <div className='text-xs pr-4'>ASSIGN</div>
+                  </ADButton>
                 </Col>
                 <Col
                   xs={24}

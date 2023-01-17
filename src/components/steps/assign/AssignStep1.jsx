@@ -48,8 +48,6 @@ export default function AssignStep1({ next, onClose, onCancel }) {
         content: result
       })
     );
-    console.log(currentClass, 'currentClass');
-    // dispatch(getAssignments(currentClass));
     dispatch(getClassrooms())
       .unwrap()
       .then(() => next());

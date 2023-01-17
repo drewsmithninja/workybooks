@@ -60,9 +60,7 @@ function ViewAssignmentReport() {
       }
     ];
   const getGradeList = async () => {
-    await dispatch(
-      getAssignmentGradeList()
-    );
+    await dispatch(getAssignmentGradeList());
   };
   useEffect(() => {
     const updateGradeDataArr = {
@@ -103,20 +101,19 @@ function ViewAssignmentReport() {
     const cs = await students?.list.find((item) => item._id === e);
 
     await dispatch(setStudent(await cs));
-    await dispatch(getSubmittedAssignments(await {
-      studentId: e,
-      classId: currentClass?._id
-    }));
-    // await dispatch(getSubmittedAssignments(await {
-    //   studentId: e,
-    //   classId: currentClass?._id
-    // }));
+    await dispatch(
+      getSubmittedAssignments(
+        await {
+          studentId: e,
+          classId: currentClass?._id
+        }
+      )
+    );
   };
   const onAssignmentChangeHandler = async (assignmentId) => {
     setViewPageCount(viewPageCount + 1);
     navigate(`/my-classrooms/assignment/view-work/${assignmentId}`);
   };
-  console.log('-----viewWorkPageCount---->', -viewPageCount);
 
   const onChangeGrade = (value) => {
     let newTempArr = [];
@@ -127,7 +124,6 @@ function ViewAssignmentReport() {
   };
 
   const onGradeUpdate = async () => {
-    console.log('----updatedGrade---->', updatedGrade);
     await dispatch(updateGradeList(updatedGrade));
   };
   return (
@@ -156,7 +152,9 @@ function ViewAssignmentReport() {
         </Row>
         <Row gutter={[16, 0]}>
           <Col xl={4} md={4} sm={4} xs={6} className='text-center'>
-            <ADTitle level={3} className='center'>Student work</ADTitle>
+            <ADTitle level={3} className='center'>
+              Student work
+            </ADTitle>
           </Col>
           <Col xl={8} md={8} sm={8} xs={6}>
             <ADSelect className='w-60' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
@@ -169,12 +167,7 @@ function ViewAssignmentReport() {
             </ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
-            <ADSelect
-              className='w-60'
-              defaultValue={assignmentOptions?.[0]}
-              onChange={(e) => onAssignmentChangeHandler(e)}
-              options={assignmentOptions}
-            />
+            <ADSelect className='w-60' defaultValue={assignmentOptions?.[0]} onChange={(e) => onAssignmentChangeHandler(e)} options={assignmentOptions} />
           </Col>
           <Col xl={7} md={7} sm={8} xs={10}>
             <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
@@ -262,7 +255,7 @@ function ViewAssignmentReport() {
                 className='flex flex-col justify-center items-center'
               >
                 <div className=''>SCORE</div>
-                <div className='font-bold'>{ `${assigmentDetails?.averagePercentage ? assigmentDetails?.averagePercentage : 0}%`}</div>
+                <div className='font-bold'>{`${assigmentDetails?.averagePercentage ? assigmentDetails?.averagePercentage : 0}%`}</div>
               </Col>
               <Col
                 xs={12}
@@ -277,9 +270,7 @@ function ViewAssignmentReport() {
                 }}
                 className='flex flex-col justify-center items-center'
               >
-                {(assigmentDetails?.averagePercentage) ?
-                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.averagePercentage} /> :
-                  <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                {assigmentDetails?.averagePercentage ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.averagePercentage} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
               </Col>
             </Row>
           </Col>
@@ -293,10 +284,12 @@ function ViewAssignmentReport() {
                 GRADE
               </span>
               <Select
-                defaultValue={updatedAssignmentGradeList?.[getIndex] || {
-                  value: 0,
-                  label: 'Select'
-                }}
+                defaultValue={
+                  updatedAssignmentGradeList?.[getIndex] || {
+                    value: 0,
+                    label: 'Select'
+                  }
+                }
                 onChange={onChangeGrade}
                 style={{
                   width: '100px'
