@@ -78,9 +78,7 @@ function MyCollection() {
             </div>
             <Space size='large' className='pt-1'>
               <ADTitle level={5}>Standards</ADTitle>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
+              {collectionInfo?.std_topic?.slice(0, 3).map((item, i) => <div className='w-[80px] text-center bg-gray-200'>{item}</div>)}
             </Space>
           </Col>
           <PrintImages ref={componentRef} src={printList} />

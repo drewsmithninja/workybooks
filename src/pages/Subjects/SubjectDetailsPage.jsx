@@ -21,7 +21,7 @@ export default function SubjectDetailsPage() {
   mappedSubjectsData.push(subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
-
+  console.log('subjectData', subjectData);
   useEffect(() => {
     setCurSubject(subjectData?.list?._id);
   }, []);
@@ -163,7 +163,6 @@ export default function SubjectDetailsPage() {
           <Search
             placeholder={`Search ${subjectDetail?.title} Topics`}
             className='w-full max-w-[487px] h-[40px] rounded-[60px]'
-            suffix={<SearchOutlined className='text-[#A5A5A5]' />}
             onSearch={onSearch}
           />
         </Col>

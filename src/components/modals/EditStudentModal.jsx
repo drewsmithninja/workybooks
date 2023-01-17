@@ -41,6 +41,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   const onDeleteHandler = async () => {
     await dispatch(deleteStudent(currentStudent?._id));
     await dispatch(getStudents(currentClass?._id));
+    onCancel();
   };
 
   const getFile = (e) => {
@@ -75,7 +76,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
     <ADModal forceRender centered footer={false} onCancel={onCancel} {...props}>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img
-          alt="example"
+          alt='example'
           style={{
             width: '100%'
           }}
@@ -91,7 +92,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
           <Col xs={24} sm={12}>
             <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
               <Upload
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                 listType='picture-card'
                 fileList={fileList}
                 onPreview={handlePreview}

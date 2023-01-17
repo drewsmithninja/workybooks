@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 /* eslint-disable no-unsafe-optional-chaining */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -172,7 +173,7 @@ function AssignmentDetailsPage() {
                 <Space>
                   {assignmentItems?.map((item, index) => {
                     if (index > 4) return null;
-                    return <ADImage key={`image_${index}`} src={item?.thumbnail} onError={dummyImage} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
+                    return <ADImage key={`image_${index}`} src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='Worksheet image' className='flex bg-slate-300 w-[60px] h-[60px] rounded-xl aspect[1/1] mt-4' />;
                   })}
                   {assignmentItems?.length > 4 ? (
                     <div className='font-bold text-xs px-4 pt-3 items-center'>
