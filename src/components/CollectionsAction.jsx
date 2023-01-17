@@ -10,6 +10,7 @@ import shareIcon from '../assets/images/icons/share.png';
 import AssignModal from './modals/AssignModal';
 import { setCurrentStep } from '../app/features/assignment/assignmentSlice';
 import CopyToCollectionModal from './modals/CopyToCollectionModal';
+import AssignCollectionModal from './modals/AssignCollectionModal';
 
 export function CollectionsAction() {
   const selectedCollections = useSelector((state) => state.collection.selectedCollections);
@@ -65,12 +66,12 @@ export function CollectionsAction() {
     }
   ];
 
-  const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const assignCollectionModal = <AssignCollectionModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
   const copyToCollectionModal = <CopyToCollectionModal open={isCopyToCollectionModalOpen} onOk={onCopyToCollectionModalOk} onCancel={onCopyToCollectionModalCancel} />;
 
   return (
-    <div className={`fixed flex justify-center items-center w-full bottom-[70px] ${selectedCollections?.length ? 'block' : 'hidden'}`}>
-      {assignModal}
+    <div className={`fixed flex justify-center items-center w-full bottom-[70px] ${selectedCollections.length ? 'block' : 'hidden'}`}>
+      {assignCollectionModal}
       {copyToCollectionModal}
       <div className='w-full max-w-[536px] h-[54px] bg-blue-800 rounded-full flex justify-center items-center'>
         <Space size='middle'>
