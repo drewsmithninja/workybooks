@@ -172,7 +172,7 @@ function MyLibrary() {
           favorites.map((item) => <CardComponent setRerender={setRerender} likeStatus={item?.likes?.isLike} key={item._id} item={item} cardWidth={215} />)
         ) : (
           <ADTitle level={3} className='px-2 py-20 rounded-xl'>
-            No any favorites Worksheets
+            No any favourites Worksheets
           </ADTitle>
         )}
       </div>
@@ -198,8 +198,8 @@ function MyLibrary() {
       children: collectionTab
     },
     {
-      label: 'favorites',
-      key: 'favorites',
+      label: 'favourites',
+      key: 'favourites',
       children: favCollectionTab
     },
     {
