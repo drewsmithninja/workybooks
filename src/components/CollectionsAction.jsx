@@ -69,7 +69,7 @@ export function CollectionsAction() {
   const copyToCollectionModal = <CopyToCollectionModal open={isCopyToCollectionModalOpen} onOk={onCopyToCollectionModalOk} onCancel={onCopyToCollectionModalCancel} />;
 
   return (
-    <div className={`fixed flex justify-center items-center w-full bottom-[70px] ${selectedCollections.length ? 'block' : 'hidden'}`}>
+    <div className={`fixed flex justify-center items-center w-full bottom-[70px] ${selectedCollections?.length ? 'block' : 'hidden'}`}>
       {assignModal}
       {copyToCollectionModal}
       <div className='w-full max-w-[536px] h-[54px] bg-blue-800 rounded-full flex justify-center items-center'>
