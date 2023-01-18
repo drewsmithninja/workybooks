@@ -177,7 +177,7 @@ export default function CCSDetailsPage() {
           </Typography.Title>
         </Col>
         <Col lg={12} xs={24} className='text-center md:text-right'>
-          <Search placeholder={`Search ${ccsDetail?.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' suffix={<SearchOutlined className='text-[#A5A5A5]' />} onSearch={onSearch} />
+          <Search placeholder={`Search ${ccsDetail?.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' onSearch={onSearch} />
         </Col>
       </Row>
       <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems}</div>

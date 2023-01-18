@@ -303,7 +303,6 @@ function StudentDashboard() {
             )}
           />
         )}
-        ;
       </div>
     </MainLayout>
   );

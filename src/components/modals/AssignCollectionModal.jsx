@@ -14,7 +14,7 @@ function AssignCollectionModal({ onOk, inDetail, ...props }) {
   const dispatch = useDispatch();
 
   const next = () => {
-    if (inDetail && currentStep === 1) {
+    if (inDetail && currentStep === 0) {
       dispatch(setCurrentStep(currentStep + 2));
     } else {
       dispatch(setCurrentStep(currentStep + 1));

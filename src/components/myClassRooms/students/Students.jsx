@@ -8,6 +8,7 @@ import { setClass } from '../../../app/features/classroom/classroomSlice';
 import { getStudents, setStudent } from '../../../app/features/students/studentsSlice';
 import EditStudentModal from '../../modals/EditStudentModal';
 import AddStudentsModal from '../../modals/AddStudentsModal';
+import dummyAvatar from '../../../assets/images/avatar.png';
 
 function StudentsPage() {
   const { classes, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
@@ -38,9 +39,6 @@ function StudentsPage() {
       </Col>
       <Col xl={12} md={10} sm={10} xs={8}>
         <div className='text-center inter-font font-medium text-xs'>ACTIVITY</div>
-      </Col>
-      <Col xl={3} md={4} sm={3} xs={3}>
-        <div className='text-center inter-font font-medium text-xs'>VIEW WORK</div>
       </Col>
       <Col xl={3} md={4} sm={3} xs={3}>
         <div className='text-center inter-font font-medium text-xs'>EDIT</div>
@@ -89,7 +87,7 @@ function StudentsPage() {
               <Row gutter={[0, 16]} className='w-full'>
                 <Col xl={6} md={6} sm={8} xs={10} className='flex items-center'>
                   <Space>
-                    <Avatar icon={<Image src={item.avatar} alt='img' />} />
+                    <Avatar icon={<Image src={item.avatar ? item.avatar : dummyAvatar} alt='img' />} />
                     <div className='inter-font text-sm ml-5'>
                       <ADButton type='text' className='font-medium !p-0' onClick={() => onStudentClickHandler(item)}>{`${item.firstName} ${item.lastName}`}</ADButton>
                       <div className='font-normal text-gray-400'>{item.userName}</div>
@@ -111,9 +109,6 @@ function StudentsPage() {
                       </div>
                     </Col>
                   </Row>
-                </Col>
-                <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
-                  <FaChartLine className='text-gray-400 text-lg' />
                 </Col>
                 <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
                   <div className='flex'>
