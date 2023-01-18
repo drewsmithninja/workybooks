@@ -45,10 +45,11 @@ const getGoogleClassRoomDatainsert = async (data) => {
   const gTOkenParse = localStorage.getItem('gToken');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
   const gToken = JSON.parse(gTOkenParse)?.accessToken;
-
-  const response = await axios.post(`${API_URL}/classroom/importGoogleClassroom`, {
-    access_token: gToken
-  }, {
+  const reqData = {
+    ...data
+  };
+  reqData.access_token = gToken;
+  const response = await axios.post(`${API_URL}/classroom/importGoogleClassroom`, reqData, {
     headers: {
       authorization: authToken
       // access_token: gToken
