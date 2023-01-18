@@ -75,6 +75,30 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     {
       label: 'Assignment Grade',
       key: 'assignmentGrade'
+    },
+    {
+      label: 'Time',
+      key: 'time'
+    },
+    {
+      label: 'Total Questions',
+      key: 'totalQuestions'
+    },
+    {
+      label: 'Correct',
+      key: 'totalCorrectAnswer'
+    },
+    {
+      label: 'Wrong',
+      key: 'totalWrongAnswer'
+    },
+    {
+      label: 'Skip',
+      key: 'totalBlankAnswer'
+    },
+    {
+      label: 'Score',
+      key: 'averagePercentage'
     }
   ]);
   const { studentAssignmentReportJson } = useSelector((state) => state.assignment);
@@ -108,13 +132,13 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     exportCsv.forEach((item, index) => {
       if (data.includes(item._id)) {
         newChangedArr = [...newChangedArr, exportCsv[index]];
-        setHeaders([
-          ...headers,
-          {
-            lable: exportCsv[index].title,
-            key: exportCsv[index].value
-          }
-        ]);
+        // setHeaders([
+        //   ...headers,
+        //   {
+        //     lable: exportCsv[index].title,
+        //     key: exportCsv[index].value
+        //   }
+        // ]);
       }
     });
 
@@ -122,6 +146,7 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
     filterRecords(tempArr);
     setLoading(true);
   };
+  console.log('-----updatedRecords---->', updatedRecords);
   return (
     <Modal forceRender rounded centered width={550} footer={false} onCancel={onCancel} {...props} className='flex text-center'>
       <div>
