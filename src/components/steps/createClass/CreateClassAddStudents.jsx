@@ -22,14 +22,16 @@ export default function CreateClassAddStudents({ next }) {
     }
   };
   const onFinish = async (values) => {
-    const data = {
-      classroom: currentClass._id,
-      ...values
-    };
-    await dispatch(createStudents(data));
-    await dispatch(getStudents(currentClass._id));
-    if (await isSuccess) {
-      await next();
+    if (values.students) {
+      const data = {
+        classroom: currentClass._id,
+        ...values
+      };
+      await dispatch(createStudents(data));
+      await dispatch(getStudents(currentClass._id));
+      if (await isSuccess) {
+        await next();
+      }
     }
   };
 

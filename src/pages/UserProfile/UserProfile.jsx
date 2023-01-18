@@ -3,6 +3,7 @@ import { Button, Col, Row, Form, Upload, message, Avatar, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import MainLayout from '../../components/layout/MainLayout';
 import ADButton from '../../components/antd/ADButton';
 import ADInput from '../../components/antd/ADInput';
@@ -17,6 +18,7 @@ function UserProfile() {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const { userData } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -30,30 +32,40 @@ function UserProfile() {
   useEffect(() => {
     form.setFieldsValue({
       salutation: userData?.user?.salutation || '',
-      firstname: userData?.user?.firstName || '',
-      lastname: userData?.user?.lastName || '',
+      firstName: userData?.user?.firstName || '',
+      lastName: userData?.user?.lastName || '',
       email: userData?.user?.email || '',
       password: userData?.user?.password || '',
-      schoolname: userData?.user?.schoolName || '',
+      schoolName: userData?.user?.schoolName || '',
       state: userData?.user?.state || '',
       city: userData?.user?.city || ''
     });
   }, [userData]);
 
+  const check = (values) => {
+    const { city, firstName, lastName, newPassword, salutation, schoolName, state } = values;
+    return (
+      userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
+    );
+  };
+
   const onFinish = (values) => {
-    const userInfo = {
-      id: user?.payload?._id,
-      userDetail: {
-        salutation: values.salutation,
-        firstName: values.firstname,
-        lastName: values.lastname,
-        schoolName: values.schoolname,
-        city: values.city,
-        state: values.state,
-        newPassword: values.password
-      }
-    };
-    if (userInfo) dispatch(updateProfile(userInfo));
+    if (!check(values)) {
+      const userInfo = {
+        id: user?.payload?._id,
+        userDetail: {
+          salutation: values.salutation,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          schoolName: values.schoolName,
+          city: values.city,
+          state: values.state,
+          newPassword: values.password
+        }
+      };
+      if (userInfo) dispatch(updateProfile(userInfo));
+      navigate('/');
+    }
   };
   const onFinishFailed = () => {
     toast.error('Something Wrong!, Not able to login!');
@@ -93,7 +105,7 @@ function UserProfile() {
         </div>
         <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
           <img
-            alt="example"
+            alt='example'
             style={{
               width: '100%'
             }}
@@ -131,7 +143,7 @@ function UserProfile() {
                     <div className='flex items-center'>
                       <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
                         <Upload
-                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                          action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                           listType='picture-card'
                           fileList={fileList}
                           onChange={handleChange}
@@ -186,12 +198,12 @@ function UserProfile() {
                       }}
                     >
                       <Col span={12}>
-                        <Form.Item label={false} name='firstname'>
+                        <Form.Item label={false} name='firstName'>
                           <ADInput placeholder='First Name' />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label={false} name='lastname'>
+                        <Form.Item label={false} name='lastName'>
                           <ADInput placeholder='Last Name' />
                         </Form.Item>
                       </Col>
@@ -210,7 +222,19 @@ function UserProfile() {
                   className='pb-8'
                 >
                   <Col offset={8} span={16}>
-                    <Form.Item label={false} name='email'>
+                    <Form.Item
+                      label={false}
+                      name='email'
+                      rules={[
+                        {
+                          type: 'email',
+                          message: 'The input is not valid E-mail!'
+                        },
+                        {
+                          required: true,
+                          message: 'Please input your E-mail!'
+                        }]}
+                    >
                       <ADInput placeholder='Email' value={userData?.user?.email} />
                     </Form.Item>
                   </Col>
@@ -263,7 +287,7 @@ function UserProfile() {
                     Your School
                   </Col>
                   <Col span={16}>
-                    <Form.Item label={false} name='schoolname'>
+                    <Form.Item label={false} name='schoolName'>
                       <ADInput placeholder='School Name' value={userData?.user?.schoolName} />
                     </Form.Item>
                   </Col>

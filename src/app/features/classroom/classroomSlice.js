@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 import classroomAPI from '../../api/classroomApi';
 
 export const createClass = createAsyncThunk('classroom/createClass', async (classData, thunkAPI) => {
@@ -7,6 +8,7 @@ export const createClass = createAsyncThunk('classroom/createClass', async (clas
     return response;
   } catch (error) {
     const message = error?.response?.data?.message;
+    toast.error(message);
     return thunkAPI.rejectWithValue(message);
   }
 });

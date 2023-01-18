@@ -5,7 +5,7 @@ import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
-import { getCollection } from '../../app/features/collection/collectionSlice';
+import { getCollection, setCurrentCollection } from '../../app/features/collection/collectionSlice';
 import MainLayout from '../../components/layout/MainLayout';
 import CardComponent from '../../components/common/CardComponent';
 import shareIcon from '../../assets/images/icons/share_gray.png';
@@ -29,6 +29,7 @@ function MyCollection() {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { currentCollection } = useSelector((state) => state.collection);
+  const collections = useSelector((state) => state.collection.collections?.list);
   const collectionInfo = currentCollection;
   const worksheetList = collectionInfo?.content || [];
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ function MyCollection() {
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
+    const cc = collections.find((c) => c._id === id);
+    dispatch(setCurrentCollection(cc));
   };
 
   const handleAssignModalOk = () => {
@@ -99,9 +102,7 @@ function MyCollection() {
             </div>
             <Space size='large' className='pt-1'>
               <ADTitle level={5}>Standards</ADTitle>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
-              <div className='w-[80px] text-center bg-gray-200'>3.W.3.1.B</div>
+              {collectionInfo?.std_topic?.slice(0, 3).map((item, i) => <div className='w-[80px] text-center bg-gray-200'>{item}</div>)}
             </Space>
           </Col>
           <PrintImages ref={componentRef} src={printList} />
