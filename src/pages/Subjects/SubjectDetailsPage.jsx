@@ -21,7 +21,7 @@ export default function SubjectDetailsPage() {
   mappedSubjectsData.push(subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
   const [ccsItems, setCCSItems] = useState(null);
   const [curSubject, setCurSubject] = useState('');
-  console.log('subjectData', subjectData);
+
   useEffect(() => {
     setCurSubject(subjectData?.list?._id);
   }, []);

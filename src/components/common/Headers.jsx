@@ -66,10 +66,10 @@ function Headers() {
             <span className={`navbar-menu-item ${window.location.pathname === '/' ? 'active-menu' : ''}`}>Explore</span>
           </Link>
           <Link to='/my-library'>
-            <span className={`navbar-menu-item ${window.location.pathname === '/my-library' ? 'active-menu' : ''}`}>My Library</span>
+            <span className={`navbar-menu-item ${window.location.pathname.includes('/my-library') ? 'active-menu' : ''}`}>My Library</span>
           </Link>
           <Link to='/my-classrooms'>
-            <span className={`navbar-menu-item ${window.location.pathname === '/my-classrooms' ? 'active-menu' : ''}`}>My Classrooms</span>
+            <span className={`navbar-menu-item ${window.location.pathname.includes('/my-classrooms') ? 'active-menu' : ''}`}>My Classrooms</span>
           </Link>
         </div>
         )}
