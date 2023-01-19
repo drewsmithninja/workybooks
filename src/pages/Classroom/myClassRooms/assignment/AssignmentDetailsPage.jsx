@@ -65,6 +65,13 @@ function AssignmentDetailsPage() {
     getGradeList();
   }, []);
 
+  useEffect(() => {
+    if (isAssignModalOpen === false) {
+      onAssignmentApiCall(id);
+      getGradeList();
+    }
+  }, [isAssignModalOpen]);
+
   const { assignmentDetails, assignmentItems, assignmentScore } = studentAssignmentDetail?.studentsAssignmentData || {
   };
 

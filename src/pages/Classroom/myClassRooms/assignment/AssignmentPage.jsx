@@ -3,6 +3,7 @@ import { Col, List, Row, Segmented, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAssignments, getAssignmentsByStatus } from '../../../../app/features/assignment/assignmentSlice';
 import AssignmentItem from './AssignmentItem';
+import Spinner from '../../../../components/spinner/Spinner';
 
 const options = [
   {
@@ -28,7 +29,7 @@ const options = [
 ];
 
 function AssignmentPage() {
-  const { assignments } = useSelector((state) => state.assignment);
+  const { assignments, isLoading } = useSelector((state) => state.assignment);
   const { currentClass } = useSelector((state) => state.classroom);
 
   const dispatch = useDispatch();
@@ -49,6 +50,12 @@ function AssignmentPage() {
 
   return (
     <div className='xl:px-20 lg:px-16 md:px-10 px-0'>
+      {/* {isLoading ? (
+        <Spinner style={{
+          marginTop: '100px'
+        }}
+        />
+      ) : ( */}
       <Space direction='vertical' size='large' className='flex'>
         <div className='flex justify-center pt-2'>
           <Segmented options={options} onChange={(e) => onSegmentChangeHandler(e)} />
@@ -87,6 +94,7 @@ function AssignmentPage() {
           renderItem={(item) => <AssignmentItem item={item} classId={currentClass?._id} />}
         />
       </Space>
+      {/* )} */}
     </div>
   );
 }

@@ -214,7 +214,7 @@ function MyLibrary() {
       dispatch(getCollections());
     } else if (e === 'favourites') {
       setCurrentTab(e);
-      dispatch(favoriteData());
+      dispatch(getFavoriteCollections());
     } else if (e === 'recent') {
       setCurrentTab(e);
       dispatch(getRecentWorksheets());
