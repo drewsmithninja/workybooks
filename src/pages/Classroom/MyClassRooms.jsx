@@ -32,12 +32,9 @@ function MyClassrooms() {
 
   useEffect(() => {
     dispatch(getClassrooms());
-    // if (currentCreateClass?.classroom) {
-
-    // }
-    // if (currentCreateClass) {
-    //   dispatch(setClass(currentCreateClass?.classroom));
-    // }
+    if (currentCreateClass) {
+      dispatch(setClass(currentCreateClass?.classroom));
+    }
   }, [currentCreateClass]);
 
   const onClassChangeHandler = async (e) => {
