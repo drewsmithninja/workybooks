@@ -10,6 +10,7 @@ import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import ADImage from '../../components/antd/ADImage';
 import { fetchGrades, setCurrentGrade } from '../../app/features/grade/GradeSlice';
+import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 
 function Home() {
   const user = localStorage.getItem('user');
@@ -23,6 +24,10 @@ function Home() {
   const [rerender, setRerender] = useState(0);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAssignments());
+  }, []);
 
   useEffect(() => {
     if (authToken) {

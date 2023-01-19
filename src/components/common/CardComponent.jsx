@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -32,7 +32,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
-    dispatch(getAssignments());
   };
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
