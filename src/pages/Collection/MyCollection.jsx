@@ -15,7 +15,7 @@ import ADImage from '../../components/antd/ADImage';
 import PrintImages from '../../components/common/PrintImages';
 import ShareModal from '../../components/modals/ShareModal';
 import AssignModal from '../../components/modals/AssignModal';
-import { setAssignment } from '../../app/features/assignment/assignmentSlice';
+import { setAssignCollectionCurrentStep, setAssignment } from '../../app/features/assignment/assignmentSlice';
 import AssignCollectionModal from '../../components/modals/AssignCollectionModal';
 import Spinner from '../../components/spinner/Spinner';
 
@@ -65,11 +65,12 @@ function MyCollection() {
 
   const handleAssignModalOk = () => {
     setIsAssignModalOpen(false);
-    dispatch(setCurrentStep(0));
+    dispatch(setAssignCollectionCurrentStep(0));
   };
 
   const handleAssignModalCancel = () => {
     setIsAssignModalOpen(false);
+    dispatch(setAssignCollectionCurrentStep(0));
   };
 
   const paths = useMemo(() => {
@@ -78,13 +79,15 @@ function MyCollection() {
   }, [worksheetList]);
 
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalCancel} onCancel={handleShareModalCancel} path={paths} multiple />;
-  const assignCollectionModal = <AssignCollectionModal inDetail open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const assignCollectionModal = <AssignCollectionModal inDetail closable={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <MainLayout>
       {assignCollectionModal}
       {shareModal}
-      {isLoading ? <Spinner /> : (
+      {isLoading ? (
+        <Spinner />
+      ) : (
         <>
           <div className='px-8 pb-4 pt-4'>
             <Row gutter={16} className='pb-4 border-1 border-solid border-x-0 border-t-0'>
@@ -105,7 +108,9 @@ function MyCollection() {
                 </div>
                 <Space size='large' className='pt-1'>
                   <ADTitle level={5}>Standards</ADTitle>
-                  {collectionInfo?.std_topic?.slice(0, 3).map((item, i) => <div className='w-[80px] text-center bg-gray-200'>{item}</div>)}
+                  {collectionInfo?.std_topic?.slice(0, 3).map((item, i) => (
+                    <div className='w-[80px] text-center bg-gray-200'>{item}</div>
+                  ))}
                 </Space>
               </Col>
               <PrintImages ref={componentRef} src={printList} />

@@ -4,12 +4,12 @@ import moment from 'moment';
 import { useForm } from 'antd/lib/form/Form';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
-import { createAssignment, getAssignments, resetAssignment, setCurrentStep, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
+import { createAssignment, getAssignments, resetAssignment, setAssignCollectionCurrentStep, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 import ADButton from '../../antd/ADButton';
 import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
 import { resetSelectedCollections } from '../../../app/features/collection/collectionSlice';
 
-export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail }) {
+export default function AssignStep3({ onOk, onClose, edit, onCancel }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const [assignmentTitle, setAssignmentTitle] = useState(currentAssignment?.title);
@@ -63,7 +63,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
     await dispatch(resetAssignment());
     await dispatch(resetSelectedWorksheets());
     await dispatch(resetSelectedCollections());
-    await dispatch(setCurrentStep(0));
+    await dispatch(setAssignCollectionCurrentStep(0));
     await dispatch(getAssignments(currentClass?._id));
   };
 

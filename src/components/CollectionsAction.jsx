@@ -73,6 +73,7 @@ export function CollectionsAction() {
     <div className={`fixed flex justify-center items-center w-full bottom-[70px] ${selectedCollections?.length ? 'block' : 'hidden'}`}>
       {assignCollectionModal}
       {copyToCollectionModal}
+      {assignCollectionModal}
       <div className='w-full max-w-[536px] h-[54px] bg-blue-800 rounded-full flex justify-center items-center'>
         <Space size='middle'>
           {items.map(({ icon, name, onClick }) => (

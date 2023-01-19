@@ -119,6 +119,7 @@ export const assignmentSlice = createSlice({
     assignmentGradeList: [],
     status: '',
     currentStep: 0,
+    assignCollectionCurrentStep: 0,
     currentAssignment: null,
     isLoading: false,
     isError: false,
@@ -132,6 +133,9 @@ export const assignmentSlice = createSlice({
     },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
+    },
+    setAssignCollectionCurrentStep: (state, action) => {
+      state.assignCollectionCurrentStep = action.payload;
     },
     setAssignment(state, action) {
       state.currentAssignment = action.payload;
@@ -302,5 +306,5 @@ export const assignmentSlice = createSlice({
   }
 });
 
-export const { setAssignment, setStatus, setCurrentStep, resetAssignment, setViewWorkPageCount } = assignmentSlice.actions;
+export const { setAssignment, setStatus, setCurrentStep, resetAssignment, setViewWorkPageCount, setAssignCollectionCurrentStep } = assignmentSlice.actions;
 export default assignmentSlice.reducer;
