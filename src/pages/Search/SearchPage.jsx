@@ -3,6 +3,7 @@ import { CloseCircleFilled } from '@ant-design/icons';
 import { Button, TreeSelect, Checkbox, Col, Divider, Modal, Row, Select, Tag, Typography, Space } from 'antd';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import InfiniteScroll from 'react-infinite-scroller';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { search } from '../../app/features/search/searchpageSlice';
@@ -29,6 +30,7 @@ function SearchResult() {
   const [subjectArr, setsubjectArr] = useState([]);
   const [ccsArr, setccsArr] = useState([]);
   const [sortBy, setSortBy] = useState('');
+  const [onScrollDataLength, setOnScrollDataLength] = useState(8);
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content || [];
@@ -147,6 +149,7 @@ function SearchResult() {
       );
     }
   }, [rerender]);
+  console.log(worksheetData?.length, onScrollDataLength);
   return (
     <MainLayout>
       <div className='w-full h-full flex flex-row'>
@@ -276,9 +279,19 @@ function SearchResult() {
                     worksheetData?.length === 0 ? null : (
                       <>
                         <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-                        <Col span={24} className='flex flex-wrap'>
-                          {worksheetData?.length ? worksheetData.map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
-                        </Col>
+
+                        <InfiniteScroll
+                          loadMore={() => {
+                            setOnScrollDataLength(onScrollDataLength + 6);
+                            // console.log('--', onScrollDataLength <= worksheetData?.length);
+                          }}
+                          hasMore={onScrollDataLength <= worksheetData?.length}
+                          loader={<div className='loader' key={0}>Loading ...</div>}
+                        >
+                          <Col span={24} className='flex flex-wrap'>
+                            {worksheetData?.length ? worksheetData?.slice(0, onScrollDataLength).map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+                          </Col>
+                        </InfiniteScroll>
                       </>
                     )
                   }
