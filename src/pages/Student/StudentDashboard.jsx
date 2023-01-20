@@ -135,6 +135,10 @@ function StudentDashboard() {
             className='rounded-t-lg with-header'
             header={header}
             itemLayout='horizontal'
+            pagination={{
+              onChange: (page) => {},
+              pageSize: 10
+            }}
             dataSource={submittedAssignments?.list}
             bordered
             renderItem={(item) => (
