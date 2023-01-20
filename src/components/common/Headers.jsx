@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useRef, useState } from 'react';
 import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, MenuOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
@@ -17,12 +19,14 @@ function Headers() {
   const dispatch = useDispatch();
   const navbarRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const [showMobileNavbar, setShowMobileNavbar] = useState(false);
   const [Notify, setNotify] = useState(false);
   const user = localStorage.getItem('user');
   const handleToggleNavbar = () => {
-    navbarRef.current.classList.toggle('flex');
-    navbarRef.current.classList.toggle('hidden');
-    hamburgerRef.current.classList.toggle('open');
+    setShowMobileNavbar(!showMobileNavbar);
+    // navbarRef.current.classList.toggle('flex');
+    // navbarRef.current.classList.toggle('hidden');
+    // hamburgerRef.current.classList.toggle('open');
   };
 
   const items = [
@@ -107,13 +111,39 @@ function Headers() {
 
         {/* hamburger icon */}
         {user && (
-        <ADButton className='hamburger md:hidden focus:outline-none bg-white' onClick={handleToggleNavbar} innerRef={hamburgerRef} id='menu-btn'>
+        <ADButton
+          className='hamburger md:hidden focus:outline-none bg-white'
+          style={{
+            position: 'relative'
+          }}
+          onClick={handleToggleNavbar}
+          innerRef={hamburgerRef}
+          id='menu-btn'
+        >
           <MenuOutlined />
+            {/* mobile menu */}
+            {showMobileNavbar && (
+            <div
+              style={{
+                position: 'absolute', top: 35, right: 0, zIndex: 10, backgroundColor: '#fff', padding: 10, boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+              }}
+              onClick={() => setShowMobileNavbar(false)}
+            >
+              <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+                <span className='navbar-menu-item'>Explore</span>
+              </Link>
+              <Link to='/my-library' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+                <span className='navbar-menu-item'>My Library </span>
+              </Link>
+              <Link to='/my-classrooms' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+                <span className='navbar-menu-item'>My Classrooms</span>
+              </Link>
+            </div>
+            )}
         </ADButton>
         )}
 
-        {/* mobile menu */}
-        <div className='md:hidden z-10'>
+        {/* <div className='md:hidden z-10'>
           <div id='menu' ref={navbarRef} className='bg-white border border-solid border-primary absolute flex-col items-center hidden self-end font-bold mt-6 left-0 rounded-md border-t-0 right-0 sm:w-auto sm:self-center'>
             <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
               <span className='navbar-menu-item'>Explore</span>
@@ -125,7 +155,7 @@ function Headers() {
               <span className='navbar-menu-item'>My Classrooms</span>
             </Link>
           </div>
-        </div>
+        </div> */}
       </Header>
       {Notify ? <Notification /> : ''}
     </>

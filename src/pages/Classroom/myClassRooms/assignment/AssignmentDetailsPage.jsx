@@ -11,6 +11,7 @@ import ADButton from '../../../../components/antd/ADButton';
 import dummyImage from '../../../../assets/images/dummyImage.png';
 import dummyAvatar from '../../../../assets/images/avatar.png';
 import ADTitle from '../../../../components/antd/ADTitle';
+import ADSelect from '../../../../components/antd/ADSelect';
 import MainLayout from '../../../../components/layout/MainLayout';
 import { getStudentAssignmentDetail, getAssignmentGradeList, updateGradeList, setAssignment, getAssignments } from '../../../../app/features/assignment/assignmentSlice';
 import ADImage from '../../../../components/antd/ADImage';
@@ -152,13 +153,10 @@ function AssignmentDetailsPage() {
           <div className='px-4 py-5 w-full flex justify-between'>
             <Space size='large'>
               <ADTitle level={3}>Assignment</ADTitle>
-              <Select
-                labelInValue
+              <ADSelect
+                className='w-40'
                 value={currentSelectedAssignment}
                 onChange={onChangeAssignment}
-                style={{
-                  width: '200px'
-                }}
                 options={updatedAssignmentList || []}
               />
 
