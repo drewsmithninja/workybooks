@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { listSubject, listCCL } from '../../app/features/home/homepageSlice';
-import { getPopularWorksheets, getWorksheets } from '../../app/features/worksheet/worksheetSlice';
+import { getPopularWorksheets, getWorksheets, getWorksheetsByGrades } from '../../app/features/worksheet/worksheetSlice';
 import CardComponent from '../../components/common/CardComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import dummyImage1 from '../../assets/images/dummyImage1.png';
@@ -35,8 +35,7 @@ function Home() {
         await dispatch(fetchGrades());
         await dispatch(setCurrentGrade(grades?.list?.[0]));
         await dispatch(
-          getWorksheets({
-            limit: 100,
+          getWorksheetsByGrades({
             gradeId: currentGrade?._id
           })
         );
@@ -47,6 +46,7 @@ function Home() {
         );
         await dispatch(listSubject());
         await dispatch(listCCL());
+        await dispatch(getWorksheets());
       };
       fetchData();
     }

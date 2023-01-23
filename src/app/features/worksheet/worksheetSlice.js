@@ -11,6 +11,16 @@ export const getWorksheets = createAsyncThunk('worksheet/getWorksheets', async (
   }
 });
 
+export const getWorksheetsByGrades = createAsyncThunk('worksheet/getWorksheetsByGrades', async (data, thunkAPI) => {
+  try {
+    const response = await worksheetAPI.getWorksheetsByGrades(data);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const getPopularWorksheets = createAsyncThunk('library/getPopularWorksheets', async (data, thunkAPI) => {
   try {
     const response = await worksheetAPI.getPopularWorksheets(data);
@@ -33,6 +43,7 @@ export const getRecentWorksheets = createAsyncThunk('library/getRecentWorksheets
 
 const initialState = {
   worksheets: null,
+  worksheetsByGrades: null,
   currentWorksheet: null,
   popularWorksheets: null,
   recentWorksheets: null,
@@ -77,7 +88,19 @@ export const worksheetSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-        state.worksheets = null;
+      })
+      .addCase(getWorksheetsByGrades.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getWorksheetsByGrades.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.worksheetsByGrades = action.payload;
+      })
+      .addCase(getWorksheetsByGrades.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(getPopularWorksheets.pending, (state) => {
         state.isLoading = true;

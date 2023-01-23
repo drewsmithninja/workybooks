@@ -10,7 +10,7 @@ import ADButton from '../antd/ADButton';
 import { getAssignments, updateAssignment } from '../../app/features/assignment/assignmentSlice';
 import { unSelectCollection } from '../../app/features/collection/collectionSlice';
 
-export default function AssignCollectionStep1({ next, onClose, onCancel }) {
+export default function AssignCollectionStep1({ next, onClose, onCancel, inDetail }) {
   const selectedCollections = useSelector((state) => state.collection.selectedCollections);
   const currentCollection = useSelector((state) => state.collection.currentCollection);
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment?.assignment);
@@ -61,9 +61,11 @@ export default function AssignCollectionStep1({ next, onClose, onCancel }) {
             <div className='grid grid-cols-4 gap-4'>
               {modifiedCollections?.map((c) => (
                 <div key={c?._id} className='bg-slate-200 rounded-md p-1 shadow'>
-                  <ADButton type='danger' className='worksheet-delete-button border-0' onClick={() => unSelectHandler(c)}>
-                    <BsDashCircle className='text-danger' />
-                  </ADButton>
+                  {!inDetail && (
+                    <ADButton type='danger' className='worksheet-delete-button border-0' onClick={() => unSelectHandler(c)}>
+                      <BsDashCircle className='text-danger' />
+                    </ADButton>
+                  )}
                   <Row gutter={[4, 4]} className=' aspect-[16/9]'>
                     {c.thumbnailList.slice(0, 4).map((item, index) => (
                       <Col key={index} xs={24} sm={12}>
@@ -79,7 +81,7 @@ export default function AssignCollectionStep1({ next, onClose, onCancel }) {
             <Empty className='min-h-[260px] flex flex-col justify-center items-center' />
           )}
         </div>
-        <p className='text-xs text-center pb-4'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>
+        {!inDetail && <p className='text-xs text-center pb-4'>You may continue adding more items to this assignment, or select ASSIGN button to finish assigning.</p>}
         <Row gutter={24}>
           <Col xs={24} md={8}>
             <ADButton type='danger' block onClick={onClose}>
@@ -87,9 +89,11 @@ export default function AssignCollectionStep1({ next, onClose, onCancel }) {
             </ADButton>
           </Col>
           <Col xs={24} md={8}>
-            <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
-              Add more items
-            </ADButton>
+            {!inDetail && (
+              <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onCancel}>
+                Add more items
+              </ADButton>
+            )}
           </Col>
           <Col xs={24} md={8}>
             <ADButton type='primary' className='bg-blue-400 border border-solid border-blue-400' block onClick={onAssignHandler}>
