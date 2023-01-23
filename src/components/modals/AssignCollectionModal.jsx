@@ -14,11 +14,7 @@ function AssignCollectionModal({ onOk, inDetail, ...props }) {
   const dispatch = useDispatch();
 
   const next = () => {
-    if (inDetail && assignCollectionCurrentStep === 0) {
-      dispatch(setAssignCollectionCurrentStep(assignCollectionCurrentStep + 2));
-    } else {
-      dispatch(setAssignCollectionCurrentStep(assignCollectionCurrentStep + 1));
-    }
+    dispatch(setAssignCollectionCurrentStep(assignCollectionCurrentStep + 1));
   };
 
   const afterClose = () => {
@@ -62,7 +58,7 @@ function AssignCollectionModal({ onOk, inDetail, ...props }) {
 
   return (
     <ADModal centered afterClose={afterClose} closable={false} footer={null} width={680} {...props}>
-      <ADSteps items={items} current={assignCollectionCurrentStep} onChange={(e) => onChangeHandler(e)} showSteps={assignCollectionCurrentStep !== 0} className='custom-assign-steps' />
+      <ADSteps items={items} current={assignCollectionCurrentStep} showSteps={assignCollectionCurrentStep !== 0} className='custom-assign-steps' />
       <div className='flex flex-col items-center justify-center'>
         <div className='steps-content max-w-[600px]'>{items[assignCollectionCurrentStep]?.content}</div>
       </div>

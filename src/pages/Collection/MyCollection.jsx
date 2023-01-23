@@ -35,6 +35,7 @@ function MyCollection() {
   const worksheetList = collectionInfo?.content || [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (user) {
       dispatch(
@@ -44,6 +45,11 @@ function MyCollection() {
       );
     }
   }, [id, rerender]);
+
+  useEffect(() => {
+    const cc = collections.find((c) => c._id === id);
+    dispatch(setCurrentCollection(cc));
+  }, [id]);
 
   const printList = useMemo(() => {
     const thumbnails = worksheetList.map((item) => item.thumbnail);
@@ -59,8 +65,6 @@ function MyCollection() {
 
   const showAssignModal = () => {
     setIsAssignModalOpen(true);
-    const cc = collections.find((c) => c._id === id);
-    dispatch(setCurrentCollection(cc));
   };
 
   const handleAssignModalOk = () => {

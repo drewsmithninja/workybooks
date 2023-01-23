@@ -40,15 +40,15 @@ function SearchResult() {
     if (sortBy !== '') {
       setLoader(true);
       if (sortBy === 'title') {
-        const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
-        const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
+        const filtered = worksheets?.slice()?.filter((a) => a?.[sortBy]);
+        const noData = worksheets?.slice()?.filter((a) => !a?.[sortBy]);
         let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
         sortedData = [...sortedData, ...noData];
         setLoader(false);
         return sortedData;
       }
-      const filtered = worksheets?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = worksheets?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered = worksheets?.slice()?.filter((a) => a?.[sortBy]);
+      const noData = worksheets?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       setTimeout(() => {
@@ -65,16 +65,16 @@ function SearchResult() {
     if (sortBy !== '') {
       setLoader(true);
       if (sortBy === 'title') {
-        const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
-        const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
+        const filtered = collections?.slice()?.filter((a) => a?.[sortBy]);
+        const noData = collections?.slice()?.filter((a) => !a?.[sortBy]);
         let sortedData = filtered.sort((a, b) => (a?.[sortBy]?.toLowerCase() > b?.[sortBy]?.toLowerCase() ? 1 : -1));
         sortedData = [...sortedData, ...noData];
         setLoader(false);
         setCollectionLoader(false);
         return sortedData;
       }
-      const filtered = collections?.slice()?.filter((a) => (a?.[sortBy]));
-      const noData = collections?.slice()?.filter((a) => (!a?.[sortBy]));
+      const filtered = collections?.slice()?.filter((a) => a?.[sortBy]);
+      const noData = collections?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
       sortedData = [...sortedData, ...noData];
       setTimeout(() => {
@@ -212,9 +212,14 @@ function SearchResult() {
                 </Tag>
               </Col>
             )}
-            <div style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingRight: 10
-            }}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                paddingRight: 10
+              }}
             >
               <Typography.Text className='font-bold'>{`${worksheets?.length + collections.length ?? 0} resources found`}</Typography.Text>
               {worksheets?.length + collections.length ? (
@@ -237,68 +242,72 @@ function SearchResult() {
             </div>
 
             {isSearchResultLoading || loader ? (
-              <div style={{
-                marginTop: 50, display: 'flex', width: '70vw', justifyContent: 'center', alignItems: 'center'
-              }}
+              <div
+                style={{
+                  marginTop: 50,
+                  display: 'flex',
+                  width: '70vw',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
               >
                 <Spinner />
               </div>
-            ) :
-              (
+            ) : (
+              <div>
+                {/* Collections */}
                 <div>
-                  {/* Collections */}
-                  <div>
-                    {collections?.length === 0 || collectionLoader ? null : (
-                      <div style={{
+                  {collections?.length === 0 || collectionLoader ? null : (
+                    <div
+                      style={{
                         marginBottom: 30
                       }}
+                    >
+                      <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
+                      <Row
+                        gutter={[16, 16]}
+                        style={{
+                          marginTop: 10
+                        }}
                       >
-                        <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
-                        <Row
-                          gutter={[16, 16]}
-                          style={{
-                            marginTop: 10
-                          }}
-                        >
-                          {collectionData?.length ? (
-                            collectionData?.map((item) => (
-                              <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-                                <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
-                              </Col>
-                            ))
-                          ) : (
-                            null
-                          )}
-                        </Row>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    {
-                    worksheetData?.length === 0 ? null : (
-                      <>
-                        <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
-
-                        <InfiniteScroll
-                          loadMore={() => {
-                            setOnScrollDataLength(onScrollDataLength + 6);
-                            // console.log('--', onScrollDataLength <= worksheetData?.length);
-                          }}
-                          hasMore={onScrollDataLength <= worksheetData?.length}
-                          loader={<div className='loader' key={0}>Loading ...</div>}
-                        >
-                          <Col span={24} className='flex flex-wrap'>
-                            {worksheetData?.length ? worksheetData?.slice(0, onScrollDataLength).map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
-                          </Col>
-                        </InfiniteScroll>
-                      </>
-                    )
-                  }
-                  </div>
+                        {collectionData?.length ?
+                          collectionData?.map((item) => (
+                            <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
+                              <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                            </Col>
+                          )) :
+                          null}
+                      </Row>
+                    </div>
+                  )}
                 </div>
-              )}
 
+                <div>
+                  {worksheetData?.length === 0 ? null : (
+                    <>
+                      <Typography.Text className='font-bold'>WORKSHEETS</Typography.Text>
+
+                      <InfiniteScroll
+                        loadMore={() => {
+                          setOnScrollDataLength(onScrollDataLength + 6);
+                          // console.log('--', onScrollDataLength <= worksheetData?.length);
+                        }}
+                        hasMore={onScrollDataLength <= worksheetData?.length}
+                        loader={(
+                          <div className='loader' key={0}>
+                            Loading ...
+                          </div>
+                        )}
+                      >
+                        <Col span={24} className='flex flex-wrap'>
+                          {worksheetData?.length ? worksheetData?.slice(0, onScrollDataLength).map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+                        </Col>
+                      </InfiniteScroll>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </Row>
         </div>
       </div>
