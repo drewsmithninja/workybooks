@@ -20,8 +20,10 @@ function Home() {
   const popularWorksheets = useSelector((state) => state.worksheet.popularWorksheets?.list);
   const { grades, currentGrade } = useSelector((state) => state.grades);
   const { subjectData, ccsData } = useSelector((state) => state.home);
+  const worksheetsByGrades = useSelector((state) => state.worksheet.worksheetsByGrades);
 
   const [rerender, setRerender] = useState(0);
+  const [call, setCall] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -30,10 +32,30 @@ function Home() {
   }, []);
 
   useEffect(() => {
+    const loadData = async () => {
+      setCall(false);
+      await dispatch(fetchGrades());
+      await dispatch(setCurrentGrade(grades?.list?.[0]));
+      setCall(true);
+    };
+    loadData();
+  }, []);
+
+  useEffect(() => {
     if (authToken) {
       const fetchData = async () => {
-        await dispatch(fetchGrades());
-        await dispatch(setCurrentGrade(grades?.list?.[0]));
+        if (call) {
+          await dispatch(
+            getWorksheetsByGrades({
+              gradeId: currentGrade?._id
+            })
+          );
+          await dispatch(
+            getPopularWorksheets({
+              gradeId: [currentGrade?._id]
+            })
+          );
+        }
         await dispatch(
           getWorksheetsByGrades({
             gradeId: currentGrade?._id
@@ -50,7 +72,7 @@ function Home() {
       };
       fetchData();
     }
-  }, [user, rerender]);
+  }, [user, rerender, call]);
 
   return (
     <MainLayout>
@@ -67,7 +89,14 @@ function Home() {
             </Col>
           </Row>
           <h3 className='uppercase pl-[15px] mt-[15px]'>New in workybooks</h3>
-          <div className='flex flex-row scrollVertical width-full'>{worksheets?.list?.length ? worksheets?.list?.map((item) => <CardComponent setRerender={setRerender} key={item._id} item={item} />) : <h2 className='px-4 py-24 text-center w-full'>no any worksheet here!</h2>}</div>
+          <div
+            className='flex flex-row'
+            style={{
+              overflow: 'scroll'
+            }}
+          >
+            {worksheetsByGrades?.list?.length ? worksheetsByGrades?.list?.map((item) => <CardComponent setRerender={setRerender} key={item._id} item={item} />) : <h2 className='px-4 py-24 text-center w-full'>no any worksheet here!</h2>}
+          </div>
           <h3 className='uppercase pl-[15px] mt-[15px]'>Popular</h3>
           <div className='flex flex-row scrollVertical width-full'>{popularWorksheets?.length ? popularWorksheets?.map((item) => <CardComponent setRerender={setRerender} key={item._id} item={item} />) : <h2 className='px-4 py-24 text-center w-full'>no any popular worksheet here!</h2>}</div>
         </div>

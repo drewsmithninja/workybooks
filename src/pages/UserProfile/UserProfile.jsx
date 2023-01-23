@@ -70,7 +70,7 @@ function UserProfile() {
     }
   };
   const onFinishFailed = () => {
-    toast.error('Something Wrong!, Not able to login!');
+    toast.error('Something Wrong!');
   };
 
   const getFile = (e) => {
@@ -200,12 +200,28 @@ function UserProfile() {
                       }}
                     >
                       <Col span={12}>
-                        <Form.Item label={false} name='firstName'>
+                        <Form.Item
+                          label={false}
+                          name='firstName'
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please input your First Name!'
+                            }]}
+                        >
                           <ADInput placeholder='First Name' />
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item label={false} name='lastName'>
+                        <Form.Item
+                          label={false}
+                          name='lastName'
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Please input your Last Name!'
+                            }]}
+                        >
                           <ADInput placeholder='Last Name' />
                         </Form.Item>
                       </Col>

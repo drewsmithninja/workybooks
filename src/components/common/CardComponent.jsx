@@ -177,7 +177,16 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
         </div>
 
         {/* Card Title */}
-        <p className='leading-4 text-[12px] mb-0'>{`${item.title}-${item?.descrpt?.substring(0, 50)}`}</p>
+        <p
+          className='leading-4 text-[12px] mb-0'
+          style={{
+            height: '45px',
+            overflow: 'hidden',
+            textAlign: 'justify'
+          }}
+        >
+          {`${item.title}-${item?.descrpt?.substring(0, 50)}`}
+        </p>
 
         {/* Card author */}
         <p className='leading-4 text-[10px] text-gray-400'>{item.author}</p>

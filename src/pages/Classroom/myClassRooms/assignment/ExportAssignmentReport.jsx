@@ -189,6 +189,7 @@ function ExportAssignmentReport({ onShow, onOk, onCancel, ...props }) {
             {loading ? (
               <CSVLink
                 data={updatedRecords}
+                onClick={onCancel}
                 headers={headers}
                 style={csvButton}
                 filename='students-report.csv'

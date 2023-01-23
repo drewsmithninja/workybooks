@@ -96,7 +96,7 @@ export default function SubjectDetailsPage() {
           items.push(
             <div className='bg-white w-full'>
               {/* {parentItem} */}
-              <div className='bg-white my-4 w-full'>{subItems}</div>
+              <div className='bg-white w-full'>{subItems}</div>
             </div>
           );
         }
@@ -105,13 +105,13 @@ export default function SubjectDetailsPage() {
             <div className='bg-white'>
               <div>{parentItem}</div>
               {/* <div className='w-full p-0.5 bg-gray-600' /> */}
-              <div className='bg-gray-100 my-4 w-full'>{subItems}</div>
+              <div className='bg-gray-100 w-full'>{subItems}</div>
             </div>
           );
         }
         if (level === 3) {
           items.push(
-            <div className='bg-white my-4'>
+            <div className='bg-white'>
               {parentItem}
               <div className='bg-gray-100 w-full flex flex-wrap'>{subItems}</div>
             </div>
@@ -152,7 +152,10 @@ export default function SubjectDetailsPage() {
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData1?.list} />
       <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
-      <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
+      <Row style={{
+        padding: '1rem 3.5rem'
+      }}
+      >
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
             {subjectDetail?.title}
