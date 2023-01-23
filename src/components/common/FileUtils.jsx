@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
 import printIcon from '../../assets/images/icons/print.png';
 import folderIcon from '../../assets/images/icons/folder.png';
 import assignIcon from '../../assets/images/icons/assign.png';
@@ -12,10 +13,23 @@ import AddToCollectionModal from '../modals/AddToCollectionModal';
 import AssignModal from '../modals/AssignModal';
 import ShareModal from '../modals/ShareModal';
 import { setCurrentStep } from '../../app/features/assignment/assignmentSlice';
+import PrintImages from './PrintImages';
 
 function FileUtils({ show = false }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
+  const worksheets = useSelector((state) => state.worksheet.worksheets?.list);
 
+  const resultPrint = useMemo(() => {
+    let final = [];
+    selectedWorksheets?.map((item) => {
+      const b = worksheets.find((a) => a._id === item);
+      final = [...final, b?.thumbnail];
+      return final;
+    });
+    return final;
+  }, [selectedWorksheets]);
+
+  const componentRef = useRef();
   const paths = useMemo(() => {
     const result = selectedWorksheets.map((item) => `/worksheet/${item}`);
     return result;
@@ -82,14 +96,19 @@ function FileUtils({ show = false }) {
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={paths} multiple />;
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current
+  });
+
   return (
     <div className={`w-full fixed ${show ? 'show-print-box' : 'hide-print-box'} h-[54px] text-center block flex items-center justify-center bottom-print`}>
       {addToCollection}
       {assignModal}
       {shareModal}
+      <PrintImages src={resultPrint} ref={componentRef} />
       <div className='w-full max-w-[536px] flex h-[54px] bg-blue-800 rounded-[27px] items-center justify-center px-[30px]'>
         <div className='w-full h-full flex flex-row justify-between'>
-          <ADButton type='text' className='!p-0 gap-[10px]'>
+          <ADButton type='text' className='!p-0 gap-[10px]' onClick={handlePrint}>
             <ADImage src={printIcon} alt='print' />
             <Typography.Text className='font-normal text-white'>PRINT</Typography.Text>
           </ADButton>

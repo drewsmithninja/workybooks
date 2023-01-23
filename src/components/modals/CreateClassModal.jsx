@@ -40,7 +40,7 @@ function CreateClassModal({ onOk, ...props }) {
     },
     {
       title: 'create manual', // 1
-      content: <CreateClassManually next={next} />
+      content: <CreateClassManually next={next} handleCreateClassOk={props.handleCreateClassOk} />
     },
     {
       title: 'add students', // 2

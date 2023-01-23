@@ -65,6 +65,8 @@ function UserProfile() {
       };
       if (userInfo) dispatch(updateProfile(userInfo));
       navigate('/');
+    } else {
+      toast.info('No Changes made');
     }
   };
   const onFinishFailed = () => {

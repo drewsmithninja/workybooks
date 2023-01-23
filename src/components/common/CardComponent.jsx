@@ -151,9 +151,13 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
               name={`collection_id_${item.worky_id}`}
             />
           </div>
-          <ADButton className='flex flex-1 items-center justify-center' onClick={setLike} type='text'>
-            {item.likes.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' />}
-          </ADButton>
+          {item.likes.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' onClick={setLike} /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' onClick={setLike} />}
+          <span style={{
+            fontSize: '13px', paddingLeft: '5px', color: 'gray'
+          }}
+          >
+            {item?.likes?.count}
+          </span>
           <div className='flex flex-1 items-center justify-end'>
             <Dropdown
               onClick={() => dispatch(setCurrentWorksheet(item))}
