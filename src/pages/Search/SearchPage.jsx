@@ -149,7 +149,7 @@ function SearchResult() {
       );
     }
   }, [rerender]);
-  console.log(worksheetData?.length, onScrollDataLength);
+
   return (
     <MainLayout>
       <div className='w-full h-full flex flex-row'>
@@ -290,7 +290,6 @@ function SearchResult() {
                       <InfiniteScroll
                         loadMore={() => {
                           setOnScrollDataLength(onScrollDataLength + 6);
-                          // console.log('--', onScrollDataLength <= worksheetData?.length);
                         }}
                         hasMore={onScrollDataLength <= worksheetData?.length}
                         loader={(

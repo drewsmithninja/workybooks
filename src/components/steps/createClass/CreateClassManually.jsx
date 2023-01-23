@@ -16,9 +16,13 @@ export default function CreateClassManually({ next }) {
 
   const onFinish = async (values) => {
     try {
-      await dispatch(createClass(values));
+      const result = await dispatch(createClass(values));
       await dispatch(getClassrooms());
-      await next();
+      if (result.payload !== 'Class already exist') {
+        await next();
+      } else {
+        await handleCreateClassOk();
+      }
     } catch (error) {
       toast.error(error);
     }
