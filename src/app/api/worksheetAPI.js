@@ -2,6 +2,17 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+const getWorksheetsByGrades = async (data) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/content/list`, data, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
 const getWorksheets = async (data) => {
   const user = localStorage.getItem('user');
   const authToken = JSON.parse(user)?.payload?.verification?.token;
@@ -38,7 +49,8 @@ const getRecentWorksheets = async () => {
 const worksheetAPI = {
   getWorksheets,
   getPopularWorksheets,
-  getRecentWorksheets
+  getRecentWorksheets,
+  getWorksheetsByGrades
 };
 
 export default worksheetAPI;

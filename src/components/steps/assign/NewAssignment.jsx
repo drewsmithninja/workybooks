@@ -9,6 +9,7 @@ import dummyImage from '../../../assets/images/dummyImage.png';
 import { createAssignment, getAssignments, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 import Spinner from '../../spinner/Spinner';
 import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
+import { resetSelectedCollections } from '../../../app/features/collection/collectionSlice';
 
 export default function NewAssignment({ next, onOk, forCollection }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
@@ -32,8 +33,7 @@ export default function NewAssignment({ next, onOk, forCollection }) {
       .then(() => next());
   };
 
-  const addToAssignmentHandler = (assignment) => {
-    dispatch(resetSelectedWorksheets());
+  const addToAssignmentHandler = async (assignment) => {
     if (forCollection) {
       if (selectedWorksheets.length) {
         const data = {
@@ -66,6 +66,8 @@ export default function NewAssignment({ next, onOk, forCollection }) {
       }
       dispatch(getAssignments());
     }
+    await dispatch(resetSelectedWorksheets());
+    await dispatch(resetSelectedCollections());
     onOk();
   };
 

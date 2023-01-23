@@ -14,6 +14,7 @@ import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
 import AssignStep1 from '../../components/steps/assign/AssignStep1';
 import AssignStep2 from '../../components/steps/assign/AssignStep2';
 import AssignStep3 from '../../components/steps/assign/AssignStep3';
+import Spinner from '../../components/spinner/Spinner';
 
 function MyLibrary() {
   const favoriteCollections = useSelector((state) => state.collection.favoriteCollections?.list);
@@ -29,6 +30,7 @@ function MyLibrary() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
   const [isStepModalOpen, setIsStepModalOpen] = useState(false);
+  const [loader, setLoader] = useState(true);
   const dispatch = useDispatch();
   const { Step } = Steps;
   const collectionFavHandler = async (e) => {
@@ -39,6 +41,12 @@ function MyLibrary() {
     await dispatch(updateCollectionLike(data));
     await setRerender(Math.random());
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 3000);
+  }, []);
 
   useEffect(() => {
     setCollectionData(collections);
@@ -134,7 +142,14 @@ function MyLibrary() {
 
   const collectionTab = (
     <Row gutter={[16, 16]}>
-      {collectionData?.length ? (
+      {loader ? (
+        <div style={{
+          marginTop: '30vh', display: 'flex', justifyContent: 'center', width: '100%'
+        }}
+        >
+          <Spinner />
+        </div>
+      ) : collectionData?.length ? (
         collectionData?.map((item) => (
           <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
             <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
@@ -145,6 +160,7 @@ function MyLibrary() {
           No Collections here!
         </ADTitle>
       )}
+
     </Row>
   );
 
@@ -152,7 +168,7 @@ function MyLibrary() {
     <>
       <Typography.Text className='font-bold'>COLLECTIONS</Typography.Text>
       <Row gutter={[16, 16]} className='py-4'>
-        {collectionData?.length ? (
+        {collectionData?.filter((item) => item.favorite)?.length ? (
           collectionData
             ?.filter((item) => item.favorite)
             ?.map((item) => (

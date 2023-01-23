@@ -170,7 +170,10 @@ export default function CCSDetailsPage() {
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData?.list} />
       <GradeComponent activeGrade='3' gradeList={gradeData?.list} getGrade={handleGrade} />
-      <Row gutter={[16, 16]} className='container !mx-auto mt-[30px]'>
+      <Row style={{
+        padding: '0rem 3.5rem'
+      }}
+      >
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
             {`${ccsDetail?.title} - Grade 3`}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Radio } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentGrade } from '../../app/features/grade/GradeSlice';
-import { getPopularWorksheets, getWorksheets } from '../../app/features/worksheet/worksheetSlice';
+import { getPopularWorksheets, getWorksheets, getWorksheetsByGrades } from '../../app/features/worksheet/worksheetSlice';
 
 function GradeComponent() {
   const { grades, currentGrade } = useSelector((state) => state.grades);
@@ -13,8 +13,7 @@ function GradeComponent() {
     const selectedGrade = await grades?.list?.find((grade) => grade?.title === e);
     await dispatch(setCurrentGrade(selectedGrade));
     await dispatch(
-      getWorksheets({
-        limit: 100,
+      getWorksheetsByGrades({
         gradeId: selectedGrade?._id
       })
     );
