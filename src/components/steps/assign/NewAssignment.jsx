@@ -101,17 +101,16 @@ export default function NewAssignment({ next, onOk, forCollection }) {
             </ADTitle>
             {!assignmentLoading ? (
               <div className='max-h-56 overflow-y-auto'>
-                {assignments?.length &&
-                  assignments.map((assignment) => (
-                    <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addToAssignmentHandler(assignment)}>
-                      <Col flex='none'>
-                        <ADImage src={assignment.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
-                      </Col>
-                      <Col xs={24} flex='auto' className='flex items-center'>
-                        {assignment.title}
-                      </Col>
-                    </Row>
-                  ))}
+                {assignments?.map((assignment) => (
+                  <Row key={assignment._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addToAssignmentHandler(assignment)}>
+                    <Col flex='none'>
+                      <ADImage src={assignment.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
+                    </Col>
+                    <Col xs={24} flex='auto' className='flex items-center'>
+                      {assignment.title}
+                    </Col>
+                  </Row>
+                ))}
               </div>
             ) : (
               <div className='min-h-[200px] flex justify-center items-center'>
