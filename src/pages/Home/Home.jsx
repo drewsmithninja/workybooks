@@ -68,7 +68,9 @@ function Home() {
         );
         await dispatch(listSubject());
         await dispatch(listCCL());
-        await dispatch(getWorksheets());
+        await dispatch(getWorksheets({
+          limit: 300
+        }));
       };
       fetchData();
     }

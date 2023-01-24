@@ -53,8 +53,8 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
         id: currentAssignment?._id,
         title: assignmentTitle,
         assignmentType: values?.assignmentType,
-        startDate: moment(values?.startDate).format('MM/DD/YYYY HH:MM'),
-        endDate: moment(values?.endDate).format('MM/DD/YYYY HH:MM'),
+        startDate: values?.startDate ? moment(values?.startDate).format('MM/DD/YYYY HH:MM') : '',
+        endDate: values?.endDate ? moment(values?.endDate).format('MM/DD/YYYY HH:MM') : '',
         points: values?.points
       })
     )
