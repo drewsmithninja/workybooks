@@ -10,6 +10,8 @@ import ADButton from '../antd/ADButton';
 import { deleteStudent, editStudent, getStudents } from '../../app/features/students/studentsSlice';
 import getBase64 from '../../utils/getBase64';
 
+const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   const { currentClass } = useSelector((state) => state.classroom);
   const { currentStudent } = useSelector((state) => state.students);
@@ -20,11 +22,27 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
 
   const dispatch = useDispatch();
   const [form] = useForm();
-
-  const [fileList, setFileList] = useState([]);
+  console.log('-----------', currentStudent?.avatar);
+  const [fileList, setFileList] = useState([{
+    uid: -1, status: 'done', url: `${IMAGE_URL}/${currentStudent?.avatar}`
+  }]);
 
   const handleChange = ({ fileList: newFileList }) => {
+    console.log(newFileList[0]?.response?.url, '--');
+    form.setFieldsValue({
+      avtarImage: newFileList[0]?.response?.url
+    });
     setFileList(newFileList);
+  };
+  const uploadProps = {
+    beforeUpload: (file) => {
+      const isPNG = file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
+      if (!isPNG) {
+        message.error(`${file.name} is not a image file`);
+        return true;
+      }
+      return isPNG;
+    }
   };
 
   useEffect(() => {
@@ -34,8 +52,12 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
       lastName: currentStudent?.lastName,
       userName: currentStudent?.userName,
       password: currentStudent?.password,
-      parentEmail: currentStudent?.parentEmail
+      parentEmail: currentStudent?.parentEmail,
+      avtarImage: currentStudent?.avatar
     });
+    setFileList([{
+      uid: -1, status: 'done', url: `${IMAGE_URL}/${currentStudent?.avatar}`
+    }]);
   }, [currentStudent]);
 
   const onDeleteHandler = async () => {
@@ -54,6 +76,10 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
   const handleCancel = () => setPreviewOpen(false);
 
   const onFinish = async (values) => {
+    delete values.image;
+    values.avatar = values.avtarImage;
+    delete values.avtarImage;
+    console.log(values);
     const data = {
       id: currentStudent?._id,
       ...values
@@ -92,11 +118,13 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
           <Col xs={24} sm={12}>
             <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
               <Upload
-                action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                action={`${API_URL}/user/uploadImage`}
                 listType='picture-card'
                 fileList={fileList}
-                onPreview={handlePreview}
+                accept='image/*'
+                {...uploadProps}
                 onChange={handleChange}
+                onPreview={handlePreview}
               >
                 {fileList.length >= 1 ? null : <Avatar size={64} icon={<UserOutlined />} />}
               </Upload>
@@ -156,6 +184,9 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
           <Col xs={24} sm={12} className='flex items-center'>
             <Form.Item name='password' className='w-full'>
               <Input size='large' type='password' placeholder='Password' />
+            </Form.Item>
+            <Form.Item label={false} name='avtarImage' hidden={true}>
+              <Input type='text' />
             </Form.Item>
           </Col>
         </Row>
