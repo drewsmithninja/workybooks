@@ -22,13 +22,11 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
 
   const dispatch = useDispatch();
   const [form] = useForm();
-  console.log('-----------', currentStudent?.avatar);
   const [fileList, setFileList] = useState([{
     uid: -1, status: 'done', url: `${IMAGE_URL}/${currentStudent?.avatar}`
   }]);
 
   const handleChange = ({ fileList: newFileList }) => {
-    console.log(newFileList[0]?.response?.url, '--');
     form.setFieldsValue({
       avtarImage: newFileList[0]?.response?.url
     });
@@ -116,7 +114,17 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
       <Form name='edit-student' form={form} onFinish={onFinish}>
         <Row gutter={[16, 0]} className='mb-2'>
           <Col xs={24} sm={12}>
-            <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
+            <Form.Item
+              name='image'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please upload your profile image!'
+                }]}
+              initialValue={fileList}
+              getValueFromEvent={getFile}
+              valuePropName='avatar'
+            >
               <Upload
                 action={`${API_URL}/user/uploadImage`}
                 listType='picture-card'

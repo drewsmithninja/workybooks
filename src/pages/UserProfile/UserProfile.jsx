@@ -161,12 +161,22 @@ function UserProfile() {
                   </Col>
                   <Col span={16}>
                     <div className='flex items-center'>
-                      <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
+                      <Form.Item
+                        name='image'
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please upload your profile image!'
+                          }]}
+                        getValueFromEvent={getFile}
+                        valuePropName='avatar'
+                        initialValue={fileList}
+                      >
                         <Upload
                           action={`${API_URL}/user/uploadImage`}
                           listType='picture-card'
                           fileList={fileList}
-                          accept="image/*"
+                          accept='image/*'
                           {...uploadProps}
                           onChange={handleChange}
                           onPreview={handlePreview}

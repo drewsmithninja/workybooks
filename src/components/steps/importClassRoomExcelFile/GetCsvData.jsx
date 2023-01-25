@@ -10,6 +10,7 @@ import { classImportWithExcel, getClassrooms } from '../../../app/features/class
 export default function GetCsvData({ onFileData }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [classData, setClassData] = useState([]);
+  const [classDataSubmit, setClassDataSubmit] = useState([]);
   const dispatch = useDispatch();
   const fileInputRef = useRef();
   const schema = {
@@ -20,6 +21,10 @@ export default function GetCsvData({ onFileData }) {
     grade: {
       prop: 'grade',
       type: String
+    },
+    id: {
+      prop: 'key',
+      type: Number
     }
   };
   const onSelectChange = (newSelectedRowKeys) => {
@@ -62,6 +67,17 @@ export default function GetCsvData({ onFileData }) {
       }
     ]
   };
+  useEffect(() => {
+    if (selectedRowKeys?.length !== 0) {
+      const resultData = [];
+      selectedRowKeys?.forEach((item) => {
+        resultData.push(classData?.filter((d) => d.key === item)[0]);
+      });
+      setClassDataSubmit(resultData);
+    } else {
+      setClassDataSubmit([]);
+    }
+  }, [selectedRowKeys]);
   const columns = [
     {
       title: 'ClassName',
@@ -84,7 +100,7 @@ export default function GetCsvData({ onFileData }) {
   const submitClassData = () => {
     dispatch(
       classImportWithExcel({
-        classrooms: classData
+        classrooms: classDataSubmit
       })
     ).then((res) => {
       if (res?.error) {
@@ -127,7 +143,7 @@ export default function GetCsvData({ onFileData }) {
         }}
         dataSource={classData}
       />
-      {classData?.length > 0 && (
+      {classDataSubmit?.length > 0 && (
         <ADButton size='large' type='primary' onClick={submitClassData} className='w-1/3'>
           Submit
         </ADButton>
