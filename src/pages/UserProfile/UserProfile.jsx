@@ -11,6 +11,9 @@ import ADTitle from '../../components/antd/ADTitle';
 import { getProfile, updateProfile } from '../../app/features/user/userSlice';
 import getBase64 from '../../utils/getBase64';
 
+const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
+const API_URL = process.env.REACT_APP_API_URL;
+
 function UserProfile() {
   const { user } = useSelector((state) => state.auth);
   const [userPassword, setUserPassword] = useState('abcdefghijkl');
@@ -29,6 +32,9 @@ function UserProfile() {
     );
   }, [user?.user]);
 
+  const [fileList, setFileList] = useState([{
+    uid: -1, status: 'done', url: `${IMAGE_URL}/${userData?.user?.avatar}`
+  }]);
   useEffect(() => {
     form.setFieldsValue({
       salutation: userData?.user?.salutation || '',
@@ -38,17 +44,28 @@ function UserProfile() {
       password: userData?.user?.password || '',
       schoolName: userData?.user?.schoolName || '',
       state: userData?.user?.state || '',
-      city: userData?.user?.city || ''
+      city: userData?.user?.city || '',
+      avtarImage: userData?.user?.avatar
     });
   }, [userData]);
 
   const check = (values) => {
-    const { city, firstName, lastName, newPassword, salutation, schoolName, state } = values;
+    const { city, firstName, lastName, newPassword, salutation, schoolName, state, avtarImage } = values;
     return (
-      userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
+      userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
     );
   };
 
+  const uploadProps = {
+    beforeUpload: (file) => {
+      const isPNG = file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg';
+      if (!isPNG) {
+        message.error(`${file.name} is not a image file`);
+        return true;
+      }
+      return isPNG;
+    }
+  };
   const onFinish = (values) => {
     if (!check(values)) {
       const userInfo = {
@@ -60,7 +77,8 @@ function UserProfile() {
           schoolName: values.schoolName,
           city: values.city,
           state: values.state,
-          newPassword: values.password
+          newPassword: values.password,
+          avatar: values.avtarImage
         }
       };
       if (userInfo) dispatch(updateProfile(userInfo));
@@ -81,10 +99,10 @@ function UserProfile() {
   };
 
   // Extra
-
-  const [fileList, setFileList] = useState([]);
-
   const handleChange = ({ fileList: newFileList }) => {
+    form.setFieldsValue({
+      avtarImage: newFileList[0]?.response?.url
+    });
     setFileList(newFileList);
   };
 
@@ -145,9 +163,11 @@ function UserProfile() {
                     <div className='flex items-center'>
                       <Form.Item name='image' getValueFromEvent={getFile} valuePropName='avatar'>
                         <Upload
-                          action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                          action={`${API_URL}/user/uploadImage`}
                           listType='picture-card'
                           fileList={fileList}
+                          accept="image/*"
+                          {...uploadProps}
                           onChange={handleChange}
                           onPreview={handlePreview}
                         >
@@ -286,6 +306,12 @@ function UserProfile() {
                         <Form.Item label={false} name='password'>
                           <ADInput value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
                         </Form.Item>
+                        <Form.Item label={false} name='avtarImage' hidden={true}>
+                          <ADInput type='text' />
+                        </Form.Item>
+                        {/* <Form.Item label={false} name='avtarImge'>
+                          <ADInput placeholder='School Name' value='ffsdfsdf' />
+                        </Form.Item> */}
                       </Col>
                     </Row>
                   </Col>
