@@ -12,6 +12,7 @@ export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const classState = useSelector((state) => state?.classroom);
   const [classData, setClassData] = useState([]);
+  const [classDataSubmit, setClassDataSubmit] = useState([]);
   const [buttonEnable, setButtonEnable] = useState(false);
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ export default function ImportClass({ next }) {
       const arrData = [];
       classState?.googleClassRoom?.classroom?.forEach((item, index) => {
         arrData.push({
-          key: index + 1,
+          key: item?.id,
           classId: item?.id,
           name: item?.classGrade,
           grade: item?.grade,
@@ -42,7 +43,7 @@ export default function ImportClass({ next }) {
   const getClassRoomdataAPIInsert = () => {
     try {
       dispatch(getGoogleClassRoomDataInsert({
-        importClass: classData
+        importClass: classDataSubmit
       })).then((res) => {
         next();
       // setCurrent(4);
@@ -91,6 +92,19 @@ export default function ImportClass({ next }) {
       }
     ]
   };
+  useEffect(() => {
+    if (selectedRowKeys?.length !== 0) {
+      const resultData = [];
+      selectedRowKeys?.forEach((item) => {
+        resultData.push(classData?.filter((d) => d.key === item)[0]);
+      });
+      setClassDataSubmit(resultData);
+      setButtonEnable(true);
+    } else {
+      setClassDataSubmit([]);
+      setButtonEnable(false);
+    }
+  }, [selectedRowKeys]);
   const columns = [
     {
       title: 'Classid',

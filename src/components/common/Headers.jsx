@@ -1,19 +1,20 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { BellFilled, DownOutlined, EditOutlined, LogoutOutlined, MenuOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Dropdown, Layout, Menu, Space, Button } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle } from 'react-icons/fa';
 import { logout, reset } from '../../app/features/auth/authSlice';
+import { getProfile } from '../../app/features/user/userSlice';
 import logo from '../../assets/images/logo.png';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
 import Notification from './Notification';
 
 const { Header } = Layout;
-
+const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 function Headers() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,14 +22,22 @@ function Headers() {
   const hamburgerRef = useRef(null);
   const [showMobileNavbar, setShowMobileNavbar] = useState(false);
   const [Notify, setNotify] = useState(false);
-  const user = localStorage.getItem('user');
+  const userLocalData = localStorage.getItem('user');
+  const { userData } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
   const handleToggleNavbar = () => {
     setShowMobileNavbar(!showMobileNavbar);
     // navbarRef.current.classList.toggle('flex');
     // navbarRef.current.classList.toggle('hidden');
     // hamburgerRef.current.classList.toggle('open');
   };
-
+  useEffect(() => {
+    dispatch(
+      getProfile({
+        id: user?.payload?._id
+      })
+    );
+  }, [user?.user]);
   const items = [
     {
       label: 'Edit Profile',
@@ -64,7 +73,7 @@ function Headers() {
         </Link>
 
         {/* navbar menu */}
-        {user && (
+        {userLocalData && (
         <div className='hidden space-x-4 md:flex'>
           <Link to='/' className='hover:text-[#243E8F]'>
             <span className={`navbar-menu-item ${window.location.pathname === '/' ? 'active-menu' : ''}`}>Explore</span>
@@ -79,7 +88,7 @@ function Headers() {
         )}
 
         {/* login/register button */}
-        {!user ? (
+        {!userLocalData ? (
           <Space size='large'>
             <ADButton onClick={() => navigate('/sign-in')} type='primary' className='w-[100px]'>
               Sign In
@@ -94,7 +103,21 @@ function Headers() {
             <BellFilled onClick={() => setNotify(!Notify)} className='text-2xl text-gray-400 mr-5 mt-6' />
 
             <div className='flex'>
-              <FaUserCircle className='text-4xl text-success' />
+              {
+              userData.user.avatar !== '' ? (
+                <ADImage
+                  src={`${IMAGE_URL}/${userData.user.avatar}`}
+                  alt='logo'
+                  className=''
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%'
+                  }}
+                />
+              ) : <FaUserCircle className='text-4xl text-success' />
+            }
+
             </div>
             <Dropdown
               menu={{

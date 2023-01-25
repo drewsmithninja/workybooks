@@ -11,6 +11,7 @@ import AddStudentsModal from '../../modals/AddStudentsModal';
 import dummyAvatar from '../../../assets/images/avatar.png';
 import Spinner from '../../spinner/Spinner';
 
+const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 function StudentsPage() {
   const { classes, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
   const { students, isLoading } = useSelector((state) => state.students);
@@ -94,7 +95,7 @@ function StudentsPage() {
                 <Row gutter={[0, 16]} className='w-full'>
                   <Col xl={6} md={6} sm={8} xs={10} className='flex items-center'>
                     <Space>
-                      <Avatar icon={<Image src={item.avatar ? item.avatar : dummyAvatar} alt='img' />} />
+                      <Avatar icon={<Image src={item.avatar ? `${IMAGE_URL}/${item.avatar}` : dummyAvatar} preview={false} alt='img' />} />
                       <div className='inter-font text-sm ml-5'>
                         <ADButton type='text' className='font-medium !p-0' onClick={() => onStudentClickHandler(item)}>{`${item.firstName} ${item.lastName}`}</ADButton>
                         <div className='font-normal text-gray-400'>{item.userName}</div>
