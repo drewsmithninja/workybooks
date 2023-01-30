@@ -104,9 +104,9 @@ function Headers() {
 
             <div className='flex'>
               {
-              userData.user.avatar !== '' ? (
+              userData?.user?.avatar !== '' ? (
                 <ADImage
-                  src={`${IMAGE_URL}/${userData.user.avatar}`}
+                  src={`${IMAGE_URL}/${userData?.user?.avatar}`}
                   alt='logo'
                   className=''
                   style={{
