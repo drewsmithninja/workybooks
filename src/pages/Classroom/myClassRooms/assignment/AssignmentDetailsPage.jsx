@@ -79,13 +79,10 @@ function AssignmentDetailsPage() {
   const exportAssignmentReportModal = <ExportAssignmentReport closable={false} open={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)} />;
 
   const onChangeAssignment = (item) => {
-    const { label, value } = item;
-    setCurrentSelectedAssignment({
-      label,
-      value
-    });
-    navigate(`/my-classrooms/assignment/${value}`);
-    onAssignmentApiCall(value);
+    const getIndex1 = updatedAssignmentList?.findIndex((i) => i.value === item);
+    setCurrentSelectedAssignment(updatedAssignmentList?.[getIndex1]);
+    navigate(`/my-classrooms/assignment/${item}`);
+    onAssignmentApiCall(item);
   };
   const onClickEditGrade = (value) => {
     setIsEditableInput(value);
