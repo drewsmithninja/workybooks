@@ -47,6 +47,9 @@ function SearchResult() {
         setLoader(false);
         return sortedData;
       }
+      if (sortBy === 'best_match') {
+        return worksheets;
+      }
       const filtered = worksheets?.slice()?.filter((a) => a?.[sortBy]);
       const noData = worksheets?.slice()?.filter((a) => !a?.[sortBy]);
       let sortedData = filtered.sort((a, b) => (a?.[sortBy] > b?.[sortBy] ? 1 : -1));
@@ -99,10 +102,12 @@ function SearchResult() {
 
   const onChange = (checkedValues) => {
     setgradeArr(checkedValues);
+    setRerender(Math.random());
   };
 
   const onChangeSubject = (checkedValues) => {
     setsubjectArr(checkedValues);
+    setRerender(Math.random());
   };
 
   function closeTag() {
@@ -119,6 +124,7 @@ function SearchResult() {
 
   const handleCcs = (value) => {
     setccsArr([value]);
+    setRerender(Math.random());
   };
 
   useEffect(() => {
@@ -164,6 +170,7 @@ function SearchResult() {
                       <Row className='pb-1.5' key={item._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
                           Grade
+                          {' '}
                           <span className='capitalize'>{item?.title}</span>
                         </Checkbox>
                       </Row>
@@ -233,9 +240,10 @@ function SearchResult() {
                       borderRadius: 8
                     }}
                   >
+                    <Select.Option value='best_match'>Best Match</Select.Option>
                     <Select.Option value='title'>Title</Select.Option>
                     <Select.Option value='dt_upd'>Date Updated</Select.Option>
-                    <Select.Option value='dt_added'>Date Created</Select.Option>
+                    <Select.Option value='dt_added'>Newest</Select.Option>
                   </Select>
                 </Space>
               ) : null}

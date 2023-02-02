@@ -115,7 +115,7 @@ function StudentDashboard() {
               <ADTitle level={2}>Student</ADTitle>
             </div>
           </div>
-          <ADSelect className='w-40' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
+          <ADSelect className='w-40' value={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           <div className='flex'>
             <ADButton type='text' className='!p-0' onClick={() => showEditStudentModal(currentStudent)}>
               <FaPencilAlt className='text-gray-400 text-lg' />

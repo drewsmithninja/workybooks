@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable no-return-assign */
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { Checkbox, Dropdown } from 'antd';
@@ -123,6 +125,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
           style={{
             width: cardWidth
           }}
+          onClick={() => dispatch(setCurrentWorksheet(item))}
         >
           <Link to={item._id ? `/worksheet/${item._id}` : ''}>
             <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />

@@ -7,11 +7,13 @@ import ADTitle from '../../antd/ADTitle';
 import ADImage from '../../antd/ADImage';
 import { createCollection, getCollections, updateCollection } from '../../../app/features/collection/collectionSlice';
 import dummyImage from '../../../assets/images/dummyImage.png';
+import Spinner from '../../spinner/Spinner';
 
 export default function NewCollection({ onCancel }) {
   const currentWorksheet = useSelector((state) => state.worksheet.currentWorksheet);
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const collections = useSelector((state) => state.collection.collections?.list);
+  const loading = useSelector((s) => s.collection.isLoading);
   const [inputVal, setInputVal] = useState('');
   const dispatch = useDispatch();
 
@@ -84,8 +86,16 @@ export default function NewCollection({ onCancel }) {
             <ADTitle level={5} className='py-4'>
               Add to existing Collection
             </ADTitle>
-            <div className='max-h-56 overflow-y-auto'>
-              {collections?.length &&
+            {loading ? (
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'
+              }}
+              >
+                <Spinner />
+              </div>
+            ) : (
+              <div className='max-h-56 overflow-y-auto'>
+                {collections?.length &&
                 collections.map((i) => (
                   <Row key={i._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addCollectionHandler(i._id)}>
                     <Col flex='none'>
@@ -96,7 +106,8 @@ export default function NewCollection({ onCancel }) {
                     </Col>
                   </Row>
                 ))}
-            </div>
+              </div>
+            )}
           </div>
         </Col>
       </Row>

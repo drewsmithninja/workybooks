@@ -191,7 +191,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
           </Col>
           <Col xs={24} sm={12} className='flex items-center'>
             <Form.Item name='password' className='w-full'>
-              <Input size='large' type='password' placeholder='Password' />
+              <Input size='large' placeholder='Password' />
             </Form.Item>
             <Form.Item label={false} name='avtarImage' hidden={true}>
               <Input type='text' />
