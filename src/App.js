@@ -37,19 +37,20 @@ function App() {
         <Route path='/verify-email/:id' element={<VerifyEmail />} />
         <Route path='/sign-up-google' element={<NewSignUpGoogle />} />
         <Route path='/' element={<Home />} />
+        <Route path='/explore' element={<Home />} />
         <Route element={<PrivateRoutes />}>
           <Route path='/user-profile' element={<UserProfile />} />
           <Route path='/grade-selection' element={<CreateClassroom />} />
           <Route path='/select-classroom' element={<SelectClassroom />} />
           <Route path='/my-library' element={<MyLibrary />} />
-          <Route path='/subject/:sid' element={<SubjectDetailsPage />} />
+          <Route path='/explore/subject/:sid' element={<SubjectDetailsPage />} />
           <Route path='/ccs/:id' element={<CCSDetailsPage />} />
           <Route path='/my-classrooms' element={<MyClassrooms />} />
           <Route path='/my-classrooms/student-dashboard/:id' element={<StudentDashboard />} />
           <Route path='/my-classrooms/assignment/:id' element={<AssignmentDetailsPage />} />
           <Route path='/my-classrooms/assignment/view-work/:id' element={<ViewAssignmentReport />} />
-          <Route path='/search-result' element={<SearchResult />} />
-          <Route path='/worksheet/:userId' element={<Worksheet />} />
+          <Route path='/explore/search-result' element={<SearchResult />} />
+          <Route path='my-library/worksheet/:userId' element={<Worksheet />} />
           <Route path='/collection/:id' element={<MyCollection />} />
         </Route>
         <Route path='*' element={<NotFound />} />

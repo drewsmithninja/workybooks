@@ -31,7 +31,7 @@ function FileUtils({ show = false }) {
 
   const componentRef = useRef();
   const paths = useMemo(() => {
-    const result = selectedWorksheets.map((item) => `/worksheet/${item}`);
+    const result = selectedWorksheets.map((item) => `/my-library/worksheet/${item}`);
     return result;
   }, [selectedWorksheets]);
 

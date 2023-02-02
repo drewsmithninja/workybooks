@@ -229,7 +229,7 @@ function Worksheet() {
             <ADTitle level={2}>{worksheetDetail?.title}</ADTitle>
             <div className='grid grid-cols-2 py-4 w-fit mb-4'>
               <div>Publisher:</div>
-              <div>{worksheetDetail?.publisher}</div>
+              <div>{worksheetDetail?.pub}</div>
               <div>Written by:</div>
               <div>{worksheetDetail?.author}</div>
               <div>Illustrated by:</div>
@@ -248,9 +248,9 @@ function Worksheet() {
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Standards</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.stds?.map((item, index) => (
+                {worksheetDetail?.stds_topic?.map((item, index) => (
                   <div key={item._id} className='w-[80px] text-center bg-gray-200'>
-                    {item.title}
+                    {item}
                   </div>
                 ))}
               </Space>
@@ -279,8 +279,13 @@ function Worksheet() {
         </Row>
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
-          {worksheets?.list?.slice(0, 15).map((i) => (
-            <Link key={i._id} to={i._id ? `/worksheet/${i._id}` : ''}>
+          {worksheets?.list?.filter((b) => {
+            if (b.stds_topic) {
+              const c = b.stds_topic.some((e) => worksheetDetail?.stds_topic?.includes(e));
+              return c;
+            } return false;
+          }).slice(0, 15).map((i) => (
+            <Link key={i._id} to={i._id ? `/my-library/worksheet/${i._id}` : ''}>
               <Image
                 key={i}
                 src={i.thumbnail}

@@ -44,6 +44,27 @@ export const listCCL = createAsyncThunk('home/commonCoreStandard', async (ccsDat
     return thunkAPI.rejectWithValue(message);
   }
 });
+// List Subject
+export const getSubGradeAndId = createAsyncThunk('home/getSubGradeAndId', async (ccsData, thunkAPI) => {
+  try {
+    const response = await homeAPI.getSubGradeAndId(ccsData);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+// List getCommonCoreStandardGradeAndId
+export const getCommonCoreStandardGradeAndId = createAsyncThunk('home/getCommonCoreStandardGradeAndId', async (ccsData, thunkAPI) => {
+  try {
+    const response = await homeAPI.getCommonCoreStandardGradeAndId(ccsData);
+    return response;
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 // Like Worksheet
 export const likeWorksheet = createAsyncThunk('home/likeWorksheet', async (worksheetData, thunkAPI) => {
@@ -114,6 +135,38 @@ export const homeSlice = createSlice({
         state.message = action.payload;
         state.subjectData = null;
       })
+      // getSubGradeAndId Cases
+      .addCase(getSubGradeAndId.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getSubGradeAndId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.getSubGradeAndIdData = action.payload;
+      })
+      .addCase(getSubGradeAndId.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.getSubGradeAndIdData = null;
+      })
+
+      // getCommonCoreStandardGradeAndId Cases
+      .addCase(getCommonCoreStandardGradeAndId.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(getCommonCoreStandardGradeAndId.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.CommonCoreStandardGradeAndId = action.payload;
+      })
+      .addCase(getCommonCoreStandardGradeAndId.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.CommonCoreStandardGradeAndId = null;
+      })
+
       // CCL List Cases
       .addCase(listCCL.pending, (state, action) => {
         state.isLoading = true;

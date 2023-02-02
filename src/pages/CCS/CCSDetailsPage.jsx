@@ -9,6 +9,7 @@ import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { ccsTopic } from '../../app/features/search/searchpageSlice';
+import { getCommonCoreStandardGradeAndId } from '../../app/features/home/homepageSlice';
 
 let ccsDetail;
 let ccsNewDetail;
@@ -21,25 +22,38 @@ export default function CCSDetailsPage() {
   // eslint-disable-next-line no-console
   // eslint-disable-next-line react/jsx-no-useless-fragment
   const [ccsItems, setCCSItems] = useState(null);
+  const { grades, currentGrade } = useSelector((state) => state.grades);
   const [curSubject, setCurSubject] = useState('');
+  const [subjectDataArr, setSubjectDataArr] = useState();
   // useEffect(() => {
   //   setCurSubject(ccsData?.list?._id);
   // }, []);
   useEffect(() => {
-    const ccsItemsAr = [];
-    const ccsTree = ccsData?.list;
-    ccsDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
-    for (let i = 0; i < ccsData?.list?.length; i += 1) {
-      if (ccsData?.list[i]._id === id) {
-        for (let j = 0; j < ccsData?.list[i].tree?.length; j += 1) {
-          const ccs = ccsData?.list[i]?.tree[j];
-
-          // eslint-disable-next-line no-use-before-define
-          renderCCSItem(ccsItemsAr, ccs, 0);
-        }
-        setCCSItems(ccsItemsAr);
+    dispatch(getCommonCoreStandardGradeAndId({
+      id, grade: currentGrade?._id
+    })).then((res) => {
+      const ccsItemsAr = [];
+      const ccsTree = res?.payload?.commonCoreStd;
+      ccsDetail = ccsTree?.find((item) => parseInt(item._id, 30) === parseInt(id, 30));
+      for (let j = 0; j < ccsTree[0]?.tree?.length; j += 1) {
+        const ccs = ccsTree[0]?.tree[j];
+        // eslint-disable-next-line no-use-before-define
+        renderCCSItem(ccsItemsAr, ccs, 0);
       }
-    }
+      setCCSItems(ccsItemsAr);
+      setSubjectDataArr(ccsData?.list?.find((item) => parseInt(item._id, 30) === parseInt(id, 30)));
+      // for (let i = 0; i < ccsData?.list?.length; i += 1) {
+      //   if (ccsData?.list[i]._id === id) {
+      //     for (let j = 0; j < ccsData?.list[i].tree?.length; j += 1) {
+      //       const ccs = ccsData?.list[i]?.tree[j];
+
+      //       // eslint-disable-next-line no-use-before-define
+      //       renderCCSItem(ccsItemsAr, ccs, 0);
+      //     }
+      //     setCCSItems(ccsItemsAr);
+      //   }
+      // }
+    });
   }, [id]);
 
   const handleGrade = (gselect) => {};
@@ -86,7 +100,6 @@ export default function CCSDetailsPage() {
 
   function renderCCSItem(items, ccsItem, level) {
     let item = '<></>;';
-
     if (ccsItem?.topics && ccsItem?.topics?.length > 0) {
       // eslint-disable-next-line no-plusplus
       level++;
@@ -176,14 +189,14 @@ export default function CCSDetailsPage() {
       >
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
-            {`${ccsDetail?.title} - Grade 3`}
+            {`${subjectDataArr?.title} - ${currentGrade?.title}`}
           </Typography.Title>
         </Col>
         <Col lg={12} xs={24} className='text-center md:text-right'>
-          <Search placeholder={`Search ${ccsDetail?.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' onSearch={onSearch} />
+          <Search placeholder={`Search ${subjectDataArr?.title} Topics`} className='w-full max-w-[487px] h-[40px] rounded-[60px]' onSearch={onSearch} />
         </Col>
       </Row>
-      <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems}</div>
+      <div className='w-full m-auto flex flex-wrap px-12'>{ccsItems === null || ccsItems.length !== 0 ? ccsItems : <span className='self-center p-2 text-2xl font-bold'> No data found!</span>}</div>
     </MainLayout>
   );
 }
