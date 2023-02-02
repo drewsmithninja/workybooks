@@ -155,7 +155,9 @@ function ThumbnailCard({ className, cardWidth, id, cardChecked, collection, thum
         <div className='flex justify-between'>
           <div className='text-xs text-slate-400'>
             By
+            {' '}
             {collection?.added_by?.firstName}
+            {' '}
             {collection?.added_by?.lastName}
           </div>
           <div className='text-xs text-slate-400'>{`${thumbnails?.length} Worksheets`}</div>

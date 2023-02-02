@@ -5,7 +5,7 @@ import { Col, Image, Row, Space, Tag } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
-import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
+import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, FacebookShareButton, FacebookIcon } from 'react-share';
 import { Link, useParams } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { worksheetDetails } from '../../app/features/home/homepageSlice';
@@ -202,7 +202,7 @@ function Worksheet() {
                 <div className='flex items-center justify-between'>
                   <div className='flex mx-0'>SHARE</div>
                   <div className='text-2xl flex mx-2'>
-                    <EmailShareButton url='Url' subject='Subjec is here' body='body' className='flex justify-center'>
+                    <EmailShareButton url={String(window.location)} subject='Subjec is here' body='body' className='flex justify-center'>
                       <EmailIcon size={28} round />
                     </EmailShareButton>
                   </div>
@@ -212,9 +212,9 @@ function Worksheet() {
                     </PinterestShareButton>
                   </div>
                   <div className='text-2xl flex mx-2'>
-                    <WhatsappShareButton url={copyHandler} className='flex justify-center'>
-                      <WhatsappIcon size={28} round />
-                    </WhatsappShareButton>
+                    <FacebookShareButton url={String(window.location)} className='flex justify-center'>
+                      <FacebookIcon size={28} round />
+                    </FacebookShareButton>
                   </div>
                   <div className='text-2xl flex mx-2'>
                     <ADButton onClick={copyHandler} type='text' className='!p-0 text-gray-400 flex items-center w-full'>

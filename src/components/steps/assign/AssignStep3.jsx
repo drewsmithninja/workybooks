@@ -69,6 +69,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
 
   useEffect(() => {
     form.setFieldsValue({
+      assignmentType: 'Optional Enrichment Activity',
       assignedClass: currentClass?.classId,
       assignedStudents: currentAssignment?.assignedStudents?.map((as) => as?._id)
     });

@@ -28,10 +28,9 @@ function StudentsPage() {
     }
     await dispatch(getStudents(currentCreateClass?.classroom?._id && currentClass?._id));
   };
-
   useEffect(() => {
-    // updateStudentList();
-    dispatch(getStudents(currentCreateClass?.classroom?._id));
+    updateStudentList();
+    // dispatch(getStudents(currentCreateClass?.classroom?._id));
   }, []);
 
   const header = (

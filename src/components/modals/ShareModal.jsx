@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { FaLink } from 'react-icons/fa';
-import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, WhatsappShareButton, WhatsappIcon } from 'react-share';
+import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, FacebookShareButton, FacebookIcon } from 'react-share';
 import ADButton from '../antd/ADButton';
 import ADModal from '../antd/ADModal';
 
@@ -50,9 +50,9 @@ function ShareModal({ onOk, path, multiple, item, ...props }) {
         ) : null}
 
         <div className='text-2xl flex mx-2'>
-          <WhatsappShareButton title='Have a look:' url={link} className='flex justify-center'>
-            <WhatsappIcon size={28} round />
-          </WhatsappShareButton>
+          <FacebookShareButton url={link} className='flex justify-center'>
+            <FacebookIcon size={28} round />
+          </FacebookShareButton>
         </div>
         {!multiple ? (
           <div className='text-2xl flex mx-2'>

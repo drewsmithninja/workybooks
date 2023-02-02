@@ -241,6 +241,10 @@ function NewSignUp() {
                         {
                           required: true,
                           message: 'Please input your password!'
+                        },
+                        {
+                          pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+                          message: 'Not Strong Enough'
                         }
                       ]}
                       hasFeedback

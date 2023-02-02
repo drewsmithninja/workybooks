@@ -305,7 +305,7 @@ function MyLibrary() {
           >
             <Select.Option value='title'>Title</Select.Option>
             <Select.Option value='dt_upd'>Date Updated</Select.Option>
-            <Select.Option value='dt_added'>Date Created</Select.Option>
+            <Select.Option value='dt_added'>Newest</Select.Option>
           </Select>
         </Space>
       </div>
