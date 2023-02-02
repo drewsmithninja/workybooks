@@ -78,7 +78,7 @@ function MyCollection() {
   };
 
   const paths = useMemo(() => {
-    const result = worksheetList.map((item) => `/worksheet/${item?._id}`);
+    const result = worksheetList.map((item) => `/my-library/worksheet/${item?._id}`);
     return result;
   }, [worksheetList]);
 
@@ -112,7 +112,7 @@ function MyCollection() {
                 </div>
                 <Space size='large' className='pt-1'>
                   <ADTitle level={5}>Standards</ADTitle>
-                  {collectionInfo?.std_topic?.slice(0, 3).map((item, i) => (
+                  {collectionInfo?.std_topic?.slice(0, 5).map((item, i) => (
                     <div className='w-[80px] text-center bg-gray-200'>{item}</div>
                   ))}
                 </Space>

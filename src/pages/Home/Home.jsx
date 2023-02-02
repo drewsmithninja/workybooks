@@ -66,8 +66,12 @@ function Home() {
             gradeId: [currentGrade?._id]
           })
         );
-        await dispatch(listSubject());
-        await dispatch(listCCL());
+        await dispatch(listSubject({
+          gradeId: currentGrade.gradeId
+        }));
+        await dispatch(listCCL({
+          gradeId: currentGrade.gradeId
+        }));
         await dispatch(getWorksheets({
           limit: 300
         }));

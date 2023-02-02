@@ -76,7 +76,7 @@ function Headers() {
         {userLocalData && (
         <div className='hidden space-x-4 md:flex'>
           <Link to='/' className='hover:text-[#243E8F]'>
-            <span className={`navbar-menu-item ${window.location.pathname === '/' ? 'active-menu' : ''}`}>Explore</span>
+            <span className={`navbar-menu-item ${window.location.pathname === '/' || window.location.pathname.includes('/explore') ? 'active-menu' : ''}`}>Explore</span>
           </Link>
           <Link to='/my-library'>
             <span className={`navbar-menu-item ${window.location.pathname.includes('/my-library') ? 'active-menu' : ''}`}>My Library</span>
