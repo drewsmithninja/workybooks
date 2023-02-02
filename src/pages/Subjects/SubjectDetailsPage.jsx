@@ -161,7 +161,7 @@ export default function SubjectDetailsPage() {
       setCurSubject(subjectData?.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30))._id);
       setSubjectDataArr(subjectData?.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
     });
-  }, [sid]);
+  }, [sid, currentGrade]);
   return (
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData1?.list} />
