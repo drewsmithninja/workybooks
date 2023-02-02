@@ -38,6 +38,27 @@ const listSubject = async (subjectData) => {
   return response.data;
 };
 
+const getSubGradeAndId = async (subjectData) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/subject/getBy/id/and/grade`, subjectData, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
+
+const getCommonCoreStandardGradeAndId = async (subjectData) => {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+  const response = await axios.post(`${API_URL}/commonCoreStandard/getBy/id/and/grade`, subjectData, {
+    headers: {
+      authorization: authToken
+    }
+  });
+  return response.data;
+};
 // CCS list
 const listCCL = async (ccsData) => {
   const user = localStorage.getItem('user');
@@ -67,7 +88,9 @@ const homeAPI = {
   listSubject,
   listCCL,
   worksheetDetails,
-  likeWorksheet
+  likeWorksheet,
+  getSubGradeAndId,
+  getCommonCoreStandardGradeAndId
 };
 
 export default homeAPI;

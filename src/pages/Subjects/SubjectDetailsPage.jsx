@@ -9,6 +9,7 @@ import GradeComponent from '../../components/common/GradeComponent';
 import TopSubjectComponent from '../../components/common/TopSubjectComponent';
 import MainLayout from '../../components/layout/MainLayout';
 import { subjectTopic } from '../../app/features/search/searchpageSlice';
+import { getSubGradeAndId } from '../../app/features/home/homepageSlice';
 
 let subjectDetail; let subjectNewDetail;
 export default function SubjectDetailsPage() {
@@ -17,24 +18,20 @@ export default function SubjectDetailsPage() {
   const { Search } = Input;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { ccsData: ccsData1, subjectData, gradeData } = useSelector((state) => state.home);
+  const { ccsData: ccsData1, subjectData, gradeData, getSubGradeAndIdData } = useSelector((state) => state.home);
   mappedSubjectsData.push(subjectData.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
   const [ccsItems, setCCSItems] = useState(null);
+  const { grades, currentGrade } = useSelector((state) => state.grades);
   const [curSubject, setCurSubject] = useState('');
+  const [subjectDataArr, setSubjectDataArr] = useState();
 
-  useEffect(() => {
-    setCurSubject(subjectData?.list?._id);
-  }, []);
-  useEffect(() => {
-    const ccsItemsAr = [];
-    const subjTree = subjectData?.list;
-    subjectDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
-    // eslint-disable-next-line no-use-before-define
-    renderCCSItem(ccsItemsAr, subjectDetail, 0);
-    setCCSItems(ccsItemsAr);
-  }, [sid]);
+  // useEffect(() => {
+  //   setCurSubject(subjectData?.list?._id);
+  // }, []);
 
-  const handleGrade = (gselect) => {};
+  const handleGrade = (gselect) => {
+    /// console.log(currentGrade, '--');
+  };
   const topicSelectHandler = (topicName) => {
     if (topicName) {
       dispatch(
@@ -43,7 +40,7 @@ export default function SubjectDetailsPage() {
           topic: topicName
         })
       );
-      navigate('/search-result');
+      navigate('/explore/search-result');
     }
   };
 
@@ -127,9 +124,12 @@ export default function SubjectDetailsPage() {
         );
       } else {
         item = (
-          <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
-            <span>{ccsData?.title}</span>
-          </ADButton>
+          ccsData?.title ? (
+            <ADButton type='text' onClick={() => topicSelectHandler(ccsData?.title)} className='flex w-1/2 justify-between md-w-64 p-3  text-left text-sm font-medium text-gray-900'>
+              <span>{ccsData?.title}</span>
+            </ADButton>
+          ) : <span className='self-center p-2 text-2xl font-bold'> No data found!</span>
+          //
         );
       }
 
@@ -147,7 +147,21 @@ export default function SubjectDetailsPage() {
     renderCCSItem(ccsItemsArr, newData?.[0], 0);
     setCCSItems(ccsItemsArr);
   };
-
+  useEffect(() => {
+    dispatch(getSubGradeAndId({
+      id: sid, grade: currentGrade?._id
+    })).then((res) => {
+      // setSubjectDataArr(res?.payload?.subject);
+      const ccsItemsAr = [];
+      // const subjTree = getSubGradeAndIdData?.subject;
+      // subjectDetail = subjTree?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30));
+      // eslint-disable-next-line no-use-before-define
+      renderCCSItem(ccsItemsAr, res?.payload?.subject[0], 0);
+      setCCSItems(ccsItemsAr);
+      setCurSubject(subjectData?.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30))._id);
+      setSubjectDataArr(subjectData?.list?.find((item) => parseInt(item._id, 30) === parseInt(sid, 30)));
+    });
+  }, [sid]);
   return (
     <MainLayout>
       <TopSubjectComponent subjectList={subjectData?.list} ccsList={ccsData1?.list} />
@@ -158,13 +172,13 @@ export default function SubjectDetailsPage() {
       >
         <Col lg={12} xs={24}>
           <Typography.Title level={3} className='md:text-left text-center'>
-            {subjectDetail?.title}
-            {' - Grade 3'}
+            {subjectDataArr?.title}
+            { ` - ${currentGrade?.title}`}
           </Typography.Title>
         </Col>
         <Col lg={12} xs={24} className='text-center md:text-right'>
           <Search
-            placeholder={`Search ${subjectDetail?.title} Topics`}
+            placeholder={`Search ${subjectDataArr?.title} Topics`}
             className='w-full max-w-[487px] h-[40px] rounded-[60px]'
             onSearch={onSearch}
           />

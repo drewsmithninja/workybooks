@@ -103,7 +103,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   ];
 
   const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
-  const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/worksheet/${item._id}`]} item={item} />;
+  const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/my-library/worksheet/${item._id}`]} item={item} />;
   const assignModal = <AssignModal closable={false} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
@@ -124,7 +124,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
             width: cardWidth
           }}
         >
-          <Link to={item._id ? `/worksheet/${item._id}` : ''}>
+          <Link to={item._id ? `/my-library/worksheet/${item._id}` : ''}>
             <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />
           </Link>
         </div>

@@ -23,7 +23,7 @@ function SearchBar() {
           stds_topic: []
         })
       );
-      navigate('/search-result');
+      navigate('/explore/search-result');
     }
   };
 
