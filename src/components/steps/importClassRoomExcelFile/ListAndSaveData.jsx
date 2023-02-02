@@ -4,12 +4,17 @@ import ADButton from '../../antd/ADButton';
 import ADTitle from '../../antd/ADTitle';
 
 export default function ListAndSaveData({ onOk }) {
-  const classState = useSelector((state) => state?.classroom);
+  const { classImportWithExcel } = useSelector((state) => state?.classroom);
+  console.log(classImportWithExcel);
   return (
     <div className='flex flex-col items-center'>
       <ADTitle level={2}>Classrooms Added</ADTitle>
       <div className='py-4 text-dark text-lg my-16 text-center'>
-        All classrooms have been imported to Workybooks
+        {classImportWithExcel?.classroom?.length}
+        {' '}
+        {`${classImportWithExcel?.classroom?.length <= 1 ? ' classroom' : 'classrooms'}`}
+        {' '}
+        have been imported to Workybooks
       </div>
       <ADButton size='large' type='primary' className='w-1/3' onClick={onOk}>
         Close
