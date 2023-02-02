@@ -54,7 +54,7 @@ export default function CCSDetailsPage() {
       //   }
       // }
     });
-  }, [id]);
+  }, [id, currentGrade]);
 
   const handleGrade = (gselect) => {};
 
