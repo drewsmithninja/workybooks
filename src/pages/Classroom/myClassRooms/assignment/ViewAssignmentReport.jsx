@@ -109,6 +109,12 @@ function ViewAssignmentReport() {
         }
       )
     );
+    await dispatch(
+      getSubmittedAssignmentDetail({
+        assignmentId: id,
+        studentId: cs?._id
+      })
+    );
   };
   const onAssignmentChangeHandler = async (assignmentId) => {
     setViewPageCount(viewPageCount + 1);
@@ -126,6 +132,15 @@ function ViewAssignmentReport() {
   const onGradeUpdate = async () => {
     await dispatch(updateGradeList(updatedGrade));
   };
+
+  const selected = React.useMemo(() => {
+    const result = assignmentOptions.find((i) => i.value === id);
+    if (result) {
+      return result;
+    }
+    return assignmentOptions[0];
+  }, [assignmentOptions]);
+
   return (
     <div>
       <div
@@ -157,7 +172,7 @@ function ViewAssignmentReport() {
             </ADTitle>
           </Col>
           <Col xl={8} md={8} sm={8} xs={6}>
-            <ADSelect className='w-60' defaultValue={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
+            <ADSelect className='w-60' value={currentStudent?.fullName} onChange={(e) => onStudentChangeHandler(e)} options={studentsOptions} />
           </Col>
         </Row>
         <Row gutter={[20, 0]} className='center items-center'>
@@ -167,7 +182,7 @@ function ViewAssignmentReport() {
             </ADTitle>
           </Col>
           <Col xl={5} md={5} sm={8} xs={10}>
-            <ADSelect className='w-60' defaultValue={assignmentOptions?.[0]} onChange={(e) => onAssignmentChangeHandler(e)} options={assignmentOptions} />
+            <ADSelect className='w-60' value={selected} onChange={(e) => onAssignmentChangeHandler(e)} options={assignmentOptions} />
           </Col>
           <Col xl={7} md={7} sm={8} xs={10}>
             <Row className='rounded-2xl md:px-4 px-2 py-4 border border-solid border-slate-300 w-full'>
@@ -284,13 +299,9 @@ function ViewAssignmentReport() {
                 GRADE
               </span>
               <Select
-                defaultValue={
-                  updatedAssignmentGradeList?.[getIndex] || {
-                    value: 0,
-                    label: 'Select'
-                  }
-                }
+                value={assigmentDetails?.assignmentGrade?.title}
                 onChange={onChangeGrade}
+                placeholder='select'
                 style={{
                   width: '100px'
                 }}
