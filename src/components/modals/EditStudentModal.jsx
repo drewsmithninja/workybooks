@@ -77,7 +77,6 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
     delete values.image;
     values.avatar = values.avtarImage;
     delete values.avtarImage;
-    console.log(values);
     const data = {
       id: currentStudent?._id,
       ...values
