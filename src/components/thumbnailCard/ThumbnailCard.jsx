@@ -97,7 +97,7 @@ function ThumbnailCard({ className, cardWidth, id, cardChecked, collection, thum
   const shareModal = <ShareModal open={isShareModalOpen} onOk={handleShareModalOk} onCancel={handleShareModalCancel} path={[`/collection/${id}`]} multiple />;
   const copyToCollectionModal = <CopyToCollectionModal open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
   // const assignModal = <AssignModal forCollection open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
-  const assignCollectionModal = <AssignCollectionModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
+  const assignCollectionModal = <AssignCollectionModal forCollection={true} open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} />;
 
   return (
     <>
