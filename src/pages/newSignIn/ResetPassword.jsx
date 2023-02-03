@@ -85,6 +85,9 @@ function ResetPassword() {
               {
                 pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
                 message: 'Not Strong Enough'
+              },
+              {
+                min: 6, message: 'Password must be minimum 6 characters.'
               }
             ]}
           >

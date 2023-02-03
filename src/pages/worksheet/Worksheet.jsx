@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-one-expression-per-line */
 import { FaPrint, FaFolderPlus, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
@@ -6,7 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { EmailShareButton, PinterestShareButton, PinterestIcon, EmailIcon, FacebookShareButton, FacebookIcon } from 'react-share';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { worksheetDetails } from '../../app/features/home/homepageSlice';
 import ADButton from '../../components/antd/ADButton';
@@ -17,6 +19,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import { createCollection } from '../../app/features/collection/collectionSlice';
 import PrintImages from '../../components/common/PrintImages';
 import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
+import { search } from '../../app/features/search/searchpageSlice';
 
 let wDetail;
 function Worksheet() {
@@ -25,6 +28,7 @@ function Worksheet() {
   const authToken = user?.payload?.verification?.token;
   const { userId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [worksheetDetail, setWorksheetDetails] = useState();
   const [copied, setCopied] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
@@ -129,6 +133,21 @@ function Worksheet() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current
   });
+
+  const onSearchTag = (value) => {
+    if (value !== '' && value !== undefined) {
+      dispatch(
+        search({
+          search: value,
+          subject: [],
+          grade: [],
+          commonCoreStandards: [],
+          stds_topic: []
+        })
+      );
+      navigate('/explore/search-result');
+    }
+  };
 
   const assignModal = <AssignModal open={isAssignModalOpen} onOk={handleAssignModalOk} onCancel={handleAssignModalCancel} onCreate={onAssignCreateClick} />;
   const addToCollectionModal = <AddToCollectionModal closable={false} open={isCollectionModalOpen} onOk={handleCollectionModalOk} onCancel={handleCollectionModalCancel} />;
@@ -269,9 +288,17 @@ function Worksheet() {
               </ADTitle>
               <Space className='flex-wrap'>
                 {worksheetDetail?.keyw?.map((item) => (
-                  <Tag key={item} className='rounded-full'>
-                    {item}
-                  </Tag>
+                  <div
+                    key={item}
+                    style={{
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => onSearchTag(item)}
+                  >
+                    <Tag className='rounded-full'>
+                      {item}
+                    </Tag>
+                  </div>
                 ))}
               </Space>
             </div>
