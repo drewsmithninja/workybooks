@@ -34,7 +34,8 @@ export default function NewAssignment({ next, onOk, forCollection }) {
   };
 
   const addToAssignmentHandler = async (assignment) => {
-    if (forCollection) {
+    console.log('collet', forCollection);
+    if (!forCollection) {
       if (selectedWorksheets.length) {
         const data = {
           id: assignment?._id,
@@ -50,7 +51,7 @@ export default function NewAssignment({ next, onOk, forCollection }) {
       }
       dispatch(getAssignments());
     }
-    if (!forCollection) {
+    if (forCollection) {
       if (selectedCollections.length) {
         const data = {
           id: assignment?._id,
