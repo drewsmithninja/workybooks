@@ -49,7 +49,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
       firstName: currentStudent?.firstName,
       lastName: currentStudent?.lastName,
       userName: currentStudent?.userName,
-      password: currentStudent?.password,
+      // password: currentStudent?.password,
       parentEmail: currentStudent?.parentEmail,
       avtarImage: currentStudent?.avatar
     });
@@ -190,8 +190,20 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} className='flex items-center'>
-            <Form.Item name='password' className='w-full'>
-              <Input size='large' placeholder='Password' />
+            <Form.Item
+              name='password'
+              className='w-full'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Password'
+                }
+              ]}
+            >
+              <Input
+                size='large'
+                placeholder='Password'
+              />
             </Form.Item>
             <Form.Item label={false} name='avtarImage' hidden={true}>
               <Input type='text' />
