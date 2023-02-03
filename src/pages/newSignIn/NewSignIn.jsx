@@ -43,14 +43,29 @@ function NewSignIn() {
     dispatch(reset());
   }, [user, isError]);
 
+  useEffect(() => {
+    if (localStorage.rememberMe && localStorage.email !== '') {
+      form.setFieldsValue({
+        rememberMe: true,
+        email: localStorage.username,
+        password: localStorage.password
+      });
+    }
+  }, []);
+
   if (isLoading) {
     <Spinner />;
   }
 
   const onFinish = (values) => {
+    const { email, password, rememberMe } = values;
+    if (rememberMe && email !== '') {
+      localStorage.username = email;
+      localStorage.password = password;
+      localStorage.rememberMe = rememberMe;
+    }
     dispatch(login(values));
   };
-
   const onFinishFailed = () => {
     toast.error('Something Wrong!, Not able to login!');
   };
@@ -160,14 +175,14 @@ function NewSignIn() {
               <Input.Password placeholder='Password' className='w-[85%] max-w-[358px] h-[46px] m-auto rounded-[6px]' />
             </Form.Item>
             <div className='w-[85%] max-w-[358px] m-auto flex items-baseline justify-between'>
-              <Form.Item label={false}>
+              <Form.Item name='rememberMe' valuePropName='checked' label={false}>
                 <Checkbox className='mr-[10px]'>Remember me</Checkbox>
               </Form.Item>
               <Link to='/forgot-password'>Forgot your password?</Link>
             </div>
             <Form.Item shouldUpdate>
               {() => (
-                <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={!form.isFieldsTouched(true) || form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
+                <ADButton type='primary' htmlType='submit' className='w-[85%] max-w-[358px] m-auto' disabled={form.getFieldsError().filter(({ errors }) => errors.length).length > 0}>
                   Log in
                 </ADButton>
               )}
