@@ -41,7 +41,7 @@ function UserProfile() {
       firstName: userData?.user?.firstName || '',
       lastName: userData?.user?.lastName || '',
       email: userData?.user?.email || '',
-      password: userData?.user?.password || '',
+      // password: userData?.user?.password || '',
       schoolName: userData?.user?.schoolName || '',
       state: userData?.user?.state || '',
       city: userData?.user?.city || '',
@@ -50,9 +50,11 @@ function UserProfile() {
   }, [userData]);
 
   const check = (values) => {
-    const { city, firstName, lastName, newPassword, salutation, schoolName, state, avtarImage } = values;
+    console.log(values);
+    const { city, firstName, lastName, password, salutation, schoolName, state, avtarImage } = values;
+    console.log(password === undefined && userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state);
     return (
-      userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
+      password === undefined && userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
     );
   };
 
@@ -314,7 +316,7 @@ function UserProfile() {
                     >
                       <Col span={12}>
                         <Form.Item label={false} name='password'>
-                          <ADInput value={userPassword} type='password' onChange={(e) => setUserPassword(e.target.value)} />
+                          <ADInput type='text' disabled={userData?.user?.type === 4} onChange={(e) => setUserPassword(e.target.value)} />
                         </Form.Item>
                         <Form.Item label={false} name='avtarImage' hidden={true}>
                           <ADInput type='text' />
