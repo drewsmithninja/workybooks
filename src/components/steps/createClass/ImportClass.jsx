@@ -6,7 +6,7 @@ import { forEach } from 'lodash';
 import { toast } from 'react-toastify';
 import ADTitle from '../../antd/ADTitle';
 import ADButton from '../../antd/ADButton';
-import { getGoogleClassRoomDataInsert } from '../../../app/features/classroom/classroomSlice';
+import { getGoogleClassRoomDataInsert, getClassrooms } from '../../../app/features/classroom/classroomSlice';
 
 export default function ImportClass({ next }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -33,7 +33,7 @@ export default function ImportClass({ next }) {
           key: item?.id,
           classId: item?.id,
           name: item?.classGrade,
-          grade: item?.grade,
+          grade: item?.grade || '',
           students: item?.studentLength
         });
       });
@@ -45,6 +45,7 @@ export default function ImportClass({ next }) {
       dispatch(getGoogleClassRoomDataInsert({
         importClass: classDataSubmit
       })).then((res) => {
+        dispatch(getClassrooms());
         next();
       // setCurrent(4);
       });
