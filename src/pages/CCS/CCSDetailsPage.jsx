@@ -66,7 +66,7 @@ export default function CCSDetailsPage() {
           topic: topicName
         })
       );
-      navigate('/search-result');
+      navigate('/explore/search-result');
     }
   };
 
