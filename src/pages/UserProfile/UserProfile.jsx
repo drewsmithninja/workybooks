@@ -50,9 +50,7 @@ function UserProfile() {
   }, [userData]);
 
   const check = (values) => {
-    console.log(values);
     const { city, firstName, lastName, password, salutation, schoolName, state, avtarImage } = values;
-    console.log(password === undefined && userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state);
     return (
       password === undefined && userData.user.avatar === avtarImage && userData.user.city === city && userData.user.firstName === firstName && userData.user.lastName === lastName && userData.user.salutation === salutation && userData.user.schoolName === schoolName && userData.user.state === state
     );
