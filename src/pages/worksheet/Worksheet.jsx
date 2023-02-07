@@ -308,7 +308,7 @@ function Worksheet() {
         <ADTitle level={4}>Similar worksheets</ADTitle>
         <Space size='large' className='overflow-x-auto w-full py-6'>
           {worksheets?.list?.filter((b) => {
-            if (b.stds_topic) {
+            if (b.stds_topic && b._id !== worksheetDetail?._id) {
               const c = b.stds_topic.some((e) => worksheetDetail?.stds_topic?.includes(e));
               return c;
             } return false;

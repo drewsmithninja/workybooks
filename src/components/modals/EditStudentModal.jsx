@@ -49,7 +49,7 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
       firstName: currentStudent?.firstName,
       lastName: currentStudent?.lastName,
       userName: currentStudent?.userName,
-      // password: currentStudent?.password,
+      password: currentStudent?.showPassword,
       parentEmail: currentStudent?.parentEmail,
       avtarImage: currentStudent?.avatar
     });

@@ -77,7 +77,8 @@ const resetPassword = async (data) => {
 };
 
 const logout = () => {
-  localStorage.clear();
+  // localStorage.clear();
+  localStorage.removeItem('user');
 };
 
 const authAPI = {
