@@ -5,7 +5,7 @@ import ADTitle from '../../antd/ADTitle';
 
 export default function ListAndSaveData({ onOk }) {
   const { classImportWithExcel } = useSelector((state) => state?.classroom);
-  console.log(classImportWithExcel);
+
   return (
     <div className='flex flex-col items-center'>
       <ADTitle level={2}>Classrooms Added</ADTitle>

@@ -239,6 +239,7 @@ function SearchResult() {
                     style={{
                       borderRadius: 8
                     }}
+                    defaultValue='best_match'
                   >
                     <Select.Option value='best_match'>Best Match</Select.Option>
                     <Select.Option value='title'>Title</Select.Option>

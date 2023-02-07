@@ -20,6 +20,7 @@ import { createCollection } from '../../app/features/collection/collectionSlice'
 import PrintImages from '../../components/common/PrintImages';
 import AddToCollectionModal from '../../components/modals/AddToCollectionModal';
 import { search } from '../../app/features/search/searchpageSlice';
+import { setCurrentWorksheet } from '../../app/features/worksheet/worksheetSlice';
 
 let wDetail;
 function Worksheet() {
@@ -312,18 +313,20 @@ function Worksheet() {
               return c;
             } return false;
           }).slice(0, 15).map((i) => (
-            <Link key={i._id} to={i._id ? `/my-library/worksheet/${i._id}` : ''}>
-              <Image
-                key={i}
-                src={i.thumbnail}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  currentTarget.src = 'https://via.placeholder.com/215x278';
-                }}
-                preview={false}
-                className='rounded-2xl w-full w-[200px]'
-              />
-            </Link>
+            <div key={i._id} onClick={() => dispatch(setCurrentWorksheet(i))}>
+              <Link to={i._id ? `/my-library/worksheet/${i._id}` : ''}>
+                <Image
+                  key={i}
+                  src={i.thumbnail}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = 'https://via.placeholder.com/215x278';
+                  }}
+                  preview={false}
+                  className='rounded-2xl w-full w-[200px]'
+                />
+              </Link>
+            </div>
           ))}
         </Space>
       </div>
