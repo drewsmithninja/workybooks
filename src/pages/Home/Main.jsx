@@ -1,0 +1,233 @@
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Row, Typography } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { listSubject, listCCL } from '../../app/features/home/homepageSlice';
+import { getPopularWorksheets, getWorksheets, getWorksheetsByGrades } from '../../app/features/worksheet/worksheetSlice';
+import CardComponent from '../../components/common/CardComponent';
+import MainLayout from '../../components/layout/MainLayout';
+import dummyImage1 from '../../assets/images/dummyImage1.png';
+import GradeComponent from '../../components/common/GradeComponent';
+import TopSubjectComponent from '../../components/common/TopSubjectComponent';
+import ADImage from '../../components/antd/ADImage';
+import { fetchGrades, setCurrentGrade } from '../../app/features/grade/GradeSlice';
+import { getAssignments } from '../../app/features/assignment/assignmentSlice';
+import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
+import LogoHeader from '../../components/common/LogoHeader';
+import ADButton from '../../components/antd/ADButton';
+import CreateClassModal from '../../components/modals/CreateClassModal';
+
+function Home() {
+  const user = localStorage.getItem('user');
+  const authToken = JSON.parse(user)?.payload?.verification?.token;
+
+  const { userData } = useSelector((state) => state.user);
+  const popularWorksheets = useSelector((state) => state.worksheet.popularWorksheets?.list);
+  const { grades, currentGrade } = useSelector((state) => state.grades);
+  const { subjectData, ccsData } = useSelector((state) => state.home);
+  const worksheetsByGrades = useSelector((state) => state.worksheet.worksheetsByGrades);
+  const { classes, isLoading, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
+  const [rerender, setRerender] = useState(0);
+  const [call, setCall] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(getClassrooms());
+    dispatch(fetchGrades());
+  }, []);
+
+  useEffect(() => {
+    if (classes?.list?.length === 1) {
+      dispatch(setClass(classes?.list[0]));
+      navigate('/explore');
+    }
+  }, [classes]);
+
+  const classDataRedirect = (data) => {
+    dispatch(setClass(data));
+    navigate('/explore');
+  };
+  const gradeDataRedirect = (data) => {
+    dispatch(setCurrentGrade(data));
+    navigate('/explore');
+  };
+  const showCreateClassModal = () => {
+    setIsCreateClassModalOpen(true);
+  };
+
+  const handleCreateClassOk = async () => {
+    setIsCreateClassModalOpen(false);
+  };
+
+  const handleCreateClassCancel = () => {
+    setIsCreateClassModalOpen(false);
+  };
+  const createClassRoom = <CreateClassModal closable={false} open={isCreateClassModalOpen} onShow={showCreateClassModal} onOk={handleCreateClassOk} onCancel={handleCreateClassCancel} />;
+
+  return (
+    <>
+      {createClassRoom}
+      <LogoHeader />
+      <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
+        Welcome
+        {' '}
+        {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
+      </Typography.Title>
+      {classes?.list.length > 1 ? (
+        <>
+          <div className='w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
+            <p className='pt-[17px] text-lg pb-[0px]'>Select the classroom you want to work with</p>
+          </div>
+          <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
+            <Row gutter={[16, 16]} className='text-center !m-[0px]'>
+              {/* <Col span={24}>
+                <Link to='/'>
+                  <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE 3</p>
+                    <Typography.Title level={4}>Class 3A</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col span={24}>
+                <Link to='/'>
+                  <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE 4</p>
+                    <Typography.Title level={4}>Class 4 Science</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col> */}
+              {
+                classes?.list?.slice(0, 4).map((item) => (
+                  <Col span={24}>
+                    {/* <Link to='/'> */}
+                    <ADButton
+                      onClick={() => classDataRedirect(item)}
+                      className='bg-gray-300 w-[223px] h-full'
+                      style={{
+                        display: 'initial'
+                      }}
+                    >
+                      <p className='text-[10px]'>
+                        GRADE
+                        {' '}
+                        {item?.classGrade}
+                      </p>
+                      <Typography.Title className='whitespace-normal' level={4}>
+                        {`Class ${item?.name}`}
+                      </Typography.Title>
+                    </ADButton>
+                    {/* </Link> */}
+                  </Col>
+                ))
+              }
+            </Row>
+          </div>
+        </>
+      ) : (
+        <>
+          {' '}
+          <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
+            <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
+            <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
+            <ADButton
+              type='primary'
+              className='m-auto mb-[17px]'
+              onClick={() => {
+                showCreateClassModal();
+              }}
+            >
+              CREATE MY FIRST CLASSROOM
+            </ADButton>
+          </div>
+          <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
+
+          <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
+            <Row gutter={[16, 16]} className='text-center !m-[0px]'>
+              {/* <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>PreK</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col> */}
+              {grades?.list?.slice(0, 8).map((item) => (
+                <Col lg={6} xs={12}>
+                  <ADButton
+                    onClick={() => gradeDataRedirect(item)}
+                    type='success'
+                    className='w-full h-full'
+                    style={{
+                      display: 'initial'
+                    }}
+                  >
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>{item?.title}</Typography.Title>
+                  </ADButton>
+                </Col>
+              ))}
+              {/* <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>K</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>1</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>2</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={3} xs={0}>
+          &nbsp;
+              </Col>
+              <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>3</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={6} xs={12}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>4</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={6} xs={24}>
+                <Link to='/'>
+                  <ADButton type='success' className='w-[125px] h-[90px]'>
+                    <p className='text-[10px]'>GRADE</p>
+                    <Typography.Title level={1}>5</Typography.Title>
+                  </ADButton>
+                </Link>
+              </Col>
+              <Col lg={3} xs={0}>
+          &nbsp;
+              </Col> */}
+            </Row>
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+export default Home;

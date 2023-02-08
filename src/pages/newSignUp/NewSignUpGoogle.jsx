@@ -22,7 +22,7 @@ function NewSignUpGoogle() {
     if (isError) {
       toast.error(message);
     } else if (user) {
-      navigate('/', {
+      navigate('/welcome', {
         replace: true
       });
     }

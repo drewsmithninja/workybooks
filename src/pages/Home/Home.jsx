@@ -35,7 +35,9 @@ function Home() {
     const loadData = async () => {
       setCall(false);
       await dispatch(fetchGrades());
-      await dispatch(setCurrentGrade(grades?.list?.[0]));
+      if (currentGrade !== '') {
+        await dispatch(setCurrentGrade(currentGrade));
+      }
       setCall(true);
     };
     loadData();

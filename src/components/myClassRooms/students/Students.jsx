@@ -26,7 +26,7 @@ function StudentsPage() {
     if (await classes?.length) {
       dispatch(setClass(currentCreateClass?.classroom?.name && classes?.list?.[0]));
     }
-    await dispatch(getStudents(currentCreateClass?.classroom?._id && currentClass?._id));
+    await dispatch(getStudents(currentCreateClass?.classroom?._id ? currentCreateClass?.classroom?._id : currentClass?._id));
   };
   useEffect(() => {
     updateStudentList();
