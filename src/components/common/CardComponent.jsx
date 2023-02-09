@@ -143,7 +143,6 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
               onChange={useCallback(
                 (e) => {
                   if (e.target.checked) {
-                    console.log(item, '---->>');
                     dispatch(selectWorksheet(item?._id));
                     dispatch(setCurrentWorksheet(item));
                   } else {
