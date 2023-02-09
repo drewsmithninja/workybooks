@@ -16,6 +16,7 @@ import { getClassrooms, setClass } from '../../app/features/classroom/classroomS
 import LogoHeader from '../../components/common/LogoHeader';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
+import { getProfile } from '../../app/features/user/userSlice';
 
 function Home() {
   const user = localStorage.getItem('user');
@@ -35,11 +36,17 @@ function Home() {
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getClassrooms());
-    dispatch(fetchGrades());
-  }, []);
-
+    const loadData = async () => {
+      await dispatch(getProfile({
+        id: JSON.parse(user)?.payload?._id
+      }));
+      await dispatch(getClassrooms());
+      await dispatch(fetchGrades());
+    };
+    loadData();
+  }, [user]);
   useEffect(() => {
+    // console.log(classes, 'classes');
     if (classes?.list?.length === 1) {
       dispatch(setClass(classes?.list[0]));
       navigate('/explore');
@@ -76,33 +83,16 @@ function Home() {
         {' '}
         {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
       </Typography.Title>
-      {classes?.list.length > 1 ? (
+      {classes && classes?.list?.length > 1 && (
         <>
           <div className='w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
             <p className='pt-[17px] text-lg pb-[0px]'>Select the classroom you want to work with</p>
           </div>
           <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
             <Row gutter={[16, 16]} className='text-center !m-[0px]'>
-              {/* <Col span={24}>
-                <Link to='/'>
-                  <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE 3</p>
-                    <Typography.Title level={4}>Class 3A</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
-              <Col span={24}>
-                <Link to='/'>
-                  <ADButton className='bg-gray-300 w-[223px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE 4</p>
-                    <Typography.Title level={4}>Class 4 Science</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col> */}
               {
                 classes?.list?.slice(0, 4).map((item) => (
                   <Col span={24}>
-                    {/* <Link to='/'> */}
                     <ADButton
                       onClick={() => classDataRedirect(item)}
                       className='bg-gray-300 w-[223px] h-full'
@@ -119,113 +109,51 @@ function Home() {
                         {`Class ${item?.name}`}
                       </Typography.Title>
                     </ADButton>
-                    {/* </Link> */}
                   </Col>
                 ))
               }
             </Row>
           </div>
         </>
-      ) : (
-        <>
-          {' '}
-          <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
-            <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
-            <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
-            <ADButton
-              type='primary'
-              className='m-auto mb-[17px]'
-              onClick={() => {
-                showCreateClassModal();
-              }}
-            >
-              CREATE MY FIRST CLASSROOM
-            </ADButton>
-          </div>
-          <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
+      ) }
+      { classes && classes?.list?.length < 1 && (
+      <>
+        {' '}
+        <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
+          <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
+          <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
+          <ADButton
+            type='primary'
+            className='m-auto mb-[17px]'
+            onClick={() => {
+              showCreateClassModal();
+            }}
+          >
+            CREATE MY FIRST CLASSROOM
+          </ADButton>
+        </div>
+        <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
 
-          <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
-            <Row gutter={[16, 16]} className='text-center !m-[0px]'>
-              {/* <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>PreK</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col> */}
-              {grades?.list?.slice(0, 8).map((item) => (
-                <Col lg={6} xs={12}>
-                  <ADButton
-                    onClick={() => gradeDataRedirect(item)}
-                    type='success'
-                    className='w-full h-full'
-                    style={{
-                      display: 'initial'
-                    }}
-                  >
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>{item?.title}</Typography.Title>
-                  </ADButton>
-                </Col>
-              ))}
-              {/* <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>K</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
+        <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
+          <Row gutter={[16, 16]} className='text-center !m-[0px]'>
+            {grades?.list?.slice(0, 8).map((item) => (
               <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>1</Typography.Title>
-                  </ADButton>
-                </Link>
+                <ADButton
+                  onClick={() => gradeDataRedirect(item)}
+                  type='success'
+                  className='w-full h-full'
+                  style={{
+                    display: 'initial'
+                  }}
+                >
+                  <p className='text-[10px]'>GRADE</p>
+                  <Typography.Title level={1}>{item?.title}</Typography.Title>
+                </ADButton>
               </Col>
-              <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>2</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
-              <Col lg={3} xs={0}>
-          &nbsp;
-              </Col>
-              <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>3</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
-              <Col lg={6} xs={12}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>4</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
-              <Col lg={6} xs={24}>
-                <Link to='/'>
-                  <ADButton type='success' className='w-[125px] h-[90px]'>
-                    <p className='text-[10px]'>GRADE</p>
-                    <Typography.Title level={1}>5</Typography.Title>
-                  </ADButton>
-                </Link>
-              </Col>
-              <Col lg={3} xs={0}>
-          &nbsp;
-              </Col> */}
-            </Row>
-          </div>
-        </>
+            ))}
+          </Row>
+        </div>
+      </>
       )}
     </>
   );
