@@ -29,13 +29,12 @@ function SearchResult() {
   const [gradeArr, setgradeArr] = useState([]);
   const [subjectArr, setsubjectArr] = useState([]);
   const [ccsArr, setccsArr] = useState([]);
-  const [sortBy, setSortBy] = useState('');
+  const [sortBy, setSortBy] = useState('best_match');
   const [onScrollDataLength, setOnScrollDataLength] = useState(8);
   const subjects = subjectData?.list;
   const ccl = ccsData?.list;
   const worksheets = searchData?.content || [];
   const collections = searchData?.collection || [];
-
   const worksheetData = useMemo(() => {
     if (sortBy !== '') {
       setLoader(true);
@@ -61,7 +60,7 @@ function SearchResult() {
     }
     setLoader(false);
     return worksheets;
-  }, [sortBy, worksheets]);
+  }, [sortBy, searchData?.content]);
 
   const collectionData = useMemo(() => {
     setCollectionLoader(true);
@@ -89,7 +88,7 @@ function SearchResult() {
     setLoader(false);
     setCollectionLoader(false);
     return collections;
-  }, [sortBy, worksheets]);
+  }, [sortBy, searchData?.content]);
 
   const collectionFavHandler = async (e) => {
     const data = {
@@ -166,8 +165,8 @@ function SearchResult() {
               <div className='flex flex-col gap-[10px]'>
                 <Checkbox.Group onChange={onChange}>
                   {grades?.list?.length &&
-                    grades?.list.map((item) => (
-                      <Row className='pb-1.5' key={item._id}>
+                    grades?.list?.map((item) => (
+                      <Row className='pb-1.5' key={item?._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
                           Grade
                           {' '}
@@ -184,8 +183,8 @@ function SearchResult() {
               <div className='flex flex-col gap-[10px]'>
                 <Checkbox.Group onChange={onChangeSubject}>
                   {subjects?.length &&
-                    subjects.map((item) => (
-                      <Row className='pb-1.5' key={item._id}>
+                    subjects?.map((item) => (
+                      <Row className='pb-1.5' key={item?._id}>
                         <Checkbox key={`grade_${item?._id}`} value={item?._id} className='!ml-0'>
                           <span className='capitalize'>{item?.title}</span>
                         </Checkbox>
@@ -201,7 +200,7 @@ function SearchResult() {
                 <Select className='max-w-[220px] !rounded-[8px]' onChange={handleCcs}>
                   {ccl?.length &&
                     ccl?.map((item) => (
-                      <Select.Option key={item._id} value={item?._id}>
+                      <Select.Option key={item?._id} value={item?._id}>
                         {item?.title}
                       </Select.Option>
                     ))}
@@ -228,8 +227,8 @@ function SearchResult() {
                 paddingRight: 10
               }}
             >
-              <Typography.Text className='font-bold'>{`${worksheets?.length + collections.length ?? 0} resources found`}</Typography.Text>
-              {worksheets?.length + collections.length ? (
+              <Typography.Text className='font-bold'>{`${worksheets?.length + collections?.length ?? 0} resources found`}</Typography.Text>
+              {worksheets?.length + collections?.length ? (
                 <Space>
                   <ADImage src={sortIcon} alt='sort' />
                   <Select
@@ -264,7 +263,6 @@ function SearchResult() {
               </div>
             ) : (
               <div>
-                {/* Collections */}
                 <div>
                   {collections?.length === 0 || collectionLoader ? null : (
                     <div
@@ -281,8 +279,8 @@ function SearchResult() {
                       >
                         {collectionData?.length ?
                           collectionData?.map((item) => (
-                            <Col xs={24} xl={6} lg={8} sm={12} key={item._id}>
-                              <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item.favorite} collection={item} thumbnails={item.thumbnailList} key={item._id} id={item._id} />
+                            <Col xs={24} xl={6} lg={8} sm={12} key={item?._id}>
+                              <ThumbnailCard onFavChange={() => collectionFavHandler(item)} favorite={item?.favorite} collection={item} thumbnails={item?.thumbnailList} key={item._id} id={item._id} />
                             </Col>
                           )) :
                           null}
@@ -308,7 +306,7 @@ function SearchResult() {
                         )}
                       >
                         <Col span={24} className='flex flex-wrap'>
-                          {worksheetData?.length ? worksheetData?.slice(0, onScrollDataLength).map((item) => <CardComponent key={item._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
+                          {worksheetData?.length ? worksheetData?.slice(0, onScrollDataLength).map((item) => <CardComponent key={item?._id} setRerender={setRerender} likeStatus={item?.likes?.isLike} item={item} />) : <Typography.Text className='font-bold'>No Data Found </Typography.Text>}
                         </Col>
                       </InfiniteScroll>
                     </>
@@ -349,9 +347,9 @@ function SearchResult() {
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
               {grades?.length &&
-                grades.map((item) => (
-                  <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
-                    {`Grade ${(<span className='capitalize'>{item.title}</span>)}`}
+                grades?.map((item) => (
+                  <Checkbox value={item} key={`grade_${item?._id}`} className='!ml-0'>
+                    {`Grade ${(<span className='capitalize'>{item?.title}</span>)}`}
                   </Checkbox>
                 ))}
             </div>
@@ -361,8 +359,8 @@ function SearchResult() {
             <Typography.Text className='font-bold'>GRADES</Typography.Text>
             <div className='flex flex-col gap-[10px]'>
               {grades?.length &&
-                grades.map((item) => (
-                  <Checkbox value={item} key={`grade_${item._id}`} className='!ml-0'>
+                grades?.map((item) => (
+                  <Checkbox value={item} key={`grade_${item?._id}`} className='!ml-0'>
                     {`Grade ${(<span className='capitalize'>{item}</span>)}`}
                   </Checkbox>
                 ))}

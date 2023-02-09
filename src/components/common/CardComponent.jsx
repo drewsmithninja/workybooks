@@ -50,7 +50,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   };
   const showCollectionModal = () => {
     dispatch(getCollections());
-    dispatch(setCurrentWorksheet(item));
+    // dispatch(setCurrentWorksheet(item));
     setIsCollectionModalOpen(true);
   };
   const handleCollectionModalOk = () => {
@@ -125,7 +125,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
           style={{
             width: cardWidth
           }}
-          onClick={() => dispatch(setCurrentWorksheet(item))}
+          onClick={() => { dispatch(setCurrentWorksheet(item)); }}
         >
           <Link to={item._id ? `/my-library/worksheet/${item._id}` : ''}>
             <ADImage src={item?.thumbnail} onError={(e) => (e.target.src = dummyImage)} alt='cardImage' className='rounded-2xl w-full object-cover' />
@@ -144,6 +144,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
                 (e) => {
                   if (e.target.checked) {
                     dispatch(selectWorksheet(item?._id));
+                    dispatch(setCurrentWorksheet(item));
                   } else {
                     dispatch(unSelectWorksheet(item?._id));
                   }
