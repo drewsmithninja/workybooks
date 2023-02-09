@@ -45,7 +45,7 @@ function NewSignUp() {
         toast.error(message);
       }
     } else if (user) {
-      nevigate('/');
+      nevigate('/welcome');
     }
     if (isSuccess) {
       setIsVerified(true);

@@ -12,6 +12,7 @@ import ResetPassword from './pages/newSignIn/ResetPassword';
 import VerifyEmail from './pages/verifyEmail/VerifyEmail';
 import NewSignUpGoogle from './pages/newSignUp/NewSignUpGoogle';
 import Home from './pages/Home/Home';
+import Main from './pages/Home/Main';
 import NotFound from './pages/NotFound';
 import MyLibrary from './pages/Home/MyLibrary';
 import SubjectDetailsPage from './pages/Subjects/SubjectDetailsPage';
@@ -37,11 +38,13 @@ function App() {
         <Route path='/verify-email/:id' element={<VerifyEmail />} />
         <Route path='/sign-up-google' element={<NewSignUpGoogle />} />
         <Route path='/' element={<Home />} />
-        <Route path='/explore' element={<Home />} />
         <Route element={<PrivateRoutes />}>
+          <Route path='/welcome' element={<Main />} />
+          <Route path='/explore' element={<Home />} />
           <Route path='/user-profile' element={<UserProfile />} />
           <Route path='/grade-selection' element={<CreateClassroom />} />
           <Route path='/select-classroom' element={<SelectClassroom />} />
+          <Route path='/create-classroom' element={<CreateClassroom />} />
           <Route path='/my-library' element={<MyLibrary />} />
           <Route path='/explore/subject/:sid' element={<SubjectDetailsPage />} />
           <Route path='/ccs/:id' element={<CCSDetailsPage />} />

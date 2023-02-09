@@ -35,7 +35,7 @@ function NewSignIn() {
         toast.error(message);
       }
     } else if (user) {
-      navigate('/', {
+      navigate('/welcome', {
         replace: true
       });
     }

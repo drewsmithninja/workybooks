@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { FaPrint, FaFolderPlus, FaLink } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
-import { Col, Image, Row, Space, Tag } from 'antd';
+import { Col, Image, Row, Space, Tag, Tooltip } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
@@ -268,11 +268,23 @@ function Worksheet() {
             <div className='flex pb-4'>
               <div className='font-bold min-w-[100px]'>Standards</div>
               <Space size='large' className='pb-3'>
-                {worksheetDetail?.stds_topic?.map((item, index) => (
+                {worksheetDetail?.stds_topic?.slice(0, 3).map((item, index) => (
                   <div key={item._id} className='w-[80px] text-center bg-gray-200'>
                     {item}
                   </div>
-                ))}
+                ))}{
+                  worksheetDetail?.stds_topic?.length > 4 && (
+                  <div
+                    className='w-[80px] text-center bg-gray-200 cursor-pointer'
+                  >
+                    <Tooltip title={worksheetDetail?.stds_topic?.slice(4, worksheetDetail?.stds_topic?.length).join('\r\n')}>
+                      <span> ...</span>
+                    </Tooltip>
+
+                  </div>
+                  )
+                }
+
               </Space>
             </div>
             <ADTitle level={4}>About this Activities</ADTitle>

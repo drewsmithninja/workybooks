@@ -75,7 +75,7 @@ function Headers() {
         {/* navbar menu */}
         {userLocalData && (
         <div className='hidden space-x-4 md:flex'>
-          <Link to='/' className='hover:text-[#243E8F]'>
+          <Link to='/explore' className='hover:text-[#243E8F]'>
             <span className={`navbar-menu-item ${window.location.pathname === '/' || window.location.pathname.includes('/explore') ? 'active-menu' : ''}`}>Explore</span>
           </Link>
           <Link to='/my-library'>
@@ -152,7 +152,7 @@ function Headers() {
               }}
               onClick={() => setShowMobileNavbar(false)}
             >
-              <Link to='/' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
+              <Link to='/explore' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>
                 <span className='navbar-menu-item'>Explore</span>
               </Link>
               <Link to='/my-library' className='hover:bg-primary rounded-md h-10 w-full hover:text-white flex items-center justify-center'>

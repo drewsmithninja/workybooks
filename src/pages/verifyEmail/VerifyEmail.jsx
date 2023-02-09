@@ -18,7 +18,7 @@ export default function VerifyEmail() {
   useEffect(() => {
     dispatch(verifyEmail(id))
       .unwrap()
-      .then(() => navigate('/'));
+      .then(() => navigate('/welcome'));
   }, []);
 
   return (

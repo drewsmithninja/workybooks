@@ -31,9 +31,9 @@ function MyClassrooms() {
   const initialTab = searchParams.get('tab') || 'students';
 
   useEffect(() => {
-    dispatch(getClassrooms());
     if (currentCreateClass) {
       dispatch(setClass(currentCreateClass?.classroom));
+      dispatch(getClassrooms());
     }
   }, [currentCreateClass]);
 
@@ -81,6 +81,10 @@ function MyClassrooms() {
       dispatch(getAssignments(await currentClass?._id));
     }
   };
+  useEffect(() => {
+    dispatch(getStudents(currentClass?._id));
+    dispatch(getAssignments(currentClass?._id));
+  }, [currentClass]);
 
   const tabItems = [
     {
