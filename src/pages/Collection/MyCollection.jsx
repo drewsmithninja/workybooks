@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { Col, Row, Space } from 'antd';
+import { Col, Row, Space, Tooltip } from 'antd';
 import { FaPrint } from 'react-icons/fa';
 import { MdAssignmentTurnedIn } from 'react-icons/md';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -112,9 +112,21 @@ function MyCollection() {
                 </div>
                 <Space size='large' className='pt-1'>
                   <ADTitle level={5}>Standards</ADTitle>
-                  {collectionInfo?.std_topic?.slice(0, 5).map((item, i) => (
+                  {collectionInfo?.std_topic?.slice(0, 4).map((item, i) => (
                     <div className='w-[80px] text-center bg-gray-200'>{item}</div>
                   ))}
+                  {
+                  collectionInfo?.std_topic?.length > 4 && (
+                  <div
+                    className='w-[80px] text-center bg-gray-200 cursor-pointer'
+                  >
+                    <Tooltip title={collectionInfo?.std_topic?.slice(4, collectionInfo?.std_topic?.length).join('\r\n')}>
+                      <span> ...</span>
+                    </Tooltip>
+
+                  </div>
+                  )
+                }
                 </Space>
               </Col>
               <PrintImages ref={componentRef} src={printList} />
