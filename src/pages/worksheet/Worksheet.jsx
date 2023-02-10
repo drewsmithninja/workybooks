@@ -274,14 +274,14 @@ function Worksheet() {
                   </div>
                 ))}{
                   worksheetDetail?.stds_topic?.length > 4 && (
-                  <div
-                    className='w-[80px] text-center bg-gray-200 cursor-pointer'
-                  >
+
                     <Tooltip title={worksheetDetail?.stds_topic?.slice(4, worksheetDetail?.stds_topic?.length).join('\r\n')}>
-                      <span> ...</span>
+                      <div
+                        className='w-[80px] text-center bg-gray-200 cursor-pointer'
+                      ><span> ...</span>
+                      </div>
                     </Tooltip>
 
-                  </div>
                   )
                 }
 

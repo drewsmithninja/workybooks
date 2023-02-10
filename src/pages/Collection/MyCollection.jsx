@@ -117,14 +117,16 @@ function MyCollection() {
                   ))}
                   {
                   collectionInfo?.std_topic?.length > 4 && (
-                  <div
-                    className='w-[80px] text-center bg-gray-200 cursor-pointer'
-                  >
-                    <Tooltip title={collectionInfo?.std_topic?.slice(4, collectionInfo?.std_topic?.length).join('\r\n')}>
-                      <span> ...</span>
-                    </Tooltip>
 
-                  </div>
+                  <Tooltip title={collectionInfo?.std_topic?.slice(4, collectionInfo?.std_topic?.length).join('\r\n')}>
+                    <div
+                      className='w-[80px] text-center bg-gray-200 cursor-pointer'
+                    >
+                      <span> ...</span>
+
+                    </div>
+                  </Tooltip>
+
                   )
                 }
                 </Space>
