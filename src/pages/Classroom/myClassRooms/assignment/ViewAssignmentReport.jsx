@@ -20,6 +20,7 @@ function ViewAssignmentReport() {
   const [updatedGrade, setUpdatedGrade] = useState([]);
   const [viewPageCount, setViewPageCount] = useState(1);
   const { submittedAssignmentDetail, submittedAssignments, assignmentGradeList } = useSelector((state) => state.assignment);
+  const dev = useSelector((state) => state.assignment);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -28,12 +29,9 @@ function ViewAssignmentReport() {
     value: item?._id,
     color: item?.color
   }));
-
-  // const assigmentDetails = submittedAssignmentDetail?.submittedAssignment[0]?.contentScore[0] || [];
   const assigmentDetails = submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore || [];
   const assignmentGrade = submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade || [];
   const getIndex = updatedAssignmentGradeList?.findIndex((item) => item.value === assignmentGrade._id);
-
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
       value,
@@ -218,7 +216,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <FaCheck className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.totalCorrectAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.currectAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -236,7 +234,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <FaTimes className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.totalWrongAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.blankAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -254,7 +252,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <BsThreeDots className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.totalBlankAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.blankAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -270,7 +268,7 @@ function ViewAssignmentReport() {
                 className='flex flex-col justify-center items-center'
               >
                 <div className=''>SCORE</div>
-                <div className='font-bold'>{`${assigmentDetails?.averagePercentage ? assigmentDetails?.averagePercentage : 0}%`}</div>
+                <div className='font-bold'>{`${assigmentDetails?.score ? assigmentDetails?.score : 0}%`}</div>
               </Col>
               <Col
                 xs={12}
@@ -285,7 +283,7 @@ function ViewAssignmentReport() {
                 }}
                 className='flex flex-col justify-center items-center'
               >
-                {assigmentDetails?.averagePercentage ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.averagePercentage} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
+                {assigmentDetails?.score ? <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={assigmentDetails?.score} /> : <Progress showInfo={false} width={40} strokeWidth={22} strokeLinecap='butt' strokeColor='#7F56D9' trailColor='#F4EBFF' type='circle' percent={0} />}
               </Col>
             </Row>
           </Col>
@@ -299,7 +297,7 @@ function ViewAssignmentReport() {
                 GRADE
               </span>
               <Select
-                value={assigmentDetails?.assignmentGrade?.title}
+                value={submittedAssignmentDetail?.submittedAssignment[0]?.assignmentGrade?.title}
                 onChange={onChangeGrade}
                 placeholder='select'
                 style={{
@@ -324,7 +322,7 @@ function ViewAssignmentReport() {
           }}
         >
           <Col xl={24} md={24} sm={24} xs={24}>
-            <img src={dummy} width='550px' height='650px' alt='worksheet' />
+            <img src={submittedAssignmentDetail?.submittedAssignment[0]?.totalScore?.content?.thumbnail} width='550px' height='650px' alt='worksheet' />
           </Col>
         </Row>
       </div>

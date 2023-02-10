@@ -81,7 +81,7 @@ function Home() {
       <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
         Welcome
         {' '}
-        {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
+        {`${userData?.user && userData?.user?.firstName} ${userData?.user && userData?.user?.lastName}`}
       </Typography.Title>
       {classes && classes?.list?.length > 1 && (
         <>
@@ -89,9 +89,17 @@ function Home() {
             <p className='pt-[17px] text-lg pb-[0px]'>Select the classroom you want to work with</p>
           </div>
           <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
-            <Row gutter={[16, 16]} className='text-center !m-[0px]'>
+            <Row
+              gutter={[16, 16]}
+              className='text-center !m-[0px]'
+              style={{
+                rowGgap: '16px',
+                display: 'grid',
+                gridTemplateColumns: 'auto auto auto'
+              }}
+            >
               {
-                classes?.list?.slice(0, 4).map((item) => (
+                classes?.list?.slice(0, 10).map((item) => (
                   <Col span={24}>
                     <ADButton
                       onClick={() => classDataRedirect(item)}
