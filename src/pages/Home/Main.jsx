@@ -81,7 +81,7 @@ function Home() {
       <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
         Welcome
         {' '}
-        {`${userData?.user && userData?.user?.firstName} ${userData?.user && userData?.user?.lastName}`}
+        {`${userData?.user?.firstName ? userData?.user?.firstName : ''} ${userData?.user?.lastName ? userData?.user?.lastName : ''}`}
       </Typography.Title>
       {classes && classes?.list?.length > 1 && (
         <>
