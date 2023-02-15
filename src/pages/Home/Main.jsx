@@ -17,6 +17,7 @@ import LogoHeader from '../../components/common/LogoHeader';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
 import { getProfile } from '../../app/features/user/userSlice';
+import Spinner from '../../components/spinner/Spinner';
 
 function Home() {
   const user = localStorage.getItem('user');
@@ -29,21 +30,31 @@ function Home() {
   const worksheetsByGrades = useSelector((state) => state.worksheet.worksheetsByGrades);
   const { classes, isLoading, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
   const [rerender, setRerender] = useState(0);
-  const [call, setCall] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isCreateClassModalOpen, setIsCreateClassModalOpen] = useState(false);
 
   useEffect(() => {
+    //   console.log('user', JSON.parse(user)?.payload?._id);
     const loadData = async () => {
       await dispatch(getProfile({
         id: JSON.parse(user)?.payload?._id
       }));
       await dispatch(getClassrooms());
       await dispatch(fetchGrades());
+      await setLoader(false);
     };
     loadData();
+    // await dispatch(getProfile({
+    //   id: JSON.parse(user)?.payload?._id
+    // })).then(() => {
+    // ///   setLoader(false);
+    // });
+    // await dispatch(getClassrooms());
+    // await dispatch(fetchGrades());
+    // await setLoader(false);
   }, [user]);
   useEffect(() => {
     // console.log(classes, 'classes');
@@ -78,27 +89,43 @@ function Home() {
     <>
       {createClassRoom}
       <LogoHeader />
-      <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
-        Welcome
-        {' '}
-        {`${userData?.user?.firstName ? userData?.user?.firstName : ''} ${userData?.user?.lastName ? userData?.user?.lastName : ''}`}
-      </Typography.Title>
-      {classes && classes?.list?.length > 1 && (
+      {loader ? (
+        <div
+          style={{
+            marginTop: 50,
+            display: 'flex',
+            // width: '70vw',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Spinner />
+        </div>
+      ) : (
         <>
-          <div className='w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
-            <p className='pt-[17px] text-lg pb-[0px]'>Select the classroom you want to work with</p>
-          </div>
-          <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
-            <Row
-              gutter={[16, 16]}
-              className='text-center !m-[0px]'
-              style={{
-                rowGgap: '16px',
-                display: 'grid',
-                gridTemplateColumns: 'auto auto auto'
-              }}
-            >
-              {
+          {' '}
+          <Typography.Title level={3} className='m-auto !mt-[50px] !mb-[35px] text-center'>
+            Welcome
+            {' '}
+            {`${userData?.user?.firstName ? userData?.user?.firstName : ''} ${userData?.user?.lastName ? userData?.user?.lastName : ''}`}
+          </Typography.Title>
+          {' '}
+          {classes && classes?.list?.length > 1 && (
+          <>
+            <div className='w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
+              <p className='pt-[17px] text-lg pb-[0px]'>Select the classroom you want to work with</p>
+            </div>
+            <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
+              <Row
+                gutter={[16, 16]}
+                className='text-center !m-[0px]'
+                style={{
+                  rowGgap: '16px',
+                  display: 'grid',
+                  gridTemplateColumns: 'auto auto auto'
+                }}
+              >
+                {
                 classes?.list?.slice(0, 10).map((item) => (
                   <Col span={24}>
                     <ADButton
@@ -120,49 +147,52 @@ function Home() {
                   </Col>
                 ))
               }
-            </Row>
-          </div>
-        </>
-      ) }
-      { classes && classes?.list?.length < 1 && (
-      <>
-        {' '}
-        <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
-          <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
-          <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
-          <ADButton
-            type='primary'
-            className='m-auto mb-[17px]'
-            onClick={() => {
-              showCreateClassModal();
-            }}
-          >
-            CREATE MY FIRST CLASSROOM
-          </ADButton>
-        </div>
-        <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
-
-        <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
-          <Row gutter={[16, 16]} className='text-center !m-[0px]'>
-            {grades?.list?.slice(0, 8).map((item) => (
-              <Col lg={6} xs={12}>
+              </Row>
+            </div>
+          </>
+          ) }
+          { classes && classes?.list?.length < 1 && (
+            <>
+              {' '}
+              <div className='bg-gray-100 w-[90%] max-w-[1121px] min-h-[176px] text-center m-auto rounded-[12px]'>
+                <p className='pt-[17px] text-lg pb-[0px]'>Start using Workybooks in your classroom with your students!</p>
+                <p className='text-sm pb-[31px]'>With classrooms you can add students and digitally assign worksheets, grade and generate student progress reports.</p>
                 <ADButton
-                  onClick={() => gradeDataRedirect(item)}
-                  type='success'
-                  className='w-full h-full'
-                  style={{
-                    display: 'initial'
+                  type='primary'
+                  className='m-auto mb-[17px]'
+                  onClick={() => {
+                    showCreateClassModal();
                   }}
                 >
-                  <p className='text-[10px]'>GRADE</p>
-                  <Typography.Title level={1}>{item?.title}</Typography.Title>
+                  CREATE MY FIRST CLASSROOM
                 </ADButton>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      </>
+              </div>
+              <p className='mt-[107px] mb-[39px] text-center text-baseline w-[85%] m-auto'>Don’t wish to create a Classroom yet? Select the grade you want to work with</p>
+
+              <div className='w-full max-w-[620px] min-h-[203px] m-auto !pb-[50px]'>
+                <Row gutter={[16, 16]} className='text-center !m-[0px]'>
+                  {grades?.list?.slice(0, 8).map((item) => (
+                    <Col lg={6} xs={12}>
+                      <ADButton
+                        onClick={() => gradeDataRedirect(item)}
+                        type='success'
+                        className='w-full h-full'
+                        style={{
+                          display: 'initial'
+                        }}
+                      >
+                        <p className='text-[10px]'>GRADE</p>
+                        <Typography.Title level={1}>{item?.title}</Typography.Title>
+                      </ADButton>
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            </>
+          )}
+        </>
       )}
+
     </>
   );
 }
