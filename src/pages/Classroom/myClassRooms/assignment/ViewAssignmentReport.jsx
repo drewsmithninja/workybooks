@@ -72,7 +72,6 @@ function ViewAssignmentReport() {
       assignmentId: id,
       assignmentGrade: updatedAssignmentGradeList[getIndex]
     };
-
     setUpdatedGrade([...updatedGrade, updateGradeDataArr]);
   }, [assignmentGradeList]);
 
