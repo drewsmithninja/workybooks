@@ -177,7 +177,7 @@ function StudentDashboard() {
                         className='flex flex-col justify-center items-center'
                       >
                         <div>TIME</div>
-                        <div>{item?.submittedDate ? moment(item?.submittedDate).format('hh:mm') : '-'}</div>
+                        <div>{item?.time ? item?.time : '-'}</div>
                       </Col>
                       <Col
                         xs={12}
