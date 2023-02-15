@@ -24,14 +24,16 @@ function ViewAssignmentReport() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
-    label: item?.title,
-    value: item?._id,
-    color: item?.color
-  }));
-  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore || [];
-  const assignmentGrade = submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade || [];
-  const getIndex = updatedAssignmentGradeList?.findIndex((item) => item.value === assignmentGrade._id);
+
+  // const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
+  //   label: item?.title,
+  //   value: item?._id,
+  //   color: item?.color
+  // }));
+  // const assigmentDetails = submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore || [];
+  // const assignmentGrade = submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade || [];
+  // const getIndex = updatedAssignmentGradeList?.findIndex((item) => item.value === assignmentGrade._id);
+
   const studentsOptions = students?.list?.length ?
     students?.list?.map(({ _id: value, fullName: label, ...rest }) => ({
       value,
@@ -61,6 +63,7 @@ function ViewAssignmentReport() {
     await dispatch(getAssignmentGradeList());
   };
   useEffect(() => {
+    getGradeList();
     const updateGradeDataArr = {
       studentId: currentStudent?._id,
       assignmentId: id,
@@ -68,8 +71,6 @@ function ViewAssignmentReport() {
     };
 
     setUpdatedGrade([...updatedGrade, updateGradeDataArr]);
-
-    getGradeList();
   }, []);
 
   const getDataRequest = async (asId) => {
@@ -130,6 +131,15 @@ function ViewAssignmentReport() {
   const onGradeUpdate = async () => {
     await dispatch(updateGradeList(updatedGrade));
   };
+
+  const updatedAssignmentGradeList = assignmentGradeList?.list?.map((item) => ({
+    label: item?.title,
+    value: item?._id,
+    color: item?.color
+  }));
+  const assigmentDetails = submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore || [];
+  const assignmentGrade = submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade || [];
+  const getIndex = updatedAssignmentGradeList?.findIndex((item) => item.value === assignmentGrade._id);
 
   const selected = React.useMemo(() => {
     const result = assignmentOptions.find((i) => i.value === id);
@@ -198,7 +208,7 @@ function ViewAssignmentReport() {
                 className='flex flex-col justify-center items-center'
               >
                 <div>TIME</div>
-                <div>{assigmentDetails?.time}</div>
+                <div className='font-bold'>{assigmentDetails?.time ? assigmentDetails?.time : '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -234,7 +244,7 @@ function ViewAssignmentReport() {
                 <div className='flex pb-1'>
                   <FaTimes className='text-slate-400' />
                 </div>
-                <div className='font-bold'>{assigmentDetails?.blankAnswer || '-'}</div>
+                <div className='font-bold'>{assigmentDetails?.wrongAnswer || '-'}</div>
               </Col>
               <Col
                 xs={12}
@@ -297,7 +307,7 @@ function ViewAssignmentReport() {
                 GRADE
               </span>
               <Select
-                value={submittedAssignmentDetail?.submittedAssignment[0]?.assignmentGrade?.title}
+                value={submittedAssignmentDetail?.submittedAssignment?.[0]?.assignmentGrade?.title}
                 onChange={onChangeGrade}
                 placeholder='select'
                 style={{
@@ -322,7 +332,7 @@ function ViewAssignmentReport() {
           }}
         >
           <Col xl={24} md={24} sm={24} xs={24}>
-            <img src={submittedAssignmentDetail?.submittedAssignment[0]?.totalScore?.content?.thumbnail} width='550px' height='650px' alt='worksheet' />
+            <img src={submittedAssignmentDetail?.submittedAssignment?.[0]?.totalScore?.content?.thumbnail} width='550px' height='650px' alt='worksheet' />
           </Col>
         </Row>
       </div>
