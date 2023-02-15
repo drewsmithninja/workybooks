@@ -64,6 +64,9 @@ function ViewAssignmentReport() {
   };
   useEffect(() => {
     getGradeList();
+  }, []);
+
+  useEffect(() => {
     const updateGradeDataArr = {
       studentId: currentStudent?._id,
       assignmentId: id,
@@ -71,7 +74,7 @@ function ViewAssignmentReport() {
     };
 
     setUpdatedGrade([...updatedGrade, updateGradeDataArr]);
-  }, []);
+  }, [assignmentGradeList]);
 
   const getDataRequest = async (asId) => {
     if (asId) {
