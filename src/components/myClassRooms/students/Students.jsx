@@ -18,12 +18,13 @@ function StudentsPage() {
 
   const [showEditStudent, setShowEditStudent] = useState(false);
   const [showAddStudents, setShowAddStudents] = useState(false);
+  const [studentButtonEnable, setStudentButtonEnable] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const updateStudentList = async () => {
-    if (await classes?.length) {
+    if (await classes?.list?.length) {
       dispatch(setClass(currentCreateClass?.classroom?.name && classes?.list?.[0]));
     }
     await dispatch(getStudents(currentCreateClass?.classroom?._id ? currentCreateClass?.classroom?._id : currentClass?._id));
@@ -32,6 +33,12 @@ function StudentsPage() {
     updateStudentList();
     // dispatch(getStudents(currentCreateClass?.classroom?._id));
   }, []);
+  useEffect(() => {
+    // console.log(currentClass, currentCreateClass);
+    if (currentClass || currentCreateClass) {
+      setStudentButtonEnable(true);
+    }
+  }, [currentClass, currentCreateClass]);
 
   const header = (
     <Row>
@@ -79,9 +86,11 @@ function StudentsPage() {
       ) : (
         <Space direction='vertical' size='large' className='flex'>
           <div className='flex ant-row-end'>
+            {studentButtonEnable && (
             <ADButton type='primary' onClick={() => setShowAddStudents(true)}>
               ADD STUDENTS
             </ADButton>
+            )}
           </div>
           <List
             className='rounded-t-lg with-header'
