@@ -16,7 +16,7 @@ export default function AssignStep2({ next, onClose, inDetail }) {
   const currentAssignment = useSelector((state) => state.assignment.currentAssignment.assignment);
   const currentClass = useSelector((state) => state.classroom.currentClass);
   const students = useSelector((state) => state.students?.students?.list);
-
+  const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
   const [selectedStudents, setSelectedStudents] = useState(currentAssignment?.assignedStudents?.map((as) => as?._id));
   const [form] = useForm();
   const dispatch = useDispatch();
@@ -118,7 +118,7 @@ export default function AssignStep2({ next, onClose, inDetail }) {
                       <Checkbox value={item._id}>
                         <div className='flex items-center'>
                           <Space size='middle' className='ml-2'>
-                            <ADImage src={item?.avatar ?? dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
+                            <ADImage src={item?.avatar ? `${IMAGE_URL}/${item?.avatar}` : dummyImage} className='object-cover shadow w-12 h-12 rounded-full shadow' />
                             <div className='font-bold'>{item?.fullName}</div>
                           </Space>
                         </div>

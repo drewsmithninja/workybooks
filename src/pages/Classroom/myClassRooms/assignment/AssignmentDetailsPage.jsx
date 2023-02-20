@@ -19,6 +19,7 @@ import { setStudent, getStudents } from '../../../../app/features/students/stude
 import ExportAssignmentReport from './ExportAssignmentReport';
 import EditAssignModal from '../../../../components/modals/EditAssignModal';
 
+const IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 function AssignmentDetailsPage() {
   const assignmentList = useSelector((state) => state.assignment?.assignments);
   const { id } = useParams();
@@ -191,7 +192,7 @@ function AssignmentDetailsPage() {
               <Space>
                 {assignmentScore?.map((item, index) => {
                   if (index >= 3) return null;
-                  return <Avatar key={`avtar_${index}`} src={item?.avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
+                  return <Avatar key={`avtar_${index}`} src={item?.avatar ? `${IMAGE_URL}/${item?.avatar}` : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'} />;
                 })}
                 {assignmentScore?.length > 4 ? (
                   <div>
@@ -279,7 +280,7 @@ function AssignmentDetailsPage() {
                     <Col xl={7} lg={7} md={7} sm={8} xs={10} className='flex items-center'>
                       <Row gutter={16} className='w-full'>
                         <Col xs={24} md={24} lg={12} xl={10} xxl={8}>
-                          <ADImage alt='cover-img' src={item?.avatar || dummyAvatar} className='aspect-[80px/100px]   rounded max-w-[80px] rounded' />
+                          <ADImage alt='cover-img' src={item?.avatar ? `${IMAGE_URL}/${item?.avatar}` : dummyAvatar} className='aspect-[80px/100px]   rounded max-w-[80px] rounded' />
                         </Col>
                         <Col xs={24} md={24} lg={12} xl={14} xxl={16} className='inter-font text-sm'>
                           <div className='flex flex-col justify-center h-full lg:py-0 py-4'>

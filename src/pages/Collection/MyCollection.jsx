@@ -118,7 +118,7 @@ function MyCollection() {
                   {
                   collectionInfo?.std_topic?.length > 4 && (
 
-                  <Tooltip title={collectionInfo?.std_topic?.slice(4, collectionInfo?.std_topic?.length).join('\r\n')}>
+                  <Tooltip title={collectionInfo?.std_topic?.slice(4, collectionInfo?.std_topic?.length).filter((el) => el !== '').join('\r\n')}>
                     <div
                       className='w-[80px] text-center bg-gray-200 cursor-pointer'
                     >

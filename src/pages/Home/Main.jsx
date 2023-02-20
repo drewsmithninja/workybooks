@@ -66,6 +66,7 @@ function Home() {
 
   const classDataRedirect = (data) => {
     dispatch(setClass(data));
+    dispatch(setCurrentGrade(data?.grade));
     navigate('/explore');
   };
   const gradeDataRedirect = (data) => {
