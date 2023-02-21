@@ -102,7 +102,7 @@ function MyCollection() {
                 <ADTitle level={3}>{collectionInfo?.title}</ADTitle>
                 <div className='py-3 flex text-xs'>
                   <div className='pr-16'>
-                    By Mrs.
+                    By
                     {' '}
                     {collectionInfo?.added_by?.firstName}
                     {' '}

@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useForm } from 'antd/lib/form/Form';
 import { toast } from 'react-toastify';
 import { Col, DatePicker, Form, Input, InputNumber, Radio, Row } from 'antd';
+import dayjs from 'dayjs';
 import { getAssignments, resetAssignment, setAssignCollectionCurrentStep, updateAssignment } from '../../../app/features/assignment/assignmentSlice';
 import ADButton from '../../antd/ADButton';
 import { resetSelectedWorksheets } from '../../../app/features/worksheet/worksheetSlice';
@@ -66,6 +67,8 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
     await dispatch(setAssignCollectionCurrentStep(0));
     await dispatch(getAssignments(currentClass?._id));
   };
+  const disabledDate = (current) => current && current < dayjs().startOf('day');
+  // Can not select days before today and today
 
   useEffect(() => {
     form.setFieldsValue({
@@ -120,6 +123,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
           <Col xs={24} sm={8}>
             <Form.Item label='Start Date' name='startDate'>
               <DatePicker
+                disabledDate={disabledDate}
                 showTime={{
                   format: 'HH:mm'
                 }}
@@ -130,6 +134,7 @@ export default function AssignStep3({ onOk, onClose, edit, onCancel, inDetail })
           <Col xs={24} sm={8}>
             <Form.Item label='Due Date' name='endDate'>
               <DatePicker
+                disabledDate={disabledDate}
                 showTime={{
                   format: 'HH:mm'
                 }}
