@@ -49,7 +49,9 @@ export const editStudent = createAsyncThunk('students/editStudent', async (data,
     return response;
   } catch (error) {
     const message = (error.response && error.response.data && error.response.message) || error.message || error.toString();
-    return thunkAPI.rejectWithValue(message);
+    toast.error(error.response.data.message);
+    // console.log(error.response.data, 'message');
+    return thunkAPI.rejectWithValue(error.response);
   }
 });
 
