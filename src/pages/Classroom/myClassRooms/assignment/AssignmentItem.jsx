@@ -74,11 +74,11 @@ function AssignmentItem({ item, classId }) {
         <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center'>
           <div className='whitespace-pre-wrap'>
             {item?.assignedTo && item?.assignedTo === 'Classroom' ?
-              'Entire Class' :
+              'All' :
               item?.assignedStudents.length >= 3 ?
                 item?.assignedStudents?.slice(0, 3).map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.slice(0, 3)?.length - 1 ? ', ' : ''}`}</span>) :
                 item?.assignedStudents?.map((student, index) => <span key={student?._id}>{`${student?.fullName}${index < item?.assignedStudents.length - 1 ? ', ' : ''}`}</span>)}
-            {item?.assignedStudents.length >= 3 && ` + ${item?.assignedStudents.length - 3}`}
+            {item?.assignedStudents.length >= 3}
           </div>
         </Col>
         <Col xl={3} md={4} sm={3} xs={3} className='flex justify-center items-center flex-col'>

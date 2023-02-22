@@ -4,6 +4,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import { useForm } from 'antd/es/form/Form';
+import { toast } from 'react-toastify';
 import ADModal from '../antd/ADModal';
 import ADTitle from '../antd/ADTitle';
 import ADButton from '../antd/ADButton';
@@ -81,6 +82,14 @@ export default function EditStudentModal({ onShow, onOk, onCancel, ...props }) {
       id: currentStudent?._id,
       ...values
     };
+    // await dispatch(editStudent(data)).then(async (res) => {
+    //   if (res.error) {
+    //     toast.error(res.payload.data.message);
+    //   } else {
+    //     await dispatch(getStudents(currentClass?._id));
+    //     onOk();
+    //   }
+    // });
     await dispatch(editStudent(data));
     await dispatch(getStudents(currentClass?._id));
     onOk();
