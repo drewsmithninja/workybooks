@@ -95,14 +95,13 @@ export default function NewCollection({ onCancel }) {
               </div>
             ) : (
               <div className='max-h-56 overflow-y-auto'>
-                {collections?.length &&
-                collections.map((i) => (
+                {collections?.map((i) => (
                   <Row key={i._id} gutter={16} className='mt-4 cursor-pointer' onClick={() => addCollectionHandler(i._id)}>
                     <Col flex='none'>
                       <ADImage src={collections?.content?.[0]?.thumbnail} onError={(e) => (e.target.src = dummyImage)} className='h-auto w-[75px] aspect-[4/3] rounded-lg object-cover' />
                     </Col>
                     <Col xs={24} flex='auto' className='flex items-center'>
-                      {i.title}
+                      {i.title || ''}
                     </Col>
                   </Row>
                 ))}
