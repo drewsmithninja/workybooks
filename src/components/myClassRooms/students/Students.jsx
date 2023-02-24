@@ -34,8 +34,7 @@ function StudentsPage() {
     // dispatch(getStudents(currentCreateClass?.classroom?._id));
   }, []);
   useEffect(() => {
-    // console.log(currentClass, currentCreateClass);
-    if (currentClass || currentCreateClass) {
+    if (currentClass) {
       setStudentButtonEnable(true);
     }
   }, [currentClass, currentCreateClass]);

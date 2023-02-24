@@ -28,6 +28,23 @@ import ViewAssignmentReport from './pages/Classroom/myClassRooms/assignment/View
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+  const isSessionExpired = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      const isExp = parseJwt(user?.payload?.verification?.token).exp * 1000 < Date.now();
+      if (isExp) {
+        localStorage.removeItem('user');
+      }
+    }
+  };
+  isSessionExpired();
   return (
     <BrowserRouter>
       <Routes>

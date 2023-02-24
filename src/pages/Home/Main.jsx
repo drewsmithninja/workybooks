@@ -13,6 +13,7 @@ import ADImage from '../../components/antd/ADImage';
 import { fetchGrades, setCurrentGrade } from '../../app/features/grade/GradeSlice';
 import { getAssignments } from '../../app/features/assignment/assignmentSlice';
 import { getClassrooms, setClass } from '../../app/features/classroom/classroomSlice';
+
 import LogoHeader from '../../components/common/LogoHeader';
 import ADButton from '../../components/antd/ADButton';
 import CreateClassModal from '../../components/modals/CreateClassModal';
@@ -43,6 +44,7 @@ function Home() {
         id: JSON.parse(user)?.payload?._id
       }));
       await dispatch(getClassrooms());
+
       await dispatch(fetchGrades());
       await setLoader(false);
     };
@@ -64,12 +66,24 @@ function Home() {
     }
   }, [classes]);
 
-  const classDataRedirect = (data) => {
-    dispatch(setClass(data));
-    dispatch(setCurrentGrade(data?.grade));
-    navigate('/explore');
+  const classDataRedirect = async (data) => {
+    await dispatch(setClass(data));
+    await dispatch(listSubject({
+      gradeId: data.gradeId
+    }));
+    await dispatch(listCCL({
+      gradeId: data.gradeId
+    }));
+    await dispatch(setCurrentGrade(data?.grade));
+    await navigate('/explore');
   };
   const gradeDataRedirect = (data) => {
+    dispatch(listSubject({
+      gradeId: data.gradeId
+    }));
+    dispatch(listCCL({
+      gradeId: data.gradeId
+    }));
     dispatch(setCurrentGrade(data));
     navigate('/explore');
   };
