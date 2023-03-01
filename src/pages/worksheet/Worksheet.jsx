@@ -40,6 +40,7 @@ function Worksheet() {
   const { worksheetDetailsInfo } = useSelector((state) => state.home);
   const componentRef = useRef();
   const [loader, setLoader] = useState(true);
+  const { classes } = useSelector((state) => state.classroom);
 
   useEffect(() => {
     if (user && userId) {
@@ -210,6 +211,7 @@ function Worksheet() {
                     </div>
                     <div className='text-xs text-gray-500'>PRINT</div>
                   </Col>
+                  {(classes?.list?.length > 0) && (
                   <Col lg={8} className='flex items-center border-y-0 border-l-0 border-solid'>
                     <ADButton onClick={showAssignModal} type='text' className='text-left text-gray-400 !p-0 !m-0'>
                       <div className='flex items-center'>
@@ -220,6 +222,7 @@ function Worksheet() {
                       </div>
                     </ADButton>
                   </Col>
+                  )}
                   <Col lg={8}>
                     <ADButton onClick={showCollectionModal} type='text' className='text-left text-gray-400 !p-0 !m-0'>
                       <div className='flex items-center'>

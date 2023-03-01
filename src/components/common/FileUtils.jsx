@@ -18,6 +18,7 @@ import PrintImages from './PrintImages';
 function FileUtils({ show = false }) {
   const selectedWorksheets = useSelector((state) => state.worksheet.selectedWorksheets);
   const worksheets = useSelector((state) => state.worksheet.worksheets?.list);
+  const { classes, isLoading, currentClass, currentCreateClass } = useSelector((state) => state.classroom);
 
   const resultPrint = useMemo(() => {
     let final = [];
@@ -112,10 +113,12 @@ function FileUtils({ show = false }) {
             <ADImage src={printIcon} alt='print' />
             <Typography.Text className='font-normal text-white'>PRINT</Typography.Text>
           </ADButton>
+          {(classes?.list?.length > 0) && (
           <ADButton type='text' className='!p-0 gap-[10px]' onClick={addToAssignmentHandler}>
             <ADImage src={assignIcon} alt='assign' />
             <Typography.Text className='font-normal text-white'>ASSIGN</Typography.Text>
           </ADButton>
+          )}
           <ADButton type='text' className='!p-0 gap-[10px]' onClick={addToCollectionHandler}>
             <ADImage src={folderIcon} alt='addToCollection' />
             <Typography.Text className='font-normal text-white'>ADD TO COLLECTION</Typography.Text>

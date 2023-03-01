@@ -6,7 +6,7 @@ import { Checkbox, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
-import { EllipsisOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
+import { EllipsisOutlined, HeartFilled, HeartOutlined, LoadingOutlined } from '@ant-design/icons';
 import ADButton from '../antd/ADButton';
 import ADImage from '../antd/ADImage';
 import { getCollections } from '../../app/features/collection/collectionSlice';
@@ -28,6 +28,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
+  const [isLikeLoaded, setIsLikeLoaded] = useState(true);
+  const { classes } = useSelector((state) => state.classroom);
   const componentRef = useRef();
 
   const dispatch = useDispatch();
@@ -67,7 +69,12 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
     content: () => componentRef.current
   });
 
+  useEffect(() => {
+    setIsLikeLoaded(true);
+  }, [item?.likes?.count]);
+
   const setLike = async () => {
+    setIsLikeLoaded(true);
     const data = {
       id: await item._id,
       status: {
@@ -89,6 +96,27 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
       key: '2',
       icon: <ADImage width={25} src={assignIcon} alt='assign' />,
       onClick: showAssignModal
+    },
+    {
+      label: <span className='ml-2'>ADD TO COLLECTION</span>,
+      key: '3',
+      icon: <ADImage width={25} src={folderIcon} alt='add to collection' />,
+      onClick: showCollectionModal
+    },
+    {
+      label: <span className='ml-2'>SHARE</span>,
+      key: '4',
+      icon: <ADImage width={25} src={shareIcon} alt='share' />,
+      onClick: showShareModal
+    }
+  ];
+
+  const itemsNoClass = [
+    {
+      label: <span className='ml-2'>PRINT</span>,
+      key: '1',
+      icon: <ADImage width={25} src={printIcon} alt='print' />,
+      onClick: handlePrint
     },
     {
       label: <span className='ml-2'>ADD TO COLLECTION</span>,
@@ -155,7 +183,8 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
               name={`collection_id_${item.worky_id}`}
             />
           </div>
-          {item.likes.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' onClick={setLike} /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' onClick={setLike} />}
+          {isLikeLoaded && (item.likes.isLike ? <HeartFilled className='text-[25px] text-red-500 cursor-pointer' onClick={setLike} /> : <HeartOutlined className='text-[25px] text-gray-300 cursor-pointer' onClick={setLike} />)}
+          {!isLikeLoaded && <LoadingOutlined /> }
           <span style={{
             fontSize: '13px', paddingLeft: '5px', color: 'gray'
           }}
@@ -166,7 +195,7 @@ function CardComponent({ cardWidth = 215, item, setRerender }) {
             <Dropdown
               onClick={() => dispatch(setCurrentWorksheet(item))}
               menu={{
-                items
+                items: classes?.list?.length > 0 ? items : itemsNoClass
               }}
               trigger={['click']}
               placement='topLeft'
